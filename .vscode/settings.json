@@ -18,5 +18,13 @@
     "_site/**": true
   },
   "files.insertFinalNewline": true,
-  "markdown.styles": [".vscode/custom-tag-style.css"]
+  "markdown.styles": [".vscode/custom-tag-style.css"],
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.md$",
+        "cmd": "sed -i 's/^Last updated: .*/Last updated: ${currentDate}/' ${file}"
+      }
+    ]
+  }
 }
