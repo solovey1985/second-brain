@@ -1,0 +1,41 @@
+{
+  "name": "second-brain-docs",
+  "version": "2.0.0",
+  "description": "Clean SOLID-compliant documentation portal with ZeroMD",
+  "main": "server/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "documentation",
+    "markdown",
+    "portal",
+    "zeromd",
+    "mermaid",
+    "latex"
+  ],
+  "author": "solovey1985",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "highlight.js": "^11.11.1",
+    "marked": "^16.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solovey1985/second-brain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/solovey1985/second-brain/issues"
+  },
+  "homepage": "https://github.com/solovey1985/second-brain#readme"
+}
