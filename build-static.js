@@ -69,7 +69,7 @@ class StaticSiteBuilder {
     
     const items = fs.readdirSync(fullPath);
     
-    // Create index.html for directory
+    // Create index.html for directory (handles index.md if present)
     await this.buildDirectoryPage(currentPath, navigation);
     
     for (const item of items) {
@@ -80,8 +80,8 @@ class StaticSiteBuilder {
       if (stat.isDirectory()) {
         // Recursively build subdirectories
         await this.buildPages(itemPath, navigation);
-      } else if (item.endsWith('.md')) {
-        // Build markdown page
+      } else if (item.endsWith('.md') && item !== 'index.md') {
+        // Build markdown page (skip index.md as it's handled by buildDirectoryPage)
         await this.buildMarkdownPage(itemPath, navigation);
       }
     }
@@ -90,6 +90,17 @@ class StaticSiteBuilder {
   async buildDirectoryPage(dirPath, navigation) {
     const fullPath = path.join(this.contentDir, dirPath);
     const items = fs.existsSync(fullPath) ? fs.readdirSync(fullPath) : [];
+    
+    // Check if directory has index.md file
+    const indexMdPath = path.join(fullPath, 'index.md');
+    const hasIndexMd = fs.existsSync(indexMdPath);
+    let indexContent = '';
+    
+    if (hasIndexMd) {
+      // Read and render index.md content
+      const indexMdContent = fs.readFileSync(indexMdPath, 'utf-8');
+      indexContent = await this.markdownRenderer.render(indexMdContent);
+    }
     
     const directoryListing = items
       .filter(item => {
@@ -117,13 +128,28 @@ class StaticSiteBuilder {
     const breadcrumb = this.buildBreadcrumb(dirPath);
     const title = dirPath ? path.basename(dirPath) : 'Documentation Portal';
     
-    const html = this.renderer.renderDirectoryPage({
-      title,
-      path: dirPath,
-      navigation,
-      directoryListing,
-      breadcrumb
-    });
+    let html;
+    if (hasIndexMd) {
+      // If index.md exists, render it as a markdown page with directory listing appended
+      const combinedContent = indexContent + '\n\n<h2>📁 Directory Contents</h2>\n' + this.renderer.renderDirectoryListing(directoryListing);
+      
+      html = this.renderer.renderMarkdownPage({
+        title,
+        path: path.join(dirPath, 'index.md').replace(/\\/g, '/'),
+        navigation,
+        content: combinedContent,
+        breadcrumb
+      });
+    } else {
+      // If no index.md, render as directory page
+      html = this.renderer.renderDirectoryPage({
+        title,
+        path: dirPath,
+        navigation,
+        directoryListing,
+        breadcrumb
+      });
+    }
 
     // Save HTML file
     const outputPath = path.join(this.outputDir, dirPath, 'index.html');
@@ -137,7 +163,11 @@ class StaticSiteBuilder {
     const fixedHtml = this.fixStaticLinks(html);
     fs.writeFileSync(outputPath, fixedHtml);
     
-    console.log(`  📂 Built directory: ${dirPath || 'root'}`);
+    if (hasIndexMd) {
+      console.log(`  📁 Built directory with index.md: ${dirPath || 'root'}`);
+    } else {
+      console.log(`  📂 Built directory: ${dirPath || 'root'}`);
+    }
   }
 
   async buildMarkdownPage(filePath, navigation) {
