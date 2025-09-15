@@ -506,6 +506,63 @@
       text-align: center;
     }
 
+    /* Mobile Menu Toggle Button */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1001;
+      background: #0366d6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: #0256cc;
+      transform: scale(1.05);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* Hamburger icon */
+    .mobile-menu-toggle::before {
+      content: '☰';
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .mobile-menu-toggle.open::before {
+      content: '✕';
+      font-size: 16px;
+    }
+
+    /* Mobile Overlay */
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-overlay.show {
+      opacity: 1;
+    }
+
     /* Responsive Design */
     @media (max-width: 1024px) {
       .sidebar {
@@ -514,13 +571,20 @@
       
       .main-content {
         margin-left: 240px;
+        max-width: calc(100vw - 240px);
       }
     }
 
     @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
       .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+        width: 280px;
+        z-index: 1000;
       }
       
       .sidebar.open {
@@ -530,10 +594,126 @@
       .main-content {
         margin-left: 0;
         padding: 1rem;
+        padding-top: 4rem; /* Account for mobile menu button */
+        max-width: 100vw;
+      }
+
+      .content {
+        width: 100%;
+        max-width: 100%;
+        padding: 1.5rem;
+        margin: 0;
       }
       
       .directory-listing {
         grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .breadcrumb {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .breadcrumb ol {
+        flex-wrap: wrap;
+      }
+
+      .breadcrumb li {
+        margin-right: 0.3rem;
+        margin-bottom: 0.2rem;
+      }
+
+      /* Better button spacing on mobile */
+      .entry {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .entry .name {
+        font-size: 0.9rem;
+      }
+
+      /* Adjust navigation text on mobile */
+      .sidebar nav a {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-level-1 a {
+        padding-left: 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .nav-level-2 a {
+        padding-left: 2rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 0.5rem;
+        padding-top: 3.5rem;
+      }
+
+      .content {
+        padding: 1rem;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .sidebar-header {
+        padding: 1rem;
+      }
+
+      .sidebar-header h2 a {
+        font-size: 1.2rem;
+      }
+
+      .entry {
+        padding: 0.8rem;
+      }
+
+      .entry .icon {
+        font-size: 1.2rem;
+      }
+
+      .markdown-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .markdown-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .markdown-content h3 {
+        font-size: 1.3rem;
+      }
+
+      .markdown-content pre {
+        font-size: 0.8rem;
+        padding: 0.8rem;
+      }
+
+      .markdown-content table {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Smooth scrolling for better mobile experience */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better touch targets */
+    @media (hover: none) and (pointer: coarse) {
+      .entry a,
+      .sidebar nav a,
+      .breadcrumb a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
       }
     }
   </style>
@@ -549,10 +729,17 @@
   
 </head>
 <body>
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
   <div class="app-container">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2><a href="/">📚 Docs Portal</a></h2>
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
       </div>
       <nav class="navigation">
         <ul class="nav-level-0">
@@ -782,5 +969,83 @@
       </div>
     </main>
   </div>
+
+  <!-- Mobile Navigation JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileToggle = document.querySelector('.mobile-menu-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      const body = document.body;
+
+      function toggleMobileMenu() {
+        const isOpen = sidebar.classList.contains('open');
+        
+        if (isOpen) {
+          // Close menu
+          sidebar.classList.remove('open');
+          overlay.classList.remove('show');
+          mobileToggle.classList.remove('open');
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+          
+          // Hide overlay after animation
+          setTimeout(() => {
+            overlay.style.display = 'none';
+          }, 300);
+        } else {
+          // Open menu
+          sidebar.classList.add('open');
+          overlay.style.display = 'block';
+          mobileToggle.classList.add('open');
+          mobileToggle.setAttribute('aria-expanded', 'true');
+          body.style.overflow = 'hidden'; // Prevent background scrolling
+          
+          // Show overlay with animation
+          setTimeout(() => {
+            overlay.classList.add('show');
+          }, 10);
+        }
+      }
+
+      // Toggle menu on button click
+      mobileToggle.addEventListener('click', toggleMobileMenu);
+
+      // Close menu when clicking overlay
+      overlay.addEventListener('click', toggleMobileMenu);
+
+      // Close menu on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+          toggleMobileMenu();
+        }
+      });
+
+      // Close menu when window is resized to desktop size
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('show');
+          overlay.style.display = 'none';
+          mobileToggle.classList.remove('open');
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+        }
+      });
+
+      // Handle navigation link clicks on mobile
+      const navLinks = document.querySelectorAll('.sidebar nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          // Close mobile menu when a navigation link is clicked
+          if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+            setTimeout(() => {
+              toggleMobileMenu();
+            }, 150);
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
