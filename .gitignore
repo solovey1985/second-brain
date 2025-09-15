@@ -47,3 +47,6 @@ Thumbs.db
 # Build outputs
 dist/
 build/
+
+# Note: docs/ folder is intentionally NOT ignored 
+# as it contains the built static site for GitHub Pages

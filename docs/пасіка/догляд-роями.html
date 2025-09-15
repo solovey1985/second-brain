@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>догляд-роями - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/">🏠 Home</a></li><li><a href="//пасіка/">пасіка</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-">**Місячний план догляду за ройовою сім’єю**</a></li>
+<li><a href="#-">**Загальні поради**</a></li>
+</ul>
+</ul>
+</div><h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Місячний план догляду за ройовою сім’єю**
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>День</th>
+<th>Роботи та спостереження</th>
+<th>Примітки</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1-й день (посадка рою)</strong></td>
+<td>- Посадити рій у чистий вулик на вощину (2–3 рамки суші, решта вощина).<br>- Забезпечити підгодівлю (0,5–1 л сиропу 1:1).</td>
+<td>Якщо рій великий — одразу 10 рамок, інакше — обмежити гніздо діафрагмами.</td>
+</tr>
+<tr>
+<td><strong>2–3-й день</strong></td>
+<td>- Перевірити прийняття матки (наявність відкритого розплоду або яєць).</td>
+<td>Якщо матки немає — підсадити запасну.</td>
+</tr>
+<tr>
+<td><strong>5-й день</strong></td>
+<td>- Дати ще 0,5–1 л сиропу.</td>
+<td>Потрібно для будівництва вощини.</td>
+</tr>
+<tr>
+<td><strong>7–10-й день</strong></td>
+<td>- Провести огляд: кількість розплоду, будівництво вощини. <br>- За потреби розширити ще однією рамкою.</td>
+<td>Рамки давати по краях гнізда.</td>
+</tr>
+<tr>
+<td><strong>12-й день</strong></td>
+<td>- Знову підгодувати, якщо слабкий нектарозбір.</td>
+<td>Стимуляція розвитку.</td>
+</tr>
+<tr>
+<td><strong>14-й день</strong></td>
+<td>- Огляд: чи є розплід, оцінка сили.</td>
+<td>При потребі — заміна вощини, якщо не будують.</td>
+</tr>
+<tr>
+<td><strong>15–20-й день</strong></td>
+<td>- Розширення: додати ще 1–2 рамки (суш або вощина).</td>
+<td>Якщо рамки добре обсиджуються.</td>
+</tr>
+<tr>
+<td><strong>21–23-й день</strong></td>
+<td>- Можна провести обробку від кліща (контрольний обліт + обробка мурашиною кислотою або щавлевою, якщо потрібно).</td>
+<td>Уникай препаратів при наявності відкритого розплоду без потреби.</td>
+</tr>
+<tr>
+<td><strong>25-й день</strong></td>
+<td>- Підставити рамку для меду (медова надставка, якщо є взяток).</td>
+<td>Початок накопичення запасів.</td>
+</tr>
+<tr>
+<td><strong>30-й день</strong></td>
+<td>- Провести загальний огляд: сила, площа розплоду, наявність матки, стан рамок.</td>
+<td>За потреби — об’єднання або формування відводка.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Загальні поради**
+        </a>
+      </h2><ul>
+<li><strong>Підгодівля:</strong> у перший тиждень обов&#39;язкова, навіть при хорошому взятку — для стимуляції будівництва.</li>
+<li><strong>Контроль ройового настрою:</strong> раз на 7–10 днів перевіряй наявність мисочок або маточників.</li>
+<li><strong>Матка:</strong> якщо ройова — цінна, можеш помітити її для контролю. Якщо сумніви — можна замінити на плідну від племінної лінії.</li>
+<li><strong>Розширення:</strong> не поспішай ставити всі рамки — поступово розширюй, орієнтуючись на силу бджіл.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

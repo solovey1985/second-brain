@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>deploy - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#deployment-guide-github-pages-static-site">Deployment Guide: GitHub Pages Static Site</a></li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#step-1-create-static-site-builder">Step 1: Create Static Site Builder</a></li>
+<li><a href="#step-2-update-packagejson-scripts">Step 2: Update Package.json Scripts</a></li>
+<li><a href="#step-3-github-actions-workflow">Step 3: GitHub Actions Workflow</a></li>
+<li><a href="#step-4-repository-settings">Step 4: Repository Settings</a></li>
+<li><a href="#step-5-ensure-mermaid-support">Step 5: Ensure Mermaid Support</a></li>
+<li><a href="#step-6-build-and-deploy">Step 6: Build and Deploy</a></li>
+<ul>
+<li><a href="#local-testing">Local Testing</a></li>
+<li><a href="#deploy-to-github-pages">Deploy to GitHub Pages</a></li>
+</ul>
+<li><a href="#step-7-custom-domain-optional">Step 7: Custom Domain (Optional)</a></li>
+<li><a href="#features-preserved">Features Preserved</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<ul>
+<li><a href="#links-not-working">Links Not Working</a></li>
+<li><a href="#mermaid-not-rendering">Mermaid Not Rendering</a></li>
+<li><a href="#images-not-loading">Images Not Loading</a></li>
+<li><a href="#build-errors">Build Errors</a></li>
+</ul>
+<li><a href="#performance-optimization">Performance Optimization</a></li>
+<ul>
+<li><a href="#enable-caching">Enable Caching</a></li>
+<li><a href="#optimize-images">Optimize Images</a></li>
+</ul>
+<li><a href="#monitoring">Monitoring</a></li>
+<li><a href="#next-steps">Next Steps</a></li>
+<li><a href="#support">Support</a></li>
+</ul>
+</ul>
+</div><h1 id="deployment-guide-github-pages-static-site">
+        <a href="#deployment-guide-github-pages-static-site" class="header-anchor">
+          Deployment Guide: GitHub Pages Static Site
+        </a>
+      </h1><p>This guide shows how to deploy your documentation portal as static HTML pages on GitHub Pages while preserving all features including Mermaid diagrams, navigation, links, and markup.</p>
+<h2 id="overview">
+        <a href="#overview" class="header-anchor">
+          Overview
+        </a>
+      </h2><p>We&#39;ll convert the Node.js server into a static site generator that creates HTML files for each markdown file and directory, then deploy to GitHub Pages.</p>
+<h2 id="step-1-create-static-site-builder">
+        <a href="#step-1-create-static-site-builder" class="header-anchor">
+          Step 1: Create Static Site Builder
+        </a>
+      </h2><p>Create <code>build-static.js</code> in the project root:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">PageRenderer</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./server/views/PageRenderer&#x27;</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">NavigationService</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./server/services/NavigationService&#x27;</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">MarkdownRenderer</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./server/services/MarkdownRenderer&#x27;</span>);
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">StaticSiteBuilder</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PageRenderer</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">navService</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NavigationService</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">markdownRenderer</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MarkdownRenderer</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span> = <span class="hljs-string">&#x27;./docs&#x27;</span>; <span class="hljs-comment">// GitHub Pages uses &#x27;docs&#x27; folder</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span> = <span class="hljs-string">&#x27;./content&#x27;</span>;
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">build</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;🔨 Building static site...&#x27;</span>);
+    
+    <span class="hljs-comment">// Clean and create output directory</span>
+    <span class="hljs-keyword">if</span> (fs.<span class="hljs-title function_">existsSync</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>)) {
+      fs.<span class="hljs-title function_">rmSync</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+    }
+    fs.<span class="hljs-title function_">mkdirSync</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+
+    <span class="hljs-comment">// Build navigation structure</span>
+    <span class="hljs-keyword">const</span> navigation = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">navService</span>.<span class="hljs-title function_">buildNavigation</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>);
+    
+    <span class="hljs-comment">// Build all pages</span>
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildPages</span>(<span class="hljs-string">&#x27;&#x27;</span>, navigation);
+    
+    <span class="hljs-comment">// Copy static assets (images, PDFs, etc.)</span>
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">copyStaticAssets</span>();
+    
+    <span class="hljs-comment">// Create 404 page</span>
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">create404Page</span>(navigation);
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;✅ Static site built successfully in ./docs&#x27;</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;📁 Ready for GitHub Pages deployment&#x27;</span>);
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">buildPages</span>(<span class="hljs-params">currentPath, navigation</span>) {
+    <span class="hljs-keyword">const</span> fullPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>, currentPath);
+    
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(fullPath)) <span class="hljs-keyword">return</span>;
+    
+    <span class="hljs-keyword">const</span> items = fs.<span class="hljs-title function_">readdirSync</span>(fullPath);
+    
+    <span class="hljs-comment">// Create index.html for directory</span>
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildDirectoryPage</span>(currentPath, navigation);
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> items) {
+      <span class="hljs-keyword">const</span> itemPath = path.<span class="hljs-title function_">join</span>(currentPath, item);
+      <span class="hljs-keyword">const</span> fullItemPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>, itemPath);
+      <span class="hljs-keyword">const</span> stat = fs.<span class="hljs-title function_">statSync</span>(fullItemPath);
+      
+      <span class="hljs-keyword">if</span> (stat.<span class="hljs-title function_">isDirectory</span>()) {
+        <span class="hljs-comment">// Recursively build subdirectories</span>
+        <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildPages</span>(itemPath, navigation);
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (item.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">&#x27;.md&#x27;</span>)) {
+        <span class="hljs-comment">// Build markdown page</span>
+        <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildMarkdownPage</span>(itemPath, navigation);
+      }
+    }
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">buildDirectoryPage</span>(<span class="hljs-params">dirPath, navigation</span>) {
+    <span class="hljs-keyword">const</span> fullPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>, dirPath);
+    <span class="hljs-keyword">const</span> items = fs.<span class="hljs-title function_">existsSync</span>(fullPath) ? fs.<span class="hljs-title function_">readdirSync</span>(fullPath) : [];
+    
+    <span class="hljs-keyword">const</span> directoryListing = items
+      .<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> itemPath = path.<span class="hljs-title function_">join</span>(fullPath, item);
+        <span class="hljs-keyword">return</span> fs.<span class="hljs-title function_">existsSync</span>(itemPath);
+      })
+      .<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> itemPath = path.<span class="hljs-title function_">join</span>(fullPath, item);
+        <span class="hljs-keyword">const</span> stat = fs.<span class="hljs-title function_">statSync</span>(itemPath);
+        <span class="hljs-keyword">const</span> relativePath = path.<span class="hljs-title function_">join</span>(dirPath, item).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\/g</span>, <span class="hljs-string">&#x27;/&#x27;</span>);
+        
+        <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">name</span>: item,
+          <span class="hljs-attr">path</span>: relativePath,
+          <span class="hljs-attr">type</span>: stat.<span class="hljs-title function_">isDirectory</span>() ? <span class="hljs-string">&#x27;directory&#x27;</span> : <span class="hljs-string">&#x27;file&#x27;</span>,
+          <span class="hljs-attr">extension</span>: stat.<span class="hljs-title function_">isFile</span>() ? path.<span class="hljs-title function_">extname</span>(item) : <span class="hljs-literal">null</span>,
+          <span class="hljs-attr">url</span>: stat.<span class="hljs-title function_">isDirectory</span>() 
+            ? <span class="hljs-string">`/<span class="hljs-subst">${relativePath}</span>/`</span> 
+            : item.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">&#x27;.md&#x27;</span>) 
+              ? <span class="hljs-string">`/<span class="hljs-subst">${relativePath.replace(<span class="hljs-string">&#x27;.md&#x27;</span>, <span class="hljs-string">&#x27;.html&#x27;</span>)}</span>`</span> 
+              : <span class="hljs-string">`/content/<span class="hljs-subst">${relativePath}</span>`</span>
+        };
+      });
+
+    <span class="hljs-keyword">const</span> breadcrumb = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildBreadcrumb</span>(dirPath);
+    <span class="hljs-keyword">const</span> title = dirPath ? path.<span class="hljs-title function_">basename</span>(dirPath) : <span class="hljs-string">&#x27;Documentation Portal&#x27;</span>;
+    
+    <span class="hljs-keyword">const</span> html = <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">renderDirectoryPage</span>({
+      title,
+      <span class="hljs-attr">path</span>: dirPath,
+      navigation,
+      directoryListing,
+      breadcrumb
+    });
+
+    <span class="hljs-comment">// Save HTML file</span>
+    <span class="hljs-keyword">const</span> outputPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, dirPath, <span class="hljs-string">&#x27;index.html&#x27;</span>);
+    <span class="hljs-keyword">const</span> outputDir = path.<span class="hljs-title function_">dirname</span>(outputPath);
+    
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(outputDir)) {
+      fs.<span class="hljs-title function_">mkdirSync</span>(outputDir, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+    }
+    
+    <span class="hljs-comment">// Fix navigation links for static site</span>
+    <span class="hljs-keyword">const</span> fixedHtml = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fixStaticLinks</span>(html);
+    fs.<span class="hljs-title function_">writeFileSync</span>(outputPath, fixedHtml);
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`📄 Built directory: <span class="hljs-subst">${dirPath || <span class="hljs-string">&#x27;root&#x27;</span>}</span>`</span>);
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">buildMarkdownPage</span>(<span class="hljs-params">filePath, navigation</span>) {
+    <span class="hljs-keyword">const</span> fullPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>, filePath);
+    <span class="hljs-keyword">const</span> content = fs.<span class="hljs-title function_">readFileSync</span>(fullPath, <span class="hljs-string">&#x27;utf-8&#x27;</span>);
+    <span class="hljs-keyword">const</span> renderedContent = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">markdownRenderer</span>.<span class="hljs-title function_">render</span>(content);
+    
+    <span class="hljs-keyword">const</span> breadcrumb = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildBreadcrumb</span>(path.<span class="hljs-title function_">dirname</span>(filePath));
+    <span class="hljs-keyword">const</span> title = path.<span class="hljs-title function_">basename</span>(filePath, <span class="hljs-string">&#x27;.md&#x27;</span>);
+    
+    <span class="hljs-keyword">const</span> html = <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">renderMarkdownPage</span>({
+      title,
+      <span class="hljs-attr">path</span>: filePath,
+      navigation,
+      <span class="hljs-attr">content</span>: renderedContent,
+      breadcrumb
+    });
+
+    <span class="hljs-comment">// Save HTML file</span>
+    <span class="hljs-keyword">const</span> outputPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, filePath.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&#x27;.md&#x27;</span>, <span class="hljs-string">&#x27;.html&#x27;</span>));
+    <span class="hljs-keyword">const</span> outputDir = path.<span class="hljs-title function_">dirname</span>(outputPath);
+    
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(outputDir)) {
+      fs.<span class="hljs-title function_">mkdirSync</span>(outputDir, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+    }
+    
+    <span class="hljs-comment">// Fix navigation links for static site</span>
+    <span class="hljs-keyword">const</span> fixedHtml = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fixStaticLinks</span>(html);
+    fs.<span class="hljs-title function_">writeFileSync</span>(outputPath, fixedHtml);
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`📝 Built page: <span class="hljs-subst">${filePath}</span>`</span>);
+  }
+
+  <span class="hljs-title function_">buildBreadcrumb</span>(<span class="hljs-params">dirPath</span>) {
+    <span class="hljs-keyword">if</span> (!dirPath || dirPath === <span class="hljs-string">&#x27;.&#x27;</span> || dirPath === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span> [];
+    
+    <span class="hljs-keyword">const</span> parts = dirPath.<span class="hljs-title function_">split</span>(path.<span class="hljs-property">sep</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">part</span> =&gt;</span> part);
+    <span class="hljs-keyword">const</span> breadcrumb = [];
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; parts.<span class="hljs-property">length</span>; i++) {
+      <span class="hljs-keyword">const</span> partPath = parts.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;/&#x27;</span>);
+      breadcrumb.<span class="hljs-title function_">push</span>({
+        <span class="hljs-attr">name</span>: parts[i],
+        <span class="hljs-attr">path</span>: <span class="hljs-string">`/<span class="hljs-subst">${partPath}</span>/`</span>
+      });
+    }
+    
+    <span class="hljs-keyword">return</span> breadcrumb;
+  }
+
+  <span class="hljs-title function_">fixStaticLinks</span>(<span class="hljs-params">html</span>) {
+    <span class="hljs-comment">// Fix navigation links for static site</span>
+    <span class="hljs-keyword">return</span> html
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/href=&quot;\/content\//g</span>, <span class="hljs-string">&#x27;href=&quot;/&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/href=&quot;\/content&quot;/g</span>, <span class="hljs-string">&#x27;href=&quot;/&quot;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/href=&quot;([^&quot;]+)\.md&quot;/g</span>, <span class="hljs-string">&#x27;href=&quot;$1.html&quot;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/src=&quot;\/content\//g</span>, <span class="hljs-string">&#x27;src=&quot;/content/&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\]\(([^)]+)\.md\)/g</span>, <span class="hljs-string">&#x27;]($1.html)&#x27;</span>); <span class="hljs-comment">// Fix markdown links</span>
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">copyStaticAssets</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// Copy content directory for static assets</span>
+    <span class="hljs-keyword">const</span> contentOutput = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, <span class="hljs-string">&#x27;content&#x27;</span>);
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">copyDirectory</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">contentDir</span>, contentOutput, [<span class="hljs-string">&#x27;.md&#x27;</span>]);
+    
+    <span class="hljs-comment">// Copy public assets if they exist</span>
+    <span class="hljs-keyword">const</span> publicDir = <span class="hljs-string">&#x27;./public&#x27;</span>;
+    <span class="hljs-keyword">if</span> (fs.<span class="hljs-title function_">existsSync</span>(publicDir)) {
+      <span class="hljs-keyword">const</span> publicOutput = <span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>;
+      <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">copyDirectory</span>(publicDir, publicOutput);
+    }
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;📁 Copied static assets&#x27;</span>);
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">copyDirectory</span>(<span class="hljs-params">src, dest, excludeExtensions = []</span>) {
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(dest)) {
+      fs.<span class="hljs-title function_">mkdirSync</span>(dest, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+    }
+
+    <span class="hljs-keyword">const</span> items = fs.<span class="hljs-title function_">readdirSync</span>(src);
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> items) {
+      <span class="hljs-keyword">const</span> srcPath = path.<span class="hljs-title function_">join</span>(src, item);
+      <span class="hljs-keyword">const</span> destPath = path.<span class="hljs-title function_">join</span>(dest, item);
+      <span class="hljs-keyword">const</span> stat = fs.<span class="hljs-title function_">statSync</span>(srcPath);
+      
+      <span class="hljs-keyword">if</span> (stat.<span class="hljs-title function_">isDirectory</span>()) {
+        <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">copyDirectory</span>(srcPath, destPath, excludeExtensions);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">const</span> ext = path.<span class="hljs-title function_">extname</span>(item);
+        <span class="hljs-keyword">if</span> (!excludeExtensions.<span class="hljs-title function_">includes</span>(ext)) {
+          fs.<span class="hljs-title function_">copyFileSync</span>(srcPath, destPath);
+        }
+      }
+    }
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">create404Page</span>(<span class="hljs-params">navigation</span>) {
+    <span class="hljs-keyword">const</span> html = <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">renderMarkdownPage</span>({
+      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;404 - Page Not Found&#x27;</span>,
+      <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;404.html&#x27;</span>,
+      navigation,
+      <span class="hljs-attr">content</span>: <span class="hljs-string">`
+        &lt;div style=&quot;text-align: center; padding: 4rem 2rem;&quot;&gt;
+          &lt;h1&gt;🚫 Page Not Found&lt;/h1&gt;
+          &lt;p&gt;The page you&#x27;re looking for doesn&#x27;t exist.&lt;/p&gt;
+          &lt;p&gt;&lt;a href=&quot;/&quot;&gt;← Return to Home&lt;/a&gt;&lt;/p&gt;
+        &lt;/div&gt;
+      `</span>,
+      <span class="hljs-attr">breadcrumb</span>: []
+    });
+
+    <span class="hljs-keyword">const</span> fixedHtml = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fixStaticLinks</span>(html);
+    fs.<span class="hljs-title function_">writeFileSync</span>(path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputDir</span>, <span class="hljs-string">&#x27;404.html&#x27;</span>), fixedHtml);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;📄 Created 404 page&#x27;</span>);
+  }
+}
+
+<span class="hljs-comment">// Build the site when script is run directly</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">require</span>.<span class="hljs-property">main</span> === <span class="hljs-variable language_">module</span>) {
+  <span class="hljs-keyword">new</span> <span class="hljs-title class_">StaticSiteBuilder</span>().<span class="hljs-title function_">build</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title class_">StaticSiteBuilder</span>;</code></pre><h2 id="step-2-update-packagejson-scripts">
+        <a href="#step-2-update-packagejson-scripts" class="header-anchor">
+          Step 2: Update Package.json Scripts
+        </a>
+      </h2><p>Add build scripts to your <code>package.json</code>:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node server/app.js&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node build-static.js&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;build:watch&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;nodemon build-static.js&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;serve:static&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;cd docs &amp;&amp; python -m http.server 8080&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;preview&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;npm run build &amp;&amp; npm run serve:static&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;devDependencies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;nodemon&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^3.0.1&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre><h2 id="step-3-github-actions-workflow">
+        <a href="#step-3-github-actions-workflow" class="header-anchor">
+          Step 3: GitHub Actions Workflow
+        </a>
+      </h2><p>Create <code>.github/workflows/deploy.yml</code>:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Build</span> <span class="hljs-string">and</span> <span class="hljs-string">Deploy</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">main</span> ]
+  <span class="hljs-attr">pull_request:</span>
+    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">main</span> ]
+
+<span class="hljs-attr">permissions:</span>
+  <span class="hljs-attr">contents:</span> <span class="hljs-string">read</span>
+  <span class="hljs-attr">pages:</span> <span class="hljs-string">write</span>
+  <span class="hljs-attr">id-token:</span> <span class="hljs-string">write</span>
+
+<span class="hljs-attr">concurrency:</span>
+  <span class="hljs-attr">group:</span> <span class="hljs-string">&quot;pages&quot;</span>
+  <span class="hljs-attr">cancel-in-progress:</span> <span class="hljs-literal">false</span>
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Checkout</span> <span class="hljs-string">🛎️</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Setup</span> <span class="hljs-string">Node.js</span> <span class="hljs-string">🔧</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v4</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-string">&#x27;18&#x27;</span>
+          <span class="hljs-attr">cache:</span> <span class="hljs-string">&#x27;npm&#x27;</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Install</span> <span class="hljs-string">Dependencies</span> <span class="hljs-string">📦</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">ci</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Build</span> <span class="hljs-string">Static</span> <span class="hljs-string">Site</span> <span class="hljs-string">🔨</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">run</span> <span class="hljs-string">build</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Setup</span> <span class="hljs-string">Pages</span> <span class="hljs-string">📄</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/configure-pages@v4</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Upload</span> <span class="hljs-string">Artifact</span> <span class="hljs-string">📤</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/upload-pages-artifact@v3</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">path:</span> <span class="hljs-string">&#x27;./docs&#x27;</span>
+
+  <span class="hljs-attr">deploy:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">github-pages</span>
+      <span class="hljs-attr">url:</span> <span class="hljs-string">${{</span> <span class="hljs-string">steps.deployment.outputs.page_url</span> <span class="hljs-string">}}</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">needs:</span> <span class="hljs-string">build</span>
+    <span class="hljs-attr">if:</span> <span class="hljs-string">github.ref</span> <span class="hljs-string">==</span> <span class="hljs-string">&#x27;refs/heads/main&#x27;</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Deploy</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span> <span class="hljs-string">🚀</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-string">deployment</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/deploy-pages@v4</span></code></pre><h2 id="step-4-repository-settings">
+        <a href="#step-4-repository-settings" class="header-anchor">
+          Step 4: Repository Settings
+        </a>
+      </h2><ol>
+<li><p><strong>Enable GitHub Pages:</strong></p>
+<ul>
+<li>Go to your repository settings</li>
+<li>Navigate to &quot;Pages&quot; section</li>
+<li>Source: Deploy from a branch</li>
+<li>Branch: <code>main</code></li>
+<li>Folder: <code>/docs</code></li>
+</ul>
+</li>
+<li><p><strong>Alternative: GitHub Actions (Recommended):</strong></p>
+<ul>
+<li>Source: GitHub Actions</li>
+<li>The workflow above will handle deployment</li>
+</ul>
+</li>
+</ol>
+<h2 id="step-5-ensure-mermaid-support">
+        <a href="#step-5-ensure-mermaid-support" class="header-anchor">
+          Step 5: Ensure Mermaid Support
+        </a>
+      </h2><p>Update your <code>PageRenderer.js</code> to include Mermaid in the static build:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">// In the renderLayout method, ensure Mermaid is included:</span>
+&lt;script src=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js&quot;</span>&gt;&lt;/script&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  mermaid.<span class="hljs-title function_">initialize</span>({
+    <span class="hljs-attr">startOnLoad</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">&#x27;default&#x27;</span>,
+    <span class="hljs-attr">securityLevel</span>: <span class="hljs-string">&#x27;loose&#x27;</span>,
+    <span class="hljs-attr">fontFamily</span>: <span class="hljs-string">&#x27;arial&#x27;</span>
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></code></pre><h2 id="step-6-build-and-deploy">
+        <a href="#step-6-build-and-deploy" class="header-anchor">
+          Step 6: Build and Deploy
+        </a>
+      </h2><h3 id="local-testing">
+        <a href="#local-testing" class="header-anchor">
+          Local Testing
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># Build the static site</span>
+npm run build
+
+<span class="hljs-comment"># Preview locally</span>
+npm run preview
+<span class="hljs-comment"># Open http://localhost:8080</span></code></pre><h3 id="deploy-to-github-pages">
+        <a href="#deploy-to-github-pages" class="header-anchor">
+          Deploy to GitHub Pages
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># Commit your changes</span>
+git add .
+git commit -m <span class="hljs-string">&quot;Add static site generation and GitHub Pages deployment&quot;</span>
+git push origin main
+
+<span class="hljs-comment"># GitHub Actions will automatically build and deploy</span></code></pre><h2 id="step-7-custom-domain-optional">
+        <a href="#step-7-custom-domain-optional" class="header-anchor">
+          Step 7: Custom Domain (Optional)
+        </a>
+      </h2><ol>
+<li>Create <code>docs/CNAME</code> file with your domain:</li>
+</ol>
+<pre><code class="hljs language-text">docs.yourdomain.com</code></pre><ol start="2">
+<li>Configure DNS with your domain provider:</li>
+</ol>
+<pre><code class="hljs language-text">Type: CNAME
+Name: docs (or your subdomain)
+Value: yourusername.github.io</code></pre><h2 id="features-preserved">
+        <a href="#features-preserved" class="header-anchor">
+          Features Preserved
+        </a>
+      </h2><p>✅ <strong>Full Navigation</strong> - Hierarchical sidebar navigation<br>✅ <strong>Markdown Rendering</strong> - All markdown features<br>✅ <strong>Mermaid Diagrams</strong> - Interactive diagrams<br>✅ <strong>Breadcrumbs</strong> - Navigation breadcrumbs<br>✅ <strong>Directory Listings</strong> - Folder browsing<br>✅ <strong>Static Assets</strong> - Images, PDFs, etc.<br>✅ <strong>Responsive Design</strong> - Mobile-friendly<br>✅ <strong>Print Optimization</strong> - Clean printing<br>✅ <strong>Search Engine Friendly</strong> - Pre-rendered HTML  </p>
+<h2 id="troubleshooting">
+        <a href="#troubleshooting" class="header-anchor">
+          Troubleshooting
+        </a>
+      </h2><h3 id="links-not-working">
+        <a href="#links-not-working" class="header-anchor">
+          Links Not Working
+        </a>
+      </h3><ul>
+<li>Ensure all internal links use <code>.html</code> extension</li>
+<li>Check that paths are relative to the domain root</li>
+</ul>
+<h3 id="mermaid-not-rendering">
+        <a href="#mermaid-not-rendering" class="header-anchor">
+          Mermaid Not Rendering
+        </a>
+      </h3><ul>
+<li>Verify CDN links are accessible</li>
+<li>Check browser console for JavaScript errors</li>
+</ul>
+<h3 id="images-not-loading">
+        <a href="#images-not-loading" class="header-anchor">
+          Images Not Loading
+        </a>
+      </h3><ul>
+<li>Ensure images are in the <code>content</code> folder</li>
+<li>Use relative paths: <code>./images/diagram.png</code></li>
+</ul>
+<h3 id="build-errors">
+        <a href="#build-errors" class="header-anchor">
+          Build Errors
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># Clear node modules and reinstall</span>
+<span class="hljs-built_in">rm</span> -rf node_modules package-lock.json
+npm install
+
+<span class="hljs-comment"># Rebuild</span>
+npm run build</code></pre><h2 id="performance-optimization">
+        <a href="#performance-optimization" class="header-anchor">
+          Performance Optimization
+        </a>
+      </h2><h3 id="enable-caching">
+        <a href="#enable-caching" class="header-anchor">
+          Enable Caching
+        </a>
+      </h3><p>Create <code>docs/.htaccess</code> (if using Apache):</p>
+<pre><code class="hljs language-apache"><span class="hljs-section">&lt;IfModule mod_expires.c&gt;</span>
+  <span class="hljs-attribute">ExpiresActive</span> <span class="hljs-literal">on</span>
+  <span class="hljs-attribute">ExpiresByType</span> text/css <span class="hljs-string">&quot;access plus 1 year&quot;</span>
+  <span class="hljs-attribute">ExpiresByType</span> application/javascript <span class="hljs-string">&quot;access plus 1 year&quot;</span>
+  <span class="hljs-attribute">ExpiresByType</span> image/png <span class="hljs-string">&quot;access plus 1 year&quot;</span>
+  <span class="hljs-attribute">ExpiresByType</span> image/jpg <span class="hljs-string">&quot;access plus 1 year&quot;</span>
+<span class="hljs-section">&lt;/IfModule&gt;</span></code></pre><h3 id="optimize-images">
+        <a href="#optimize-images" class="header-anchor">
+          Optimize Images
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># Install image optimization tools</span>
+npm install --save-dev imagemin imagemin-pngquant imagemin-mozjpeg
+
+<span class="hljs-comment"># Add to build process for large image collections</span></code></pre><h2 id="monitoring">
+        <a href="#monitoring" class="header-anchor">
+          Monitoring
+        </a>
+      </h2><p>Your site will be available at:</p>
+<ul>
+<li><code>https://yourusername.github.io/repository-name/</code></li>
+<li>Or your custom domain if configured</li>
+</ul>
+<p>Monitor deployment status in the &quot;Actions&quot; tab of your GitHub repository.</p>
+<h2 id="next-steps">
+        <a href="#next-steps" class="header-anchor">
+          Next Steps
+        </a>
+      </h2><ol>
+<li><strong>SEO Enhancement</strong>: Add meta descriptions and OpenGraph tags</li>
+<li><strong>Analytics</strong>: Integrate Google Analytics or similar</li>
+<li><strong>Search</strong>: Add client-side search with Lunr.js</li>
+<li><strong>PWA</strong>: Convert to Progressive Web App for offline access</li>
+<li><strong>Comments</strong>: Add Disqus or GitHub Issues for page comments</li>
+</ol>
+<h2 id="support">
+        <a href="#support" class="header-anchor">
+          Support
+        </a>
+      </h2><p>For issues with deployment:</p>
+<ol>
+<li>Check GitHub Actions logs</li>
+<li>Verify all file paths use forward slashes</li>
+<li>Ensure no special characters in filenames</li>
+<li>Test locally before pushing to GitHub</li>
+</ol>
+<p>Your documentation portal is now ready for GitHub Pages with all features intact!</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

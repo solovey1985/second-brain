@@ -24,26 +24,47 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.get('/', contentController.renderIndex.bind(contentController));
 
 // Handle content requests - render .md files, serve others as static
-app.get('/content/*', async (req, res, next) => {
-  const requestPath = req.params[0] || '';
-  
+// Middleware to decode and normalize Unicode paths for static files
+const normalizeUnicodePath = (req, res, next) => {
+  if (req.params && req.params[0]) {
+    // Decode URI components and normalize to NFC
+    try {
+      let decoded = decodeURIComponent(req.params[0]);
+      // Normalize to NFC (standard Unicode form)
+      if (typeof decoded.normalize === 'function') {
+        decoded = decoded.normalize('NFC');
+      }
+      req.normalizedContentPath = decoded;
+    } catch (e) {
+      req.normalizedContentPath = req.params[0];
+    }
+  }
+  next();
+};
+
+app.get('/content/*', normalizeUnicodePath, async (req, res, next) => {
+  const requestPath = req.normalizedContentPath || req.params[0] || '';
+
   try {
     // Check if it's a markdown file or directory that should be rendered
     const shouldRender = requestPath.endsWith('.md') || 
                         requestPath === '' || 
                         !requestPath.includes('.') ||
                         await fileService.isDirectory(requestPath);
-    
+
     if (shouldRender) {
       // Render through ContentController
       contentController.renderContent(req, res, next);
     } else {
       // Serve as static file using express.static
+      // Patch req.url so express.static uses normalized path
+      req.url = '/' + requestPath;
       const staticMiddleware = express.static(path.resolve(__dirname, '../content'));
       staticMiddleware(req, res, next);
     }
   } catch (error) {
     // If file doesn't exist or other error, try static serving
+    req.url = '/' + requestPath;
     const staticMiddleware = express.static(path.resolve(__dirname, '../content'));
     staticMiddleware(req, res, next);
   }

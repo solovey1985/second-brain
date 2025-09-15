@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>відводки - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/">🏠 Home</a></li><li><a href="//пасіка/">пасіка</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-">**Інструкція з роботи з відводками**</a></li>
+<ul>
+<li><a href="#1-">**1. Підготовка до створення відводка**</a></li>
+<li><a href="#2-">**2. Формування відводка**</a></li>
+<li><a href="#3-">**3. Розміщення відводка**</a></li>
+<li><a href="#4-">**4. Догляд за відводком**</a></li>
+<li><a href="#5-">**5. Переведення відводка в основну сім’ю (опціонально)**</a></li>
+<li><a href="#6-">**6. Можливі цілі створення відводків**</a></li>
+</ul>
+<li><a href="#-">**Корисні поради**</a></li>
+<ul>
+<li><a href="#-3-5-6-">**Схема комплектації відводків на 3, 5 і 6 рамок**</a></li>
+<li><a href="#7-">**7. Підсумок**</a></li>
+<li><a href="#8-">**8. Додаткові рекомендації**</a></li>
+<li><a href="#9-">**9. Часті помилки**</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Ось покрокова <strong>інструкція для роботи з відводками</strong> на пасіці з корпусними вуликами (рамка Дадан 300):</p>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Інструкція з роботи з відводками**
+        </a>
+      </h2><h3 id="1-">
+        <a href="#1-" class="header-anchor">
+          **1. Підготовка до створення відводка**
+        </a>
+      </h3><p><strong>Час:</strong> оптимально — друга половина травня або перша половина червня (залежить від регіону).</p>
+<p><strong>Необхідне:</strong></p>
+<ul>
+<li>Корпусний вулик або нуклеус на 3–6 рамок</li>
+<li>Рамки з вощиною або сушею</li>
+<li>Годівниця</li>
+<li>Корм: сироп або мед</li>
+<li>Молода плодова матка (або маточник)</li>
+</ul>
+<hr>
+<h3 id="2-">
+        <a href="#2-" class="header-anchor">
+          **2. Формування відводка**
+        </a>
+      </h3><ol>
+<li><p><strong>Вибір сім’ї-донора:</strong> сильна сім’я з великою кількістю відкритого розплоду.</p>
+</li>
+<li><p><strong>Комплектація відводка:</strong></p>
+<ul>
+<li>1–2 рамки з відкритим розплодом (разом із бджолами)</li>
+<li>1 рамка з кормами (мед і перга)</li>
+<li>1 рамка вощини або суші</li>
+<li>За потреби — 1 рамка з закритим розплодом</li>
+</ul>
+</li>
+<li><p><strong>Струшування додаткових бджіл</strong> зі здорової сім’ї (якщо потрібно).</p>
+</li>
+<li><p><strong>Встановлення матки:</strong></p>
+<ul>
+<li>У кліточці (через 2–3 дні випустити)</li>
+<li>Або вставити маточник (ставлять відразу)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-">
+        <a href="#3-" class="header-anchor">
+          **3. Розміщення відводка**
+        </a>
+      </h3><ul>
+<li><strong>Віддалено на 2–3 км</strong> — для запобігання поверненню льотних бджіл.</li>
+<li>Якщо не можна перенести — <strong>перекрити льоток на 3 дні</strong> та дати вентиляцію, потім поступово відкривати.</li>
+</ul>
+<hr>
+<h3 id="4-">
+        <a href="#4-" class="header-anchor">
+          **4. Догляд за відводком**
+        </a>
+      </h3><p><strong>Перші 7 днів:</strong></p>
+<ul>
+<li>Перевірити, чи прийняли матку</li>
+<li>При потребі — дати корм</li>
+</ul>
+<p><strong>На 10–12 день:</strong></p>
+<ul>
+<li>Перевірка засіву — матка починає яйцекладку</li>
+</ul>
+<p><strong>Кожні 7–10 днів:</strong></p>
+<ul>
+<li>Поступово розширювати (додавати суш чи вощину)</li>
+<li>Контролювати наявність кормів</li>
+</ul>
+<hr>
+<h3 id="5-">
+        <a href="#5-" class="header-anchor">
+          **5. Переведення відводка в основну сім’ю (опціонально)**
+        </a>
+      </h3><ul>
+<li>Через 30–40 днів, коли відводок на 6–8 рамках</li>
+<li>Можна об’єднати з основною сім’єю або сформувати нову сильну</li>
+</ul>
+<hr>
+<h3 id="6-">
+        <a href="#6-" class="header-anchor">
+          **6. Можливі цілі створення відводків**
+        </a>
+      </h3><ul>
+<li>Заміна старої матки</li>
+<li>Розширення пасіки</li>
+<li>Запасні сім’ї (на випадок втрати основних)</li>
+<li>Профілактика роїння</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Корисні поради**
+        </a>
+      </h2><ul>
+<li>Маточники краще ставити у відводки з відкритим розплодом.</li>
+<li>Не створюйте відводки в холодну погоду.</li>
+<li>Стежте, щоб у відводку завжди були кормові запаси.</li>
+<li>У корпусних вуликах можна формувати відводок прямо у другому корпусі з роздільною решіткою.</li>
+</ul>
+<h3 id="-3-5-6-">
+        <a href="#-3-5-6-" class="header-anchor">
+          **Схема комплектації відводків на 3, 5 і 6 рамок**
+        </a>
+      </h3><table>
+<thead>
+<tr>
+<th>Кількість рамок</th>
+<th>Розплід (відкритий/закритий)</th>
+<th>Кормова рамка (мед/перга)</th>
+<th>Вощина/суш</th>
+<th>Матка/маточник</th>
+<th>Примітки</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3</td>
+<td>1 (відкритий)</td>
+<td>1</td>
+<td>1</td>
+<td>+</td>
+<td>Мінімальний відводок</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2 (1 відкритий, 1 закритий)</td>
+<td>1</td>
+<td>2</td>
+<td>+</td>
+<td>Оптимальний для розвитку</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2 (1 відкритий, 1 закритий)</td>
+<td>2</td>
+<td>2</td>
+<td>+</td>
+<td>Для швидкого нарощування</td>
+</tr>
+</tbody></table>
+<p><strong>Примітки:</strong></p>
+<ul>
+<li>Кількість бджіл має відповідати кількості розплоду.</li>
+<li>За потреби додавайте бджіл із сильної сім’ї.</li>
+<li>Матку можна підсаджувати у кліточці або ставити маточник.</li>
+</ul>
+<h3 id="7-">
+        <a href="#7-" class="header-anchor">
+          **7. Підсумок**
+        </a>
+      </h3><p>Створення відводків — це важливий етап у розвитку пасіки, який дозволяє підтримувати здоров&#39;я бджолиних сімей, запобігати роїнню та розширювати пасіку. Дотримуйтесь інструкцій і спостерігайте за поведінкою бджіл, щоб досягти найкращих результатів.</p>
+<h3 id="8-">
+        <a href="#8-" class="header-anchor">
+          **8. Додаткові рекомендації**
+        </a>
+      </h3><ul>
+<li>Використовуйте тільки здорові та активні бджолині сім&#39;ї для створення відводків.</li>
+<li>Регулярно перевіряйте стан відводків, щоб вчасно виявити проблеми.</li>
+<li>Забезпечте відводки достатньою кількістю корму та простору для розвитку.</li>
+<li>Уникайте перезаселення відводків бджолами з інших сімей.</li>
+<li>Пам&#39;ятайте про важливість своєчасної заміни маток у відводках для підтримки їхньої продуктивності та здоров&#39;я.</li>
+</ul>
+<h3 id="9-">
+        <a href="#9-" class="header-anchor">
+          **9. Часті помилки**
+        </a>
+      </h3><ul>
+<li><strong>Неправильний вибір сім&#39;ї-донора:</strong> використання слабкої або хворої сім&#39;ї може призвести до проблем з розвитком відводка.</li>
+<li><strong>Недостатня кількість корму:</strong> відводки потребують достатньої кількості корму для розвитку, особливо в перші дні.</li>
+<li><strong>Пізнє введення матки:</strong> якщо матка не буде введена вчасно, відводок може не розвиватися належним чином.</li>
+<li><strong>Неправильне розширення:</strong> занадто швидке або повільне розширення відводка може призвести до проблем з його розвитком.</li>
+<li><strong>Ігнорування стану бджіл:</strong> регулярні перевірки допоможуть виявити проблеми на ранніх стадіях і вжити необхідних заходів.</li>
+<li><strong>Нехтування вентиляцією:</strong> відводки потребують хорошого повітрообміну, особливо в спекотну погоду.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

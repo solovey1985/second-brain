@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>openiddict-integration - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/">🏠 Home</a></li><li><a href="//1-yapidoo/">1-yapidoo</a></li><li><a href="//1-yapidoo/services/">services</a></li><li><a href="//1-yapidoo/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#openiddict-integration-guide">OpenIddict Integration Guide</a></li>
+<ul>
+<li><a href="#references">References</a></li>
+<li><a href="#context-goals">Context & Goals</a></li>
+<li><a href="#required-packages">Required packages</a></li>
+<li><a href="#data-model-dbcontext">Data model & DbContext</a></li>
+<li><a href="#openiddict-server-configuration-core-parts">OpenIddict server configuration (core parts)</a></li>
+<li><a href="#seeding-clients-and-scopes">Seeding clients and scopes</a></li>
+<li><a href="#migrations-db">Migrations & DB</a></li>
+<li><a href="#external-identity-providers">External Identity Providers</a></li>
+<li><a href="#testing-the-server">Testing the server</a></li>
+<li><a href="#operational-notes-security">Operational notes & security</a></li>
+<li><a href="#integration-with-resource-apis">Integration with resource APIs</a></li>
+</ul>
+</ul>
+</div><h1 id="openiddict-integration-guide">
+        <a href="#openiddict-integration-guide" class="header-anchor">
+          OpenIddict Integration Guide
+        </a>
+      </h1><p>This note explains how to integrate OpenIddict into the Yapidoo Auth Service, with context, recommended architecture, and actionable code snippets for .NET 9 + ASP.NET Core Identity + EF Core.</p>
+<p><a href="/index.html">Index</a></p>
+<hr>
+<h2 id="references">
+        <a href="#references" class="header-anchor">
+          References
+        </a>
+      </h2><ul>
+<li><a href="https://documentation.openiddict.com/">OpenIdDict Documentation</a></li>
+<li><a href="https://github.com/openiddict/openiddict-samples">Samples</a></li>
+</ul>
+<h2 id="context-goals">
+        <a href="#context-goals" class="header-anchor">
+          Context & Goals
+        </a>
+      </h2><ul>
+<li>Provide a standards-compliant OIDC/OAuth2 authorization server for first‑party clients (SPA, mobile) and machine clients (M2M).</li>
+<li>Support Authorization Code + PKCE, Refresh Tokens, and Client Credentials flows.</li>
+<li>Use ASP.NET Core Identity for user management and EF Core for persistence.</li>
+<li>Publish JWKS for inter-service JWT validation.</li>
+</ul>
+<hr>
+<h2 id="required-packages">
+        <a href="#required-packages" class="header-anchor">
+          Required packages
+        </a>
+      </h2><ul>
+<li>OpenIddict.AspNetCore</li>
+<li>OpenIddict.EntityFrameworkCore</li>
+<li>OpenIddict.Validation.AspNetCore (resource APIs)</li>
+<li>Microsoft.AspNetCore.Authentication.JwtBearer (optional for resource APIs)</li>
+<li>Microsoft.AspNetCore.Identity.EntityFrameworkCore</li>
+<li>Npgsql.EntityFrameworkCore.PostgreSQL or Microsoft.EntityFrameworkCore.SqlServer</li>
+</ul>
+<p>Install via NuGet or Directory.Packages.props.</p>
+<hr>
+<h2 id="data-model-dbcontext">
+        <a href="#data-model-dbcontext" class="header-anchor">
+          Data model & DbContext
+        </a>
+      </h2><ul>
+<li>Keep Identity entities (ApplicationUser : IdentityUser<Guid>) and OpenIddict schema in the same DbContext (AuthDbContext) to simplify migrations and transactions.</li>
+</ul>
+<p>Sample DbContext registration (Program.cs):</p>
+<pre><code class="hljs language-csharp">
+builder.Services.AddDbContext&lt;AuthDbContext&gt;(options =&gt;
+    options.UseNpgsql(builder.Configuration.GetConnectionString(<span class="hljs-string">&quot;DefaultConnection&quot;</span>))
+           .UseOpenIddict());
+
+builder.Services.AddIdentity&lt;ApplicationUser, IdentityRole&lt;Guid&gt;&gt;()
+    .AddEntityFrameworkStores&lt;AuthDbContext&gt;()
+    .AddDefaultTokenProviders();
+</code></pre><p>Notes:</p>
+<ul>
+<li>Call <code>.UseOpenIddict()</code> on options to let EF model include OpenIddict tables.</li>
+</ul>
+<hr>
+<h2 id="openiddict-server-configuration-core-parts">
+        <a href="#openiddict-server-configuration-core-parts" class="header-anchor">
+          OpenIddict server configuration (core parts)
+        </a>
+      </h2><p>Register OpenIddict in DI and configure core/server/auth flows:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] <span class="hljs-keyword">args</span></span>)</span>
+{
+  builder.Services.AddOpenIddict()
+      .AddCore(options =&gt;
+      {
+          options.UseEntityFrameworkCore()
+                .UseDbContext&lt;AuthDbContext&gt;();
+      })
+      .AddServer(options =&gt;
+      {
+          options.SetTokenEndpointUris(<span class="hljs-string">&quot;/connect/token&quot;</span>)
+                .SetAuthorizationEndpointUris(<span class="hljs-string">&quot;/connect/authorize&quot;</span>)
+                .SetUserinfoEndpointUris(<span class="hljs-string">&quot;/connect/userinfo&quot;</span>);
+
+          options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+          options.AllowRefreshTokenFlow();
+          options.AllowClientCredentialsFlow();
+
+          options.RegisterScopes(<span class="hljs-string">&quot;openid&quot;</span>, <span class="hljs-string">&quot;profile&quot;</span>, <span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-string">&quot;yapidoo.api&quot;</span>, <span class="hljs-string">&quot;users.read&quot;</span>, <span class="hljs-string">&quot;users.write&quot;</span>);
+
+          <span class="hljs-comment">// Use ASP.NET Core integration</span>
+          options.UseAspNetCore()
+                .EnableTokenEndpointPassthrough()
+                .EnableAuthorizationEndpointPassthrough()
+                .EnableUserinfoEndpointPassthrough();
+
+          <span class="hljs-comment">// Signing/encryption keys - dev ephemeral by default</span>
+          options.AddDevelopmentEncryptionCertificate()
+                .AddDevelopmentSigningCertificate();
+      })
+      .AddValidation(options =&gt;
+      {
+          options.UseLocalServer();
+          options.UseAspNetCore();
+    });
+}</code></pre><p>Production keys:</p>
+<ul>
+<li>Replace dev certificates with an RSA or X.509 certificate from KeyVault/SecretManager.</li>
+<li>Configure OpenIddict to load the certificate via AddSigningCertificate/FromCertificate.</li>
+<li>Ensure JWKS is discoverable at <code>/.well-known/jwks.json</code>. OpenIddict exposes it automatically.</li>
+</ul>
+<hr>
+<h2 id="seeding-clients-and-scopes">
+        <a href="#seeding-clients-and-scopes" class="header-anchor">
+          Seeding clients and scopes
+        </a>
+      </h2><p>Seed initial clients via a hosted service or startup task using <code>OpenIddictApplicationManager</code>:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-function"><span class="hljs-keyword">async</span> Task <span class="hljs-title">SeedAsync</span>(<span class="hljs-params">IServiceProvider sp</span>)</span> {
+  <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> scope = sp.CreateScope();
+  <span class="hljs-keyword">var</span> mgr = scope.ServiceProvider.GetRequiredService&lt;OpenIddictApplicationManager&lt;OpenIddictEntityFrameworkCoreApplication&gt;&gt;();
+
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> mgr.FindByClientIdAsync(<span class="hljs-string">&quot;yapidoo-spa&quot;</span>) <span class="hljs-keyword">is</span> <span class="hljs-built_in">object</span>) {
+    <span class="hljs-keyword">await</span> mgr.CreateAsync(<span class="hljs-keyword">new</span> OpenIddictApplicationDescriptor {
+      ClientId = <span class="hljs-string">&quot;yapidoo-spa&quot;</span>,
+      DisplayName = <span class="hljs-string">&quot;Yapidoo SPA&quot;</span>,
+      RedirectUris = { <span class="hljs-keyword">new</span> Uri(<span class="hljs-string">&quot;http://localhost:4200/auth/callback&quot;</span>) },
+      Permissions = {
+        OpenIddictConstants.Permissions.Endpoints.Authorization,
+        OpenIddictConstants.Permissions.Endpoints.Token,
+        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+        OpenIddictConstants.Permissions.ResponseTypes.Code
+      }
+    });
+  }
+}</code></pre><p>Also seed M2M client (<code>yapidoo-m2m</code>) with Client Credentials grant and appropriate scopes.</p>
+<hr>
+<h2 id="migrations-db">
+        <a href="#migrations-db" class="header-anchor">
+          Migrations & DB
+        </a>
+      </h2><ul>
+<li>Add migrations for <code>AuthDbContext</code> and update DB:</li>
+</ul>
+<pre><code class="hljs language-ps1">dotnet ef migrations add Init <span class="hljs-literal">-p</span> Yapidoo.Service.Auth.Data <span class="hljs-literal">-s</span> Yapidoo.Service.Auth.Api
+dotnet ef database update <span class="hljs-literal">-p</span> Yapidoo.Service.Auth.Data <span class="hljs-literal">-s</span> Yapidoo.Service.Auth.Api</code></pre><ul>
+<li>Verify OpenIddict tables (Applications, Authorizations, Tokens, Scopes) are created.</li>
+</ul>
+<hr>
+<h2 id="external-identity-providers">
+        <a href="#external-identity-providers" class="header-anchor">
+          External Identity Providers
+        </a>
+      </h2><p>Configure external IdPs (Google, Microsoft):</p>
+<pre><code class="hljs language-csharp">builder.Services.AddAuthentication()
+    .AddGoogle(options =&gt; {
+       options.ClientId = config[<span class="hljs-string">&quot;ExternalProviders:Google:ClientId&quot;</span>];
+       options.ClientSecret = config[<span class="hljs-string">&quot;ExternalProviders:Google:ClientSecret&quot;</span>];
+       options.SignInScheme = IdentityConstants.ExternalScheme;
+    });</code></pre><p>On external callback, map external login to local <code>ApplicationUser</code> and continue OIDC flow (issue tokens / create local account and sign-in).</p>
+<hr>
+<h2 id="testing-the-server">
+        <a href="#testing-the-server" class="header-anchor">
+          Testing the server
+        </a>
+      </h2><p>Client credentials (curl):</p>
+<pre><code class="hljs language-bash">curl -X POST https://auth.local/connect/token \
+  -H <span class="hljs-string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> \
+  -d <span class="hljs-string">&quot;grant_type=client_credentials&amp;client_id=yapidoo-m2m&amp;client_secret=SECRET&amp;scope=yapidoo.api&quot;</span></code></pre><p>Authorization code (manual):</p>
+<ul>
+<li>Browser: GET /connect/authorize?client_id=yapidoo-spa&amp;response_type=code&amp;scope=openid%20profile&amp;redirect_uri=...</li>
+<li>Complete login, receive code, exchange for token at /connect/token with code+PKCE verifier.</li>
+</ul>
+<hr>
+<h2 id="operational-notes-security">
+        <a href="#operational-notes-security" class="header-anchor">
+          Operational notes & security
+        </a>
+      </h2><ul>
+<li>Enforce HTTPS in all environments.</li>
+<li>Use short access token TTLs and rotating refresh tokens.</li>
+<li>Consider reference tokens + introspection for immediate revocation.</li>
+<li>Rate-limit <code>/connect/token</code> and monitor failed attempts.</li>
+<li>Store signing keys in KMS/KeyVault; enable key rotation and ensure JWKS reflects current keys.</li>
+<li>Lock down allowed redirect URIs and CORS origins per environment.</li>
+<li>Audit and log important auth events (token issuance, failed logins, client creation).</li>
+</ul>
+<hr>
+<h2 id="integration-with-resource-apis">
+        <a href="#integration-with-resource-apis" class="header-anchor">
+          Integration with resource APIs
+        </a>
+      </h2><ul>
+<li>Resource APIs should validate tokens using JWKS; prefer offline validation using cached keys.</li>
+<li>Use OpenIddict.Validation or JwtBearer with <code>MetadataAddress</code> pointing to <code>https://auth/.well-known/openid-configuration</code>.</li>
+</ul>
+<hr>
+<p><em>Last updated: 2025-08-16</em></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

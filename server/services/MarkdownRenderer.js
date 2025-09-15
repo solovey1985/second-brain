@@ -41,8 +41,43 @@ class MarkdownRenderer {
       gfm: true,
     });
 
-    // Custom renderer for links to handle internal navigation
+    // Custom renderer for links and headers
     const renderer = new marked.Renderer();
+    
+    // Store headers for TOC generation
+    const headers = [];
+    
+    // Generate slug for header IDs
+    const slugify = (text) => {
+      if (!text || typeof text !== 'string') {
+        text = String(text || '');
+      }
+      return text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(/--+/g, '-') // Replace multiple - with single -
+        .trim();
+    };
+
+    // Override heading renderer to add anchor IDs
+    renderer.heading = (token) => {
+      const text = typeof token === 'object' ? token.text : String(token);
+      const level = token.depth || 1;
+      const slug = slugify(text);
+      
+      this.headers.push({
+        text,
+        level,
+        slug
+      });
+      
+      return `<h${level} id="${slug}">
+        <a href="#${slug}" class="header-anchor">
+          ${text}
+        </a>
+      </h${level}>`;
+    };
     
     // Override link renderer to convert relative .md links to /content/ paths
     renderer.link = (token) => {
@@ -95,6 +130,36 @@ class MarkdownRenderer {
   }
 
   /**
+   * Generate table of contents HTML from collected headers
+   */
+  generateTOC(headers) {
+    if (!headers || headers.length === 0) return '';
+    
+    let toc = '<div class="table-of-contents">\n<ul>\n';
+    let currentLevel = 0;
+    
+    headers.forEach(header => {
+      while (currentLevel < header.level - 1) {
+        toc += '<ul>\n';
+        currentLevel++;
+      }
+      while (currentLevel > header.level - 1) {
+        toc += '</ul>\n';
+        currentLevel--;
+      }
+      
+      toc += `<li><a href="#${header.slug}">${header.text}</a></li>\n`;
+    });
+    
+    while (currentLevel >= 0) {
+      toc += '</ul>\n';
+      currentLevel--;
+    }
+    
+    return toc + '</div>';
+  }
+
+  /**
    * Render markdown content to HTML
    */
   render(markdown) {
@@ -103,7 +168,17 @@ class MarkdownRenderer {
     }
     
     try {
-      return marked(markdown);
+      // Clear headers array before rendering
+      this.headers = [];
+      
+      // Render markdown content
+      const content = marked(markdown);
+      
+      // Generate TOC if there are headers
+      const toc = this.generateTOC(this.headers);
+      
+      // Return content with TOC if headers exist
+      return this.headers.length > 0 ? toc + content : content;
     } catch (error) {
       console.error('Markdown rendering error:', error);
       return `<pre><code>${markdown}</code></pre>`;

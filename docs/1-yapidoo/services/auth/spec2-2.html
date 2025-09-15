@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spec2-2 - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/">🏠 Home</a></li><li><a href="//1-yapidoo/">1-yapidoo</a></li><li><a href="//1-yapidoo/services/">services</a></li><li><a href="//1-yapidoo/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#why-this-matters">Why this matters</a></li>
+<li><a href="#nonnegotiable-requirements-from-rfc-6749">Non‑negotiable requirements (from RFC 6749)</a></li>
+<ul>
+<li><a href="#client-identifier-section-22">Client identifier (Section 2.2)</a></li>
+<li><a href="#client-types-section-21-context-youll-rely-on">Client types (Section 2.1) — context you’ll rely on</a></li>
+<li><a href="#client-authentication-sections-23-321">Client authentication (Sections 2.3 & 3.2.1)</a></li>
+</ul>
+<li><a href="#how-this-maps-to-yapidooserviceauth-openiddict">How this maps to Yapidoo.Service.Auth (OpenIddict)</a></li>
+<ul>
+<li><a href="#1-client-catalogue-registration-policy">1) Client catalogue & registration policy</a></li>
+<li><a href="#2-authentication-methods-at-the-token-endpoint">2) Authentication methods at the token endpoint</a></li>
+<li><a href="#3-token-endpoint-hardening">3) Token endpoint hardening</a></li>
+<li><a href="#4-authorization-endpoint-enforcement">4) Authorization endpoint enforcement</a></li>
+<li><a href="#5-what-goes-where-yapidoo-context">5) What goes where (Yapidoo context)</a></li>
+</ul>
+<li><a href="#implementation-checklist">Implementation checklist</a></li>
+<li><a href="#do-vs-dont-quick-hits">“Do vs Don’t” quick hits</a></li>
+<li><a href="#minimal-sequence-token-request-confidential-client">Minimal sequence (token request, confidential client)</a></li>
+</ul>
+</div><p>Here’s a focused, “what you need to know” guide for designing <strong>Yapidoo.Service.Auth</strong> (OpenIddict-based) around the OAuth 2.0 spec you referenced — specifically the parts about <strong>client identifiers and client authentication</strong>. I’ll anchor the requirements to the RFC so you can trace each rule back to source.</p>
+<h1 id="why-this-matters">
+        <a href="#why-this-matters" class="header-anchor">
+          Why this matters
+        </a>
+      </h1><p>In OAuth, <em>clients</em> (your SPA, mobile app, backend jobs, other microservices) must be registered and identified. The <strong>client identifier (client_id)</strong> is the handle by which the Auth service recognizes them; the <strong>authentication method</strong> (e.g., client secret or key) is how confidential clients prove they are who they say they are. Getting this right determines which flows you can safely support and how you harden the token endpoint.</p>
+<hr>
+<h1 id="nonnegotiable-requirements-from-rfc-6749">
+        <a href="#nonnegotiable-requirements-from-rfc-6749" class="header-anchor">
+          Non‑negotiable requirements (from RFC 6749)
+        </a>
+      </h1><h2 id="client-identifier-section-22">
+        <a href="#client-identifier-section-22" class="header-anchor">
+          Client identifier (Section 2.2)
+        </a>
+      </h2><ul>
+<li>Your Auth service must issue each registered client a <strong>client identifier</strong> — “a unique string representing the registration information provided by the client.” It’s <strong>not a secret</strong> and <strong>MUST NOT</strong> be used alone for authentication. It’s unique <strong>per authorization server</strong>. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The spec leaves <strong>identifier length unspecified</strong>; clients <strong>shouldn’t assume</strong> a size. The server <strong>SHOULD document</strong> the sizes it issues. Action: publish a doc (or discovery metadata) stating your client_id length policy. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The <strong>client_id</strong> is a <strong>required parameter</strong> in authorization requests (authorization code and implicit). Your authorization endpoint must enforce its presence. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<h2 id="client-types-section-21-context-youll-rely-on">
+        <a href="#client-types-section-21-context-youll-rely-on" class="header-anchor">
+          Client types (Section 2.1) — context you’ll rely on
+        </a>
+      </h2><ul>
+<li><strong>Confidential</strong> clients can keep credentials secret (e.g., backend services).</li>
+<li><strong>Public</strong> clients cannot (e.g., SPA in browser, native apps). Don’t “upgrade” a public client by handing it a secret. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<h2 id="client-authentication-sections-23-321">
+        <a href="#client-authentication-sections-23-321" class="header-anchor">
+          Client authentication (Sections 2.3 & 3.2.1)
+        </a>
+      </h2><ul>
+<li>For <strong>confidential clients</strong>, you and the client must agree on an authentication method; the server may accept any method meeting its security requirements (password/secret, key pair, etc.). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Do not rely</strong> on public client authentication to identify the client (treat it as unauthenticated from the server’s perspective). Pair it with PKCE and redirect URI checks instead. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The client <strong>MUST NOT use more than one authentication method in a request</strong> (e.g., don’t send both Basic and body credentials). Enforce this in the token endpoint. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>If you issue <strong>client passwords/secrets</strong>, the server <strong>MUST support HTTP Basic</strong> at the token endpoint for those clients; you <strong>MAY</strong> also allow credentials in the request body. Ensure your implementation supports both if you choose to allow the latter. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>When using password/secret auth, <strong>require TLS</strong> and <strong>protect against brute force</strong> (rate limiting, lockouts). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="how-this-maps-to-yapidooserviceauth-openiddict">
+        <a href="#how-this-maps-to-yapidooserviceauth-openiddict" class="header-anchor">
+          How this maps to Yapidoo.Service.Auth (OpenIddict)
+        </a>
+      </h1><h2 id="1-client-catalogue-registration-policy">
+        <a href="#1-client-catalogue-registration-policy" class="header-anchor">
+          1) Client catalogue & registration policy
+        </a>
+      </h2><p>Define and persist a <strong>Client</strong> aggregate with (at minimum):</p>
+<ul>
+<li><p><code>client_id</code> (public, unique, opaque string — document length); <code>client_name</code></p>
+</li>
+<li><p><code>client_type</code>: <code>confidential | public</code> (from RFC)</p>
+</li>
+<li><p>Allowed <strong>grant types</strong> and <strong>response types</strong></p>
+</li>
+<li><p><strong>Redirect URIs</strong> (for code/implicit), and <strong>post-logout redirect URIs</strong></p>
+</li>
+<li><p><strong>Auth methods</strong> at token endpoint:</p>
+<ul>
+<li>confidential: <code>client_secret_basic</code> (MUST support), optionally <code>client_secret_post</code>, <code>private_key_jwt</code>, and (if required) <code>tls_client_auth</code></li>
+<li>public: <code>none</code> (authN not relied upon)</li>
+</ul>
+</li>
+<li><p><strong>PKCE required</strong> (true for public/native; recommended even for confidential web apps)</p>
+</li>
+<li><p><strong>Scopes</strong> allowed; token lifetimes; consent policy</p>
+</li>
+</ul>
+<p>(Section 2 lists what clients must provide at registration — client type and redirect URIs — which your admin UI or provisioning pipeline must capture.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</p>
+<p><strong>OpenIddict notes:</strong></p>
+<ul>
+<li>Model these fields in your <strong>Data</strong> project; hash client secrets at rest; rotate secrets; log issuance/rotation events.</li>
+<li>Expose an <strong>admin-only</strong> registration endpoint/console (or IaC seeding) to create/update clients.</li>
+</ul>
+<h2 id="2-authentication-methods-at-the-token-endpoint">
+        <a href="#2-authentication-methods-at-the-token-endpoint" class="header-anchor">
+          2) Authentication methods at the token endpoint
+        </a>
+      </h2><p>Implement and enforce:</p>
+<ul>
+<li><strong>client_secret_basic</strong>: Accept HTTP Basic with <code>client_id</code> as username and URL-encoded <code>client_secret</code> as password. (Required if you issue passwords.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>client_secret_post</strong> (optional): Accept credentials in the request body only if you explicitly opt in. (Still enforce TLS.)</li>
+<li><strong>private_key_jwt</strong> (recommended for high-security confidential clients): Issue a JWKS to clients or register their JWKS URL; validate <code>client_assertion</code> at <code>/token</code>. (Allowed under “other authentication methods”.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>none</strong>: For public clients (SPAs, native), <strong>no client secret</strong>; rely on PKCE + strict redirect URI and origin checks. Do <strong>not</strong> use public-client auth to identify the client. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<p>Also enforce: <strong>one method per request</strong>; reject mixed-mode attempts. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</p>
+<h2 id="3-token-endpoint-hardening">
+        <a href="#3-token-endpoint-hardening" class="header-anchor">
+          3) Token endpoint hardening
+        </a>
+      </h2><ul>
+<li><strong>TLS everywhere</strong>, especially for requests with client passwords. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Brute-force protection</strong>: per-client rate limits and exponential backoff/temporary lock after failed client auth. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Error behavior</strong>: Don’t leak whether an unknown <code>client_id</code> exists; return generic invalid_client errors.</li>
+<li><strong>Audit</strong>: Log client auth failures/successes with correlation IDs.</li>
+</ul>
+<h2 id="4-authorization-endpoint-enforcement">
+        <a href="#4-authorization-endpoint-enforcement" class="header-anchor">
+          4) Authorization endpoint enforcement
+        </a>
+      </h2><ul>
+<li>Require <strong>client_id</strong> on authorization requests (code/implicit). Reject if missing or unknown. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>Validate <strong>redirect_uri</strong> against registered URIs (exact match rules from Section 3.1.2). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>Enforce <strong>PKCE</strong> for public clients; recommend for confidential web apps as defense-in-depth.</li>
+</ul>
+<h2 id="5-what-goes-where-yapidoo-context">
+        <a href="#5-what-goes-where-yapidoo-context" class="header-anchor">
+          5) What goes where (Yapidoo context)
+        </a>
+      </h2><ul>
+<li><strong>Angular SPA</strong> (public): no secret; code flow + PKCE; CORS locked down; <code>token_endpoint_auth_method = none</code>.</li>
+<li><strong>Mobile app</strong> (public): same as SPA, code + PKCE.</li>
+<li><strong>Server-side web app (BFF)</strong> (confidential): code flow; <code>client_secret_basic</code> or <code>private_key_jwt</code>.</li>
+<li><strong>Microservices / job runners</strong> (confidential): client credentials grant; prefer <code>private_key_jwt</code> for stronger auth; otherwise <code>client_secret_basic</code>.</li>
+</ul>
+<hr>
+<h1 id="implementation-checklist">
+        <a href="#implementation-checklist" class="header-anchor">
+          Implementation checklist
+        </a>
+      </h1><p><strong>Client model &amp; storage</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Generate opaque <strong>client_id</strong>; document size range in your developer portal/config docs. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> Store <strong>secrets hashed</strong> (PBKDF2/Argon2id), with created/rotated timestamps.</li>
+<li><input disabled="" type="checkbox"> Persist: redirect URIs, grant/response types, scopes, token lifetimes, auth method(s).</li>
+</ul>
+<p><strong>Endpoints</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>/connect/authorize</code>: require <code>client_id</code>; validate registered redirect; enforce PKCE for public. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> <code>/connect/token</code>: support <strong>Basic</strong>; optionally <strong>POST body</strong>; optionally <strong>private_key_jwt</strong>; <strong>one method per request</strong>. Enforce TLS and brute‑force protection. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<p><strong>Security controls</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Rate limiting on token endpoint; generic error messages.</li>
+<li><input disabled="" type="checkbox"> Disallow secrets for public clients; don’t rely on public client auth for identification. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> Rotation tooling for client secrets &amp; keys; JWKS management for private_key_jwt.</li>
+</ul>
+<p><strong>Docs for integrators</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Publish client_id length policy and accepted auth methods. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> List required fields at registration (type, redirect URIs). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="do-vs-dont-quick-hits">
+        <a href="#do-vs-dont-quick-hits" class="header-anchor">
+          “Do vs Don’t” quick hits
+        </a>
+      </h1><ul>
+<li>✅ <strong>Do</strong> treat <code>client_id</code> as public and stable; it identifies the client but does not authenticate it. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>✅ <strong>Do</strong> support <strong>HTTP Basic</strong> for confidential clients with passwords. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>✅ <strong>Do</strong> enforce <strong>exact redirect URI matching</strong> and PKCE for public clients. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> put <strong>client_secret</strong> in SPAs or mobile apps; they’re public clients by definition. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> allow mixed client auth schemes in one token request. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> accept client password auth over non‑TLS or without brute‑force protections. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="minimal-sequence-token-request-confidential-client">
+        <a href="#minimal-sequence-token-request-confidential-client" class="header-anchor">
+          Minimal sequence (token request, confidential client)
+        </a>
+      </h1><div class="mermaid">sequenceDiagram
+  participant C as Client (confidential)
+  participant AS as Auth Server (OpenIddict)
+  C->>AS: POST /connect/token + Authorization: Basic base64(client_id:client_secret)
+  AS->>AS: Validate TLS, auth method=Basic, rate-limit check
+  AS->>AS: Look up client_id, verify secret (hashed)
+  AS-->>C: 200 OK {access_token, refresh_token, ...}</div><ul>
+<li>Must handle the same with <code>client_secret_post</code> or <code>private_key_jwt</code> (one method per request). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<p>If you want, I can turn this into a short <strong>OpenIddict configuration snippet</strong> and a <strong>client registration JSON template</strong> you can drop into your provisioning pipeline.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

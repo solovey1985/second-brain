@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>рекомендації - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/bullet-journal/">📁 bullet-journal</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/furniture/tables/furniture.html">📄 Furniture</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/">🏠 Home</a></li><li><a href="//плитка/">плитка</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Рекомендації з виготовлення тротуарної плитки в домашніх умовах</a></li>
+<ul>
+<li><a href="#-">Пластикові форми для тротуарної плитки</a></li>
+<li><a href="#-">Форми для бордюрів (поребриків)</a></li>
+<li><a href="#-">Пігменти для бетону (бордовий, графіт, жовтий)</a></li>
+<li><a href="#-">Пластифікатор для підвищення міцності та зручності заливки</a></li>
+<li><a href="#-">Змивач для очищення залишків бетону з форм</a></li>
+<li><a href="#-">Рецептура бетону для тротуарної плитки</a></li>
+<li><a href="#-">Технологія виготовлення плитки (заміс, заливка, ущільнення, сушка)</a></li>
+<li><a href="#-400-30030050-600-25025040-">Розрахунок матеріалів для 400 шт 300×300×50 мм і 600 шт 250×250×40 мм</a></li>
+<li><a href="#-">Поради щодо сушіння та зберігання плитки</a></li>
+</ul>
+</ul>
+</div><p>Дякую! Я підберу пластикові форми для плитки 300×300×50 мм і 250×250×40 мм, бордюри, а також відповідні пігменти (бордовий, графіт, жовтий), пластифікатори та змивачі бетону. Також я знайду рецептуру бетону для плитки, опишу технологію виготовлення, порахую необхідні обсяги матеріалів на 400 + 600 плиток і дам поради щодо сушки та зберігання готової продукції. Дай мені трохи часу, скоро повернусь з результатами!</p>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          Рекомендації з виготовлення тротуарної плитки в домашніх умовах
+        </a>
+      </h1><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Пластикові форми для тротуарної плитки
+        </a>
+      </h2><p><strong>Форми 300×300×50 мм:</strong> Рекомендуємо використовувати багаторазові <strong>пластикові (ABS) форми розміром 30×30×5 см</strong>. Такі форми витримують до <del>500 циклів заливки бетону ([Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300](<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#">https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#</a>:</del>:text=%D0%90%D1%80%D1%82%D0%B8%D0%BA%D1%83%D0%BB%3A%201010825)), що дозволить виготовити великий обсяг плитки. В Україні виробник <strong>Верес-2007</strong> пропонує комплекти форм 300×300 мм різних візерунків (наприклад, «Лабіринт», «Хмарка» тощо) по 25 шт або 100 шт у наборі (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B8%20300x300%20%D0%B4%D0%BB%D1%8F%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D0%BE%D1%97%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B8,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>). Ціна однієї форми становить <del>48 грн (у наборі 25 шт ~1200 грн) ([Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300](<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#">https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#</a>:</del>:text=%D0%A0%D0%BE%D0%B7%D0%BC%D1%96%D1%80%3A%C2%A0300%C3%97300%C3%9730%20%D0%BC%D0%BC)) (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%E2%88%92%20%2B%20%D1%88%D1%82">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>). Для отримання 400 плиток можна придбати 4 комплекти по 100 форм (або менше і виготовляти плитку в кілька циклів). Зверніть увагу: більшість стандартних форм цього розміру мають товщину 30 мм (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%D0%90%D1%80%D1%82%D0%B8%D0%BA%D1%83%D0%BB%3A%201010525">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>). Для товщини 50 мм необхідно обрати форми, розраховані на підвищене навантаження (є моделі h=60 мм для проїзду авто (<a href="https://prom.ua/ua/Plastikovye-formy-dlya-trotuarnoj-plitki.html#:~:text=Image%3A%20%D0%A4%D0%BE%D1%80%D0%BC%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D0%BE%D1%97%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B8,2007">Пластикові форми для тротуарної плитки | купити недорого на Prom | Україна</a>)). Плитка 40–50 мм завтовшки витримує навантаження до <del>0,4 т/см² і підходить для пішохідних зон ([Как выбрать тротуарную плитку для дачи, двора, террасы](<a href="https://dnepr-beton.com.ua/ru/how-to-choose-tiles-for-summer-house#">https://dnepr-beton.com.ua/ru/how-to-choose-tiles-for-summer-house#</a>:</del>:text=%D0%9A%D0%B0%D0%BA%20%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D1%83%D1%8E%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D1%83%20%D0%B4%D0%BB%D1%8F,%D0%98%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%20%D0%BF%D0%BE%D0%B4%D1%85%D0%BE%D0%B4%D0%B8%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%BF%D0%B5%D1%88%D0%B5%D1%85%D0%BE%D0%B4%D0%BD%D1%8B%D1%85)).</p>
+<p><strong>Форми 250×250×40 мм:</strong> Плитка розміром 25×25×4 см також досить поширена для пішохідних доріжок (<a href="https://dnepr-beton.com.ua/ru/how-to-choose-tiles-for-summer-house#:~:text=%D0%9A%D0%B0%D0%BA%20%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D1%83%D1%8E%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D1%83%20%D0%B4%D0%BB%D1%8F,%D0%98%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%20%D0%BF%D0%BE%D0%B4%D1%85%D0%BE%D0%B4%D0%B8%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%BF%D0%B5%D1%88%D0%B5%D1%85%D0%BE%D0%B4%D0%BD%D1%8B%D1%85">Как выбрать тротуарную плитку для дачи, двора, террасы</a>). Можна знайти готові форми цього розміру в наборах. Наприклад, доступні <strong>набори по 10 форм 250×250×40 мм</strong> на маркетплейсах (Wildberries, Prom тощо) – часто з різними орнаментами («квітка», «паркет» і т.д.). Якщо потрібна проста квадратна фактура, варто пошукати <em>“форма тротуарної плитки 250х250х40”</em> у спеціалізованих магазинах. Деякі виробники виготовляють форми цього формату під замовлення. Важливо обирати форми з якісного пластику (ABS/ПВХ) товщиною ~2 мм, щоб вони служили довго і забезпечували точну геометрію плитки. Кількість форм – 600 шт (або менше з багаторазовим використанням). Для прискорення виробництва можна придбати, наприклад, 2 комплекти по 300 форм.</p>
+<p><strong>Рекомендовані товари (форми):</strong>  </p>
+<ul>
+<li><em>Верес-2007:</em> Набір <strong>форм 300×300 мм (25 шт)</strong> – приклад на сайті виробника (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B8%20300x300%20%D0%B4%D0%BB%D1%8F%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D0%BE%D1%97%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B8,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>) (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%E2%88%92%20%2B%20%D1%88%D1%82">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>).  </li>
+<li><em>Верес-2007:</em> Набір <strong>форм для плитки 300×300 мм (100 шт)</strong> – для великого обсягу виробництва (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B8%20300x300%20%D0%B4%D0%BB%D1%8F%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D0%BE%D1%97%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B8,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>).  </li>
+<li><em>Wildberries:</em> <strong>Форми 250×250×40 мм (набір 10 шт)</strong> – поліпропіленові форми для садових доріжок (товщина плитки 40 мм, розмір 25×25 см, матеріал ПП).  </li>
+<li><em>Prom.ua:</em> Різноманітні <strong>пластикові форми для тротуарної плитки</strong> (фільтр за розміром та кількістю в наборі) (<a href="https://prom.ua/ua/Plastikovye-formy-dlya-trotuarnoj-plitki.html#:~:text=%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0%201%20%D1%88%D1%82%20prom">Пластикові форми для тротуарної плитки | купити недорого на Prom | Україна</a>) – маркетплейс з пропозиціями від кількох виробників.</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Форми для бордюрів (поребриків)
+        </a>
+      </h2><p>Для обрамлення вимощеної ділянки знадобляться бордюрні камені, сумісні за висотою з плиткою. Найпоширеніший <strong>тротуарний бордюр – 500×210×45 мм</strong> (так званий <em>садовий бордюр</em> товщиною 45 мм) або посилений <em>пішохідний бордюр</em> <strong>500×210×70 мм</strong>. Виробник Верес-2007 пропонує пластикові форми цих типорозмірів. Наприклад, набір <strong>форм для бордюру 500×210×45 мм (8 шт)</strong> (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-bordyurivodostoki#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%BE%D1%80%D0%B4%D1%8E%D1%80%D1%83%20500x210x45%208%D1%88%D1%82,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. Бордюри. водостоки</a>) чи великий набір <strong>100 шт</strong> для масового виробництва (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-bordyurivodostoki#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%BE%D1%80%D0%B4%D1%8E%D1%80%D1%83%20500x210x45%20100%D1%88%D1%82,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. Бордюри. водостоки</a>). Такі форми дозволяють відливати стандартні прямі бордюри довжиною 50 см, висотою ~21 см. Товщина 45 мм підходить для пішохідних доріжок, а 70 мм – для проїзду легкового транспорту. Матеріал форм – ударостійкий ABS-пластик. Вартість однієї форми бордюру ~30–50 грн (залежно від розміру і обсягу замовлення).</p>
+<p><strong>Рекомендовані товари (бордюрні форми):</strong>  </p>
+<ul>
+<li><em>Верес-2007:</em> <strong>Форма для бордюру 500×210×45 мм</strong> – пластикові форми для садового бордюру (комплект 8 шт) (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-bordyurivodostoki#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%BE%D1%80%D0%B4%D1%8E%D1%80%D1%83%20500x210x45%208%D1%88%D1%82,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. Бордюри. водостоки</a>).  </li>
+<li><em>Верес-2007:</em> <strong>Форма для бордюру 500×210×70 мм</strong> – посилений бордюр (можна придбати наборами по 6, 8, 100 шт) (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-bordyurivodostoki#:~:text=%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%BE%D1%80%D0%B4%D1%8E%D1%80%D1%83%20500x210x70%20100%D1%88%D1%82,2007">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. Бордюри. водостоки</a>).  </li>
+<li><em>Budforma:</em> Форми для бордюрів стандартних розмірів (є каталоги 500×200×50 мм та ін.) – якісний ABS-пластик українського виробництва.  </li>
+<li><em>Prom.ua:</em> Різні <strong>форми бордюрів</strong> (пошук за запитом <em>“форма для бордюру тротуарного”</em>).</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Пігменти для бетону (бордовий, графіт, жовтий)
+        </a>
+      </h2><p>Для забарвлення тротуарної плитки використовують неорганічні залізоокисні пігменти, стійкі до лугу цементу, УФ-випромінювання та атмосферних впливів. Рекомендовані кольори та пігменти: </p>
+<ul>
+<li><p><strong>Бордовий колір:</strong> Досягається за допомогою червоного залізоокисного пігменту із відтінком бордо. Наприклад, <strong>Bayferrox 180 (Німеччина)</strong> – пігмент «червоний бордовий» для бетону (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Bayferrox%20180,25%20%D0%BA%D0%B3%20%E2%80%94%20%D0%BE%D0%BA%D1%81%D0%B8%D0%B4%20%D0%B7%D0%B0%D0%BB%D1%96%D0%B7%D0%B0">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>). Поставляється у мішках <del>25 кг; дозування ~2–5% від маси цементу ([Пігмент для бетону - Запоріжжя - &quot;ТОВ &quot;ТВП &quot;БОНУСТРЕЙД&quot;&quot;](<a href="https://bonustrade.com.ua/ua/p435297363-pigment-dlya-betona.html#">https://bonustrade.com.ua/ua/p435297363-pigment-dlya-betona.html#</a>:</del>:text=%D0%94%D0%BB%D1%8F%20%D1%84%D0%B0%D1%80%D0%B1%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%81%D1%83%D0%BC%D1%96%D1%88%D1%96%20%D0%BF%D0%BE%D1%82%D1%80%D1%96%D0%B1%D0%BD%D0%B0%20%D0%BA%D1%96%D0%BB%D1%8C%D0%BA%D1%96%D1%81%D1%82%D1%8C,%D0%B3%D1%96%D0%BF%D1%81%D0%BE%D0%B2%D0%B8%D1%85%20%D1%81%D1%83%D0%BC%D1%96%D1%88%D0%B5%D0%B9%20%D0%BD%D0%B0%20%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82)) (для насиченого кольору ближче до 5%). Інша опція – пігмент <strong>Tongchem TC190</strong> (Китай) бордовий 25 кг (<a href="https://epicentrk.ua/ua/shop/mplc-pigment-zalizookisnij-tongchem-tc190-suhij-25-kg-bordovij-1ee80ce0-ba64-6eb6-841e-45cac528d1d1.html#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B7%D0%B0%D0%BB%D1%96%D0%B7%D0%BE%D0%BE%D0%BA%D0%B8%D1%81%D0%BD%D0%B8%D0%B9%20Tongchem%20TC190%20%D1%81%D1%83%D1%85%D0%B8%D0%B9,%D0%B3%D1%96%D0%BF%D1%81%2C%20%D0%B2%D0%B0%D0%BF%D0%BD%D0%BE%2C%20%D0%B0%D1%81%D1%84%D0%B0%D0%BB%D1%8C%D1%82%2C%20%D0%B3%D0%BB%D0%B8%D0%BD%D0%B0%2C">Пігмент залізоокисний Tongchem TC190 сухий 25 кг Бордовий</a>). Для пробної партії можна купити менші фасовки – деякі магазини продають 1–5 кг.</p>
+</li>
+<li><p><strong>Графіт (темно-сірий колір):</strong> Найкраще використовувати чорний залізооксидний пігмент з «теплим» відтінком, щоб отримати графітовий тон. Наприклад, <strong>Bayferrox 330</strong> – пігмент чорний теплий (графітовий) (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Bayferrox%20330,25%20%D0%BA%D0%B3%20%E2%80%94%20%D0%BE%D0%BA%D1%81%D0%B8%D0%B4%20%D0%B7%D0%B0%D0%BB%D1%96%D0%B7%D0%B0">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>) або аналогічний <strong>Cathay Ferrotint F9330</strong> «чорний теплий (графітовий)» (<a href="https://vsvplus.com.ua/ua/p33175348-pigment-chernyj-tyoplyj.html?srsltid=AfmBOoqtEtd25swblrP6ug56p3APMJoGm4AOACpzUQjmD1I9it1rxE5-#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D1%87%D0%BE%D1%80%D0%BD%D0%B8%D0%B9%20%D1%82%D0%B5%D0%BF%D0%BB%D0%B8%D0%B9%20,28">Пігмент чорний теплий (графітовий) FERROTINT F 9330 ...</a>). Для сірого кольору пігмент дозують невеликими частками (1–3% цементу) – менша концентрація дасть сірий, більша – майже чорний. Зверніть увагу: для бетону не рекомендується застосовувати сажу чи органічні барвники, лише спеціальні пігменти, що не вигоряють.</p>
+</li>
+<li><p><strong>Жовтий колір:</strong> Здійснюється жовтим оксидом заліза. Приклад – <strong>Bayferrox 420</strong> (жовтий пігмент, Німеччина) (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>) або <strong>Cathay F 5300</strong> (інтенсивно-жовтий) (<a href="https://vsvplus.com.ua/ua/p33177622-pigment-zheltyj-intensivnyj.html?srsltid=AfmBOoplG_Vtno-SUm52Gwwp_9yUUuWSJxmIX9bFc_J1hqvQACbejo8C#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B6%D0%BE%D0%B2%D1%82%D0%B8%D0%B9%20%D1%96%D0%BD%D1%82%D0%B5%D0%BD%D1%81%D0%B8%D0%B2%D0%BD%D0%B8%D0%B9%20FERROTINT%20F,%D0%B4%D0%BE%D0%B2%D1%96%D1%87%D0%BD%D1%83%20%D0%B3%D0%B0%D1%80%D0%B0%D0%BD%D1%82%D1%96%D1%8E%20%D0%BD%D0%B0%20%D0%B7%D0%BC%D1%96%D0%BD%D1%83">Пігмент жовтий інтенсивний FERROTINT F 5300 залізоокисний ...</a>). Жовті пігменти досить яскраві; оптимальне дозування ~3% від цементу. Врахуйте, що на сіро-зеленому цементі жовтий виходить трохи приглушеним; для яскравості інколи використовують білий цемент у суміші.</p>
+</li>
+</ul>
+<p><strong>Рекомендовані товари (пігменти):</strong>  </p>
+<ul>
+<li><em>Bayferrox 180</em> – бордовий залізоокисний пігмент, 25 кг (виробництво LANXESS, Німеччина) (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Bayferrox%20180,25%20%D0%BA%D0%B3%20%E2%80%94%20%D0%BE%D0%BA%D1%81%D0%B8%D0%B4%20%D0%B7%D0%B0%D0%BB%D1%96%D0%B7%D0%B0">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>).  </li>
+<li><em>Bayferrox 330</em> – пігмент «чорний графітовий», 25 кг (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Bayferrox%20330,25%20%D0%BA%D0%B3%20%E2%80%94%20%D0%BE%D0%BA%D1%81%D0%B8%D0%B4%20%D0%B7%D0%B0%D0%BB%D1%96%D0%B7%D0%B0">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>).  </li>
+<li><em>Bayferrox 420</em> – пігмент жовтий, 20 кг (<a href="https://budewell.com.ua/pigmenty-dlya-betona/#:~:text=">Пігменти для бетону барвники Bayferrox — Купити в Україні</a>).  </li>
+<li><em>BauGut пігмент, жовтий 0.4 кг</em> – фасований пігмент для бетону (продається в Епіцентрі, зручний для невеликих обсягів) (<a href="https://epicentrk.ua/ua/shop/pigmenty-dlya-rastvora/#:~:text=%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%96%20epicentrk,C%D0%B0%D0%BC%D0%BE%D0%B2%D0%B8%D0%B2%D1%96%D0%B7">ᐉ Пігменти для бетону в Києві купити в Епіцентр К • Ціна в Україні</a>).  </li>
+<li><em>Cathay Ferrotint F9330</em> – чорний (графітовий) пігмент, 25 кг (Китай) (<a href="https://vsvplus.com.ua/ua/p33175348-pigment-chernyj-tyoplyj.html?srsltid=AfmBOoqtEtd25swblrP6ug56p3APMJoGm4AOACpzUQjmD1I9it1rxE5-#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D1%87%D0%BE%D1%80%D0%BD%D0%B8%D0%B9%20%D1%82%D0%B5%D0%BF%D0%BB%D0%B8%D0%B9%20,28">Пігмент чорний теплий (графітовий) FERROTINT F 9330 ...</a>).  </li>
+<li><em>Spectrum SY313</em> – жовтий пігмент (оксид заліза) 25 кг, доступний на Prom.ua (<a href="https://prom.ua/ua/Pigment-zhyoltyj-313.html#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B6%D0%BE%D0%B2%D1%82%D0%B8%D0%B9%20313%20,3%20375%20%E2%82%B4%2F%D1%83%D0%BF%D0%B0%D0%BA%D0%BE%D0%B2%D0%BA%D0%B0">Пігмент жовтий 313 | купити недорого на Prom | Україна</a>).</li>
+</ul>
+<p><strong>Примітка:</strong> Пігмент додається в сухому вигляді на стадії змішування цементу з наповнювачами (<a href="https://xtc.com.ua/ua/p206343826-pigment-zheltyj-1kg.html?srsltid=AfmBOor1sUqhM6_s8P5LmpY0UqvTTl6vK_p-16nhL98VFAyYslM_O5j1#:~:text=%D0%9F%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20%D0%B6%D0%BE%D0%B2%D1%82%D0%B8%D0%B9%2C%201%D0%BA%D0%B3%20,%D0%A2%D0%B8%D0%BF%D0%B8">Пігмент жовтий, 1кг - ТОВ "ХТС"</a>). Необхідно ретельно перемішати, щоб фарбник рівномірно розподілився. Максимальна концентрація – не більше <del>5–7% від маси цементу, інакше може знизитися міцність бетону. Для економії пігменту можна робити двошарові плитки: верхній шар (</del>1/3 товщини) з кольорового розчину, нижній – зі звичайного сірого (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D0%9C%D0%B0%D1%81%D1%83%20%D0%B7%D0%B0%D0%BB%D0%B8%D0%B2%D0%B0%D1%8E%D1%82%D1%8C%20%D0%BE%D0%B4%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2%D0%B8%D0%BC%20%D0%BA%D1%83%D0%BB%D0%B5%D1%8E,1%2F3%20%D0%B4%D0%BE%D0%B4%D0%B0%D0%B9%D1%82%D0%B5%20%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%B8%D0%B9%20%D1%81%D1%96%D1%80%D0%B8%D0%B9%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>).</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Пластифікатор для підвищення міцності та зручності заливки
+        </a>
+      </h2><p>Щоб бетонна суміш була рухливою при низькому водоцементному відношенні (для міцності та морозостійкості), обов’язково використовується <strong>пластифікатор</strong>. Рекомендуємо комплексні суперпластифікатори, спеціально розроблені для вібролиття тротуарної плитки. Вони підвищують пластичність суміші, знижують необхідну кількість води на <del>20% та можуть містити додаткові домішки (прискорювач тверднення, протиморозні добавки) ([Пластифікатор пришвидшувач До Бетону, 1л, для тротуарної плитки, 1,5% витрати](<a href="https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#">https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#</a>:</del>:text=,%D0%B2%D0%BE%D0%B4%D0%B8%20%D0%B2%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%96%20%D0%B0%D0%B1%D0%BE%20%D1%80%D0%BE%D0%B7%D1%87%D0%B8%D0%BD%D1%96)). </p>
+<p>Хороший вибір – <strong>Compact 70 Standard</strong> (5 л) від MultiChem. Це високоефективна добавка на основі модифікованих сульфатів, яка <strong>зменшує водопотребу на ~20%, підвищує рухливість суміші до П5</strong> (дуже рухлива) та забезпечує однорідність (<a href="https://rozetka.com.ua/ua/486298439/p486298439/#:~:text=%D0%9F%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Compact%2070%20Standard,%D1%80%D0%BE%D0%B1%D0%B8%D1%82%D1%8C%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D1%96%D0%B0%D0%BB%20%D1%96%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%BC%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D0%B0">Пластифікатор бетону тротуарної плитки Compact 70 Standard 5 л – фото, відгуки, характеристики в інтернет-магазині ROZETKA від продавця: Plast Style | Купити в Україні: Києві, Харкові, Дніпрі, Одесі, Запоріжжі, Львові</a>). Пластифікатор запобігає розшаруванню, покращує щільність бетону і, як наслідок, <strong>підвищує міцність та довговічність виробів</strong> (<a href="https://rozetka.com.ua/ua/486298439/p486298439/#:~:text=%D0%B7%D0%B0%D0%BF%D0%BE%D0%B1%D1%96%D0%B3%D0%B0%D1%94%20%D1%80%D0%BE%D0%B7%D1%88%D0%B0%D1%80%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8E%20%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D1%83%D1%94%20%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%87%D0%BD%D1%96%D1%81%D1%82%D1%8C,%D0%B1%D1%83%D0%B4%D1%96%D0%B2%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D1%96%2C%20%D0%B4%D0%B5%20%D0%B2%D0%B0%D0%B6%D0%BB%D0%B8%D0%B2%D0%B0%20%D0%B4%D0%BE%D0%B2%D0%B3%D0%BE%D0%B2%D1%96%D1%87%D0%BD%D1%96%D1%81%D1%82%D1%8C%20%D1%82%D0%B0">Пластифікатор бетону тротуарної плитки Compact 70 Standard 5 л – фото, відгуки, характеристики в інтернет-магазині ROZETKA від продавця: Plast Style | Купити в Україні: Києві, Харкові, Дніпрі, Одесі, Запоріжжі, Львові</a>). Витрата рідких суперпластифікаторів становить ~0,5–1% від маси цементу (тобто ~0,1–0,2 л на 10 кг цементу, точне дозування див. в інструкції). </p>
+<p>Інший варіант – <strong>комплексна добавка “До Бетону” 1 л (Верес)</strong>, що поєднує пластифікатор, прискорювач тверднення і протиморозний компонент. Витрата 1,5–3% від маси цементу (<a href="https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#:~:text=%D0%90%D1%80%D1%82%D0%B8%D0%BA%D1%83%D0%BB%3A%203030101">Пластифікатор пришвидшувач До Бетону, 1л, для тротуарної плитки, 1,5% витрати</a>). Ця добавка спеціально створена для тротуарної плитки, <strong>прискорює набір міцності та знижує кількість води в розчині</strong> (<a href="https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#:~:text=,%D0%B2%D0%BE%D0%B4%D0%B8%20%D0%B2%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%96%20%D0%B0%D0%B1%D0%BE%20%D1%80%D0%BE%D0%B7%D1%87%D0%B8%D0%BD%D1%96">Пластифікатор пришвидшувач До Бетону, 1л, для тротуарної плитки, 1,5% витрати</a>). Після додавання пластифікатора бетон стає легшим у укладанні й ущільненні, поверхня виходить гладкішою, зменшується ризик виникнення тріщин та висолів.</p>
+<p><strong>Рекомендовані товари (пластифікатори):</strong>  </p>
+<ul>
+<li><em>MultiChem Compact 70 Standard</em> – пластифікатор для тротуарної плитки, каністра 5 л (<a href="https://rozetka.com.ua/ua/486298439/p486298439/#:~:text=%D0%9F%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Compact%2070%20Standard,%D1%80%D0%BE%D0%B1%D0%B8%D1%82%D1%8C%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D1%96%D0%B0%D0%BB%20%D1%96%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%BC%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D0%B0">Пластифікатор бетону тротуарної плитки Compact 70 Standard 5 л – фото, відгуки, характеристики в інтернет-магазині ROZETKA від продавця: Plast Style | Купити в Україні: Києві, Харкові, Дніпрі, Одесі, Запоріжжі, Львові</a>) (дозволяє отримати міцний бетон із В/Ц ~0,4).  </li>
+<li><em>Верес “До Бетону” 1 л</em> – універсальна добавка (пластифікатор + прискорювач), для кольорового бетону (<a href="https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#:~:text=%D0%90%D1%80%D1%82%D0%B8%D0%BA%D1%83%D0%BB%3A%203030101">Пластифікатор пришвидшувач До Бетону, 1л, для тротуарної плитки, 1,5% витрати</a>) (<a href="https://trotuarna-plytka.com.ua/products/kompleksna-dobavka-do-betonu_1l?srsltid=AfmBOoophBvvKWgtR0pZFx05PTQFz6cl7GBn4Q8uHW4OTylRLpnyTNq5#:~:text=,%D0%B2%D0%BE%D0%B4%D0%B8%20%D0%B2%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%96%20%D0%B0%D0%B1%D0%BE%20%D1%80%D0%BE%D0%B7%D1%87%D0%B8%D0%BD%D1%96">Пластифікатор пришвидшувач До Бетону, 1л, для тротуарної плитки, 1,5% витрати</a>).  </li>
+<li><em>Sika Plast 3</em> – суперпластифікатор від Sika, 1 л (містить компоненти проти висолів; дозування ~0,8% цементу).  </li>
+<li><em>Polychem Super</em> – пластифікатор для бруківки, 5 л (уточнювати дозування, орієнтовно 0,5–1,0% цементу).</li>
+</ul>
+<p>Перед застосуванням пластифікатора уважно прочитайте інструкцію виробника. Більшість рідких добавок додаються разом із водою замішування або попередньо розчиняються у частині води.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Змивач для очищення залишків бетону з форм
+        </a>
+      </h2><p>Після багаторазового використання форм на їхніх стінках неминуче накопичуються залишки цементного розчину та пігменту, що може погіршити якість поверхні наступних виробів. Для легкої очистки форм рекомендується спеціальний <strong>очищувач для бетонних форм</strong> (засіб для розчинення цементного каменю). Такий продукт зазвичай містить органічні кислоти та ПАР, які розм’якшують і розчиняють залишки цементу.</p>
+<p>Наприклад, <strong>Очищувач будівельних форм ЄС-192</strong> – концентрований розчинник бетону українського виробництва. Він <strong>застосовується для очищення форм при виготовленні тротуарної плитки, опалубки, видалення залишків цементних чи вапняних розчинів</strong> (<a href="https://primer.com.ua/ochistitel-form#:~:text=%D0%BF%D1%96%D0%B4%20%D0%BF%D0%BE%D0%B2%D0%B5%D1%80%D1%85%D0%BD%D1%8E%20%D0%BC%D1%96%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D1%85%20%D0%B7%D0%B0%D0%B1%D1%80%D1%83%D0%B4%D0%BD%D1%8E%D0%B2%D0%B0%D1%87%D1%96%D0%B2,%D0%B3%D0%BB%D0%B0%D0%B7%D1%83%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0%20%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D1%96%D1%87%D0%BD%D0%B0%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B0%20%D0%B0%D0%B1%D0%BE%20%D0%B0%D0%BB%D1%8E%D0%BC%D1%96%D0%BD%D1%96%D0%B9">Розчинник для бетону концентрований очищувач будівельних форм ЄС-192</a>). Продається фасовками 1 л (100 грн) або 5 л (≈475 грн) (<a href="https://primer.com.ua/ochistitel-form#:~:text=,%D0%9A%D1%83%D0%BF%D0%B8%D1%82%D0%B8">Розчинник для бетону концентрований очищувач будівельних форм ЄС-192</a>) (<a href="https://primer.com.ua/ochistitel-form#:~:text=,%D0%9A%D1%83%D0%BF%D0%B8%D1%82%D0%B8">Розчинник для бетону концентрований очищувач будівельних форм ЄС-192</a>). Застосування: концентрат розводять водою до 5–10% кислоти, наносять пензлем на поверхню форми, залишають <del>5–10 хв, після чого відмивають щіткою і промивають чистою водою ([Форми для бетону: як їх очистити - budprom.in.ua](<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#">https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#</a>:</del>:text=%D0%92%D1%81%D1%96%20%D0%B7%D0%B0%D0%BB%D0%B8%D1%88%D0%BA%D0%B8%2C%20%D1%8F%D0%BA%D1%96%20%D0%BD%D0%B5%20%D0%B2%D0%B4%D0%B0%D0%BB%D0%BE%D1%81%D1%8F,%D0%B2%D0%B8%D0%BA%D0%BE%D0%BD%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D0%B2%D1%81%D1%96%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97%20%D0%BD%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%BC%20%D1%87%D0%B8%D0%BD%D0%BE%D0%BC)). Очищувач ЄС-192 дозволяє швидко відновити чистоту форм, <strong>може також використовуватися для легкого травлення бетону</strong>, але не придатний для мармурових чи алюмінієвих поверхонь (кислота може їх пошкодити) (<a href="https://primer.com.ua/ochistitel-form#:~:text=%D0%BF%D1%96%D0%B4%20%D0%BF%D0%BE%D0%B2%D0%B5%D1%80%D1%85%D0%BD%D1%8E%20%D0%BC%D1%96%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D1%85%20%D0%B7%D0%B0%D0%B1%D1%80%D1%83%D0%B4%D0%BD%D1%8E%D0%B2%D0%B0%D1%87%D1%96%D0%B2,%D0%B3%D0%BB%D0%B0%D0%B7%D1%83%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0%20%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D1%96%D1%87%D0%BD%D0%B0%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B0%20%D0%B0%D0%B1%D0%BE%20%D0%B0%D0%BB%D1%8E%D0%BC%D1%96%D0%BD%D1%96%D0%B9">Розчинник для бетону концентрований очищувач будівельних форм ЄС-192</a>).</p>
+<p>Альтернативою готовому змивачу є розчин соляної кислоти 5–10% у воді, як радять деякі майстри (<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#:~:text=%D0%92%D1%81%D1%96%20%D0%B7%D0%B0%D0%BB%D0%B8%D1%88%D0%BA%D0%B8%2C%20%D1%8F%D0%BA%D1%96%20%D0%BD%D0%B5%20%D0%B2%D0%B4%D0%B0%D0%BB%D0%BE%D1%81%D1%8F,%D0%B2%D0%B8%D0%BA%D0%BE%D0%BD%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D0%B2%D1%81%D1%96%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97%20%D0%BD%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%BC%20%D1%87%D0%B8%D0%BD%D0%BE%D0%BC">Форми для бетону: як їх очистити - budprom.in.ua</a>). Проте промислові очищувачі безпечніші в використанні, менш токсичні і містять інгібітори корозії. Працюючи з будь-яким змивачем цементу, <strong>необхідно дотримуватись техніки безпеки</strong>: гумові рукавички, захист очей і дихання, провітрюване приміщення (<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#:~:text=%D0%9F%D1%96%D1%81%D0%BB%D1%8F%20%D1%86%D1%8C%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BE%D1%82%D1%80%D1%96%D0%B1%D0%BD%D0%BE%20%D0%BE%D0%B7%D0%B1%D1%80%D0%BE%D1%97%D1%82%D0%B8%D1%81%D1%8F%20%D0%B2%D1%81%D1%96%D0%BC%D0%B0,%D0%BC%D0%BE%D0%B3%D0%BB%D0%B0%20%D0%B4%D1%96%D1%81%D1%82%D0%B0%D1%82%D0%B8%20%D0%B2%D0%B5%D1%81%D1%8C%20%D0%BA%D1%83%D1%82%20%D1%84%D0%BE%D1%80%D0%BC%D0%B8">Форми для бетону: як їх очистити - budprom.in.ua</a>).</p>
+<p><strong>Рекомендовані товари (очищувачі форм):</strong>  </p>
+<ul>
+<li><em>Primer ЄС-192</em> – концентрат-змивач цементу, 1 л/5 л (<a href="https://primer.com.ua/ochistitel-form#:~:text=,%D0%9A%D1%83%D0%BF%D0%B8%D1%82%D0%B8">Розчинник для бетону концентрований очищувач будівельних форм ЄС-192</a>) (для пластикових форм, опалубок; розвести водою 1:1 або 1:2 перед застосуванням).  </li>
+<li><em>Budprom Мийний засіб для форм</em> – спеціальний миючий розчин для ABS-форм (в асортименті будмаркетів, аналогічний до ЄС-192).  </li>
+<li><em>Karcher RM-751</em> – кислотний очисник бетону (імпортний, дорожчий; 10 л каністра, ефективно видаляє цементні нашарування).  </li>
+<li><em>Народний метод:</em> 5% розчин соляної кислоти + вода – бюджетний спосіб очищення (обережно, кислота!). Після використання форми промити та висушити перед наступним литтям.</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Рецептура бетону для тротуарної плитки
+        </a>
+      </h2><p>Для тротуарної плитки критично важлива <strong>міцність, низьке водопоглинання та морозостійкість</strong>. Оптимальний склад – дрібнозернистий бетон на основі портландцементу з якісним наповнювачем і пластифікатором. Орієнтовна пропорція (за масою сухих матеріалів) така (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%2A%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%E2%80%93%2023,%D0%BF%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20700%20%D0%BC%D0%BB%2F%D0%BC2">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>):</p>
+<ul>
+<li><strong>Цемент (Портландцемент М500)</strong> – ~23%  </li>
+<li><strong>Пісок</strong> (річковий, просіяний, модуль крупності ≤2 мм) – ~20%  </li>
+<li><strong>Щебінь гранітний</strong> дрібний (фракція 3–5 мм) – ~57%  </li>
+<li><strong>Вода</strong> – ~8–10% (≈40% від маси цементу)  </li>
+<li><strong>Пластифікатор</strong> – <del>0,5% від маси цементу ([Готуємо суміш для тротуарної плитки - ПП Будпостач](<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#">https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#</a>:</del>:text=%2A%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%E2%80%93%2023,%D0%BF%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20700%20%D0%BC%D0%BB%2F%D0%BC2))  </li>
+<li><strong>Пігмент</strong> – до 5% від маси цементу (за потреби кольору)</li>
+</ul>
+<p>Ці співвідношення забезпечують міцний важкий бетон класу приблизно В30 (М400) при В/Ц ≈0.4. Наприклад, на <strong>1 м³ бетонної суміші</strong> потрібно <del>490 кг цементу, 420 кг піску, 1200 кг щебеню, ~200 л води і ~2–3 л пластифікатора. У результаті отримуємо щільний бетон (</del>2300 кг/м³). Така суміш матиме <strong>низьке водопоглинання та високу морозостійкість F200–F300</strong>, за умови правильного тверднення.</p>
+<p> (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D1%81%D0%BF%D1%96%D0%B2%D0%B2%D1%96%D0%B4%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%BD%D1%96%20%D0%B7%20%D0%BE%D0%B1%D1%81%D1%8F%D0%B3%D0%BE%D0%BC%20%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%BE%D0%B2%D1%83%D0%B2%D0%B0%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D1%83,%D0%B2%D0%BE%D0%B4%D0%B8%20%D1%96%20110%20%D0%B3%20%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%D0%B0">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>)Для прикладу, на 1 м² плитки товщиною <del>45 мм потрібно ~22 кг цементу, 19 кг піску, 54 кг щебеню, ~9 л води і ~0,11 кг пластифікатора ([Готуємо суміш для тротуарної плитки - ПП Будпостач](<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#">https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#</a>:</del>:text=%D1%81%D0%BF%D1%96%D0%B2%D0%B2%D1%96%D0%B4%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%BD%D1%96%20%D0%B7%20%D0%BE%D0%B1%D1%81%D1%8F%D0%B3%D0%BE%D0%BC%20%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%BE%D0%B2%D1%83%D0%B2%D0%B0%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D1%83,%D0%B2%D0%BE%D0%B4%D0%B8%20%D1%96%20110%20%D0%B3%20%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%D0%B0)). Це підтверджує наведені вище пропорції. <strong>Цемент</strong> рекомендується брати не нижче М500 (CEM I 42.5R) – він дає кращу міцність і яскравіший колір пігментів (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=1,%D0%B7%20%D0%BC%D0%B0%D1%80%D0%BA%D0%BE%D1%8E%20%D0%BC%D1%96%D1%86%D0%BD%D0%BE%D1%81%D1%82%D1%96%20%D0%9C400%E2%80%93500">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>) (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=,5%20%D0%BC%D0%BC%3B%20%2A%20%D0%B4%D0%B8%D1%81%D1%82%D0%B8%D0%BB%D1%8C%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0%20%D0%B2%D0%BE%D0%B4%D0%B0">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). За можливості, використовуйте білий цемент для світлих кольорів плитки (жовтий, беж) у співвідношенні з сірим 1:1 або 100% білий – це підвищить насиченість кольору.</p>
+<p><strong>Наповнювачі:</strong> Пісок – лише чистий, без глини (глина знижує міцність і викликає висоли). Щебінь – гранвідсів або дрібний граніт 2–5 мм; використання щебеню значно підвищує міцність і зменшує усадку, хоча деякі домашні рецепти обходяться одним піском. Граніт має високу міцність і стійкість до морозу, тому бажаний як крупний заповнювач (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=,5%20%D0%BC%D0%BC%3B%20%2A%20%D0%B4%D0%B8%D1%81%D1%82%D0%B8%D0%BB%D1%8C%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0%20%D0%B2%D0%BE%D0%B4%D0%B0">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). <strong>Відсів</strong> (кам’яна крихта) теж підходить. Співвідношення пісок:щебінь ~1:2, що забезпечує щільне укладання зерен.</p>
+<p><strong>Водоцементне відношення (В/Ц):</strong> близько 0.4. Це досить жорстка (малорухлива) суміш, але саме вона дає високу марку бетону і мінімальну пористість. Пластифікатор обов’язковий для зручності роботи з такою сумішшю (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=2,%D0%9E%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B7%D1%87%D0%B8%D0%BD%D1%83%20%D0%BF%D0%B5%D1%80%D0%B5%D0%B4%D0%B1%D0%B0%D1%87%D0%B0%D1%94%20%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Не перевищуйте норму води – занадто рідкий розчин легко укладається, але після тверднення буде крихким і менш морозостійким.</p>
+<p><strong>Добавки та фібра:</strong> Окрім пластифікатора, можна додати <em>мікрофібру (поліпропіленову)</em> <del>0,6–0,9 кг на 1 м³. Фібра попередить утворення мікротріщин при висиханні і підвищить ударну міцність поверхні. Якщо планується експлуатація при негативних температурах і можливе промерзання, варто забезпечити <strong>повітровтягування</strong> (</del>3–5% повітря) – спеціальні повітровтягувальні добавки або використання мікропіноутворювача. Це підвищить морозостійкість, створивши резервні пори для розширення льоду в структурі бетону (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=1,%D0%B7%D1%80%D0%BE%D0%B1%D0%B8%D1%82%D0%B8%20%D0%B2%D0%B4%D0%BE%D0%BC%D0%B0%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D1%83%20%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%BE%D0%BC%20%D0%BF%D1%80%D0%B5%D1%81%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). </p>
+<p>Загалом наведена рецептура відповідає технології вібролиття: підвищений вміст цементу і пластифікатора (порівняно з пресуванням) компенсує трохи нижчу щільність литого бетону (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=match%20at%20L188%202,%D0%9E%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B7%D1%87%D0%B8%D0%BD%D1%83%20%D0%BF%D0%B5%D1%80%D0%B5%D0%B4%D0%B1%D0%B0%D1%87%D0%B0%D1%94%20%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Таким чином отримуємо довговічну плитку, стійку до стирання та циклів замерзання/відтавання.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Технологія виготовлення плитки (заміс, заливка, ущільнення, сушка)
+        </a>
+      </h2><p><strong>1. Підготовка матеріалів та обладнання.</strong> Переконайтеся, що все необхідне під рукою: бетономішалка або будівельний міксер, форми (чисті і змащені), вібростіл або інший спосіб віброущільнення, інструменти для дозування компонентів, захисні засоби (рукавиці, маска). Форми перед заливкою <strong>змастіть тонким шаром олії</strong> (відпрацьованого машинного або спеціального мастила для форм) – це полегшить виймання виробів і збереже глянець на поверхні (<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#:~:text=%D0%9D%D1%83%20%D1%96%20%D1%82%D1%80%D0%B5%D1%82%D1%94%2C%20%D0%B1%D0%B0%D0%B3%D0%B0%D1%82%D0%BE%20%D1%84%D0%B0%D1%85%D1%96%D0%B2%D1%86%D1%96%D0%B2%2C,%D1%84%D0%BE%D1%80%D0%BC%D0%B8%20%D0%BF%D0%B5%D1%80%D0%B5%D0%B4%20%D0%B7%D0%B0%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%D0%BC%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BD%D0%BE%D1%97%20%D1%81%D1%83%D0%BC%D1%96%D1%88%D1%96">Форми для бетону: як їх очистити - budprom.in.ua</a>) (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D0%97%D0%B0%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%83%20%D1%84%D0%BE%D1%80%D0%BC%D0%B8">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Надлишки мастила витріть, щоб не було патьоків на плитці.</p>
+<p><strong>2. Замішування бетонної суміші.</strong> Найкраще замішувати механічно – у бетонозмішувачі або змусити будівельним міксером, оскільки вручну важко досягти однорідності (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D0%A1%D1%83%D0%BC%D1%96%D1%88%20%D0%B4%D0%BB%D1%8F%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D0%B8%20%D1%82%D1%80%D0%BE%D1%82%D1%83%D0%B0%D1%80%D0%BD%D0%BE%D1%97%3A%20%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96,%D0%B2%D0%B8%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%81%D0%B2%D0%BE%D1%97%D0%BC%D0%B8%20%D1%80%D1%83%D0%BA%D0%B0%D0%BC%D0%B8">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Спочатку <strong>завантажте всі сухі компоненти</strong>: пісок, щебінь (відсів) і цемент. Перемішайте їх <del>1–2 хвилини всуху, щоб наповнювач рівномірно покрився цементом ([Готуємо суміш для тротуарної плитки - ПП Будпостач](<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#">https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#</a>:</del>:text=%D0%A1%D0%BF%D0%BE%D1%87%D0%B0%D1%82%D0%BA%D1%83%20%D0%B2%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%88%D0%B0%D0%BB%D1%86%D1%96%20%D0%B3%D0%BE%D1%82%D1%83%D1%94%D1%82%D1%8C%D1%81%D1%8F%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%BD%D0%BE,%D0%BF%D1%96%D0%B4%20%D1%82%D0%B8%D1%81%D0%BA%D0%BE%D0%BC%20%D0%B7%D0%B0%D0%BF%D1%80%D0%B5%D1%81%D0%BE%D0%B2%D1%83%D1%8E%D1%82%D1%8C%20%D1%83%20%D1%84%D0%BE%D1%80%D0%BC%D0%B8)). На цьому етапі можна додати порошковий пігмент і фібру – ретельно перемішуйте, поки суміш не стане рівномірного кольору. Далі додається пластифікатор (якщо він порошковий – всуху, рідкий – розчиненим у воді). </p>
+<p>Тепер <strong>порціями вливайте воду</strong> (бажано холодну, чисту) при безперервному перемішуванні (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D0%9D%D0%B0%D1%81%D1%82%D1%83%D0%BF%D0%BD%D0%B8%D0%B9%20%D0%B5%D1%82%D0%B0%D0%BF%20%E2%80%93%20%D0%B4%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%B2,%D1%81%D1%83%D0%BC%D1%96%D1%88%20%D0%B2%D0%BE%D0%B4%D0%B8">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Воду додають поступово, щоб не перелити: остаточна консистенція повинна бути як у густої сметани – пластична, але не рідка. Правильно замішаний розчин <strong>“тримається купи” на кельмі, не розтікається, але й не кришиться при струшуванні</strong> (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%D0%A1%D0%BF%D0%BE%D1%87%D0%B0%D1%82%D0%BA%D1%83%20%D0%BF%D0%BE%D1%82%D1%80%D1%96%D0%B1%D0%BD%D0%BE%20%D1%80%D0%B5%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%20%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D1%96%D1%88%D0%B0%D1%82%D0%B8%20%D0%BF%D1%96%D1%81%D0%BE%D0%BA,%D1%80%D0%BE%D0%B7%D1%82%D1%96%D0%BA%D0%B0%D1%82%D0%B8%D1%81%D1%8F%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BA%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%96%20%D0%BF%D0%BE%20%D1%84%D0%BE%D1%80%D0%BC%D1%96">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Якщо суміш занадто густа і розсипчаста – додайте трохи води з пластифікатором; якщо занадто рідка – підсипте сухих компонентів у тій же пропорції. Надмірно довго вимішувати не слід (достатньо 3–5 хвилин після додавання води), щоб не «перемолоти» наповнювач.</p>
+<p> (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>) <em>Додавання сухого пігменту в бетонну суміш.</em> На фото показано процес замішування бетонного розчину з додаванням кольорового пігменту (руда оксидна фарба) у ручній бетономішалці (тачці). Пігмент слід вводити поступово і рівномірно перемішувати, щоб весь бетон набув однорідного кольору.</p>
+<p><strong>3. Заливка у форми.</strong> Готову суміш бажано розлити у форми протягом 30–40 хвилин (поки цемент не почав схоплюватись). Форми виставляються на рівну поверхню, найкраще – на <strong>вібростіл</strong>. Заливайте бетон невеликими шарами. Якщо плитка кольорова двошарова – спершу залийте <del>1/3 висоти кольоровим розчином (цемент+пісок+пігмент) ([Готуємо суміш для тротуарної плитки - ПП Будпостач](<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#">https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#</a>:</del>:text=%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%82%D0%BA%D0%BE%D1%8E)), потім долийте до верху сірим розчином. Якщо однорідна – заповнюйте форму одразу, намагаючись укладати суміш рівномірно без пустот. Кожну форму заповніть “з гіркою”, потім <strong>увімкніть вібрацію</strong>. При вібруванні бетон осяде, виходитимуть бульбашки повітря. Додавайте ще розчин у форму до потрібного рівня і знову провібруйте. Загалом вібрація триває ~3–5 хвилин, доки на поверхні не припинять з’являтися повітряні пори. Поверхню розрівняйте шпателем. Якщо немає вібростола, можна ущільнити суміш ручним простукуванням – постукайте по боках форм гумовим молотком або злегка трусіть їх, але це менш ефективно.</p>
+<p><strong>4. Первинне тверднення і виймання з форм.</strong> Заповнені форми залишають на рівній поверхні для тверднення. <strong>Не рухайте та не переміщуйте форми в перші години</strong> – бетон повинен схопитися без деформацій. Бажано накрити форми плівкою, щоб уповільнити випаровування води. При температурі +20 °C початок тверднення (<del>50% міцності) настає через 24 години. <strong>Виймайте плитки з форм не раніше ніж через 1–2 доби</strong> (залежно від температури та наявності прискорювачів) – передчасне виймання може призвести до їх руйнування ([Форми для бетону: як їх очистити - budprom.in.ua](<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#">https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#</a>:</del>:text=%D0%94%D1%80%D1%83%D0%B3%D0%B5%2C%20%D0%BF%D0%B0%D0%BC%27%D1%8F%D1%82%D0%B0%D0%B9%D1%82%D0%B5%2C%20%D1%89%D0%BE%20%D0%BA%D0%BE%D0%B6%D0%B5%D0%BD%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BD%D0%B8%D0%B9,%D0%BF%D0%BE%D1%82%D1%80%D1%96%D0%B1%D0%BD%D0%BE%20%D0%BD%D0%B0%D0%BC%D0%B0%D0%B3%D0%B0%D1%82%D0%B8%D1%81%D1%8F%20%D1%80%D0%B0%D0%BD%D1%96%D1%88%D0%B5%20%E2%80%9C%D0%B2%D0%B8%D0%B1%D0%B8%D1%82%D0%B8%E2%80%9D%20%D0%BF%D0%BB%D0%B8%D1%82%D0%BA%D1%83)). Перевірити готовність можна легким натисканням на край виробу – якщо не прогинається і не кришиться, можна демонтувати. Переверніть форму догори дном і обережно викрутіть її, або злегка постукайте, щоб плитка випала. ABS-форми зазвичай гнучкі, і виріб відстає без проблем (за умови змащення). Якщо якась плитка не виходить, не застосовуйте надмірну силу – краще дайте їй ще затвердіти.</p>
+<p><strong>5. Догляд за бетоном (сушіння/вологе твердження).</strong> Щойно витягнуті з форм плитки ще не набрали достатньо міцності і потребують догляду. Існує два методи: <strong>природне сушіння</strong> на повітрі або <strong>вологе твердження</strong>. Найкраще – поєднати обидва: перші 3–7 днів підтримувати бетон у вологому стані, а далі дати йому висохнути (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>) (<a href="https://beton.kovalska.com/concrete_care/#:~:text=%D0%92%D0%BE%D0%BB%D0%BE%D0%B3%D1%96%D1%81%D1%82%D1%8C,%D0%9F%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D1%83%D1%8E%D1%82%D1%8C%20%D0%BD%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%B9%20%D1%80%D1%96%D0%B2%D0%B5%D0%BD%D1%8C%20%D0%B2%D0%BE%D0%BB%D0%BE%D0%B3%D0%BE%D1%81%D1%82%D1%96">Догляд за бетоном | Kovalska</a>). Викладіть плитки горизонтально на рівну поверхню. <strong>Не піддавайте їх дії сонця та вітру у перші дні</strong> – це може призвести до швидкого висихання і утворення тріщин (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>). Рекомендується накрити вироби вологою мішковиною або плівкою, щоб волога з бетонуу випаровувалася повільно (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>). Через 3–4 години після виймання почніть зволожувати плитку – періодично (кілька разів на добу) кропіть водою протягом перших 3–7 днів (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>). При температурі &gt;+25 °C зволоження починають раніше (вже через 2–3 години) (<a href="https://budiak.kiev.ua/index.php?route=extension/module/free_downloads/download&did=43#:~:text=%D0%9D%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%20%D0%B7%D0%B0%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BD%D0%BE%D0%BC%20%D1%83,3%20%D0%B3%D0%BE%D0%B4%D0%B8%D0%BD%D0%B8%20%D0%BF%D1%96%D1%81%D0%BB%D1%8F">Належний догляд за бетонном у перші дні після заливання - budiak</a>). Такий <strong>“вологий догляд”</strong> дозволяє бетону повніше гідратуватися і набрати проектну міцність. Після тижня витримування у вологому стані, плитку можна відкрити і дати їй підсихати на повітрі.</p>
+<p>Загальний цикл тверднення бетону – 28 діб (при 20 °C). Бажано, щоб <strong>перші 28 днів плитка зберігалася</strong> перед укладанням – за цей час вона набере 100% міцності і морозостійкості. Мінімум через 7–10 днів вироби вже можна обережно транспортувати або монтувати на доріжку (набирають ~70% міцності). Якщо виробництво йде в холодну погоду (&lt; +5 °C), забезпечте прогрів або занесіть плитки в приміщення для тверднення. Не допускайте їх промерзання, доки бетон не набере хоча б 50% міцності.</p>
+<p><strong>6. Зберігання готової плитки.</strong> Після висихання плитку бажано складувати в сухому місці, захищеному від опадів. Можна складати штабелями (стопками), перекладаючи ряди дошками або картоном, щоб не пошкодити поверхню. За правильного виготовлення та догляду ваша тротуарна плитка буде мати щільну структуру без тріщин та висолів, а бордюри – достатню міцність, щоб служити багато років.</p>
+<h2 id="-400-30030050-600-25025040-">
+        <a href="#-400-30030050-600-25025040-" class="header-anchor">
+          Розрахунок матеріалів для 400 шт 300×300×50 мм і 600 шт 250×250×40 мм
+        </a>
+      </h2><p>На основі об’ємів плитки підрахуємо потребу в основних матеріалах. Один виріб 300×300×50 мм має об’єм 0,3×0,3×0,05 = <strong>0,0045 м³</strong>, 400 шт – це <strong>1,8 м³</strong> бетону. Плитка 250×250×40 мм: об’єм 0,25×0,25×0,04 = <strong>0,0025 м³</strong>, 600 шт – <strong>1,5 м³</strong> бетону. Разом знадобиться ~<strong>3,3 м³</strong> бетонної суміші. Нижче наведено орієнтовний розрахунок компонентів для кожного типу (виходячи з рецептури вищезазначеної):</p>
+<table>
+<thead>
+<tr>
+<th><strong>Матеріал</strong></th>
+<th><strong>400 плит 30×30×5 см</strong> (1,8 м³)</th>
+<th><strong>600 плит 25×25×4 см</strong> (1,5 м³)</th>
+<th><strong>Разом, 1000 плит</strong> (3,3 м³)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Цемент М500</strong></td>
+<td>~882 кг (≈18 мішків по 50 кг)</td>
+<td>~735 кг (≈15 мішків)</td>
+<td><strong>≈1617 кг</strong> (≈33 мішки)</td>
+</tr>
+<tr>
+<td><strong>Пісок річковий</strong></td>
+<td>~756 кг</td>
+<td>~630 кг</td>
+<td><strong>≈1386 кг</strong></td>
+</tr>
+<tr>
+<td><strong>Щебінь 3–5 мм</strong></td>
+<td>~2160 кг</td>
+<td>~1800 кг</td>
+<td><strong>≈3960 кг</strong></td>
+</tr>
+<tr>
+<td><strong>Вода</strong></td>
+<td>~360 л</td>
+<td>~300 л</td>
+<td><strong>≈660 л</strong></td>
+</tr>
+<tr>
+<td><strong>Пластифікатор</strong></td>
+<td>~4,4 кг (≈4,4 л)</td>
+<td>~3,6 кг (≈3,6 л)</td>
+<td><strong>~8,0 кг</strong> (≈8 л)</td>
+</tr>
+<tr>
+<td><strong>Пігмент бордовий</strong></td>
+<td><em>≈44 кг</em> (при дозуванні 5% від цементу)</td>
+<td><em>≈37 кг</em> (5% від цементу)</td>
+<td><em>≈81 кг</em> (на всю партію)</td>
+</tr>
+<tr>
+<td><strong>Пігмент графітовий</strong></td>
+<td><em>≈26 кг</em> (3% від цементу)</td>
+<td><em>≈22 кг</em> (3% від цементу)</td>
+<td><em>≈48 кг</em></td>
+</tr>
+<tr>
+<td><strong>Пігмент жовтий</strong></td>
+<td><em>≈26 кг</em> (3% від цементу)</td>
+<td><em>≈22 кг</em> (3% від цементу)</td>
+<td><em>≈48 кг</em></td>
+</tr>
+<tr>
+<td><strong>Фібра поліпропіл.</strong></td>
+<td>~1,1 кг (0,6 кг/м³)</td>
+<td>~0,9 кг (0,6 кг/м³)</td>
+<td><strong>~2,0 кг</strong></td>
+</tr>
+</tbody></table>
+<p><em>Примітки:</em> Пігмент вказано орієнтовно для кожного кольору, фактична потреба залежить від бажаної інтенсивності кольору і способу фарбування (повна маса чи тільки верхній шар). Можна закупити, наприклад, по 25 кг кожного пігменту (бордовий, графітовий, жовтий) і цього вистачить з запасом. Пластифікатор продається літрами: знадобиться <del>8 л, тобто 2 каністри по 5 л (залишок). Фібра фасується по 0,9 або 1 кг – достатньо 2 пачки. Щебінь 3–5 мм можна замінити гранітним відсівом 2–5 мм; піску потрібно на 10–15% більше, якщо без щебеню. Вода – вказана приблизна, регулюється по консистенції. Отриману плитку (площа ~\</del>60 м² сумарно) можна укладати на ~120 м бордюру (якщо по периметру майданчика). Для бордюрів 50×20×(4–7) см знадобиться додатково цементу ~150 кг, наповнювачів ~600 кг на кожні 100 шт бордюрів (це окремо, якщо плануєте лити бордюри). </p>
+<p><strong>Джерела розрахунку:</strong> Орієнтовні витрати цементу, піску, щебеню підтверджуються рекомендаціями (23% цементу, 77% заповнювачів) (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%2A%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%E2%80%93%2023,%D0%BF%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20700%20%D0%BC%D0%BB%2F%D0%BC2">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>). Співвідношення води та пластифікатора – згідно з вимогами до рухливості суміші (<a href="https://rozetka.com.ua/ua/486298439/p486298439/#:~:text=%D0%9F%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Compact%2070%20Standard,%D1%80%D0%BE%D0%B1%D0%B8%D1%82%D1%8C%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D1%96%D0%B0%D0%BB%20%D1%96%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%BC%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D0%B0">Пластифікатор бетону тротуарної плитки Compact 70 Standard 5 л – фото, відгуки, характеристики в інтернет-магазині ROZETKA від продавця: Plast Style | Купити в Україні: Києві, Харкові, Дніпрі, Одесі, Запоріжжі, Львові</a>). Дозування пігментів – за порадою виробників (2–5% цементу) (<a href="https://bonustrade.com.ua/ua/p435297363-pigment-dlya-betona.html#:~:text=%D0%94%D0%BB%D1%8F%20%D1%84%D0%B0%D1%80%D0%B1%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%81%D1%83%D0%BC%D1%96%D1%88%D1%96%20%D0%BF%D0%BE%D1%82%D1%80%D1%96%D0%B1%D0%BD%D0%B0%20%D0%BA%D1%96%D0%BB%D1%8C%D0%BA%D1%96%D1%81%D1%82%D1%8C,%D0%B3%D1%96%D0%BF%D1%81%D0%BE%D0%B2%D0%B8%D1%85%20%D1%81%D1%83%D0%BC%D1%96%D1%88%D0%B5%D0%B9%20%D0%BD%D0%B0%20%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82">Пігмент для бетону - Запоріжжя - "ТОВ "ТВП "БОНУСТРЕЙД""</a>). Рекомендується закупити матеріали з невеликим запасом (~5–10%), враховуючи втрати при перемішуванні, пробні заміси тощо.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Поради щодо сушіння та зберігання плитки
+        </a>
+      </h2><ul>
+<li><p><strong>Вологе доглядання перші дні:</strong> Як зазначено, підтримуйте високу вологість середовища навколо свіжовилитої плитки. <strong>Накрийте її</strong> від сонця і регулярно зволожуйте (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>). Це запобігатиме усадочним тріщинам і підвищить кінцеву міцність. За нормальних умов догляд триває не менше 7 діб (<a href="https://primum.group/info/attach.php?id=139#:~:text=,%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D1%96%D1%97%20%D0%B4%D0%BE%20%D0%B4%D0%BE%D1%81%D1%8F%D0%B3%D0%BD%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC">[PDF] І Н С Т Р У К Ц І Я по організації догляду за бетоном ...</a>).</p>
+</li>
+<li><p><strong>Температурний режим:</strong> Оптимальна температура тверднення +15…+25 °C. В спеку (&gt; +30 °C) обов’язково часте зволоження або навіть розміщення плиток у тіні/прохолоді (<a href="https://cemark.ua/rekomendaciji-shchodo-roboti-z-cementom/doglyad-za-betonom#:~:text=%D0%97%D0%B0%20%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BD%D0%B0%D0%B4%20%2B25%20%C2%B0%D0%A1,%D1%87%D0%B5%D1%80%D0%B5%D0%B7%205%E2%80%9310%20%D0%B3%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%BF%D1%96%D1%81%D0%BB%D1%8F">Догляд за бетоном - CEMARK</a>). В прохолоді (+5…+10 °C) процес тверднення сповільнюється – тримайте плитку довше у формах та подовжіть період догляду. <strong>Уникайте замерзання</strong> сирого бетону – при ризику морозів застосуйте протиморозні добавки або витримуйте вироби в теплому приміщенні.</p>
+</li>
+<li><p><strong>Природне сушіння:</strong> Після тижня вологи дайте плиткам висохнути на повітрі. НеStack їх надто рано – сирі вироби можуть деформуватися. Коли плитка набрала достатньо міцності (через 7–10 днів), її можна складувати штабелями. При цьому бажано перекладати ряди чимось м’яким (картон, тканина), щоб уникнути подряпин на лицьовій поверхні. </p>
+</li>
+<li><p><strong>Висоли:</strong> Біла соляна висолюваність іноді проявляється при висиханні бетону. Щоб мінімізувати висоли, використовуйте чисті наповнювачі, якісний цемент, пластифікатор і <strong>уникайте пересихання в перші дні</strong>. Якщо висоли все ж з’явились, не хвилюйтесь – за кілька місяців опади їх змиють, або можна обробити плитку слабким розчином кислоти після повного тверднення.</p>
+</li>
+<li><p><strong>Перевірка якості перед укладанням:</strong> Готові плитки повинні мати однорідний колір (без світлих цементних плям), чіткі краї, рівну поверхню. Вдарте дві плитки одна об одну – звук має бути дзвінкий, а не глухий (ознака достатньої міцності та мінімуму пор). За потреби слабші екземпляри використайте в менш навантажених зонах або відбракуйте.</p>
+</li>
+</ul>
+<p>Дотримуючись цих рекомендацій, ви отримаєте якісну тротуарну плитку і бордюри домашнього виробництва, не гірші за заводські. Успіхів у вашому проєкті!</p>
+<p><strong>Джерела:</strong> Рекомендації складено на основі порад виробників форм і добавок (<a href="https://trotuarna-plytka.com.ua/catalog/formi-dlya-trotuarnoi-plitki-brukivki-ta-fasadnogo-kamenyu/seriya-300h300#:~:text=%D0%90%D1%80%D1%82%D0%B8%D0%BA%D1%83%D0%BB%3A%201010825">Форми для бруківки купити у виробника Вереск-2007. Ціна в Дніпрі. Доставка по всій Україні. 300х300</a>) (<a href="https://rozetka.com.ua/ua/486298439/p486298439/#:~:text=%D0%9F%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D1%83%20Compact%2070%20Standard,%D1%80%D0%BE%D0%B1%D0%B8%D1%82%D1%8C%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D1%96%D0%B0%D0%BB%20%D1%96%D0%B4%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%BC%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D0%B0">Пластифікатор бетону тротуарної плитки Compact 70 Standard 5 л – фото, відгуки, характеристики в інтернет-магазині ROZETKA від продавця: Plast Style | Купити в Україні: Києві, Харкові, Дніпрі, Одесі, Запоріжжі, Львові</a>), технологічних статей (<a href="https://pp-budpostach.com.ua/ua/a280308-gotuyemo-sumish-dlya.html#:~:text=%2A%20%D1%86%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%E2%80%93%2023,%D0%BF%D1%96%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%20700%20%D0%BC%D0%BB%2F%D0%BC2">Готуємо суміш для тротуарної плитки - ПП Будпостач</a>) (<a href="https://budprom.in.ua/uk/articles/kak-ochistit-formy-dlya-izgotovleniya-betonnyh-izdelij?srsltid=AfmBOopvbqni_cQZ06T3L-UNxGZUFVqWYpZdTVbcS77V1awwBkGXYqGF#:~:text=%D0%92%D1%81%D1%96%20%D0%B7%D0%B0%D0%BB%D0%B8%D1%88%D0%BA%D0%B8%2C%20%D1%8F%D0%BA%D1%96%20%D0%BD%D0%B5%20%D0%B2%D0%B4%D0%B0%D0%BB%D0%BE%D1%81%D1%8F,%D0%B2%D0%B8%D0%BA%D0%BE%D0%BD%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D0%B2%D1%81%D1%96%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97%20%D0%BD%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%BC%20%D1%87%D0%B8%D0%BD%D0%BE%D0%BC">Форми для бетону: як їх очистити - budprom.in.ua</a>) та будівельних нормативів із догляду за бетоном (<a href="https://chemtech-bayern.com.ua/uk/statti/170-%D1%83-%D1%87%D0%BE%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%8F%D0%B3%D0%B0%D1%8E%D1%82%D1%8C-%D0%BE%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%96-%D0%B4%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4%D1%83-%D0%B7%D0%B0-%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BE%D0%BC,-%D1%8F%D0%BA%D0%B8%D0%B9-%D1%82%D0%B2%D0%B5%D1%80%D0%B4%D1%96%D1%94-%D0%BF%D1%80%D0%B8-%D0%BF%D1%96%D0%B4%D0%B2%D0%B8%D1%89%D0%B5%D0%BD%D0%B8%D1%85-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0%D1%85.html#:~:text=bayern,%D0%A2%D0%B0%D0%BC%2C%20%D0%B4%D0%B5">У чому полягають особливості догляду за бетоном, який твердіє ...</a>) (<a href="https://beton.kovalska.com/concrete_care/#:~:text=%D0%92%D0%BE%D0%BB%D0%BE%D0%B3%D1%96%D1%81%D1%82%D1%8C,%D0%9F%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D1%83%D1%8E%D1%82%D1%8C%20%D0%BD%D0%B0%D0%BB%D0%B5%D0%B6%D0%BD%D0%B8%D0%B9%20%D1%80%D1%96%D0%B2%D0%B5%D0%BD%D1%8C%20%D0%B2%D0%BE%D0%BB%D0%BE%D0%B3%D0%BE%D1%81%D1%82%D1%96">Догляд за бетоном | Kovalska</a>).</p>
+<p>Посилання: <a href="https://chatgpt.com/share/67f40fc5-3cb0-8002-bcd2-84632bbb210f">https://chatgpt.com/share/67f40fc5-3cb0-8002-bcd2-84632bbb210f</a></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+</body>
+</html>

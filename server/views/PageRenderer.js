@@ -2,6 +2,11 @@
  * View renderer responsible for generating HTML pages (Single Responsibility)
  */
 class PageRenderer {
+  constructor(options = {}) {
+    this.isStaticSite = options.isStaticSite || false;
+    this.baseUrl = options.baseUrl || '';
+  }
+
   /**
    * Render directory listing page
    */
@@ -58,7 +63,22 @@ class PageRenderer {
     for (const item of navigation) {
       const icon = item.type === "directory" ? "📁" : "📄";
       html += `${indent}  <li class="nav-${item.type}">\n`;
-      html += `${indent}    <a href="/content/${item.path}">${icon} ${item.name}</a>\n`;
+      
+      // Generate URL based on site type
+      let url;
+      if (this.isStaticSite) {
+        // For static sites, use root-relative paths
+        if (item.type === "directory") {
+          url = `/${item.path}/`;
+        } else {
+          url = `/${item.path.replace('.md', '.html')}`;
+        }
+      } else {
+        // For dynamic sites, use the original content prefix
+        url = `/content/${item.path}`;
+      }
+      
+      html += `${indent}    <a href="${url}">${icon} ${item.name}</a>\n`;
 
       if (item.children && item.children.length > 0) {
         html += this.renderNavigation(item.children, level + 1);
@@ -101,7 +121,20 @@ class PageRenderer {
     for (const entry of entries) {
       const icon =
         entry.type === "directory" ? "📁" : this.getFileIcon(entry.extension);
-      const href = `/content/${entry.path}`;
+      
+      // Generate URL based on site type and entry type
+      let href;
+      if (this.isStaticSite) {
+        if (entry.type === "directory") {
+          href = `/${entry.path}/`;
+        } else if (entry.name.endsWith('.md')) {
+          href = `/${entry.path.replace('.md', '.html')}`;
+        } else {
+          href = `/content/${entry.path}`;
+        }
+      } else {
+        href = `/content/${entry.path}`;
+      }
 
       html += `
         <div class="entry entry-${entry.type}">
@@ -146,6 +179,97 @@ class PageRenderer {
   
   <!-- Embedded Styles -->
   <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
     /* Modern Documentation Portal Styles */
     * {
       margin: 0;
@@ -235,7 +359,9 @@ class PageRenderer {
     }
 
     .content {
-      max-width: 900px;
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
       background: #fff;
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
