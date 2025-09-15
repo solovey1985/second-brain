@@ -67,11 +67,11 @@ class PageRenderer {
       // Generate URL based on site type
       let url;
       if (this.isStaticSite) {
-        // For static sites, use root-relative paths
+        // For static sites, use base URL + relative paths
         if (item.type === "directory") {
-          url = `/${item.path}/`;
+          url = `${this.baseUrl}/${item.path}/`;
         } else {
-          url = `/${item.path.replace('.md', '.html')}`;
+          url = `${this.baseUrl}/${item.path.replace('.md', '.html')}`;
         }
       } else {
         // For dynamic sites, use the original content prefix
@@ -98,10 +98,17 @@ class PageRenderer {
     if (!breadcrumb || breadcrumb.length === 0) return "";
 
     let html = '<nav class="breadcrumb"><ol>';
-    html += '<li><a href="/">🏠 Home</a></li>';
+    
+    // Generate home link based on site type
+    const homeUrl = this.isStaticSite ? `${this.baseUrl}/` : '/';
+    html += `<li><a href="${homeUrl}">🏠 Home</a></li>`;
 
     for (const item of breadcrumb) {
-      html += `<li><a href="/content/${item.path}">${item.name}</a></li>`;
+      // Generate breadcrumb links based on site type
+      const itemUrl = this.isStaticSite 
+        ? `${this.baseUrl}${item.path}` 
+        : `/content/${item.path}`;
+      html += `<li><a href="${itemUrl}">${item.name}</a></li>`;
     }
 
     html += "</ol></nav>";
@@ -126,11 +133,11 @@ class PageRenderer {
       let href;
       if (this.isStaticSite) {
         if (entry.type === "directory") {
-          href = `/${entry.path}/`;
+          href = `${this.baseUrl}/${entry.path}/`;
         } else if (entry.name.endsWith('.md')) {
-          href = `/${entry.path.replace('.md', '.html')}`;
+          href = `${this.baseUrl}/${entry.path.replace('.md', '.html')}`;
         } else {
-          href = `/content/${entry.path}`;
+          href = `${this.baseUrl}/content/${entry.path}`;
         }
       } else {
         href = `/content/${entry.path}`;

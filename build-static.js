@@ -9,7 +9,11 @@ class StaticSiteBuilder {
   constructor() {
     this.fileService = new FileService('./content');
     this.navService = new NavigationService(this.fileService);
-    this.renderer = new PageRenderer({ isStaticSite: true });
+    // Configure for GitHub Pages with repository base URL
+    this.renderer = new PageRenderer({ 
+      isStaticSite: true, 
+      baseUrl: '/second-brain' // GitHub Pages subdirectory
+    });
     this.markdownRenderer = new MarkdownRenderer();
     this.outputDir = './docs'; // GitHub Pages uses 'docs' folder
     this.contentDir = './content';
@@ -176,12 +180,13 @@ class StaticSiteBuilder {
   }
 
   fixStaticLinks(html) {
-    // Fix navigation links for static site
+    // Fix navigation links for static site with proper base URL
+    const baseUrl = '/second-brain';
     return html
-      .replace(/href="\/content\//g, 'href="/')
-      .replace(/href="\/content"/g, 'href="/"')
-      .replace(/href="([^"]+)\.md"/g, 'href="$1.html"')
-      .replace(/src="\/content\//g, 'src="/content/')
+      .replace(/href="\/content\//g, `href="${baseUrl}/`)
+      .replace(/href="\/content"/g, `href="${baseUrl}/"`)
+      .replace(/href="([^"]+)\.md"/g, `href="$1.html"`)
+      .replace(/src="\/content\//g, `src="${baseUrl}/content/`)
       .replace(/\]\(([^)]+)\.md\)/g, ']($1.html)'); // Fix markdown links
   }
 
