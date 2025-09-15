@@ -9,10 +9,13 @@
     "dev": "nodemon server/app.js",
     "test": "echo \"No tests specified\" && exit 0",
     "build": "node build-static.js",
+    "build:local": "node build-static.js --target=local",
+    "build:github": "node build-static.js --target=github", 
     "build:watch": "nodemon build-static.js",
     "serve:static": "cd docs && python -m http.server 8080",
     "serve:static:node": "npx http-server docs -p 8080 -c-1",
-    "preview": "npm run build && npm run serve:static:node",
+    "preview": "npm run build:local && npm run serve:static:node",
+    "preview:github": "npm run build:github && npm run serve:static:node",
     "clean": "rmdir /s /q docs 2>nul || rm -rf docs 2>/dev/null || echo 'docs folder cleaned'"
   },
   "keywords": [

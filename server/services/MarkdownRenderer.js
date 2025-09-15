@@ -5,7 +5,10 @@ const hljs = require('highlight.js');
  * Server-side markdown renderer with full feature support
  */
 class MarkdownRenderer {
-  constructor() {
+  constructor(options = {}) {
+    this.isStaticSite = options.isStaticSite || false;
+    this.baseUrl = options.baseUrl || '';
+    this.currentPath = options.currentPath || '';
     this.configureMarked();
   }
 
@@ -79,7 +82,7 @@ class MarkdownRenderer {
       </h${level}>`;
     };
     
-    // Override link renderer to convert relative .md links to /content/ paths
+    // Override link renderer to handle both dynamic and static sites
     renderer.link = (token) => {
       // Extract href, title, and text from the token object
       const href = token.href || '';
@@ -88,9 +91,15 @@ class MarkdownRenderer {
       
       let processedHref = href;
       
-      // Convert relative markdown links to content paths
+      // Handle relative markdown links
       if (processedHref && processedHref.endsWith('.md') && !processedHref.startsWith('http') && !processedHref.startsWith('/')) {
-        processedHref = `/content/${processedHref}`;
+        if (this.isStaticSite) {
+          // For static sites, convert .md to .html and keep relative
+          processedHref = processedHref.replace('.md', '.html');
+        } else {
+          // For dynamic sites, convert to content paths
+          processedHref = `/content/${processedHref}`;
+        }
       }
       
       const titleAttr = title ? ` title="${title}"` : '';

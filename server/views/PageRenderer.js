@@ -67,11 +67,21 @@ class PageRenderer {
       // Generate URL based on site type
       let url;
       if (this.isStaticSite) {
-        // For static sites, use base URL + relative paths
-        if (item.type === "directory") {
-          url = `${this.baseUrl}/${item.path}/`;
+        // For static sites, handle base URL properly
+        if (this.baseUrl) {
+          // GitHub Pages or other hosted environment
+          if (item.type === "directory") {
+            url = `${this.baseUrl}/${item.path}/`;
+          } else {
+            url = `${this.baseUrl}/${item.path.replace('.md', '.html')}`;
+          }
         } else {
-          url = `${this.baseUrl}/${item.path.replace('.md', '.html')}`;
+          // Local development - use relative paths from root
+          if (item.type === "directory") {
+            url = `/${item.path}/`;
+          } else {
+            url = `/${item.path.replace('.md', '.html')}`;
+          }
         }
       } else {
         // For dynamic sites, use the original content prefix
@@ -132,12 +142,24 @@ class PageRenderer {
       // Generate URL based on site type and entry type
       let href;
       if (this.isStaticSite) {
-        if (entry.type === "directory") {
-          href = `${this.baseUrl}/${entry.path}/`;
-        } else if (entry.name.endsWith('.md')) {
-          href = `${this.baseUrl}/${entry.path.replace('.md', '.html')}`;
+        if (this.baseUrl) {
+          // GitHub Pages or other hosted environment
+          if (entry.type === "directory") {
+            href = `${this.baseUrl}/${entry.path}/`;
+          } else if (entry.name.endsWith('.md')) {
+            href = `${this.baseUrl}/${entry.path.replace('.md', '.html')}`;
+          } else {
+            href = `${this.baseUrl}/content/${entry.path}`;
+          }
         } else {
-          href = `${this.baseUrl}/content/${entry.path}`;
+          // Local development - use relative paths from root
+          if (entry.type === "directory") {
+            href = `/${entry.path}/`;
+          } else if (entry.name.endsWith('.md')) {
+            href = `/${entry.path.replace('.md', '.html')}`;
+          } else {
+            href = `/content/${entry.path}`;
+          }
         }
       } else {
         href = `/content/${entry.path}`;

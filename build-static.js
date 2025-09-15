@@ -6,17 +6,26 @@ const FileService = require('./server/services/FileService');
 const MarkdownRenderer = require('./server/services/MarkdownRenderer');
 
 class StaticSiteBuilder {
-  constructor() {
+  constructor(options = {}) {
     this.fileService = new FileService('./content');
     this.navService = new NavigationService(this.fileService);
-    // Configure for GitHub Pages with repository base URL
+    
+    // Determine deployment target
+    const deployTarget = options.target || process.env.DEPLOY_TARGET || 'github';
+    const baseUrl = deployTarget === 'local' ? '' : '/second-brain';
+    
+    // Configure for different deployment targets
     this.renderer = new PageRenderer({ 
       isStaticSite: true, 
-      baseUrl: '/second-brain' // GitHub Pages subdirectory
+      baseUrl: baseUrl
     });
-    this.markdownRenderer = new MarkdownRenderer();
+    this.markdownRenderer = new MarkdownRenderer({
+      isStaticSite: true,
+      baseUrl: baseUrl
+    });
     this.outputDir = './docs'; // GitHub Pages uses 'docs' folder
     this.contentDir = './content';
+    this.deployTarget = deployTarget;
   }
 
   async build() {
@@ -181,7 +190,7 @@ class StaticSiteBuilder {
 
   fixStaticLinks(html) {
     // Fix navigation links for static site with proper base URL
-    const baseUrl = '/second-brain';
+    const baseUrl = this.deployTarget === 'local' ? '' : '/second-brain';
     return html
       .replace(/href="\/content\//g, `href="${baseUrl}/`)
       .replace(/href="\/content"/g, `href="${baseUrl}/"`)
@@ -292,7 +301,14 @@ class StaticSiteBuilder {
 
 // Build the site when script is run directly
 if (require.main === module) {
-  new StaticSiteBuilder().build().catch(console.error);
+  // Check for command line arguments
+  const args = process.argv.slice(2);
+  const targetFlag = args.find(arg => arg.startsWith('--target='));
+  const target = targetFlag ? targetFlag.split('=')[1] : 'github';
+  
+  console.log(`🎯 Building for: ${target === 'local' ? 'Local Development' : 'GitHub Pages'}`);
+  
+  new StaticSiteBuilder({ target }).build().catch(console.error);
 }
 
 module.exports = StaticSiteBuilder;
