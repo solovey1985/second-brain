@@ -48,5 +48,6 @@ Thumbs.db
 dist/
 build/
 
-# Note: docs/ folder is intentionally NOT ignored 
-# as it contains the built static site for GitHub Pages
+# Ignore local static builds, but allow docs/ for GitHub Pages
+/docs/
+!docs/.keep

@@ -133,42 +133,106 @@ class PageRenderer {
       return "<p>This directory is empty.</p>";
     }
 
-    let html = '<div class="directory-listing">';
+    // Separate entries
+    const mdFiles = entries.filter(e => e.type === 'file' && e.name.endsWith('.md'));
+    const imageFiles = entries.filter(e => e.type === 'file' && /\.(jpg|jpeg|png|webp|gif)$/i.test(e.name));
+    const otherFiles = entries.filter(e => e.type === 'file' && !e.name.endsWith('.md') && !/\.(jpg|jpeg|png|webp|gif)$/i.test(e.name));
+    const directories = entries.filter(e => e.type === 'directory');
 
-    for (const entry of entries) {
-      const icon =
-        entry.type === "directory" ? "📁" : this.getFileIcon(entry.extension);
-      
-      // Generate URL based on site type and entry type
+      let html = `<style>
+        .directory-listing .entry-image {
+          box-sizing: border-box;
+          padding: 12px 8px 8px 8px;
+        }
+        .directory-listing .entry-image-thumb {
+          display: block;
+          margin: 0 auto 4px auto;
+          max-width: 100%;
+          height: 300px;
+          width: auto;
+          box-sizing: border-box;
+          border-radius: 6px;
+          object-fit: contain;
+          background: #fff;
+        }
+        .directory-listing .entry-image-name {
+          display: block;
+          max-width: 300px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin: 0 auto;
+          text-align: center;
+        }
+      </style>`;
+    html += '<div class="directory-listing">';
+
+    // 1. Markdown files as links
+    for (const entry of mdFiles) {
       let href;
       if (this.isStaticSite) {
-        if (this.baseUrl) {
-          // GitHub Pages or other hosted environment
-          if (entry.type === "directory") {
-            href = `${this.baseUrl}/${entry.path}/`;
-          } else if (entry.name.endsWith('.md')) {
-            href = `${this.baseUrl}/${entry.path.replace('.md', '.html')}`;
-          } else {
-            href = `${this.baseUrl}/content/${entry.path}`;
-          }
-        } else {
-          // Local development - use relative paths from root
-          if (entry.type === "directory") {
-            href = `/${entry.path}/`;
-          } else if (entry.name.endsWith('.md')) {
-            href = `/${entry.path.replace('.md', '.html')}`;
-          } else {
-            href = `/content/${entry.path}`;
-          }
-        }
+        href = this.baseUrl ? `${this.baseUrl}/${entry.path.replace('.md', '.html')}` : `/${entry.path.replace('.md', '.html')}`;
       } else {
         href = `/content/${entry.path}`;
       }
-
       html += `
-        <div class="entry entry-${entry.type}">
+        <div class="entry entry-file">
           <a href="${href}">
-            <span class="icon">${icon}</span>
+            <span class="icon">📄</span>
+            <span class="name">${entry.name}</span>
+          </a>
+        </div>
+      `;
+    }
+
+    // 2. Images as thumbnails
+    for (const entry of imageFiles) {
+      let src;
+      if (this.isStaticSite) {
+        src = this.baseUrl ? `${this.baseUrl}/content/${entry.path}` : `/content/${entry.path}`;
+      } else {
+        src = `/content/${entry.path}`;
+      }
+      html += `
+        <div class="entry entry-image">
+          <a href="${src}" target="_blank">
+              <img class="entry-image-thumb" src="${src}" alt="${entry.name}" />
+              <span class="name entry-image-name">${entry.name}</span>
+          </a>
+        </div>
+      `;
+    }
+
+    // 3. Other files
+    for (const entry of otherFiles) {
+      let href;
+      if (this.isStaticSite) {
+        href = this.baseUrl ? `${this.baseUrl}/content/${entry.path}` : `/content/${entry.path}`;
+      } else {
+        href = `/content/${entry.path}`;
+      }
+      html += `
+        <div class="entry entry-file">
+          <a href="${href}">
+            <span class="icon">${this.getFileIcon(entry.extension)}</span>
+            <span class="name">${entry.name}</span>
+          </a>
+        </div>
+      `;
+    }
+
+    // 4. Directories
+    for (const entry of directories) {
+      let href;
+      if (this.isStaticSite) {
+        href = this.baseUrl ? `${this.baseUrl}/${entry.path}/` : `/${entry.path}/`;
+      } else {
+        href = `/content/${entry.path}`;
+      }
+      html += `
+        <div class="entry entry-directory">
+          <a href="${href}">
+            <span class="icon">📁</span>
             <span class="name">${entry.name}</span>
           </a>
         </div>
