@@ -38,6 +38,10 @@ class StaticSiteBuilder {
     }
     fs.mkdirSync(this.outputDir, { recursive: true });
 
+    // Add .nojekyll to disable Jekyll on GitHub Pages
+    const nojekyllPath = path.join(this.outputDir, '.nojekyll');
+    fs.writeFileSync(nojekyllPath, '');
+
     // Build navigation structure
     console.log('🗂️  Building navigation...');
     const navigation = await this.navService.generateNavigationMenu('', 3);
