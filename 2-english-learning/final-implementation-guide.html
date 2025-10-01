@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>final-implementation-guide - Documentation Portal</title>
+  
+  <!-- Embedded Styles -->
+  <style>
+  /* Print Styles - Hide navigation and optimize for printing */
+  @media print {
+    .sidebar {
+      display: none !important;
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    
+    .content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    
+    .breadcrumb {
+      display: none !important;
+    }
+    
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    .app-container {
+      display: block !important;
+    }
+    
+    /* Optimize typography for print */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      page-break-after: avoid !important;
+    }
+    
+    .markdown-content h1 {
+      font-size: 18pt !important;
+      margin-top: 0 !important;
+    }
+    
+    .markdown-content h2 {
+      font-size: 16pt !important;
+    }
+    
+    .markdown-content h3 {
+      font-size: 14pt !important;
+    }
+    
+    .markdown-content p, .markdown-content li {
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .directory-listing .entry {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    
+    /* Hide interactive elements that don't work in print */
+    .entry:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Ensure links show URLs in print */
+    .markdown-content a:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+    
+    /* Hide emojis/icons that might not print well */
+    .icon {
+      font-size: 0 !important;
+    }
+    
+    .icon:before {
+      content: "• ";
+      font-size: 11pt !important;
+    }
+  }
+    /* Modern Documentation Portal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fafbfc;
+      color: #24292f;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #e1e4e8;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .sidebar-header h2 a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .navigation {
+      padding: 1rem 0;
+    }
+
+    .navigation ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin: 0;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      color: #586069;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .navigation a:hover {
+      background: #f6f8fa;
+      color: #0366d6;
+    }
+
+    .nav-level-1 a {
+      padding-left: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-level-2 a {
+      padding-left: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: calc(100vw - 280px);
+    }
+
+    .content {
+      width: 90%;
+      max-width: 96%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 2rem;
+      min-height: 80vh;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb li {
+      margin-right: 0.5rem;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '›';
+      margin-left: 0.5rem;
+      color: #586069;
+    }
+
+    .breadcrumb a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Directory Listing */
+    .directory-listing {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .entry {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .entry:hover {
+      border-color: #0366d6;
+      box-shadow: 0 2px 8px rgba(3, 102, 214, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .entry a {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      text-decoration: none;
+      color: #24292f;
+    }
+
+    .entry .icon {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .entry .name {
+      font-weight: 500;
+    }
+
+    .entry-directory {
+      background: #f6f8fa;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      color: #24292f;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+      line-height: 1.6;
+      color: #24292f;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1f2328;
+    }
+
+    .markdown-content h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.25em;
+    }
+
+    .markdown-content h4 {
+      font-size: 1em;
+    }
+
+    .markdown-content h5 {
+      font-size: 0.875em;
+    }
+
+    .markdown-content h6 {
+      font-size: 0.85em;
+      color: #656d76;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-content a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      font-style: italic;
+    }
+
+    .markdown-content code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #afb8c133;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .markdown-content pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      color: #1f2328;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-content blockquote {
+      padding: 0 1em;
+      color: #656d76;
+      border-left: 0.25em solid #d0d7de;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-content blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    .markdown-content ul ul,
+    .markdown-content ul ol,
+    .markdown-content ol ol,
+    .markdown-content ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-content li {
+      word-wrap: break-all;
+    }
+
+    .markdown-content li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-content li + li {
+      margin-top: 0.25em;
+    }
+
+    .markdown-content dl {
+      padding: 0;
+    }
+
+    .markdown-content dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .markdown-content dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-content table tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .markdown-content table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content table th,
+    .markdown-content table td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+    }
+
+    .markdown-content table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      box-sizing: content-box;
+    }
+
+    .markdown-content hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d0d7de;
+      border: 0;
+    }
+
+    .markdown-content input[type="checkbox"] {
+      margin: 0 0.2em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    .mermaid {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .katex-display {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* Mobile Menu Toggle Button */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1001;
+      background: #0366d6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: #0256cc;
+      transform: scale(1.05);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* Hamburger icon */
+    .mobile-menu-toggle::before {
+      content: '☰';
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .mobile-menu-toggle.open::before {
+      content: '✕';
+      font-size: 16px;
+    }
+
+    /* Mobile Overlay */
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-overlay.show {
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+        max-width: calc(100vw - 240px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 280px;
+        z-index: 1000;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+        padding-top: 4rem; /* Account for mobile menu button */
+        max-width: 100vw;
+      }
+
+      .content {
+        width: 100%;
+        max-width: 100%;
+        padding: 1.5rem;
+        margin: 0;
+      }
+      
+      .directory-listing {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .breadcrumb {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .breadcrumb ol {
+        flex-wrap: wrap;
+      }
+
+      .breadcrumb li {
+        margin-right: 0.3rem;
+        margin-bottom: 0.2rem;
+      }
+
+      /* Better button spacing on mobile */
+      .entry {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .entry .name {
+        font-size: 0.9rem;
+      }
+
+      /* Adjust navigation text on mobile */
+      .sidebar nav a {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-level-1 a {
+        padding-left: 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .nav-level-2 a {
+        padding-left: 2rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 0.5rem;
+        padding-top: 3.5rem;
+      }
+
+      .content {
+        padding: 1rem;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .sidebar-header {
+        padding: 1rem;
+      }
+
+      .sidebar-header h2 a {
+        font-size: 1.2rem;
+      }
+
+      .entry {
+        padding: 0.8rem;
+      }
+
+      .entry .icon {
+        font-size: 1.2rem;
+      }
+
+      .markdown-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .markdown-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .markdown-content h3 {
+        font-size: 1.3rem;
+      }
+
+      .markdown-content pre {
+        font-size: 0.8rem;
+        padding: 0.8rem;
+      }
+
+      .markdown-content table {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Smooth scrolling for better mobile experience */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better touch targets */
+    @media (hover: none) and (pointer: coarse) {
+      .entry a,
+      .sidebar nav a,
+      .breadcrumb a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  </style>
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+  
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body>
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      <nav class="navigation">
+        <ul class="nav-level-0">
+  <li class="nav-directory">
+    <a href="/second-brain/1-yapidoo/">📁 1-yapidoo</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/second-brain/1-yapidoo/services/">📁 services</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/second-brain/1-yapidoo/services/auth/">📁 auth</a>
+      </li>
+      <li class="nav-file">
+        <a href="/second-brain/1-yapidoo/services/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/second-brain/1-yapidoo/web/">📁 web</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/second-brain/1-yapidoo/web/index.html">📄 Index</a>
+      </li>
+      <li class="nav-file">
+        <a href="/second-brain/1-yapidoo/web/spa.html">📄 Spa</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/1-yapidoo/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/1-yapidoo/README.html">📄 README</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/2-english-learning/">📁 2-english-learning</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/copilot-instructions-telegram-bot.html">📄 Copilot Instructions Telegram Bot</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/final-implementation-guide.html">📄 Final Implementation Guide</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/markdig-101.html">📄 Markdig 101</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/scene-navigation.html">📄 Scene Navigation</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/starter.html">📄 Starter</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/telegram-bot-capabilities.html">📄 Telegram Bot Capabilities</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/2-english-learning/whatsup-integration.html">📄 Whatsup Integration</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/3-Kaizen/">📁 3-Kaizen</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/3-Kaizen/firebase-api.html">📄 Firebase Api</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/3-Kaizen/kaizen-credits.html">📄 Kaizen Credits</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/3-Kaizen/system-diagram.html">📄 System Diagram</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/domestic-tasks/">📁 domestic-tasks</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/second-brain/domestic-tasks/shelfs/">📁 shelfs</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/second-brain/domestic-tasks/shelfs/index.html">📄 Index</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/domestic-tasks/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/domestic-tasks/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/drones/">📁 drones</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/drones/auto-drone.html">📄 Auto Drone</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/furniture/">📁 furniture</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/second-brain/furniture/tables/">📁 tables</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/second-brain/furniture/tables/вішалка.html">📄 вішалка</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-directory">
+      <a href="/second-brain/furniture/молбьерт/">📁 молбьерт</a>
+    <ul class="nav-level-2">
+      <li class="nav-directory">
+        <a href="/second-brain/furniture/молбьерт/simple/">📁 simple</a>
+      </li>
+      <li class="nav-file">
+        <a href="/second-brain/furniture/молбьерт/35.html">📄 35</a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/house/">📁 house</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/house/heating.html">📄 Heating</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/house/heating-scheme.html">📄 Heating Scheme</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/house/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/house/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/Kaizen/">📁 Kaizen</a>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/soland-inventory/">📁 soland-inventory</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/soland-inventory/inbox.html">📄 Inbox</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/soland-inventory/index.html">📄 Index</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/soland-inventory/todo.html">📄 Todo</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/пасіка/">📁 пасіка</a>
+  <ul class="nav-level-1">
+    <li class="nav-directory">
+      <a href="/second-brain/пасіка/assets/">📁 assets</a>
+    </li>
+    <li class="nav-directory">
+      <a href="/second-brain/пасіка/додаток/">📁 додаток</a>
+    <ul class="nav-level-2">
+      <li class="nav-file">
+        <a href="/second-brain/пасіка/додаток/техзадання.html">📄 техзадання</a>
+      </li>
+    </ul>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/бджолопакет.html">📄 бджолопакет</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/відводки.html">📄 відводки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/годування на зиму.html">📄 годування на зиму</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/догляд-роями.html">📄 догляд роями</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/Ообробка від кліща.html">📄 Ообробка від кліща</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/підготовка-зими.html">📄 підготовка зими</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/розвиток.html">📄 розвиток</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/розширення.html">📄 розширення</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/пасіка/рої.html">📄 рої</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-directory">
+    <a href="/second-brain/плитка/">📁 плитка</a>
+  <ul class="nav-level-1">
+    <li class="nav-file">
+      <a href="/second-brain/плитка/Заливки плитки.html">📄 Заливки плитки</a>
+    </li>
+    <li class="nav-file">
+      <a href="/second-brain/плитка/рекомендації.html">📄 рекомендації</a>
+    </li>
+  </ul>
+  </li>
+  <li class="nav-file">
+    <a href="/second-brain/deploy.html">📄 Deploy</a>
+  </li>
+  <li class="nav-file">
+    <a href="/second-brain/inbox.html">📄 Inbox</a>
+  </li>
+  <li class="nav-file">
+    <a href="/second-brain/index.html">📄 Index</a>
+  </li>
+  <li class="nav-file">
+    <a href="/second-brain/sample-showcase.html">📄 Sample Showcase</a>
+  </li>
+</ul>
+
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-english-learning/">2-english-learning</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-telegram-net-9">Фінальний документ для реалізації Telegram-бота з навчання англійської (.NET 9)</a></li>
+<ul>
+<li><a href="#-">📋 Огляд проєкту</a></li>
+<li><a href="#-">📋 Таблиця контексту проєкту</a></li>
+<li><a href="#-">🏗️ Архітектура системи</a></li>
+<li><a href="#-">📂 Структура проєктів</a></li>
+<li><a href="#-">🗂️ Схеми класів та їх взаємодія</a></li>
+<ul>
+<li><a href="#-">Діаграма взаємодії класів</a></li>
+<li><a href="#-">Діаграма потоку даних</a></li>
+<li><a href="#domain-models">Domain Models</a></li>
+<li><a href="#application-services">Application Services</a></li>
+<li><a href="#-">Діаграма взаємодії компонентів під час виконання уроку</a></li>
+<li><a href="#-">Діаграма стану користувача</a></li>
+</ul>
+<li><a href="#-">🎯 Псевдокод основних сцен</a></li>
+<ul>
+<li><a href="#onboardingscene">OnboardingScene</a></li>
+<li><a href="#lessonscene">LessonScene</a></li>
+</ul>
+<li><a href="#-">📅 Етапи реалізації</a></li>
+<ul>
+<li><a href="#-1-1-2">Етап 1: Основна інфраструктура (Тиждень 1-2)</a></li>
+<li><a href="#-2-3">Етап 2: Сцена знайомства (Тиждень 3)</a></li>
+<li><a href="#-3-4">Етап 3: Система контенту (Тиждень 4)</a></li>
+<li><a href="#-4-5">Етап 4: Система вікторин (Тиждень 5)</a></li>
+<li><a href="#-5-6">Етап 5: Додаткові функції (Тиждень 6)</a></li>
+</ul>
+<li><a href="#-">🚀 Інструкції для розгортання</a></li>
+<ul>
+<li><a href="#-">Локальна розробка</a></li>
+<li><a href="#-docker">Продакшн (Docker)</a></li>
+</ul>
+<li><a href="#-mvp">📊 Метрики успіху MVP</a></li>
+</ul>
+</ul>
+</div><h1 id="-telegram-net-9">
+        <a href="#-telegram-net-9" class="header-anchor">
+          Фінальний документ для реалізації Telegram-бота з навчання англійської (.NET 9)
+        </a>
+      </h1><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📋 Огляд проєкту
+        </a>
+      </h2><p><strong>Мета:</strong> створити Telegram-бота для вивчення англійської мови з використанням архітектури Clean Architecture на .NET 9, PostgreSQL та Docker.</p>
+<p><strong>Основний функціонал MVP:</strong></p>
+<ul>
+<li>Сцена знайомства (вибір рівня A1/A2)</li>
+<li>Уроки з Markdown-контентом</li>
+<li>Система вікторин (3 типи: Flashcards, Multiple Choice, Typing)</li>
+<li>Трекінг прогресу користувача</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📋 Таблиця контексту проєкту
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>Аспект</th>
+<th>Деталі</th>
+<th>Технології/Інструменти</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Архітектура</strong></td>
+<td>Clean Architecture (Presentation → Application → Domain → Infrastructure)</td>
+<td>.NET 9, C# 12</td>
+</tr>
+<tr>
+<td><strong>База даних</strong></td>
+<td>PostgreSQL з EF Core</td>
+<td>Entity Framework Core 8, Npgsql</td>
+</tr>
+<tr>
+<td><strong>UI/UX</strong></td>
+<td>Telegram Bot API</td>
+<td>Telegram.Bot SDK</td>
+</tr>
+<tr>
+<td><strong>Контент</strong></td>
+<td>Markdown файли з підтримкою медіа</td>
+<td>Markdig, власний парсер</td>
+</tr>
+<tr>
+<td><strong>Логування</strong></td>
+<td>Структуроване логування</td>
+<td>Serilog</td>
+</tr>
+<tr>
+<td><strong>Контейнеризація</strong></td>
+<td>Docker Compose</td>
+<td>Docker, PostgreSQL 15</td>
+</tr>
+<tr>
+<td><strong>Вебхуки</strong></td>
+<td>HTTPS webhook для Telegram</td>
+<td>ASP.NET Core</td>
+</tr>
+<tr>
+<td><strong>Локалізація</strong></td>
+<td>Українська/Англійська</td>
+<td>Resource файли</td>
+</tr>
+<tr>
+<td><strong>Тестування</strong></td>
+<td>Unit та Integration тести</td>
+<td>xUnit, Moq</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+<td>Docker, Azure DevOps</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Відповідальність</th>
+<th>Залежності</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EnglishBot.Api</strong></td>
+<td>Webhook endpoint, DI конфігурація</td>
+<td>Telegram.Bot, ASP.NET Core</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Application</strong></td>
+<td>Бізнес-логіка, сцени, сервіси</td>
+<td>Domain, Infrastructure</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Domain</strong></td>
+<td>Доменні моделі, інтерфейси</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Infrastructure</strong></td>
+<td>БД, зовнішні сервіси, репозиторії</td>
+<td>Domain, EF Core</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Тип контенту</th>
+<th>Формат</th>
+<th>Обробка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Текст</strong></td>
+<td>Markdown з HTML</td>
+<td>Markdig парсер</td>
+</tr>
+<tr>
+<td><strong>Зображення</strong></td>
+<td>JPG/PNG/WebP</td>
+<td>Telegram Bot API</td>
+</tr>
+<tr>
+<td><strong>Аудіо</strong></td>
+<td>MP3/WAV</td>
+<td>SendAudio метод</td>
+</tr>
+<tr>
+<td><strong>Відео</strong></td>
+<td>MP4</td>
+<td>SendVideo метод</td>
+</tr>
+<tr>
+<td><strong>Вікторини</strong></td>
+<td>:::quiz блоки</td>
+<td>Власний парсер</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🏗️ Архітектура системи
+        </a>
+      </h2><div class="mermaid">graph TB
+    A[Telegram Bot API] --> B[EngPortal.Api]
+    B --> C[EngPortal.Application]
+    C --> D[EngPortal.Domain]
+    C --> E[EngPortal.Infrastructure]
+    E --> F[PostgreSQL]
+    E --> G[Content Service]
+    E --> H[File System/Markdown]
+    
+    subgraph "Presentation Layer"
+        B
+    end
+    
+    subgraph "Application Layer"
+        C
+        I[Scene Manager]
+        J[Content Parser]
+        K[Quiz Engine]
+    end
+    
+    subgraph "Domain Layer"
+        D
+        L[User]
+        M[Lesson]
+        N[Quiz]
+        O[UserProgress]
+    end
+    
+    subgraph "Infrastructure Layer"
+        E
+        G
+        P[DbContext]
+        Q[Repositories]
+    end</div><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📂 Структура проєктів
+        </a>
+      </h2><pre><code class="hljs language-css">EnglishBot/
+├── EnglishBot<span class="hljs-selector-class">.Api</span>/             # Веб API + Webhook
+├── EnglishBot<span class="hljs-selector-class">.Application</span>/     # Бізнес-логіка + Сцени
+├── EnglishBot<span class="hljs-selector-class">.Domain</span>/          # Доменні моделі
+├── EnglishBot<span class="hljs-selector-class">.Content</span>/         # Контент уроків
+├── EnglishBot<span class="hljs-selector-class">.Infrastructure</span>/  # БД + Зовнішні сервіси
+├── EnglishBot<span class="hljs-selector-class">.Tests</span>/           # Тести
+└── docker-compose<span class="hljs-selector-class">.yml</span>          # Docker налаштування</code></pre><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🗂️ Схеми класів та їх взаємодія
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма взаємодії класів
+        </a>
+      </h3><div class="mermaid">classDiagram
+    class BotUser {
+        +long TelegramId
+        +string FirstName
+        +string Level
+        +string Language
+        +DateTime CreatedAt
+        +int Streak
+        +bool NotificationsEnabled
+        +TimeSpan NotificationTime
+        +List~UserProgress~ Progress
+        +List~UserQuizResult~ QuizResults
+    }
+
+    class UserState {
+        +long TelegramId
+        +string Scene
+        +string DataJson
+        +DateTime UpdatedAt
+        +BotUser User
+    }
+
+    class Lesson {
+        +int Id
+        +string Title
+        +string Level
+        +string ContentPath
+        +int Order
+        +bool IsActive
+        +string Description
+        +string[] Tags
+        +int EstimatedMinutes
+        +List~QuizItem~ Quizzes
+        +List~UserProgress~ UserProgress
+    }
+
+    class QuizItem {
+        +int Id
+        +int LessonId
+        +string Type
+        +string Question
+        +string[] Options
+        +int[] CorrectAnswers
+        +string Explanation
+        +string MediaUrl
+        +int Order
+        +Lesson Lesson
+        +List~UserQuizResult~ Results
+    }
+
+    class UserProgress {
+        +int Id
+        +long TelegramId
+        +int LessonId
+        +bool IsCompleted
+        +int CurrentBlock
+        +int Score
+        +int TotalQuizzes
+        +DateTime StartedAt
+        +DateTime CompletedAt
+        +BotUser User
+        +Lesson Lesson
+    }
+
+    class UserQuizResult {
+        +int Id
+        +long TelegramId
+        +int QuizItemId
+        +string UserAnswer
+        +bool IsCorrect
+        +TimeSpan TimeSpent
+        +DateTime AnsweredAt
+        +BotUser User
+        +QuizItem QuizItem
+    }
+
+    class ISceneManager {
+        <<interface>>
+        +SetSceneAsync(telegramId, sceneName, data)
+        +GetCurrentSceneAsync(telegramId)
+        +GetSceneDataAsync~T~(telegramId)
+    }
+
+    class IContentService {
+        <<interface>>
+        +ParseLessonAsync(filePath)
+        +GetLessonsAsync(level)
+        +GetLessonContentAsync(lessonId)
+    }
+
+    %% Relationships
+    BotUser "1" --> "1" UserState : has
+    BotUser "1" --> "*" UserProgress : tracks
+    BotUser "1" --> "*" UserQuizResult : has
+    
+    Lesson "1" --> "*" QuizItem : contains
+    Lesson "1" --> "*" UserProgress : has
+    
+    QuizItem "1" --> "*" UserQuizResult : tracks
+    
+    ISceneManager ..> UserState : manages
+    IContentService ..> Lesson : processes
+
+    class IScene {
+        <<interface>>
+        +string Name
+        +EnterAsync(bot, update, ct)
+        +HandleUpdateAsync(bot, update, ct)
+        +ExitAsync(bot, update, ct)
+    }
+
+    BotUser "1" --> "*" UserProgress : has
+    BotUser "1" --> "*" UserQuizResult : creates
+    BotUser "1" --> "1" UserState : has state
+    
+    Lesson "1" --> "*" QuizItem : contains
+    Lesson "1" --> "*" UserProgress : tracks
+    
+    QuizItem "1" --> "*" UserQuizResult : generates results
+    
+    UserProgress "*" --> "1" Lesson : belongs to
+    UserProgress "*" --> "1" BotUser : belongs to user
+    
+    UserQuizResult "*" --> "1" QuizItem : відповідь на питання
+    UserQuizResult "*" --> "1" BotUser : відповідь користувача
+
+    ISceneManager ..> UserState : управляє
+    IContentService ..> Lesson : завантажує
+    IScene ..> BotUser : взаємодіє з</div><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма потоку даних
+        </a>
+      </h3><div class="mermaid">flowchart TD
+    A[Telegram Update] --> B[WebhookController]
+    B --> C{Scene Manager}
+    C --> D[Current Scene]
+    
+    D --> E[OnboardingScene]
+    D --> F[LessonScene]  
+    D --> G[IdleScene]
+    
+    E --> H[User Repository]
+    F --> I[Content Service]
+    F --> J[Quiz Service]
+    
+    I --> K[Lesson Files .md]
+    I --> L[Media Files]
+    
+    H --> M[(PostgreSQL)]
+    J --> M
+    
+    F --> N[Progress Tracking]
+    N --> M
+    
+    G --> O[Command Handler]
+    O --> P[Response Builder]
+    
+    P --> Q[Telegram Bot API]
+    Q --> R[User Interface]
+    
+    style A fill:#e1f5fe
+    style M fill:#f3e5f5
+    style K fill:#fff3e0
+    style R fill:#e8f5e8</div><h3 id="domain-models">
+        <a href="#domain-models" class="header-anchor">
+          Domain Models
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">EnglishBot.Domain.Entities</span>;
+
+<span class="hljs-comment">// Користувач бота</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BotUser</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Username { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Level { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;A1&quot;</span>; <span class="hljs-comment">// A1, A2, B1, B2</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Language { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;uk&quot;</span>; <span class="hljs-comment">// uk, en</span>
+    <span class="hljs-keyword">public</span> DateTime CreatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> DateTime LastActivityAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Streak { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> NotificationsEnabled { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">public</span> TimeSpan NotificationTime { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = TimeSpan.FromHours(<span class="hljs-number">9</span>);
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> List&lt;UserProgress&gt; Progress { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+    <span class="hljs-keyword">public</span> List&lt;UserQuizResult&gt; QuizResults { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Стан користувача у боті</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserState</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Scene { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;idle&quot;</span>; <span class="hljs-comment">// idle, onboarding, lesson, quiz</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? DataJson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } <span class="hljs-comment">// Серіалізовані дані сцени</span>
+    <span class="hljs-keyword">public</span> DateTime UpdatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}
+
+<span class="hljs-comment">// Урок</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Lesson</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Level { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;A1&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> ContentPath { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!; <span class="hljs-comment">// Шлях до .md файлу</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Order { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsActive { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">public</span> DateTime CreatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Метадані</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>[]? Tags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> EstimatedMinutes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">15</span>;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> List&lt;QuizItem&gt; Quizzes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+    <span class="hljs-keyword">public</span> List&lt;UserProgress&gt; UserProgress { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Питання вікторини</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">QuizItem</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> LessonId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Type { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!; <span class="hljs-comment">// flashcard, mcq, typing</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Question { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>[] Options { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = Array.Empty&lt;<span class="hljs-built_in">string</span>&gt;();
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>[] CorrectAnswers { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = Array.Empty&lt;<span class="hljs-built_in">int</span>&gt;();
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Explanation { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? MediaUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Order { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> Lesson Lesson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> List&lt;UserQuizResult&gt; Results { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Прогрес користувача по уроку</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserProgress</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> LessonId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsCompleted { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> CurrentBlock { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } <span class="hljs-comment">// Індекс поточного блоку у уроці</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Score { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> TotalQuizzes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> DateTime? CompletedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> Lesson Lesson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}
+
+<span class="hljs-comment">// Результат вікторини</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserQuizResult</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> QuizItemId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> UserAnswer { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsCorrect { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> TimeSpan TimeSpent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime AnsweredAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> QuizItem QuizItem { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}</code></pre><h3 id="application-services">
+        <a href="#application-services" class="header-anchor">
+          Application Services
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">EnglishBot.Application.Services</span>;
+
+<span class="hljs-comment">// Сервіс контенту</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IContentService</span>
+{
+    Task&lt;List&lt;BotMessage&gt;&gt; ParseLessonAsync(<span class="hljs-built_in">string</span> filePath);
+    Task&lt;Lesson[]&gt; GetLessonsAsync(<span class="hljs-built_in">string</span> level);
+    <span class="hljs-function">Task&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">GetLessonContentAsync</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> lessonId</span>)</span>;
+}
+
+<span class="hljs-comment">// Сцени бота</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-function">Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+    <span class="hljs-function">Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+    <span class="hljs-function">Task <span class="hljs-title">ExitAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+}
+
+<span class="hljs-comment">// Менеджер сцен</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">ISceneManager</span>
+{
+    <span class="hljs-function">Task <span class="hljs-title">SetSceneAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId, <span class="hljs-built_in">string</span> sceneName, <span class="hljs-built_in">object</span>? data = <span class="hljs-literal">null</span></span>)</span>;
+    <span class="hljs-function"><span class="hljs-title">Task</span>&lt;<span class="hljs-title">IScene</span>&gt; <span class="hljs-title">GetCurrentSceneAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId</span>)</span>;
+    Task&lt;T?&gt; GetSceneDataAsync&lt;T&gt;(<span class="hljs-built_in">long</span> telegramId) <span class="hljs-keyword">where</span> T : <span class="hljs-keyword">class</span>;
+}
+
+<span class="hljs-comment">// Сервіс вікторин</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IQuizService</span>
+{
+    <span class="hljs-function">Task&lt;QuizResult&gt; <span class="hljs-title">ProcessAnswerAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId, <span class="hljs-built_in">int</span> quizId, <span class="hljs-built_in">string</span> answer</span>)</span>;
+    <span class="hljs-function">Task&lt;QuizStatistics&gt; <span class="hljs-title">GetUserStatisticsAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId</span>)</span>;
+}
+
+<span class="hljs-comment">// Типи повідомлень для контенту</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">record</span> <span class="hljs-title">BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">TextMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Content, <span class="hljs-built_in">string</span>? ParseMode = <span class="hljs-literal">null</span></span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">PhotoMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> ImagePath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">AudioMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> AudioPath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">VideoMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> VideoPath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">QuizMessage</span>(<span class="hljs-params">
+    <span class="hljs-built_in">string</span> Question, 
+    <span class="hljs-built_in">string</span>[] Options, 
+    <span class="hljs-built_in">int</span>[] CorrectAnswers, 
+    <span class="hljs-built_in">string</span>? Explanation,
+    <span class="hljs-built_in">string</span> Type = <span class="hljs-string">&quot;mcq&quot;</span>
+</span>) : BotMessage</span>;</code></pre><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма взаємодії компонентів під час виконання уроку
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant TG as Telegram
+    participant API as WebhookController
+    participant SM as SceneManager
+    participant LS as LessonScene
+    participant CS as ContentService
+    participant QS as QuizService
+    participant DB as PostgreSQL
+
+    U->>TG: /lesson
+    TG->>API: POST /webhook
+    API->>SM: GetCurrentScene(userId)
+    SM->>DB: SELECT * FROM UserStates
+    DB-->>SM: UserState
+    SM-->>API: IdleScene
+    
+    API->>SM: SetScene(userId, "lesson")
+    SM->>DB: INSERT/UPDATE UserStates
+    
+    API->>LS: EnterAsync(bot, update)
+    LS->>CS: GetLessonsAsync(userLevel)
+    CS->>DB: SELECT * FROM Lessons WHERE Level = ?
+    DB-->>CS: Lesson[]
+    CS-->>LS: Available lessons
+    
+    LS->>CS: ParseLessonAsync(contentPath)
+    CS-->>LS: List<BotMessage>
+    
+    LS->>TG: SendTextMessage (first block)
+    TG-->>U: Text content
+    
+    LS->>TG: SendTextMessage (quiz question + buttons)
+    TG-->>U: Quiz with inline keyboard
+    
+    U->>TG: Click answer
+    TG->>API: CallbackQuery
+    API->>LS: HandleUpdateAsync(bot, update)
+    
+    LS->>QS: ProcessAnswerAsync(userId, quizId, answer)
+    QS->>DB: INSERT INTO UserQuizResults
+    QS-->>LS: QuizResult(isCorrect, explanation)
+    
+    LS->>TG: AnswerCallbackQuery + SendMessage
+    TG-->>U: "✅ Correct!" + explanation
+    
+    Note over LS,DB: Continue with next block or complete lesson
+    
+    LS->>DB: UPDATE UserProgress
+    LS->>TG: SendMessage (lesson summary)
+    TG-->>U: "Lesson completed! Score: X/Y"</div><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма стану користувача
+        </a>
+      </h3><div class="mermaid">stateDiagram-v2
+    [*] --> Idle
+    
+    Idle --> Onboarding: /start (new user)
+    Idle --> Lesson: /lesson
+    Idle --> Settings: /settings
+    Idle --> Stats: /stats
+    
+    Onboarding --> SelectLevel: Enter onboarding
+    SelectLevel --> SelectLanguage: Level selected
+    SelectLanguage --> SetupNotifications: Language selected  
+    SetupNotifications --> Idle: Setup complete
+    
+    Lesson --> LoadContent: Enter lesson scene
+    LoadContent --> ShowContent: Content parsed
+    ShowContent --> Quiz: Quiz block reached
+    ShowContent --> NextBlock: Text/Media block
+    NextBlock --> ShowContent: More blocks
+    NextBlock --> Complete: No more blocks
+    
+    Quiz --> WaitAnswer: Quiz displayed
+    WaitAnswer --> ProcessAnswer: User answered
+    ProcessAnswer --> ShowExplanation: Answer processed
+    ShowExplanation --> NextBlock: Continue lesson
+    
+    Complete --> Summary: Calculate results
+    Summary --> Idle: Show summary & return
+    
+    Settings --> Idle: Settings updated
+    Stats --> Idle: Stats shown</div><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🎯 Псевдокод основних сцен
+        </a>
+      </h2><h3 id="onboardingscene">
+        <a href="#onboardingscene" class="header-anchor">
+          OnboardingScene
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OnboardingScene</span> : <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">record</span> <span class="hljs-title">OnboardingData</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Step, <span class="hljs-built_in">string</span>? Level = <span class="hljs-literal">null</span>, <span class="hljs-built_in">string</span>? Language = <span class="hljs-literal">null</span></span>)</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> chatId = GetChatId(update);
+        <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+            <span class="hljs-string">&quot;🎯 Привіт! Я допоможу тобі вивчити англійську.\n&quot;</span> +
+            <span class="hljs-string">&quot;Спочатку оберемо твій рівень:&quot;</span>,
+            replyMarkup: CreateLevelKeyboard());
+            
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), 
+            <span class="hljs-keyword">new</span> OnboardingData(<span class="hljs-string">&quot;select_level&quot;</span>));
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">await</span> _sceneManager.GetSceneDataAsync&lt;OnboardingData&gt;(GetUserId(update));
+        
+        <span class="hljs-keyword">switch</span> (data?.Step)
+        {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;select_level&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleLevelSelection(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;select_language&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleLanguageSelection(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;setup_notifications&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleNotificationSetup(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleLevelSelection</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (update.CallbackQuery?.Data?.StartsWith(<span class="hljs-string">&quot;level:&quot;</span>) == <span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-keyword">var</span> level = update.CallbackQuery.Data.Split(<span class="hljs-string">&#x27;:&#x27;</span>)[<span class="hljs-number">1</span>];
+            <span class="hljs-keyword">var</span> chatId = update.CallbackQuery.Message!.Chat.Id;
+            
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+                <span class="hljs-string">&quot;🌍 Тепер оберемо мову інтерфейсу:&quot;</span>,
+                replyMarkup: CreateLanguageKeyboard());
+                
+            <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), 
+                <span class="hljs-keyword">new</span> OnboardingData(<span class="hljs-string">&quot;select_language&quot;</span>, level));
+        }
+    }
+    
+    <span class="hljs-comment">// ... інші методи</span>
+}</code></pre><h3 id="lessonscene">
+        <a href="#lessonscene" class="header-anchor">
+          LessonScene
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LessonScene</span> : <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">record</span> <span class="hljs-title">LessonData</span>(<span class="hljs-params">
+        <span class="hljs-built_in">int</span> LessonId,
+        List&lt;BotMessage&gt; Blocks,
+        <span class="hljs-built_in">int</span> CurrentIndex,
+        <span class="hljs-built_in">int</span> Score,
+        DateTime StartTime</span>)</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> userId = GetUserId(update);
+        <span class="hljs-keyword">var</span> user = <span class="hljs-keyword">await</span> _userRepository.GetByTelegramIdAsync(userId);
+        
+        <span class="hljs-comment">// Отримуємо доступні уроки для рівня користувача</span>
+        <span class="hljs-keyword">var</span> lessons = <span class="hljs-keyword">await</span> _contentService.GetLessonsAsync(user.Level);
+        <span class="hljs-keyword">var</span> currentLesson = lessons.FirstOrDefault(l =&gt; !IsCompleted(userId, l.Id));
+        
+        <span class="hljs-keyword">if</span> (currentLesson == <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(GetChatId(update), 
+                <span class="hljs-string">&quot;🎉 Ти завершив усі доступні уроки! Переходь на наступний рівень.&quot;</span>);
+            <span class="hljs-keyword">await</span> _sceneManager.SetSceneAsync(userId, <span class="hljs-string">&quot;idle&quot;</span>);
+            <span class="hljs-keyword">return</span>;
+        }
+        
+        <span class="hljs-comment">// Парсимо контент уроку</span>
+        <span class="hljs-keyword">var</span> blocks = <span class="hljs-keyword">await</span> _contentService.ParseLessonAsync(currentLesson.ContentPath);
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">new</span> LessonData(currentLesson.Id, blocks, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, DateTime.UtcNow);
+        
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(userId, data);
+        <span class="hljs-keyword">await</span> ProcessNextBlock(bot, update, ct, data);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">ProcessNextBlock</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, 
+        CancellationToken ct, LessonData data</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (data.CurrentIndex &gt;= data.Blocks.Count)
+        {
+            <span class="hljs-keyword">await</span> CompleteLessonAsync(bot, update, ct, data);
+            <span class="hljs-keyword">return</span>;
+        }
+        
+        <span class="hljs-keyword">var</span> currentBlock = data.Blocks[data.CurrentIndex];
+        <span class="hljs-keyword">var</span> chatId = GetChatId(update);
+        
+        <span class="hljs-keyword">switch</span> (currentBlock)
+        {
+            <span class="hljs-keyword">case</span> TextMessage text:
+                <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, text.Content, 
+                    parseMode: text.ParseMode);
+                <span class="hljs-keyword">await</span> MoveToNextBlock(bot, update, ct, data);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-keyword">case</span> QuizMessage quiz:
+                <span class="hljs-keyword">await</span> SendQuizAsync(bot, chatId, quiz, ct);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-keyword">case</span> PhotoMessage photo:
+                <span class="hljs-keyword">await</span> bot.SendPhotoAsync(chatId, 
+                    InputFile.FromUri(photo.ImagePath), 
+                    caption: photo.Caption);
+                <span class="hljs-keyword">await</span> MoveToNextBlock(bot, update, ct, data);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-comment">// ... інші типи повідомлень</span>
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">SendQuizAsync</span>(<span class="hljs-params">ITelegramBotClient bot, <span class="hljs-built_in">long</span> chatId, 
+        QuizMessage quiz, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> keyboard = <span class="hljs-keyword">new</span> InlineKeyboardMarkup(
+            quiz.Options.Select((option, index) =&gt; 
+                <span class="hljs-keyword">new</span>[] { InlineKeyboardButton.WithCallbackData(option, <span class="hljs-string">$&quot;quiz:<span class="hljs-subst">{index}</span>&quot;</span>) })
+        );
+        
+        <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+            <span class="hljs-string">$&quot;❓ <span class="hljs-subst">{quiz.Question}</span>&quot;</span>, 
+            replyMarkup: keyboard);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (update.CallbackQuery?.Data?.StartsWith(<span class="hljs-string">&quot;quiz:&quot;</span>) == <span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-keyword">await</span> HandleQuizAnswerAsync(bot, update, ct);
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleQuizAnswerAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">await</span> _sceneManager.GetSceneDataAsync&lt;LessonData&gt;(GetUserId(update));
+        <span class="hljs-keyword">var</span> selectedOption = <span class="hljs-built_in">int</span>.Parse(update.CallbackQuery!.Data!.Split(<span class="hljs-string">&#x27;:&#x27;</span>)[<span class="hljs-number">1</span>]);
+        <span class="hljs-keyword">var</span> quiz = (QuizMessage)data!.Blocks[data.CurrentIndex];
+        
+        <span class="hljs-keyword">var</span> isCorrect = quiz.CorrectAnswers.Contains(selectedOption);
+        <span class="hljs-keyword">var</span> newScore = isCorrect ? data.Score + <span class="hljs-number">1</span> : data.Score;
+        
+        <span class="hljs-comment">// Відповідь користувачеві</span>
+        <span class="hljs-keyword">await</span> bot.AnswerCallbackQueryAsync(update.CallbackQuery.Id,
+            isCorrect ? <span class="hljs-string">&quot;✅ Правильно!&quot;</span> : <span class="hljs-string">&quot;❌ Неправильно&quot;</span>);
+            
+        <span class="hljs-comment">// Пояснення (якщо є)</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(quiz.Explanation))
+        {
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(GetChatId(update), 
+                <span class="hljs-string">$&quot;<span class="hljs-subst">{(isCorrect ? <span class="hljs-string">&quot;✅&quot;</span> : <span class="hljs-string">&quot;❌&quot;</span>)}</span> <span class="hljs-subst">{quiz.Explanation}</span>&quot;</span>);
+        }
+        
+        <span class="hljs-comment">// Зберігаємо результат</span>
+        <span class="hljs-keyword">await</span> SaveQuizResultAsync(GetUserId(update), selectedOption, isCorrect);
+        
+        <span class="hljs-comment">// Переходимо до наступного блоку</span>
+        <span class="hljs-keyword">var</span> updatedData = data <span class="hljs-keyword">with</span> { Score = newScore, CurrentIndex = data.CurrentIndex + <span class="hljs-number">1</span> };
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), updatedData);
+        <span class="hljs-keyword">await</span> ProcessNextBlock(bot, update, ct, updatedData);
+    }
+}</code></pre><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📅 Етапи реалізації
+        </a>
+      </h2><h3 id="-1-1-2">
+        <a href="#-1-1-2" class="header-anchor">
+          Етап 1: Основна інфраструктура (Тиждень 1-2)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Створення структури проєктів (.NET 9)</li>
+<li><input disabled="" type="checkbox"> Налаштування EF Core + PostgreSQL</li>
+<li><input disabled="" type="checkbox"> Створення доменних моделей</li>
+<li><input disabled="" type="checkbox"> Базова конфігурація Docker Compose</li>
+<li><input disabled="" type="checkbox"> Реалізація SceneManager та базових сцен</li>
+<li><input disabled="" type="checkbox"> Налаштування Serilog для логування</li>
+<li><input disabled="" type="checkbox"> Створення webhook endpoint для Telegram</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Бот отримує та обробляє базові команди</li>
+<li>БД створюється та заповнюється початковими даними</li>
+<li>Логи пишуться у консоль та файл</li>
+<li>Docker контейнери запускаються без помилок</li>
+</ul>
+<h3 id="-2-3">
+        <a href="#-2-3" class="header-anchor">
+          Етап 2: Сцена знайомства (Тиждень 3)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація OnboardingScene</li>
+<li><input disabled="" type="checkbox"> Створення inline-клавіатур для вибору рівня</li>
+<li><input disabled="" type="checkbox"> Збереження користувацьких налаштувань у БД</li>
+<li><input disabled="" type="checkbox"> Валідація введених даних</li>
+<li><input disabled="" type="checkbox"> Локалізація повідомлень (українська/англійська)</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Нові користувачі проходять повну процедуру знайомства</li>
+<li>Налаштування зберігаються у БД</li>
+<li>Інтерфейс доступний українською та англійською</li>
+</ul>
+<h3 id="-3-4">
+        <a href="#-3-4" class="header-anchor">
+          Етап 3: Система контенту (Тиждень 4)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація ContentService для парсингу Markdown</li>
+<li><input disabled="" type="checkbox"> Підтримка різних типів контенту (текст, зображення, аудіо)</li>
+<li><input disabled="" type="checkbox"> Система :::quiz блоків у markdown</li>
+<li><input disabled="" type="checkbox"> Завантаження та кешування медіафайлів</li>
+<li><input disabled="" type="checkbox"> Створення шаблонів уроків</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Markdown файли корректно парсяться у BotMessage</li>
+<li>Медіафайли відправляються у Telegram</li>
+<li>Вікторини з markdown працюють</li>
+</ul>
+<h3 id="-4-5">
+        <a href="#-4-5" class="header-anchor">
+          Етап 4: Система вікторин (Тиждень 5)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація 3 типів вікторин (MCQ, Flashcards, Typing)</li>
+<li><input disabled="" type="checkbox"> LessonScene з підтримкою mixed-контенту</li>
+<li><input disabled="" type="checkbox"> Збереження результатів у UserQuizResult</li>
+<li><input disabled="" type="checkbox"> Система оцінювання та прогресу</li>
+<li><input disabled="" type="checkbox"> Статистика користувача</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Усі типи вікторин працюють коректно</li>
+<li>Результати зберігаються у БД</li>
+<li>Користувач бачить свій прогрес</li>
+</ul>
+<h3 id="-5-6">
+        <a href="#-5-6" class="header-anchor">
+          Етап 5: Додаткові функції (Тиждень 6)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Система нагадувань (щоденні повідомлення)</li>
+<li><input disabled="" type="checkbox"> Команди /stats, /progress, /help</li>
+<li><input disabled="" type="checkbox"> Система стріків (consecutive days)</li>
+<li><input disabled="" type="checkbox"> Backup/restore користувацьких даних</li>
+<li><input disabled="" type="checkbox"> Обробка помилок та Rate Limiting</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Нагадування працюють за розкладом</li>
+<li>Статистика відображається коректно</li>
+<li>Система обробляє помилки gracefully</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🚀 Інструкції для розгортання
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Локальна розробка
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># 1. Клонування репозиторію</span>
+git <span class="hljs-built_in">clone</span> &lt;repository-url&gt;
+<span class="hljs-built_in">cd</span> EnglishBot
+
+<span class="hljs-comment"># 2. Запуск БД через Docker</span>
+docker-compose up -d postgres
+
+<span class="hljs-comment"># 3. Застосування міграцій</span>
+dotnet ef database update --project EnglishBot.Infrastructure --startup-project EnglishBot.Api
+
+<span class="hljs-comment"># 4. Налаштування appsettings.json</span>
+<span class="hljs-comment"># Додати BOT_TOKEN, WEBHOOK_SECRET, connection string</span>
+
+<span class="hljs-comment"># 5. Запуск проєкту</span>
+dotnet run --project EnglishBot.Api</code></pre><h3 id="-docker">
+        <a href="#-docker" class="header-anchor">
+          Продакшн (Docker)
+        </a>
+      </h3><pre><code class="hljs language-yaml"><span class="hljs-comment"># docker-compose.prod.yml</span>
+<span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">app:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ASPNETCORE_ENVIRONMENT=Production</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ConnectionStrings__Default=Host=postgres;Database=englishbot;Username=postgres;Password=${DB_PASSWORD}</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">Bot__Token=${BOT_TOKEN}</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">Bot__WebhookSecret=${WEBHOOK_SECRET}</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres</span>
+    
+  <span class="hljs-attr">postgres:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:15</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=englishbot</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=${DB_PASSWORD}</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres_data:/var/lib/postgresql/data</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres_data:</span></code></pre><hr>
+<h2 id="-mvp">
+        <a href="#-mvp" class="header-anchor">
+          📊 Метрики успіху MVP
+        </a>
+      </h2><ul>
+<li><p><strong>Технічні:</strong></p>
+<ul>
+<li>Бот обробляє 95%+ повідомлень без помилок</li>
+<li>Час відповіді &lt; 2 секунд</li>
+<li>Uptime &gt; 99%</li>
+</ul>
+</li>
+<li><p><strong>Функціональні:</strong></p>
+<ul>
+<li>Користувач може пройти повний цикл: знайомство → урок → вікторини → результат</li>
+<li>Прогрес зберігається між сеансами</li>
+<li>Система підтримує мінімум 10 одночасних користувачів</li>
+</ul>
+</li>
+<li><p><strong>UX:</strong></p>
+<ul>
+<li>Інтуїтивна навігація без зайвих кроків</li>
+<li>Швидкий фідбек на дії користувача</li>
+<li>Зрозумілі повідомлення про помилки</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>Готово!</strong> Цей документ містить усе необхідне для початку реалізації Telegram-бота для навчання англійської мови. Можна починати з першого етапу та поступово розширювати функціонал.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Navigation JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileToggle = document.querySelector('.mobile-menu-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      const body = document.body;
+
+      function toggleMobileMenu() {
+        const isOpen = sidebar.classList.contains('open');
+        
+        if (isOpen) {
+          // Close menu
+          sidebar.classList.remove('open');
+          overlay.classList.remove('show');
+          mobileToggle.classList.remove('open');
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+          
+          // Hide overlay after animation
+          setTimeout(() => {
+            overlay.style.display = 'none';
+          }, 300);
+        } else {
+          // Open menu
+          sidebar.classList.add('open');
+          overlay.style.display = 'block';
+          mobileToggle.classList.add('open');
+          mobileToggle.setAttribute('aria-expanded', 'true');
+          body.style.overflow = 'hidden'; // Prevent background scrolling
+          
+          // Show overlay with animation
+          setTimeout(() => {
+            overlay.classList.add('show');
+          }, 10);
+        }
+      }
+
+      // Toggle menu on button click
+      mobileToggle.addEventListener('click', toggleMobileMenu);
+
+      // Close menu when clicking overlay
+      overlay.addEventListener('click', toggleMobileMenu);
+
+      // Close menu on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+          toggleMobileMenu();
+        }
+      });
+
+      // Close menu when window is resized to desktop size
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('show');
+          overlay.style.display = 'none';
+          mobileToggle.classList.remove('open');
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+        }
+      });
+
+      // Handle navigation link clicks on mobile
+      const navLinks = document.querySelectorAll('.sidebar nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          // Close mobile menu when a navigation link is clicked
+          if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+            setTimeout(() => {
+              toggleMobileMenu();
+            }, 150);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
