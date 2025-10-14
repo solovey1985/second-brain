@@ -8,7 +8,7 @@ async function loadAndRenderNavigation(baseUrl) {
   // Check if navigation needs to be loaded (static site with skeleton)
   if (!navContainer.querySelector('.nav-loading')) {
     // Navigation already rendered (dynamic server mode)
-    return;
+    return false;
   }
   
   try {
@@ -25,9 +25,17 @@ async function loadAndRenderNavigation(baseUrl) {
     // Replace loading skeleton with actual navigation
     navContainer.innerHTML = navigationHtml;
     
+    // Wait for next tick to ensure DOM is updated
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
     // Re-initialize navigation features after rendering
+    detectAndHighlightActivePath(baseUrl);
     initNavigationToggle();
     loadNavigationState();
+    
+    console.log('Navigation loaded and initialized');
+    
+    return true; // Navigation was loaded from JSON
     
   } catch (error) {
     console.error('Error loading navigation:', error);
@@ -37,6 +45,7 @@ async function loadAndRenderNavigation(baseUrl) {
         <p style="font-size: 0.875rem; color: #666;">Please refresh the page</p>
       </div>
     `;
+    return false; // Failed to load
   }
 }
 
@@ -109,8 +118,14 @@ function escapeHtml(text) {
 function initNavigationToggle() {
   const navToggles = document.querySelectorAll('.nav-toggle');
   
+  console.log(`Found ${navToggles.length} navigation toggles`);
+  
   navToggles.forEach(toggle => {
-    toggle.addEventListener('click', function(e) {
+    // Remove any existing listeners by cloning and replacing
+    const newToggle = toggle.cloneNode(true);
+    toggle.parentNode.replaceChild(newToggle, toggle);
+    
+    newToggle.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
       
@@ -119,6 +134,8 @@ function initNavigationToggle() {
       const isExpanded = navItem.classList.contains('nav-expanded');
       const icon = this.querySelector('.nav-toggle-icon');
       const path = navItem.getAttribute('data-path');
+      
+      console.log(`Toggle clicked for path: ${path}, currently expanded: ${isExpanded}`);
       
       if (isExpanded) {
         // Collapse
@@ -497,12 +514,15 @@ document.addEventListener('DOMContentLoaded', async function() {
   const baseUrl = document.body.dataset.baseUrl || '';
   
   // Load navigation from JSON if needed (static site only)
-  await loadAndRenderNavigation(baseUrl);
+  // This will also initialize navigation features if loading from JSON
+  const navigationLoaded = await loadAndRenderNavigation(baseUrl);
   
-  // Initialize navigation features (will run again after dynamic load)
-  detectAndHighlightActivePath(baseUrl);
-  initNavigationToggle();
-  loadNavigationState();
+  // Initialize navigation features (only if NOT loaded from JSON)
+  if (!navigationLoaded) {
+    detectAndHighlightActivePath(baseUrl);
+    initNavigationToggle();
+    loadNavigationState();
+  }
   
   // Initialize lightbox
   initLightbox();
