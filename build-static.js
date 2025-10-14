@@ -182,7 +182,9 @@ class StaticSiteBuilder {
     
     // Fix navigation links for static site
     const fixedHtml = this.fixStaticLinks(html);
-    fs.writeFileSync(outputPath, fixedHtml, 'utf8');
+    // Use Buffer to ensure proper UTF-8 encoding
+    const buffer = Buffer.from(fixedHtml, 'utf8');
+    fs.writeFileSync(outputPath, buffer);
     
     if (hasIndexMd) {
       console.log(`  📁 Built directory with index.md: ${dirPath || 'root'}`);
@@ -217,7 +219,9 @@ class StaticSiteBuilder {
     
     // Fix navigation links for static site
     const fixedHtml = this.fixStaticLinks(html);
-    fs.writeFileSync(outputPath, fixedHtml, 'utf8');
+    // Use Buffer to ensure proper UTF-8 encoding
+    const buffer = Buffer.from(fixedHtml, 'utf8');
+    fs.writeFileSync(outputPath, buffer);
     
     console.log(`  📝 Built page: ${filePath}`);
   }
@@ -310,7 +314,9 @@ class StaticSiteBuilder {
     });
 
     const fixedHtml = this.fixStaticLinks(html);
-    fs.writeFileSync(path.join(this.outputDir, '404.html'), fixedHtml);
+    // Use Buffer to ensure proper UTF-8 encoding
+    const buffer = Buffer.from(fixedHtml, 'utf8');
+    fs.writeFileSync(path.join(this.outputDir, '404.html'), buffer);
   }
 
   getFolderSize(folderPath) {

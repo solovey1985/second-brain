@@ -77,7 +77,7 @@ class PageRenderer {
     let html = `${indent}<ul class="nav-level-${level}">\n`;
 
     for (const item of navigation) {
-      const icon = item.type === "directory" ? "ðŸ“" : "ðŸ“„";
+      const icon = item.type === "directory" ? "📁" : "📄";
       const hasChildren = item.hasChildren;
       const isExpanded = item.isExpanded !== false; // Default to expanded if not specified
       const isActive = item.isActive;
@@ -99,7 +99,7 @@ class PageRenderer {
         if (hasChildren) {
           // Toggle button for expand/collapse
           html += `${indent}      <button class="nav-toggle" aria-label="Toggle ${item.name}" aria-expanded="${isExpanded}">
-          <span class="nav-toggle-icon">${isExpanded ? 'â–¼' : 'â–¶'}</span>
+          <span class="nav-toggle-icon">${isExpanded ? '▼' : '▶'}</span>
         </button>\n`;
         } else {
           // Spacer for alignment when no children
@@ -156,7 +156,7 @@ class PageRenderer {
     
     // Generate home link based on site type
     const homeUrl = this.isStaticSite ? `${this.baseUrl}/` : '/';
-    html += `<li><a href="${homeUrl}">ðŸ  Home</a></li>`;
+    html += `<li><a href="${homeUrl}">🏠 Home</a></li>`;
 
     for (const item of breadcrumb) {
       // Generate breadcrumb links based on site type
@@ -197,7 +197,7 @@ class PageRenderer {
       html += `
         <div class="entry entry-file">
           <a href="${href}">
-            <span class="icon">ðŸ“„</span>
+            <span class="icon">📄</span>
             <span class="name">${entry.name}</span>
           </a>
         </div>
@@ -251,7 +251,7 @@ class PageRenderer {
       html += `
         <div class="entry entry-directory">
           <a href="${href}">
-            <span class="icon">ðŸ“</span>
+            <span class="icon">📁</span>
             <span class="name">${entry.name}</span>
           </a>
         </div>
@@ -267,14 +267,14 @@ class PageRenderer {
    */
   getFileIcon(extension) {
     const icons = {
-      ".md": "ðŸ“„",
-      ".pdf": "ðŸ“•",
-      ".txt": "ðŸ“",
-      ".jpg": "ðŸ–¼ï¸",
-      ".png": "ðŸ–¼ï¸",
-      ".gif": "ðŸ–¼ï¸",
+      ".md": "📄",
+      ".pdf": "📕",
+      ".txt": "📝",
+      ".jpg": "🖼️",
+      ".png": "🖼️",
+      ".gif": "🖼️",
     };
-    return icons[extension] || "ðŸ“„";
+    return icons[extension] || "📄";
   }
 
   /**
@@ -334,13 +334,13 @@ class PageRenderer {
   <div class="app-container">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2><a href="${this.isStaticSite ? this.baseUrl + '/' : '/'}">ðŸ“š Docs Portal</a></h2>
+        <h2><a href="${this.isStaticSite ? this.baseUrl + '/' : '/'}">📚 Docs Portal</a></h2>
       </div>
       
       ${this.commitInfo ? `
       <!-- Commit Info Banner -->
       <div class="commit-info-banner">
-        <div class="commit-icon">ðŸ”„</div>
+        <div class="commit-icon">🔄</div>
         <div class="commit-details">
           <div class="commit-message" title="${this.escapeHtml(this.commitInfo.fullMessage || this.commitInfo.message)}">
             ${this.escapeHtml(this.commitInfo.shortMessage)}
@@ -356,10 +356,10 @@ class PageRenderer {
       <!-- Sidebar controls for collapse/expand all -->
       <div class="sidebar-controls">
         <button onclick="collapseAll()" title="Collapse all folders">
-          â¬†ï¸ Collapse All
+          ⬆️ Collapse All
         </button>
         <button onclick="expandAll()" title="Expand all folders">
-          â¬‡ï¸ Expand All
+          ⬇️ Expand All
         </button>
       </div>
       
