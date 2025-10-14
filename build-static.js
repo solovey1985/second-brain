@@ -4,20 +4,26 @@ const PageRenderer = require('./server/views/PageRenderer');
 const NavigationService = require('./server/services/NavigationService');
 const FileService = require('./server/services/FileService');
 const MarkdownRenderer = require('./server/services/MarkdownRenderer');
+const GitService = require('./server/services/GitService');
 
 class StaticSiteBuilder {
   constructor(options = {}) {
     this.fileService = new FileService('./content');
     this.navService = new NavigationService(this.fileService);
+    this.gitService = new GitService();
     
     // Determine deployment target
     const deployTarget = options.target || process.env.DEPLOY_TARGET || 'github';
     const baseUrl = deployTarget === 'local' ? '' : '/second-brain';
     
+    // Get commit info
+    this.commitInfo = this.gitService.getCommitInfoForDisplay();
+    
     // Configure for different deployment targets
     this.renderer = new PageRenderer({ 
       isStaticSite: true, 
-      baseUrl: baseUrl
+      baseUrl: baseUrl,
+      commitInfo: this.commitInfo
     });
     this.markdownRenderer = new MarkdownRenderer({
       isStaticSite: true,
@@ -30,6 +36,12 @@ class StaticSiteBuilder {
 
   async build() {
     console.log('🔨 Building static site...');
+    
+    // Display commit info
+    if (this.commitInfo) {
+      console.log('📝 Latest commit:', this.commitInfo.shortMessage);
+      console.log('   ', `${this.commitInfo.hash} by ${this.commitInfo.author} - ${this.commitInfo.dateRelative}`);
+    }
     
     // Clean and create output directory
     if (fs.existsSync(this.outputDir)) {

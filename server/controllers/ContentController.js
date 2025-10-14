@@ -1,5 +1,6 @@
 const PageRenderer = require('../views/PageRenderer');
 const MarkdownRenderer = require('../services/MarkdownRenderer');
+const GitService = require('../services/GitService');
 
 /**
  * Controller responsible for handling content requests (Single Responsibility)
@@ -8,7 +9,12 @@ class ContentController {
   constructor(fileService, navigationService) {
     this.fileService = fileService;
     this.navigationService = navigationService;
-    this.pageRenderer = new PageRenderer();
+    this.gitService = new GitService();
+    
+    // Get commit info once during initialization
+    const commitInfo = this.gitService.getCommitInfoForDisplay();
+    
+    this.pageRenderer = new PageRenderer({ commitInfo });
     this.markdownRenderer = new MarkdownRenderer();
   }
 

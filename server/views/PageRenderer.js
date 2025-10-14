@@ -5,6 +5,22 @@ class PageRenderer {
   constructor(options = {}) {
     this.isStaticSite = options.isStaticSite || false;
     this.baseUrl = options.baseUrl || '';
+    this.commitInfo = options.commitInfo || null;
+  }
+
+  /**
+   * Escape HTML to prevent XSS
+   */
+  escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
   }
 
   /**
@@ -433,6 +449,72 @@ class PageRenderer {
       color: #0366d6;
       font-size: 1.4rem;
       font-weight: 600;
+    }
+
+    /* Commit Info Banner */
+    .commit-info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+      border-bottom: 1px solid #c8e1ff;
+      border-left: 3px solid #0366d6;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    .commit-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .commit-details {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .commit-message {
+      font-weight: 500;
+      color: #24292e;
+      line-height: 1.4;
+      margin-bottom: 0.35rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: help;
+    }
+
+    .commit-meta {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: #586069;
+    }
+
+    .commit-hash {
+      font-family: 'Courier New', monospace;
+      background: rgba(27, 31, 35, 0.05);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      color: #0366d6;
+      font-weight: 600;
+    }
+
+    .commit-date {
+      color: #6a737d;
+    }
+
+    .commit-date::before {
+      content: '•';
+      margin-right: 0.5rem;
+      color: #d1d5da;
     }
 
     /* Sidebar controls */
@@ -1392,6 +1474,22 @@ class PageRenderer {
       <div class="sidebar-header">
         <h2><a href="${this.isStaticSite ? this.baseUrl + '/' : '/'}">📚 Docs Portal</a></h2>
       </div>
+      
+      ${this.commitInfo ? `
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="${this.escapeHtml(this.commitInfo.fullMessage || this.commitInfo.message)}">
+            ${this.escapeHtml(this.commitInfo.shortMessage)}
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">${this.commitInfo.hash}</span>
+            <span class="commit-date">${this.commitInfo.dateRelative}</span>
+          </div>
+        </div>
+      </div>
+      ` : ''}
       
       <!-- Sidebar controls for collapse/expand all -->
       <div class="sidebar-controls">
