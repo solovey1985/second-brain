@@ -9,7 +9,9 @@ class NavigationService {
   /**
    * Generate navigation menu from directory structure
    */
-  async generateNavigationMenu(rootPath = '', maxDepth = 3, currentDepth = 0) {
+  async generateNavigationMenu(rootPath = '', maxDepth = 3, currentDepth = 0, currentPath = '', options = {}) {
+    const { defaultExpanded = false, expandRootLevel = true } = options;
+    
     if (currentDepth >= maxDepth) return [];
 
     try {
@@ -18,18 +20,45 @@ class NavigationService {
 
       for (const entry of entries) {
         if (entry.type === 'directory') {
-          const subNav = await this.generateNavigationMenu(entry.path, maxDepth, currentDepth + 1);
+          const subNav = await this.generateNavigationMenu(
+            entry.path, 
+            maxDepth, 
+            currentDepth + 1,
+            currentPath,
+            options
+          );
+          
+          // Determine if folder should be expanded
+          let isExpanded;
+          if (currentPath) {
+            // Dynamic server mode - expand if in active path
+            isExpanded = currentPath.startsWith(entry.path);
+          } else {
+            // Static site mode - use default behavior
+            isExpanded = currentDepth === 0 ? expandRootLevel : defaultExpanded;
+          }
+          
+          const isActive = currentPath === entry.path;
+          
           navigation.push({
             name: entry.name,
             path: entry.path,
             type: 'directory',
-            children: subNav
+            children: subNav,
+            hasChildren: subNav.length > 0,
+            isExpanded: isExpanded,
+            isActive: isActive,
+            level: currentDepth
           });
         } else if (entry.extension === '.md') {
+          const isActive = currentPath === entry.path;
+          
           navigation.push({
             name: this.formatFileName(entry.name),
             path: entry.path,
-            type: 'file'
+            type: 'file',
+            isActive: isActive,
+            level: currentDepth
           });
         }
       }

@@ -42,9 +42,14 @@ class StaticSiteBuilder {
     const nojekyllPath = path.join(this.outputDir, '.nojekyll');
     fs.writeFileSync(nojekyllPath, '');
 
-    // Build navigation structure
+    // Build navigation structure with static site optimizations
     console.log('🗂️  Building navigation...');
-    const navigation = await this.navService.generateNavigationMenu('', 3);
+    const navigation = await this.navService.generateNavigationMenu('', 3, 0, '', {
+      defaultExpanded: false,  // Collapse by default for better performance
+      expandRootLevel: true    // Keep root level visible
+    });
+    
+    console.log(`📊 Navigation tree: ${this.countNavItems(navigation)} total items`);
     
     // Build all pages
     console.log('📄 Building pages...');
@@ -330,6 +335,18 @@ class StaticSiteBuilder {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  // Helper to count navigation items
+  countNavItems(navigation) {
+    let count = 0;
+    navigation.forEach(item => {
+      count++;
+      if (item.children && item.children.length > 0) {
+        count += this.countNavItems(item.children);
+      }
+    });
+    return count;
   }
 }
 

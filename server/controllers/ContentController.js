@@ -17,7 +17,8 @@ class ContentController {
    */
   async renderIndex(req, res) {
     try {
-      const navigation = await this.navigationService.generateNavigationMenu();
+      // Generate navigation without currentPath for home page
+      const navigation = await this.navigationService.generateNavigationMenu('', 3, 0, '');
       
       // For the home page, show a welcome message instead of directory listing
       const html = this.pageRenderer.renderLayout({
@@ -64,7 +65,8 @@ class ContentController {
     const requestPath = req.params[0] || '';
     
     try {
-      const navigation = await this.navigationService.generateNavigationMenu();
+      // Generate navigation with currentPath for active path highlighting
+      const navigation = await this.navigationService.generateNavigationMenu('', 3, 0, requestPath);
       const breadcrumb = this.navigationService.generateBreadcrumb(requestPath);
 
       // If it's the root path, redirect to home page

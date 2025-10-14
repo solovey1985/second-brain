@@ -62,36 +62,65 @@ class PageRenderer {
 
     for (const item of navigation) {
       const icon = item.type === "directory" ? "📁" : "📄";
-      html += `${indent}  <li class="nav-${item.type}">\n`;
+      const hasChildren = item.hasChildren;
+      const isExpanded = item.isExpanded !== false; // Default to expanded if not specified
+      const isActive = item.isActive;
       
-      // Generate URL based on site type
-      let url;
-      if (this.isStaticSite) {
-        // For static sites, handle base URL properly
-        if (this.baseUrl) {
-          // GitHub Pages or other hosted environment
-          if (item.type === "directory") {
-            url = `${this.baseUrl}/${item.path}/`;
-          } else {
-            url = `${this.baseUrl}/${item.path.replace('.md', '.html')}`;
-          }
+      // CSS classes for state management
+      const itemClasses = [
+        `nav-${item.type}`,
+        hasChildren ? 'nav-expandable' : '',
+        isExpanded ? 'nav-expanded' : 'nav-collapsed',
+        isActive ? 'nav-active' : ''
+      ].filter(Boolean).join(' ');
+
+      html += `${indent}  <li class="${itemClasses}" data-path="${item.path}">\n`;
+      
+      if (item.type === "directory") {
+        // Directory with expand/collapse button
+        html += `${indent}    <div class="nav-item-wrapper">\n`;
+        
+        if (hasChildren) {
+          // Toggle button for expand/collapse
+          html += `${indent}      <button class="nav-toggle" aria-label="Toggle ${item.name}" aria-expanded="${isExpanded}">
+          <span class="nav-toggle-icon">${isExpanded ? '▼' : '▶'}</span>
+        </button>\n`;
         } else {
-          // Local development - use relative paths from root
-          if (item.type === "directory") {
-            url = `/${item.path}/`;
-          } else {
-            url = `/${item.path.replace('.md', '.html')}`;
-          }
+          // Spacer for alignment when no children
+          html += `${indent}      <span class="nav-toggle-spacer"></span>\n`;
+        }
+        
+        // Generate URL
+        let url;
+        if (this.isStaticSite) {
+          url = this.baseUrl ? `${this.baseUrl}/${item.path}/` : `/${item.path}/`;
+        } else {
+          url = `/content/${item.path}`;
+        }
+        
+        html += `${indent}      <a href="${url}" class="nav-link"><span class="nav-icon">${icon}</span> <span class="nav-name">${item.name}</span></a>\n`;
+        html += `${indent}    </div>\n`;
+        
+        // Render children with collapse state
+        if (hasChildren && item.children.length > 0) {
+          const childrenStyle = isExpanded ? '' : ' style="display: none;"';
+          html += `${indent}    <div class="nav-children"${childrenStyle}>\n`;
+          html += this.renderNavigation(item.children, level + 1);
+          html += `${indent}    </div>\n`;
         }
       } else {
-        // For dynamic sites, use the original content prefix
-        url = `/content/${item.path}`;
-      }
-      
-      html += `${indent}    <a href="${url}">${icon} ${item.name}</a>\n`;
-
-      if (item.children && item.children.length > 0) {
-        html += this.renderNavigation(item.children, level + 1);
+        // File item
+        let url;
+        if (this.isStaticSite) {
+          url = this.baseUrl ? `${this.baseUrl}/${item.path.replace('.md', '.html')}` : `/${item.path.replace('.md', '.html')}`;
+        } else {
+          url = `/content/${item.path}`;
+        }
+        
+        html += `${indent}    <div class="nav-item-wrapper">\n`;
+        html += `${indent}      <span class="nav-toggle-spacer"></span>\n`;
+        html += `${indent}      <a href="${url}" class="nav-link"><span class="nav-icon">${icon}</span> <span class="nav-name">${item.name}</span></a>\n`;
+        html += `${indent}    </div>\n`;
       }
 
       html += `${indent}  </li>\n`;
@@ -406,6 +435,38 @@ class PageRenderer {
       font-weight: 600;
     }
 
+    /* Sidebar controls */
+    .sidebar-controls {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #e1e4e8;
+      display: flex;
+      gap: 0.5rem;
+      background: #fafbfc;
+    }
+
+    .sidebar-controls button {
+      flex: 1;
+      padding: 0.4rem 0.5rem;
+      background: #fff;
+      border: 1px solid #e1e4e8;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #586069;
+      font-weight: 500;
+    }
+
+    .sidebar-controls button:hover {
+      background: #f6f8fa;
+      border-color: #d0d7de;
+      color: #24292f;
+    }
+
+    .sidebar-controls button:active {
+      transform: scale(0.98);
+    }
+
     .navigation {
       padding: 1rem 0;
     }
@@ -413,34 +474,149 @@ class PageRenderer {
     .navigation ul {
       list-style: none;
       padding: 0;
-    }
-
-    .navigation li {
       margin: 0;
     }
 
-    .navigation a {
-      display: block;
-      padding: 0.5rem 1.5rem;
+    .navigation li {
+      margin: 0.1rem 0;
+    }
+
+    /* Navigation item wrapper */
+    .nav-item-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Toggle button for expand/collapse */
+    .nav-toggle {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: #586069;
+      font-size: 0.75rem;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-toggle:hover {
+      background: #e1e4e8;
+      color: #24292f;
+    }
+
+    .nav-toggle:focus {
+      outline: 2px solid #0366d6;
+      outline-offset: 2px;
+    }
+
+    .nav-toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+
+    /* Spacer for items without toggle */
+    .nav-toggle-spacer {
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    /* Navigation link */
+    .navigation .nav-link {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.5rem 0.5rem 0;
       text-decoration: none;
       color: #586069;
       transition: all 0.2s ease;
       font-size: 0.9rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
     }
 
-    .navigation a:hover {
+    .navigation .nav-link:hover {
       background: #f6f8fa;
       color: #0366d6;
     }
 
-    .nav-level-1 a {
+    .navigation .nav-icon {
+      margin-right: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .navigation .nav-name {
+      flex: 1;
+    }
+
+    /* Active state */
+    .nav-active > .nav-item-wrapper > .nav-link {
+      background: #e1f0ff;
+      color: #0366d6;
+      font-weight: 600;
+      border-left: 3px solid #0366d6;
+      padding-left: 0.5rem;
+    }
+
+    .nav-active > .nav-item-wrapper > .nav-toggle {
+      color: #0366d6;
+    }
+
+    /* Collapsed/Expanded state */
+    .nav-collapsed > .nav-children {
+      display: none;
+    }
+
+    .nav-expanded > .nav-children {
+      display: block;
+    }
+
+    /* Smooth animation for collapse/expand */
+    .nav-children {
+      overflow: hidden;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Nested indentation */
+    .nav-level-0 {
+      padding: 0;
+    }
+
+    .nav-level-1 > li > .nav-item-wrapper {
+      padding-left: 1rem;
+    }
+
+    .nav-level-2 > li > .nav-item-wrapper {
       padding-left: 2rem;
+    }
+
+    /* Visual hierarchy */
+    .nav-level-0 > .nav-directory > .nav-item-wrapper > .nav-link {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #24292f;
+    }
+
+    .nav-level-1 > .nav-directory > .nav-item-wrapper > .nav-link {
+      font-size: 0.88rem;
+    }
+
+    .nav-level-2 > .nav-directory > .nav-item-wrapper > .nav-link {
       font-size: 0.85rem;
     }
 
-    .nav-level-2 a {
-      padding-left: 2.5rem;
-      font-size: 0.8rem;
+    /* Hover effect for entire nav item */
+    .navigation li:hover > .nav-item-wrapper {
+      background: #f6f8fa;
+      border-radius: 6px;
     }
 
     /* Main Content */
@@ -1006,6 +1182,17 @@ class PageRenderer {
       <div class="sidebar-header">
         <h2><a href="${this.isStaticSite ? this.baseUrl + '/' : '/'}">📚 Docs Portal</a></h2>
       </div>
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
       <nav class="navigation">
         ${navigation}
       </nav>
@@ -1020,7 +1207,204 @@ class PageRenderer {
 
   <!-- Mobile Navigation JavaScript -->
   <script>
+    // ========================================
+    // NAVIGATION COLLAPSE/EXPAND FUNCTIONALITY
+    // ========================================
+    
+    function initNavigationToggle() {
+      const navToggles = document.querySelectorAll('.nav-toggle');
+      
+      navToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const navItem = this.closest('li');
+          const navChildren = navItem.querySelector('.nav-children');
+          const isExpanded = navItem.classList.contains('nav-expanded');
+          const icon = this.querySelector('.nav-toggle-icon');
+          const path = navItem.getAttribute('data-path');
+          
+          if (isExpanded) {
+            // Collapse
+            navItem.classList.remove('nav-expanded');
+            navItem.classList.add('nav-collapsed');
+            icon.textContent = '▶';
+            this.setAttribute('aria-expanded', 'false');
+            if (navChildren) {
+              navChildren.style.display = 'none';
+            }
+            
+            // Save state
+            saveNavigationState(path, false);
+          } else {
+            // Expand
+            navItem.classList.remove('nav-collapsed');
+            navItem.classList.add('nav-expanded');
+            icon.textContent = '▼';
+            this.setAttribute('aria-expanded', 'true');
+            if (navChildren) {
+              navChildren.style.display = 'block';
+            }
+            
+            // Save state
+            saveNavigationState(path, true);
+          }
+        });
+      });
+    }
+
+    // Save navigation state to localStorage
+    function saveNavigationState(path, isExpanded) {
+      try {
+        const state = JSON.parse(localStorage.getItem('navState') || '{}');
+        state[path] = isExpanded;
+        localStorage.setItem('navState', JSON.stringify(state));
+      } catch (e) {
+        console.warn('Could not save navigation state:', e);
+      }
+    }
+
+    // Load navigation state from localStorage
+    function loadNavigationState() {
+      try {
+        const state = JSON.parse(localStorage.getItem('navState') || '{}');
+        
+        Object.keys(state).forEach(path => {
+          const isExpanded = state[path];
+          const navItem = document.querySelector(\`li[data-path="\${path}"]\`);
+          
+          if (navItem) {
+            const toggle = navItem.querySelector('.nav-toggle');
+            const icon = toggle?.querySelector('.nav-toggle-icon');
+            const navChildren = navItem.querySelector('.nav-children');
+            
+            if (isExpanded) {
+              navItem.classList.add('nav-expanded');
+              navItem.classList.remove('nav-collapsed');
+              if (icon) icon.textContent = '▼';
+              if (toggle) toggle.setAttribute('aria-expanded', 'true');
+              if (navChildren) navChildren.style.display = 'block';
+            } else {
+              navItem.classList.add('nav-collapsed');
+              navItem.classList.remove('nav-expanded');
+              if (icon) icon.textContent = '▶';
+              if (toggle) toggle.setAttribute('aria-expanded', 'false');
+              if (navChildren) navChildren.style.display = 'none';
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('Could not load navigation state:', e);
+      }
+    }
+
+    // Detect and highlight active path (for static sites)
+    function detectAndHighlightActivePath() {
+      // Get current page path - handle both static and dynamic sites
+      let currentPath = window.location.pathname;
+      
+      // Remove base URL if present (for GitHub Pages)
+      const baseUrl = '${this.isStaticSite ? this.baseUrl : ''}';
+      if (baseUrl && currentPath.startsWith(baseUrl)) {
+        currentPath = currentPath.substring(baseUrl.length);
+      }
+      
+      // Normalize path
+      currentPath = currentPath
+        .replace(/^\\//, '')                  // Remove leading slash
+        .replace(/\\/index\\.html$/, '')       // Remove /index.html
+        .replace(/\\.html$/, '.md')           // Convert .html to .md for matching
+        .replace(/\\/$/, '');                  // Remove trailing slash
+      
+      if (!currentPath) return; // Skip for home page
+      
+      // Find and highlight active nav item
+      const navItems = document.querySelectorAll('.navigation li[data-path]');
+      
+      navItems.forEach(item => {
+        const itemPath = item.getAttribute('data-path');
+        
+        // Check for exact match or if current path starts with item path (for directories)
+        if (currentPath === itemPath || currentPath.startsWith(itemPath + '/')) {
+          item.classList.add('nav-active');
+          
+          // Expand all parent folders
+          let parent = item.parentElement.closest('li[data-path]');
+          while (parent) {
+            if (parent.classList.contains('nav-collapsed')) {
+              const toggle = parent.querySelector(':scope > .nav-item-wrapper > .nav-toggle');
+              if (toggle) {
+                // Expand without triggering save
+                parent.classList.remove('nav-collapsed');
+                parent.classList.add('nav-expanded');
+                const icon = toggle.querySelector('.nav-toggle-icon');
+                if (icon) icon.textContent = '▼';
+                toggle.setAttribute('aria-expanded', 'true');
+                const children = parent.querySelector(':scope > .nav-children');
+                if (children) children.style.display = 'block';
+              }
+            }
+            parent = parent.parentElement.closest('li[data-path]');
+          }
+        }
+      });
+    }
+
+    // Collapse all folders
+    function collapseAll() {
+      const navItems = document.querySelectorAll('.nav-expandable');
+      navItems.forEach(item => {
+        if (item.classList.contains('nav-expanded')) {
+          const toggle = item.querySelector('.nav-toggle');
+          if (toggle) toggle.click();
+        }
+      });
+    }
+
+    // Expand all folders
+    function expandAll() {
+      const navItems = document.querySelectorAll('.nav-expandable');
+      navItems.forEach(item => {
+        if (item.classList.contains('nav-collapsed')) {
+          const toggle = item.querySelector('.nav-toggle');
+          if (toggle) toggle.click();
+        }
+      });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      const focused = document.activeElement;
+      
+      // Arrow right: expand folder if collapsed
+      if (e.key === 'ArrowRight' && focused.classList.contains('nav-toggle')) {
+        const navItem = focused.closest('li');
+        if (navItem.classList.contains('nav-collapsed')) {
+          focused.click();
+        }
+      }
+      
+      // Arrow left: collapse folder if expanded
+      if (e.key === 'ArrowLeft' && focused.classList.contains('nav-toggle')) {
+        const navItem = focused.closest('li');
+        if (navItem.classList.contains('nav-expanded')) {
+          focused.click();
+        }
+      }
+    });
+
+    // ========================================
+    // MOBILE MENU FUNCTIONALITY
+    // ========================================
+
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize navigation features
+      detectAndHighlightActivePath();
+      initNavigationToggle();
+      loadNavigationState();
+      
+      // Mobile menu functionality
       const mobileToggle = document.querySelector('.mobile-menu-toggle');
       const sidebar = document.querySelector('.sidebar');
       const overlay = document.querySelector('.mobile-overlay');
