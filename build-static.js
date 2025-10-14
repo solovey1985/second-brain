@@ -63,6 +63,10 @@ class StaticSiteBuilder {
     
     console.log(`📊 Navigation tree: ${this.countNavItems(navigation)} total items`);
     
+    // Generate navigation.json for client-side rendering
+    console.log('📋 Generating navigation.json...');
+    await this.generateNavigationJson(navigation);
+    
     // Build all pages
     console.log('📄 Building pages...');
     await this.buildPages('', navigation);
@@ -241,6 +245,23 @@ class StaticSiteBuilder {
     }
     
     return breadcrumb;
+  }
+
+  async generateNavigationJson(navigation) {
+    const navigationData = {
+      tree: navigation,
+      metadata: {
+        buildTime: new Date().toISOString(),
+        commitInfo: this.commitInfo,
+        itemCount: this.countNavItems(navigation)
+      }
+    };
+    
+    const jsonPath = path.join(this.outputDir, 'navigation.json');
+    const jsonContent = JSON.stringify(navigationData, null, 2);
+    fs.writeFileSync(jsonPath, jsonContent, 'utf8');
+    
+    console.log(`  ✅ Generated navigation.json (${(jsonContent.length / 1024).toFixed(2)} KB)`);
   }
 
   fixStaticLinks(html) {

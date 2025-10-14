@@ -363,8 +363,14 @@ class PageRenderer {
         </button>
       </div>
       
-      <nav class="navigation">
-        ${navigation}
+      <nav class="navigation" id="nav-container">
+        ${this.isStaticSite ? `
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        ` : navigation}
       </nav>
     </aside>
     

@@ -1,4 +1,108 @@
 // ========================================
+// NAVIGATION LOADING & RENDERING (Static Site Only)
+// ========================================
+
+async function loadAndRenderNavigation(baseUrl) {
+  const navContainer = document.getElementById('nav-container');
+  
+  // Check if navigation needs to be loaded (static site with skeleton)
+  if (!navContainer.querySelector('.nav-loading')) {
+    // Navigation already rendered (dynamic server mode)
+    return;
+  }
+  
+  try {
+    const navJsonUrl = `${baseUrl}/navigation.json`;
+    const response = await fetch(navJsonUrl);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to load navigation: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const navigationHtml = renderNavigationTree(data.tree, 0, baseUrl);
+    
+    // Replace loading skeleton with actual navigation
+    navContainer.innerHTML = navigationHtml;
+    
+    // Re-initialize navigation features after rendering
+    initNavigationToggle();
+    loadNavigationState();
+    
+  } catch (error) {
+    console.error('Error loading navigation:', error);
+    navContainer.innerHTML = `
+      <div class="nav-error">
+        <p>⚠️ Failed to load navigation</p>
+        <p style="font-size: 0.875rem; color: #666;">Please refresh the page</p>
+      </div>
+    `;
+  }
+}
+
+function renderNavigationTree(navigation, level, baseUrl) {
+  if (!navigation || navigation.length === 0) return '';
+  
+  const indent = "  ".repeat(level);
+  let html = `${indent}<ul class="nav-level-${level}">\n`;
+
+  for (const item of navigation) {
+    const icon = item.type === "directory" ? "📁" : "📄";
+    const hasChildren = item.hasChildren;
+    const isExpanded = item.isExpanded !== false;
+    const isActive = item.isActive;
+    
+    const classes = [];
+    if (item.type === "directory") classes.push("nav-directory");
+    if (hasChildren) classes.push("nav-expandable");
+    if (isExpanded) classes.push("nav-expanded");
+    else if (item.type === "directory") classes.push("nav-collapsed");
+    if (isActive) classes.push("nav-active");
+    
+    html += `${indent}  <li class="${classes.join(' ')}" data-path="${item.path}">\n`;
+    
+    if (item.type === "directory") {
+      html += `${indent}    <div class="nav-item-wrapper">\n`;
+      
+      if (hasChildren) {
+        html += `${indent}      <button class="nav-toggle" aria-label="Toggle ${item.name}" aria-expanded="${isExpanded}">
+          <span class="nav-toggle-icon">${isExpanded ? '▼' : '▶'}</span>
+        </button>\n`;
+      } else {
+        html += `${indent}      <span class="nav-toggle-spacer"></span>\n`;
+      }
+      
+      const href = baseUrl ? `${baseUrl}/${item.path}/` : `/${item.path}/`;
+      html += `${indent}      <a href="${href}" class="nav-link"><span class="nav-icon">${icon}</span> <span class="nav-name">${escapeHtml(item.name)}</span></a>\n`;
+      html += `${indent}    </div>\n`;
+      
+      if (hasChildren && item.children) {
+        const childDisplay = isExpanded ? 'block' : 'none';
+        html += `${indent}    <div class="nav-children" style="display: ${childDisplay};">\n`;
+        html += renderNavigationTree(item.children, level + 1, baseUrl);
+        html += `${indent}    </div>\n`;
+      }
+    } else {
+      const href = baseUrl 
+        ? `${baseUrl}/${item.path.replace('.md', '.html')}`
+        : `/content/${item.path}`;
+      html += `${indent}    <a href="${href}" class="nav-link"><span class="nav-icon">${icon}</span> <span class="nav-name">${escapeHtml(item.name)}</span></a>\n`;
+    }
+    
+    html += `${indent}  </li>\n`;
+  }
+
+  html += `${indent}</ul>\n`;
+  return html;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ========================================
 // NAVIGATION COLLAPSE/EXPAND FUNCTIONALITY
 // ========================================
 
@@ -388,11 +492,14 @@ function initMobileMenu() {
 // ========================================
 
 // Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // Get baseUrl from data attribute if available
   const baseUrl = document.body.dataset.baseUrl || '';
   
-  // Initialize navigation features
+  // Load navigation from JSON if needed (static site only)
+  await loadAndRenderNavigation(baseUrl);
+  
+  // Initialize navigation features (will run again after dynamic load)
   detectAndHighlightActivePath(baseUrl);
   initNavigationToggle();
   loadNavigationState();
