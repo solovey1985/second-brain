@@ -182,7 +182,7 @@ class StaticSiteBuilder {
     
     // Fix navigation links for static site
     const fixedHtml = this.fixStaticLinks(html);
-    fs.writeFileSync(outputPath, fixedHtml);
+    fs.writeFileSync(outputPath, fixedHtml, 'utf8');
     
     if (hasIndexMd) {
       console.log(`  📁 Built directory with index.md: ${dirPath || 'root'}`);
@@ -217,7 +217,7 @@ class StaticSiteBuilder {
     
     // Fix navigation links for static site
     const fixedHtml = this.fixStaticLinks(html);
-    fs.writeFileSync(outputPath, fixedHtml);
+    fs.writeFileSync(outputPath, fixedHtml, 'utf8');
     
     console.log(`  📝 Built page: ${filePath}`);
   }
