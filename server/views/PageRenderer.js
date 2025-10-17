@@ -284,10 +284,10 @@ class PageRenderer {
     // Determine CSS and JS paths based on site type
     const cssPath = this.isStaticSite 
       ? `${this.baseUrl}/app.css`
-      : '/public/app.css';
+      : '/assets/styles/app.css';
     const jsPath = this.isStaticSite
       ? `${this.baseUrl}/app.js`
-      : '/public/app.js';
+      : '/assets/scripts/app.js';
     
     return `
 <!DOCTYPE html>

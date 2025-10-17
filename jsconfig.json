@@ -18,5 +18,5 @@
   "include": [
     "server/**/*",
     "public/**/*"
-  ]
+, "assets/scripts/app.js", "assets/scripts/mermaid-init.js"  ]
 }
