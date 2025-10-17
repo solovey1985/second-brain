@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>відводки - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="fix css and scripts folder">
+            fix css and scripts folder
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">ba98375</span>
+            <span class="commit-date">20 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/пасіка/">пасіка</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-">**Інструкція з роботи з відводками**</a></li>
+<ul>
+<li><a href="#1-">**1. Підготовка до створення відводка**</a></li>
+<li><a href="#2-">**2. Формування відводка**</a></li>
+<li><a href="#3-">**3. Розміщення відводка**</a></li>
+<li><a href="#4-">**4. Догляд за відводком**</a></li>
+<li><a href="#5-">**5. Переведення відводка в основну сім’ю (опціонально)**</a></li>
+<li><a href="#6-">**6. Можливі цілі створення відводків**</a></li>
+</ul>
+<li><a href="#-">**Корисні поради**</a></li>
+<ul>
+<li><a href="#-3-5-6-">**Схема комплектації відводків на 3, 5 і 6 рамок**</a></li>
+<li><a href="#7-">**7. Підсумок**</a></li>
+<li><a href="#8-">**8. Додаткові рекомендації**</a></li>
+<li><a href="#9-">**9. Часті помилки**</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Ось покрокова <strong>інструкція для роботи з відводками</strong> на пасіці з корпусними вуликами (рамка Дадан 300):</p>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Інструкція з роботи з відводками**
+        </a>
+      </h2><h3 id="1-">
+        <a href="#1-" class="header-anchor">
+          **1. Підготовка до створення відводка**
+        </a>
+      </h3><p><strong>Час:</strong> оптимально — друга половина травня або перша половина червня (залежить від регіону).</p>
+<p><strong>Необхідне:</strong></p>
+<ul>
+<li>Корпусний вулик або нуклеус на 3–6 рамок</li>
+<li>Рамки з вощиною або сушею</li>
+<li>Годівниця</li>
+<li>Корм: сироп або мед</li>
+<li>Молода плодова матка (або маточник)</li>
+</ul>
+<hr>
+<h3 id="2-">
+        <a href="#2-" class="header-anchor">
+          **2. Формування відводка**
+        </a>
+      </h3><ol>
+<li><p><strong>Вибір сім’ї-донора:</strong> сильна сім’я з великою кількістю відкритого розплоду.</p>
+</li>
+<li><p><strong>Комплектація відводка:</strong></p>
+<ul>
+<li>1–2 рамки з відкритим розплодом (разом із бджолами)</li>
+<li>1 рамка з кормами (мед і перга)</li>
+<li>1 рамка вощини або суші</li>
+<li>За потреби — 1 рамка з закритим розплодом</li>
+</ul>
+</li>
+<li><p><strong>Струшування додаткових бджіл</strong> зі здорової сім’ї (якщо потрібно).</p>
+</li>
+<li><p><strong>Встановлення матки:</strong></p>
+<ul>
+<li>У кліточці (через 2–3 дні випустити)</li>
+<li>Або вставити маточник (ставлять відразу)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-">
+        <a href="#3-" class="header-anchor">
+          **3. Розміщення відводка**
+        </a>
+      </h3><ul>
+<li><strong>Віддалено на 2–3 км</strong> — для запобігання поверненню льотних бджіл.</li>
+<li>Якщо не можна перенести — <strong>перекрити льоток на 3 дні</strong> та дати вентиляцію, потім поступово відкривати.</li>
+</ul>
+<hr>
+<h3 id="4-">
+        <a href="#4-" class="header-anchor">
+          **4. Догляд за відводком**
+        </a>
+      </h3><p><strong>Перші 7 днів:</strong></p>
+<ul>
+<li>Перевірити, чи прийняли матку</li>
+<li>При потребі — дати корм</li>
+</ul>
+<p><strong>На 10–12 день:</strong></p>
+<ul>
+<li>Перевірка засіву — матка починає яйцекладку</li>
+</ul>
+<p><strong>Кожні 7–10 днів:</strong></p>
+<ul>
+<li>Поступово розширювати (додавати суш чи вощину)</li>
+<li>Контролювати наявність кормів</li>
+</ul>
+<hr>
+<h3 id="5-">
+        <a href="#5-" class="header-anchor">
+          **5. Переведення відводка в основну сім’ю (опціонально)**
+        </a>
+      </h3><ul>
+<li>Через 30–40 днів, коли відводок на 6–8 рамках</li>
+<li>Можна об’єднати з основною сім’єю або сформувати нову сильну</li>
+</ul>
+<hr>
+<h3 id="6-">
+        <a href="#6-" class="header-anchor">
+          **6. Можливі цілі створення відводків**
+        </a>
+      </h3><ul>
+<li>Заміна старої матки</li>
+<li>Розширення пасіки</li>
+<li>Запасні сім’ї (на випадок втрати основних)</li>
+<li>Профілактика роїння</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          **Корисні поради**
+        </a>
+      </h2><ul>
+<li>Маточники краще ставити у відводки з відкритим розплодом.</li>
+<li>Не створюйте відводки в холодну погоду.</li>
+<li>Стежте, щоб у відводку завжди були кормові запаси.</li>
+<li>У корпусних вуликах можна формувати відводок прямо у другому корпусі з роздільною решіткою.</li>
+</ul>
+<h3 id="-3-5-6-">
+        <a href="#-3-5-6-" class="header-anchor">
+          **Схема комплектації відводків на 3, 5 і 6 рамок**
+        </a>
+      </h3><table>
+<thead>
+<tr>
+<th>Кількість рамок</th>
+<th>Розплід (відкритий/закритий)</th>
+<th>Кормова рамка (мед/перга)</th>
+<th>Вощина/суш</th>
+<th>Матка/маточник</th>
+<th>Примітки</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3</td>
+<td>1 (відкритий)</td>
+<td>1</td>
+<td>1</td>
+<td>+</td>
+<td>Мінімальний відводок</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2 (1 відкритий, 1 закритий)</td>
+<td>1</td>
+<td>2</td>
+<td>+</td>
+<td>Оптимальний для розвитку</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2 (1 відкритий, 1 закритий)</td>
+<td>2</td>
+<td>2</td>
+<td>+</td>
+<td>Для швидкого нарощування</td>
+</tr>
+</tbody></table>
+<p><strong>Примітки:</strong></p>
+<ul>
+<li>Кількість бджіл має відповідати кількості розплоду.</li>
+<li>За потреби додавайте бджіл із сильної сім’ї.</li>
+<li>Матку можна підсаджувати у кліточці або ставити маточник.</li>
+</ul>
+<h3 id="7-">
+        <a href="#7-" class="header-anchor">
+          **7. Підсумок**
+        </a>
+      </h3><p>Створення відводків — це важливий етап у розвитку пасіки, який дозволяє підтримувати здоров&#39;я бджолиних сімей, запобігати роїнню та розширювати пасіку. Дотримуйтесь інструкцій і спостерігайте за поведінкою бджіл, щоб досягти найкращих результатів.</p>
+<h3 id="8-">
+        <a href="#8-" class="header-anchor">
+          **8. Додаткові рекомендації**
+        </a>
+      </h3><ul>
+<li>Використовуйте тільки здорові та активні бджолині сім&#39;ї для створення відводків.</li>
+<li>Регулярно перевіряйте стан відводків, щоб вчасно виявити проблеми.</li>
+<li>Забезпечте відводки достатньою кількістю корму та простору для розвитку.</li>
+<li>Уникайте перезаселення відводків бджолами з інших сімей.</li>
+<li>Пам&#39;ятайте про важливість своєчасної заміни маток у відводках для підтримки їхньої продуктивності та здоров&#39;я.</li>
+</ul>
+<h3 id="9-">
+        <a href="#9-" class="header-anchor">
+          **9. Часті помилки**
+        </a>
+      </h3><ul>
+<li><strong>Неправильний вибір сім&#39;ї-донора:</strong> використання слабкої або хворої сім&#39;ї може призвести до проблем з розвитком відводка.</li>
+<li><strong>Недостатня кількість корму:</strong> відводки потребують достатньої кількості корму для розвитку, особливо в перші дні.</li>
+<li><strong>Пізнє введення матки:</strong> якщо матка не буде введена вчасно, відводок може не розвиватися належним чином.</li>
+<li><strong>Неправильне розширення:</strong> занадто швидке або повільне розширення відводка може призвести до проблем з його розвитком.</li>
+<li><strong>Ігнорування стану бджіл:</strong> регулярні перевірки допоможуть виявити проблеми на ранніх стадіях і вжити необхідних заходів.</li>
+<li><strong>Нехтування вентиляцією:</strong> відводки потребують хорошого повітрообміну, особливо в спекотну погоду.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

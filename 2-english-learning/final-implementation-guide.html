@@ -1,0 +1,1110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>final-implementation-guide - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="fix css and scripts folder">
+            fix css and scripts folder
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">ba98375</span>
+            <span class="commit-date">20 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-english-learning/">2-english-learning</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-telegram-net-9">Фінальний документ для реалізації Telegram-бота з навчання англійської (.NET 9)</a></li>
+<ul>
+<li><a href="#-">📋 Огляд проєкту</a></li>
+<li><a href="#-">📋 Таблиця контексту проєкту</a></li>
+<li><a href="#-">🏗️ Архітектура системи</a></li>
+<li><a href="#-">📂 Структура проєктів</a></li>
+<li><a href="#-">🗂️ Схеми класів та їх взаємодія</a></li>
+<ul>
+<li><a href="#-">Діаграма взаємодії класів</a></li>
+<li><a href="#-">Діаграма потоку даних</a></li>
+<li><a href="#domain-models">Domain Models</a></li>
+<li><a href="#application-services">Application Services</a></li>
+<li><a href="#-">Діаграма взаємодії компонентів під час виконання уроку</a></li>
+<li><a href="#-">Діаграма стану користувача</a></li>
+</ul>
+<li><a href="#-">🎯 Псевдокод основних сцен</a></li>
+<ul>
+<li><a href="#onboardingscene">OnboardingScene</a></li>
+<li><a href="#lessonscene">LessonScene</a></li>
+</ul>
+<li><a href="#-">📅 Етапи реалізації</a></li>
+<ul>
+<li><a href="#-1-1-2">Етап 1: Основна інфраструктура (Тиждень 1-2)</a></li>
+<li><a href="#-2-3">Етап 2: Сцена знайомства (Тиждень 3)</a></li>
+<li><a href="#-3-4">Етап 3: Система контенту (Тиждень 4)</a></li>
+<li><a href="#-4-5">Етап 4: Система вікторин (Тиждень 5)</a></li>
+<li><a href="#-5-6">Етап 5: Додаткові функції (Тиждень 6)</a></li>
+</ul>
+<li><a href="#-">🚀 Інструкції для розгортання</a></li>
+<ul>
+<li><a href="#-">Локальна розробка</a></li>
+<li><a href="#-docker">Продакшн (Docker)</a></li>
+</ul>
+<li><a href="#-mvp">📊 Метрики успіху MVP</a></li>
+</ul>
+</ul>
+</div><h1 id="-telegram-net-9">
+        <a href="#-telegram-net-9" class="header-anchor">
+          Фінальний документ для реалізації Telegram-бота з навчання англійської (.NET 9)
+        </a>
+      </h1><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📋 Огляд проєкту
+        </a>
+      </h2><p><strong>Мета:</strong> створити Telegram-бота для вивчення англійської мови з використанням архітектури Clean Architecture на .NET 9, PostgreSQL та Docker.</p>
+<p><strong>Основний функціонал MVP:</strong></p>
+<ul>
+<li>Сцена знайомства (вибір рівня A1/A2)</li>
+<li>Уроки з Markdown-контентом</li>
+<li>Система вікторин (3 типи: Flashcards, Multiple Choice, Typing)</li>
+<li>Трекінг прогресу користувача</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📋 Таблиця контексту проєкту
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>Аспект</th>
+<th>Деталі</th>
+<th>Технології/Інструменти</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Архітектура</strong></td>
+<td>Clean Architecture (Presentation → Application → Domain → Infrastructure)</td>
+<td>.NET 9, C# 12</td>
+</tr>
+<tr>
+<td><strong>База даних</strong></td>
+<td>PostgreSQL з EF Core</td>
+<td>Entity Framework Core 8, Npgsql</td>
+</tr>
+<tr>
+<td><strong>UI/UX</strong></td>
+<td>Telegram Bot API</td>
+<td>Telegram.Bot SDK</td>
+</tr>
+<tr>
+<td><strong>Контент</strong></td>
+<td>Markdown файли з підтримкою медіа</td>
+<td>Markdig, власний парсер</td>
+</tr>
+<tr>
+<td><strong>Логування</strong></td>
+<td>Структуроване логування</td>
+<td>Serilog</td>
+</tr>
+<tr>
+<td><strong>Контейнеризація</strong></td>
+<td>Docker Compose</td>
+<td>Docker, PostgreSQL 15</td>
+</tr>
+<tr>
+<td><strong>Вебхуки</strong></td>
+<td>HTTPS webhook для Telegram</td>
+<td>ASP.NET Core</td>
+</tr>
+<tr>
+<td><strong>Локалізація</strong></td>
+<td>Українська/Англійська</td>
+<td>Resource файли</td>
+</tr>
+<tr>
+<td><strong>Тестування</strong></td>
+<td>Unit та Integration тести</td>
+<td>xUnit, Moq</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+<td>Docker, Azure DevOps</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Відповідальність</th>
+<th>Залежності</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EnglishBot.Api</strong></td>
+<td>Webhook endpoint, DI конфігурація</td>
+<td>Telegram.Bot, ASP.NET Core</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Application</strong></td>
+<td>Бізнес-логіка, сцени, сервіси</td>
+<td>Domain, Infrastructure</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Domain</strong></td>
+<td>Доменні моделі, інтерфейси</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>EnglishBot.Infrastructure</strong></td>
+<td>БД, зовнішні сервіси, репозиторії</td>
+<td>Domain, EF Core</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Тип контенту</th>
+<th>Формат</th>
+<th>Обробка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Текст</strong></td>
+<td>Markdown з HTML</td>
+<td>Markdig парсер</td>
+</tr>
+<tr>
+<td><strong>Зображення</strong></td>
+<td>JPG/PNG/WebP</td>
+<td>Telegram Bot API</td>
+</tr>
+<tr>
+<td><strong>Аудіо</strong></td>
+<td>MP3/WAV</td>
+<td>SendAudio метод</td>
+</tr>
+<tr>
+<td><strong>Відео</strong></td>
+<td>MP4</td>
+<td>SendVideo метод</td>
+</tr>
+<tr>
+<td><strong>Вікторини</strong></td>
+<td>:::quiz блоки</td>
+<td>Власний парсер</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🏗️ Архітектура системи
+        </a>
+      </h2><div class="mermaid">graph TB
+    A[Telegram Bot API] --> B[EngPortal.Api]
+    B --> C[EngPortal.Application]
+    C --> D[EngPortal.Domain]
+    C --> E[EngPortal.Infrastructure]
+    E --> F[PostgreSQL]
+    E --> G[Content Service]
+    E --> H[File System/Markdown]
+    
+    subgraph "Presentation Layer"
+        B
+    end
+    
+    subgraph "Application Layer"
+        C
+        I[Scene Manager]
+        J[Content Parser]
+        K[Quiz Engine]
+    end
+    
+    subgraph "Domain Layer"
+        D
+        L[User]
+        M[Lesson]
+        N[Quiz]
+        O[UserProgress]
+    end
+    
+    subgraph "Infrastructure Layer"
+        E
+        G
+        P[DbContext]
+        Q[Repositories]
+    end</div><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📂 Структура проєктів
+        </a>
+      </h2><pre><code class="hljs language-css">EnglishBot/
+├── EnglishBot<span class="hljs-selector-class">.Api</span>/             # Веб API + Webhook
+├── EnglishBot<span class="hljs-selector-class">.Application</span>/     # Бізнес-логіка + Сцени
+├── EnglishBot<span class="hljs-selector-class">.Domain</span>/          # Доменні моделі
+├── EnglishBot<span class="hljs-selector-class">.Content</span>/         # Контент уроків
+├── EnglishBot<span class="hljs-selector-class">.Infrastructure</span>/  # БД + Зовнішні сервіси
+├── EnglishBot<span class="hljs-selector-class">.Tests</span>/           # Тести
+└── docker-compose<span class="hljs-selector-class">.yml</span>          # Docker налаштування</code></pre><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🗂️ Схеми класів та їх взаємодія
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма взаємодії класів
+        </a>
+      </h3><div class="mermaid">classDiagram
+    class BotUser {
+        +long TelegramId
+        +string FirstName
+        +string Level
+        +string Language
+        +DateTime CreatedAt
+        +int Streak
+        +bool NotificationsEnabled
+        +TimeSpan NotificationTime
+        +List~UserProgress~ Progress
+        +List~UserQuizResult~ QuizResults
+    }
+
+    class UserState {
+        +long TelegramId
+        +string Scene
+        +string DataJson
+        +DateTime UpdatedAt
+        +BotUser User
+    }
+
+    class Lesson {
+        +int Id
+        +string Title
+        +string Level
+        +string ContentPath
+        +int Order
+        +bool IsActive
+        +string Description
+        +string[] Tags
+        +int EstimatedMinutes
+        +List~QuizItem~ Quizzes
+        +List~UserProgress~ UserProgress
+    }
+
+    class QuizItem {
+        +int Id
+        +int LessonId
+        +string Type
+        +string Question
+        +string[] Options
+        +int[] CorrectAnswers
+        +string Explanation
+        +string MediaUrl
+        +int Order
+        +Lesson Lesson
+        +List~UserQuizResult~ Results
+    }
+
+    class UserProgress {
+        +int Id
+        +long TelegramId
+        +int LessonId
+        +bool IsCompleted
+        +int CurrentBlock
+        +int Score
+        +int TotalQuizzes
+        +DateTime StartedAt
+        +DateTime CompletedAt
+        +BotUser User
+        +Lesson Lesson
+    }
+
+    class UserQuizResult {
+        +int Id
+        +long TelegramId
+        +int QuizItemId
+        +string UserAnswer
+        +bool IsCorrect
+        +TimeSpan TimeSpent
+        +DateTime AnsweredAt
+        +BotUser User
+        +QuizItem QuizItem
+    }
+
+    class ISceneManager {
+        <<interface>>
+        +SetSceneAsync(telegramId, sceneName, data)
+        +GetCurrentSceneAsync(telegramId)
+        +GetSceneDataAsync~T~(telegramId)
+    }
+
+    class IContentService {
+        <<interface>>
+        +ParseLessonAsync(filePath)
+        +GetLessonsAsync(level)
+        +GetLessonContentAsync(lessonId)
+    }
+
+    %% Relationships
+    BotUser "1" --> "1" UserState : has
+    BotUser "1" --> "*" UserProgress : tracks
+    BotUser "1" --> "*" UserQuizResult : has
+    
+    Lesson "1" --> "*" QuizItem : contains
+    Lesson "1" --> "*" UserProgress : has
+    
+    QuizItem "1" --> "*" UserQuizResult : tracks
+    
+    ISceneManager ..> UserState : manages
+    IContentService ..> Lesson : processes
+
+    class IScene {
+        <<interface>>
+        +string Name
+        +EnterAsync(bot, update, ct)
+        +HandleUpdateAsync(bot, update, ct)
+        +ExitAsync(bot, update, ct)
+    }
+
+    BotUser "1" --> "*" UserProgress : has
+    BotUser "1" --> "*" UserQuizResult : creates
+    BotUser "1" --> "1" UserState : has state
+    
+    Lesson "1" --> "*" QuizItem : contains
+    Lesson "1" --> "*" UserProgress : tracks
+    
+    QuizItem "1" --> "*" UserQuizResult : generates results
+    
+    UserProgress "*" --> "1" Lesson : belongs to
+    UserProgress "*" --> "1" BotUser : belongs to user
+    
+    UserQuizResult "*" --> "1" QuizItem : відповідь на питання
+    UserQuizResult "*" --> "1" BotUser : відповідь користувача
+
+    ISceneManager ..> UserState : управляє
+    IContentService ..> Lesson : завантажує
+    IScene ..> BotUser : взаємодіє з</div><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма потоку даних
+        </a>
+      </h3><div class="mermaid">flowchart TD
+    A[Telegram Update] --> B[WebhookController]
+    B --> C{Scene Manager}
+    C --> D[Current Scene]
+    
+    D --> E[OnboardingScene]
+    D --> F[LessonScene]  
+    D --> G[IdleScene]
+    
+    E --> H[User Repository]
+    F --> I[Content Service]
+    F --> J[Quiz Service]
+    
+    I --> K[Lesson Files .md]
+    I --> L[Media Files]
+    
+    H --> M[(PostgreSQL)]
+    J --> M
+    
+    F --> N[Progress Tracking]
+    N --> M
+    
+    G --> O[Command Handler]
+    O --> P[Response Builder]
+    
+    P --> Q[Telegram Bot API]
+    Q --> R[User Interface]
+    
+    style A fill:#e1f5fe
+    style M fill:#f3e5f5
+    style K fill:#fff3e0
+    style R fill:#e8f5e8</div><h3 id="domain-models">
+        <a href="#domain-models" class="header-anchor">
+          Domain Models
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">EnglishBot.Domain.Entities</span>;
+
+<span class="hljs-comment">// Користувач бота</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BotUser</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Username { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Level { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;A1&quot;</span>; <span class="hljs-comment">// A1, A2, B1, B2</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Language { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;uk&quot;</span>; <span class="hljs-comment">// uk, en</span>
+    <span class="hljs-keyword">public</span> DateTime CreatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> DateTime LastActivityAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Streak { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> NotificationsEnabled { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">public</span> TimeSpan NotificationTime { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = TimeSpan.FromHours(<span class="hljs-number">9</span>);
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> List&lt;UserProgress&gt; Progress { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+    <span class="hljs-keyword">public</span> List&lt;UserQuizResult&gt; QuizResults { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Стан користувача у боті</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserState</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Scene { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;idle&quot;</span>; <span class="hljs-comment">// idle, onboarding, lesson, quiz</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? DataJson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } <span class="hljs-comment">// Серіалізовані дані сцени</span>
+    <span class="hljs-keyword">public</span> DateTime UpdatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}
+
+<span class="hljs-comment">// Урок</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Lesson</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Level { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;A1&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> ContentPath { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!; <span class="hljs-comment">// Шлях до .md файлу</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Order { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsActive { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">public</span> DateTime CreatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Метадані</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>[]? Tags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> EstimatedMinutes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">15</span>;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> List&lt;QuizItem&gt; Quizzes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+    <span class="hljs-keyword">public</span> List&lt;UserProgress&gt; UserProgress { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Питання вікторини</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">QuizItem</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> LessonId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Type { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!; <span class="hljs-comment">// flashcard, mcq, typing</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Question { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>[] Options { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = Array.Empty&lt;<span class="hljs-built_in">string</span>&gt;();
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>[] CorrectAnswers { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = Array.Empty&lt;<span class="hljs-built_in">int</span>&gt;();
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Explanation { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? MediaUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Order { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> Lesson Lesson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> List&lt;UserQuizResult&gt; Results { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}
+
+<span class="hljs-comment">// Прогрес користувача по уроку</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserProgress</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> LessonId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsCompleted { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> CurrentBlock { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } <span class="hljs-comment">// Індекс поточного блоку у уроці</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Score { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> TotalQuizzes { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> DateTime? CompletedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> Lesson Lesson { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}
+
+<span class="hljs-comment">// Результат вікторини</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserQuizResult</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> TelegramId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> QuizItemId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> UserAnswer { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsCorrect { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> TimeSpan TimeSpent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime AnsweredAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    
+    <span class="hljs-comment">// Navigation</span>
+    <span class="hljs-keyword">public</span> BotUser User { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+    <span class="hljs-keyword">public</span> QuizItem QuizItem { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>!;
+}</code></pre><h3 id="application-services">
+        <a href="#application-services" class="header-anchor">
+          Application Services
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">EnglishBot.Application.Services</span>;
+
+<span class="hljs-comment">// Сервіс контенту</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IContentService</span>
+{
+    Task&lt;List&lt;BotMessage&gt;&gt; ParseLessonAsync(<span class="hljs-built_in">string</span> filePath);
+    Task&lt;Lesson[]&gt; GetLessonsAsync(<span class="hljs-built_in">string</span> level);
+    <span class="hljs-function">Task&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">GetLessonContentAsync</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> lessonId</span>)</span>;
+}
+
+<span class="hljs-comment">// Сцени бота</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-function">Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+    <span class="hljs-function">Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+    <span class="hljs-function">Task <span class="hljs-title">ExitAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>;
+}
+
+<span class="hljs-comment">// Менеджер сцен</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">ISceneManager</span>
+{
+    <span class="hljs-function">Task <span class="hljs-title">SetSceneAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId, <span class="hljs-built_in">string</span> sceneName, <span class="hljs-built_in">object</span>? data = <span class="hljs-literal">null</span></span>)</span>;
+    <span class="hljs-function"><span class="hljs-title">Task</span>&lt;<span class="hljs-title">IScene</span>&gt; <span class="hljs-title">GetCurrentSceneAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId</span>)</span>;
+    Task&lt;T?&gt; GetSceneDataAsync&lt;T&gt;(<span class="hljs-built_in">long</span> telegramId) <span class="hljs-keyword">where</span> T : <span class="hljs-keyword">class</span>;
+}
+
+<span class="hljs-comment">// Сервіс вікторин</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IQuizService</span>
+{
+    <span class="hljs-function">Task&lt;QuizResult&gt; <span class="hljs-title">ProcessAnswerAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId, <span class="hljs-built_in">int</span> quizId, <span class="hljs-built_in">string</span> answer</span>)</span>;
+    <span class="hljs-function">Task&lt;QuizStatistics&gt; <span class="hljs-title">GetUserStatisticsAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> telegramId</span>)</span>;
+}
+
+<span class="hljs-comment">// Типи повідомлень для контенту</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">record</span> <span class="hljs-title">BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">TextMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Content, <span class="hljs-built_in">string</span>? ParseMode = <span class="hljs-literal">null</span></span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">PhotoMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> ImagePath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">AudioMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> AudioPath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">VideoMessage</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Caption, <span class="hljs-built_in">string</span> VideoPath</span>) : BotMessage</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">QuizMessage</span>(<span class="hljs-params">
+    <span class="hljs-built_in">string</span> Question, 
+    <span class="hljs-built_in">string</span>[] Options, 
+    <span class="hljs-built_in">int</span>[] CorrectAnswers, 
+    <span class="hljs-built_in">string</span>? Explanation,
+    <span class="hljs-built_in">string</span> Type = <span class="hljs-string">&quot;mcq&quot;</span>
+</span>) : BotMessage</span>;</code></pre><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма взаємодії компонентів під час виконання уроку
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant TG as Telegram
+    participant API as WebhookController
+    participant SM as SceneManager
+    participant LS as LessonScene
+    participant CS as ContentService
+    participant QS as QuizService
+    participant DB as PostgreSQL
+
+    U->>TG: /lesson
+    TG->>API: POST /webhook
+    API->>SM: GetCurrentScene(userId)
+    SM->>DB: SELECT * FROM UserStates
+    DB-->>SM: UserState
+    SM-->>API: IdleScene
+    
+    API->>SM: SetScene(userId, "lesson")
+    SM->>DB: INSERT/UPDATE UserStates
+    
+    API->>LS: EnterAsync(bot, update)
+    LS->>CS: GetLessonsAsync(userLevel)
+    CS->>DB: SELECT * FROM Lessons WHERE Level = ?
+    DB-->>CS: Lesson[]
+    CS-->>LS: Available lessons
+    
+    LS->>CS: ParseLessonAsync(contentPath)
+    CS-->>LS: List<BotMessage>
+    
+    LS->>TG: SendTextMessage (first block)
+    TG-->>U: Text content
+    
+    LS->>TG: SendTextMessage (quiz question + buttons)
+    TG-->>U: Quiz with inline keyboard
+    
+    U->>TG: Click answer
+    TG->>API: CallbackQuery
+    API->>LS: HandleUpdateAsync(bot, update)
+    
+    LS->>QS: ProcessAnswerAsync(userId, quizId, answer)
+    QS->>DB: INSERT INTO UserQuizResults
+    QS-->>LS: QuizResult(isCorrect, explanation)
+    
+    LS->>TG: AnswerCallbackQuery + SendMessage
+    TG-->>U: "✅ Correct!" + explanation
+    
+    Note over LS,DB: Continue with next block or complete lesson
+    
+    LS->>DB: UPDATE UserProgress
+    LS->>TG: SendMessage (lesson summary)
+    TG-->>U: "Lesson completed! Score: X/Y"</div><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Діаграма стану користувача
+        </a>
+      </h3><div class="mermaid">stateDiagram-v2
+    [*] --> Idle
+    
+    Idle --> Onboarding: /start (new user)
+    Idle --> Lesson: /lesson
+    Idle --> Settings: /settings
+    Idle --> Stats: /stats
+    
+    Onboarding --> SelectLevel: Enter onboarding
+    SelectLevel --> SelectLanguage: Level selected
+    SelectLanguage --> SetupNotifications: Language selected  
+    SetupNotifications --> Idle: Setup complete
+    
+    Lesson --> LoadContent: Enter lesson scene
+    LoadContent --> ShowContent: Content parsed
+    ShowContent --> Quiz: Quiz block reached
+    ShowContent --> NextBlock: Text/Media block
+    NextBlock --> ShowContent: More blocks
+    NextBlock --> Complete: No more blocks
+    
+    Quiz --> WaitAnswer: Quiz displayed
+    WaitAnswer --> ProcessAnswer: User answered
+    ProcessAnswer --> ShowExplanation: Answer processed
+    ShowExplanation --> NextBlock: Continue lesson
+    
+    Complete --> Summary: Calculate results
+    Summary --> Idle: Show summary & return
+    
+    Settings --> Idle: Settings updated
+    Stats --> Idle: Stats shown</div><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🎯 Псевдокод основних сцен
+        </a>
+      </h2><h3 id="onboardingscene">
+        <a href="#onboardingscene" class="header-anchor">
+          OnboardingScene
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OnboardingScene</span> : <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">record</span> <span class="hljs-title">OnboardingData</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Step, <span class="hljs-built_in">string</span>? Level = <span class="hljs-literal">null</span>, <span class="hljs-built_in">string</span>? Language = <span class="hljs-literal">null</span></span>)</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> chatId = GetChatId(update);
+        <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+            <span class="hljs-string">&quot;🎯 Привіт! Я допоможу тобі вивчити англійську.\n&quot;</span> +
+            <span class="hljs-string">&quot;Спочатку оберемо твій рівень:&quot;</span>,
+            replyMarkup: CreateLevelKeyboard());
+            
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), 
+            <span class="hljs-keyword">new</span> OnboardingData(<span class="hljs-string">&quot;select_level&quot;</span>));
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">await</span> _sceneManager.GetSceneDataAsync&lt;OnboardingData&gt;(GetUserId(update));
+        
+        <span class="hljs-keyword">switch</span> (data?.Step)
+        {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;select_level&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleLevelSelection(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;select_language&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleLanguageSelection(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;setup_notifications&quot;</span>:
+                <span class="hljs-keyword">await</span> HandleNotificationSetup(bot, update, ct);
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleLevelSelection</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (update.CallbackQuery?.Data?.StartsWith(<span class="hljs-string">&quot;level:&quot;</span>) == <span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-keyword">var</span> level = update.CallbackQuery.Data.Split(<span class="hljs-string">&#x27;:&#x27;</span>)[<span class="hljs-number">1</span>];
+            <span class="hljs-keyword">var</span> chatId = update.CallbackQuery.Message!.Chat.Id;
+            
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+                <span class="hljs-string">&quot;🌍 Тепер оберемо мову інтерфейсу:&quot;</span>,
+                replyMarkup: CreateLanguageKeyboard());
+                
+            <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), 
+                <span class="hljs-keyword">new</span> OnboardingData(<span class="hljs-string">&quot;select_language&quot;</span>, level));
+        }
+    }
+    
+    <span class="hljs-comment">// ... інші методи</span>
+}</code></pre><h3 id="lessonscene">
+        <a href="#lessonscene" class="header-anchor">
+          LessonScene
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LessonScene</span> : <span class="hljs-title">IScene</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">record</span> <span class="hljs-title">LessonData</span>(<span class="hljs-params">
+        <span class="hljs-built_in">int</span> LessonId,
+        List&lt;BotMessage&gt; Blocks,
+        <span class="hljs-built_in">int</span> CurrentIndex,
+        <span class="hljs-built_in">int</span> Score,
+        DateTime StartTime</span>)</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">EnterAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> userId = GetUserId(update);
+        <span class="hljs-keyword">var</span> user = <span class="hljs-keyword">await</span> _userRepository.GetByTelegramIdAsync(userId);
+        
+        <span class="hljs-comment">// Отримуємо доступні уроки для рівня користувача</span>
+        <span class="hljs-keyword">var</span> lessons = <span class="hljs-keyword">await</span> _contentService.GetLessonsAsync(user.Level);
+        <span class="hljs-keyword">var</span> currentLesson = lessons.FirstOrDefault(l =&gt; !IsCompleted(userId, l.Id));
+        
+        <span class="hljs-keyword">if</span> (currentLesson == <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(GetChatId(update), 
+                <span class="hljs-string">&quot;🎉 Ти завершив усі доступні уроки! Переходь на наступний рівень.&quot;</span>);
+            <span class="hljs-keyword">await</span> _sceneManager.SetSceneAsync(userId, <span class="hljs-string">&quot;idle&quot;</span>);
+            <span class="hljs-keyword">return</span>;
+        }
+        
+        <span class="hljs-comment">// Парсимо контент уроку</span>
+        <span class="hljs-keyword">var</span> blocks = <span class="hljs-keyword">await</span> _contentService.ParseLessonAsync(currentLesson.ContentPath);
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">new</span> LessonData(currentLesson.Id, blocks, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, DateTime.UtcNow);
+        
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(userId, data);
+        <span class="hljs-keyword">await</span> ProcessNextBlock(bot, update, ct, data);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">ProcessNextBlock</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, 
+        CancellationToken ct, LessonData data</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (data.CurrentIndex &gt;= data.Blocks.Count)
+        {
+            <span class="hljs-keyword">await</span> CompleteLessonAsync(bot, update, ct, data);
+            <span class="hljs-keyword">return</span>;
+        }
+        
+        <span class="hljs-keyword">var</span> currentBlock = data.Blocks[data.CurrentIndex];
+        <span class="hljs-keyword">var</span> chatId = GetChatId(update);
+        
+        <span class="hljs-keyword">switch</span> (currentBlock)
+        {
+            <span class="hljs-keyword">case</span> TextMessage text:
+                <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, text.Content, 
+                    parseMode: text.ParseMode);
+                <span class="hljs-keyword">await</span> MoveToNextBlock(bot, update, ct, data);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-keyword">case</span> QuizMessage quiz:
+                <span class="hljs-keyword">await</span> SendQuizAsync(bot, chatId, quiz, ct);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-keyword">case</span> PhotoMessage photo:
+                <span class="hljs-keyword">await</span> bot.SendPhotoAsync(chatId, 
+                    InputFile.FromUri(photo.ImagePath), 
+                    caption: photo.Caption);
+                <span class="hljs-keyword">await</span> MoveToNextBlock(bot, update, ct, data);
+                <span class="hljs-keyword">break</span>;
+                
+            <span class="hljs-comment">// ... інші типи повідомлень</span>
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">SendQuizAsync</span>(<span class="hljs-params">ITelegramBotClient bot, <span class="hljs-built_in">long</span> chatId, 
+        QuizMessage quiz, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> keyboard = <span class="hljs-keyword">new</span> InlineKeyboardMarkup(
+            quiz.Options.Select((option, index) =&gt; 
+                <span class="hljs-keyword">new</span>[] { InlineKeyboardButton.WithCallbackData(option, <span class="hljs-string">$&quot;quiz:<span class="hljs-subst">{index}</span>&quot;</span>) })
+        );
+        
+        <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(chatId, 
+            <span class="hljs-string">$&quot;❓ <span class="hljs-subst">{quiz.Question}</span>&quot;</span>, 
+            replyMarkup: keyboard);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleUpdateAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (update.CallbackQuery?.Data?.StartsWith(<span class="hljs-string">&quot;quiz:&quot;</span>) == <span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-keyword">await</span> HandleQuizAnswerAsync(bot, update, ct);
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">HandleQuizAnswerAsync</span>(<span class="hljs-params">ITelegramBotClient bot, Update update, CancellationToken ct</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">await</span> _sceneManager.GetSceneDataAsync&lt;LessonData&gt;(GetUserId(update));
+        <span class="hljs-keyword">var</span> selectedOption = <span class="hljs-built_in">int</span>.Parse(update.CallbackQuery!.Data!.Split(<span class="hljs-string">&#x27;:&#x27;</span>)[<span class="hljs-number">1</span>]);
+        <span class="hljs-keyword">var</span> quiz = (QuizMessage)data!.Blocks[data.CurrentIndex];
+        
+        <span class="hljs-keyword">var</span> isCorrect = quiz.CorrectAnswers.Contains(selectedOption);
+        <span class="hljs-keyword">var</span> newScore = isCorrect ? data.Score + <span class="hljs-number">1</span> : data.Score;
+        
+        <span class="hljs-comment">// Відповідь користувачеві</span>
+        <span class="hljs-keyword">await</span> bot.AnswerCallbackQueryAsync(update.CallbackQuery.Id,
+            isCorrect ? <span class="hljs-string">&quot;✅ Правильно!&quot;</span> : <span class="hljs-string">&quot;❌ Неправильно&quot;</span>);
+            
+        <span class="hljs-comment">// Пояснення (якщо є)</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(quiz.Explanation))
+        {
+            <span class="hljs-keyword">await</span> bot.SendTextMessageAsync(GetChatId(update), 
+                <span class="hljs-string">$&quot;<span class="hljs-subst">{(isCorrect ? <span class="hljs-string">&quot;✅&quot;</span> : <span class="hljs-string">&quot;❌&quot;</span>)}</span> <span class="hljs-subst">{quiz.Explanation}</span>&quot;</span>);
+        }
+        
+        <span class="hljs-comment">// Зберігаємо результат</span>
+        <span class="hljs-keyword">await</span> SaveQuizResultAsync(GetUserId(update), selectedOption, isCorrect);
+        
+        <span class="hljs-comment">// Переходимо до наступного блоку</span>
+        <span class="hljs-keyword">var</span> updatedData = data <span class="hljs-keyword">with</span> { Score = newScore, CurrentIndex = data.CurrentIndex + <span class="hljs-number">1</span> };
+        <span class="hljs-keyword">await</span> _sceneManager.SetSceneDataAsync(GetUserId(update), updatedData);
+        <span class="hljs-keyword">await</span> ProcessNextBlock(bot, update, ct, updatedData);
+    }
+}</code></pre><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          📅 Етапи реалізації
+        </a>
+      </h2><h3 id="-1-1-2">
+        <a href="#-1-1-2" class="header-anchor">
+          Етап 1: Основна інфраструктура (Тиждень 1-2)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Створення структури проєктів (.NET 9)</li>
+<li><input disabled="" type="checkbox"> Налаштування EF Core + PostgreSQL</li>
+<li><input disabled="" type="checkbox"> Створення доменних моделей</li>
+<li><input disabled="" type="checkbox"> Базова конфігурація Docker Compose</li>
+<li><input disabled="" type="checkbox"> Реалізація SceneManager та базових сцен</li>
+<li><input disabled="" type="checkbox"> Налаштування Serilog для логування</li>
+<li><input disabled="" type="checkbox"> Створення webhook endpoint для Telegram</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Бот отримує та обробляє базові команди</li>
+<li>БД створюється та заповнюється початковими даними</li>
+<li>Логи пишуться у консоль та файл</li>
+<li>Docker контейнери запускаються без помилок</li>
+</ul>
+<h3 id="-2-3">
+        <a href="#-2-3" class="header-anchor">
+          Етап 2: Сцена знайомства (Тиждень 3)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація OnboardingScene</li>
+<li><input disabled="" type="checkbox"> Створення inline-клавіатур для вибору рівня</li>
+<li><input disabled="" type="checkbox"> Збереження користувацьких налаштувань у БД</li>
+<li><input disabled="" type="checkbox"> Валідація введених даних</li>
+<li><input disabled="" type="checkbox"> Локалізація повідомлень (українська/англійська)</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Нові користувачі проходять повну процедуру знайомства</li>
+<li>Налаштування зберігаються у БД</li>
+<li>Інтерфейс доступний українською та англійською</li>
+</ul>
+<h3 id="-3-4">
+        <a href="#-3-4" class="header-anchor">
+          Етап 3: Система контенту (Тиждень 4)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація ContentService для парсингу Markdown</li>
+<li><input disabled="" type="checkbox"> Підтримка різних типів контенту (текст, зображення, аудіо)</li>
+<li><input disabled="" type="checkbox"> Система :::quiz блоків у markdown</li>
+<li><input disabled="" type="checkbox"> Завантаження та кешування медіафайлів</li>
+<li><input disabled="" type="checkbox"> Створення шаблонів уроків</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Markdown файли корректно парсяться у BotMessage</li>
+<li>Медіафайли відправляються у Telegram</li>
+<li>Вікторини з markdown працюють</li>
+</ul>
+<h3 id="-4-5">
+        <a href="#-4-5" class="header-anchor">
+          Етап 4: Система вікторин (Тиждень 5)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Реалізація 3 типів вікторин (MCQ, Flashcards, Typing)</li>
+<li><input disabled="" type="checkbox"> LessonScene з підтримкою mixed-контенту</li>
+<li><input disabled="" type="checkbox"> Збереження результатів у UserQuizResult</li>
+<li><input disabled="" type="checkbox"> Система оцінювання та прогресу</li>
+<li><input disabled="" type="checkbox"> Статистика користувача</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Усі типи вікторин працюють коректно</li>
+<li>Результати зберігаються у БД</li>
+<li>Користувач бачить свій прогрес</li>
+</ul>
+<h3 id="-5-6">
+        <a href="#-5-6" class="header-anchor">
+          Етап 5: Додаткові функції (Тиждень 6)
+        </a>
+      </h3><p><strong>Завдання:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Система нагадувань (щоденні повідомлення)</li>
+<li><input disabled="" type="checkbox"> Команди /stats, /progress, /help</li>
+<li><input disabled="" type="checkbox"> Система стріків (consecutive days)</li>
+<li><input disabled="" type="checkbox"> Backup/restore користувацьких даних</li>
+<li><input disabled="" type="checkbox"> Обробка помилок та Rate Limiting</li>
+</ul>
+<p><strong>Критерії готовності:</strong></p>
+<ul>
+<li>Нагадування працюють за розкладом</li>
+<li>Статистика відображається коректно</li>
+<li>Система обробляє помилки gracefully</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🚀 Інструкції для розгортання
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Локальна розробка
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-comment"># 1. Клонування репозиторію</span>
+git <span class="hljs-built_in">clone</span> &lt;repository-url&gt;
+<span class="hljs-built_in">cd</span> EnglishBot
+
+<span class="hljs-comment"># 2. Запуск БД через Docker</span>
+docker-compose up -d postgres
+
+<span class="hljs-comment"># 3. Застосування міграцій</span>
+dotnet ef database update --project EnglishBot.Infrastructure --startup-project EnglishBot.Api
+
+<span class="hljs-comment"># 4. Налаштування appsettings.json</span>
+<span class="hljs-comment"># Додати BOT_TOKEN, WEBHOOK_SECRET, connection string</span>
+
+<span class="hljs-comment"># 5. Запуск проєкту</span>
+dotnet run --project EnglishBot.Api</code></pre><h3 id="-docker">
+        <a href="#-docker" class="header-anchor">
+          Продакшн (Docker)
+        </a>
+      </h3><pre><code class="hljs language-yaml"><span class="hljs-comment"># docker-compose.prod.yml</span>
+<span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">app:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ASPNETCORE_ENVIRONMENT=Production</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ConnectionStrings__Default=Host=postgres;Database=englishbot;Username=postgres;Password=${DB_PASSWORD}</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">Bot__Token=${BOT_TOKEN}</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">Bot__WebhookSecret=${WEBHOOK_SECRET}</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres</span>
+    
+  <span class="hljs-attr">postgres:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:15</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=englishbot</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=${DB_PASSWORD}</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres_data:/var/lib/postgresql/data</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres_data:</span></code></pre><hr>
+<h2 id="-mvp">
+        <a href="#-mvp" class="header-anchor">
+          📊 Метрики успіху MVP
+        </a>
+      </h2><ul>
+<li><p><strong>Технічні:</strong></p>
+<ul>
+<li>Бот обробляє 95%+ повідомлень без помилок</li>
+<li>Час відповіді &lt; 2 секунд</li>
+<li>Uptime &gt; 99%</li>
+</ul>
+</li>
+<li><p><strong>Функціональні:</strong></p>
+<ul>
+<li>Користувач може пройти повний цикл: знайомство → урок → вікторини → результат</li>
+<li>Прогрес зберігається між сеансами</li>
+<li>Система підтримує мінімум 10 одночасних користувачів</li>
+</ul>
+</li>
+<li><p><strong>UX:</strong></p>
+<ul>
+<li>Інтуїтивна навігація без зайвих кроків</li>
+<li>Швидкий фідбек на дії користувача</li>
+<li>Зрозумілі повідомлення про помилки</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>Готово!</strong> Цей документ містить усе необхідне для початку реалізації Telegram-бота для навчання англійської мови. Можна починати з першого етапу та поступово розширювати функціонал.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

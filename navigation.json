@@ -1,0 +1,579 @@
+{
+  "tree": [
+    {
+      "name": "1-yapidoo",
+      "path": "1-yapidoo",
+      "type": "directory",
+      "children": [
+        {
+          "name": "services",
+          "path": "1-yapidoo/services",
+          "type": "directory",
+          "children": [
+            {
+              "name": "auth",
+              "path": "1-yapidoo/services/auth",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Index",
+              "path": "1-yapidoo/services/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "web",
+          "path": "1-yapidoo/web",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Index",
+              "path": "1-yapidoo/web/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Spa",
+              "path": "1-yapidoo/web/spa.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Index",
+          "path": "1-yapidoo/index.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "README",
+          "path": "1-yapidoo/README.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "2-english-learning",
+      "path": "2-english-learning",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Copilot Instructions Telegram Bot",
+          "path": "2-english-learning/copilot-instructions-telegram-bot.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Final Implementation Guide",
+          "path": "2-english-learning/final-implementation-guide.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Markdig 101",
+          "path": "2-english-learning/markdig-101.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Scene Navigation",
+          "path": "2-english-learning/scene-navigation.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Starter",
+          "path": "2-english-learning/starter.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Telegram Bot Capabilities",
+          "path": "2-english-learning/telegram-bot-capabilities.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Whatsup Integration",
+          "path": "2-english-learning/whatsup-integration.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "3-Kaizen",
+      "path": "3-Kaizen",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Critical Focus Fw",
+          "path": "3-Kaizen/critical-focus-fw.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Firebase Api",
+          "path": "3-Kaizen/firebase-api.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Kaizen Credits",
+          "path": "3-Kaizen/kaizen-credits.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Stop Focus Act",
+          "path": "3-Kaizen/Stop-Focus-Act.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Stop Focus Act Now",
+          "path": "3-Kaizen/Stop-Focus-Act-Now.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "System Diagram",
+          "path": "3-Kaizen/system-diagram.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "User Flow",
+          "path": "3-Kaizen/user-flow.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "domestic-tasks",
+      "path": "domestic-tasks",
+      "type": "directory",
+      "children": [
+        {
+          "name": "shelfs",
+          "path": "domestic-tasks/shelfs",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Index",
+              "path": "domestic-tasks/shelfs/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Index",
+          "path": "domestic-tasks/index.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Todo",
+          "path": "domestic-tasks/todo.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "drones",
+      "path": "drones",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Auto Drone",
+          "path": "drones/auto-drone.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "furniture",
+      "path": "furniture",
+      "type": "directory",
+      "children": [
+        {
+          "name": "tables",
+          "path": "furniture/tables",
+          "type": "directory",
+          "children": [
+            {
+              "name": "вішалка",
+              "path": "furniture/tables/вішалка.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "молбьерт",
+          "path": "furniture/молбьерт",
+          "type": "directory",
+          "children": [
+            {
+              "name": "simple",
+              "path": "furniture/молбьерт/simple",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "35",
+              "path": "furniture/молбьерт/35.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "поличка",
+          "path": "furniture/поличка",
+          "type": "directory",
+          "children": [
+            {
+              "name": "сумочки",
+              "path": "furniture/поличка/сумочки.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "house",
+      "path": "house",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Heating",
+          "path": "house/heating.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Heating Scheme",
+          "path": "house/heating-scheme.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Index",
+          "path": "house/index.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Todo",
+          "path": "house/todo.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "soland-inventory",
+      "path": "soland-inventory",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Inbox",
+          "path": "soland-inventory/inbox.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Index",
+          "path": "soland-inventory/index.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Todo",
+          "path": "soland-inventory/todo.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "пасіка",
+      "path": "пасіка",
+      "type": "directory",
+      "children": [
+        {
+          "name": "assets",
+          "path": "пасіка/assets",
+          "type": "directory",
+          "children": [],
+          "hasChildren": false,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "додаток",
+          "path": "пасіка/додаток",
+          "type": "directory",
+          "children": [
+            {
+              "name": "техзадання",
+              "path": "пасіка/додаток/техзадання.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "бджолопакет",
+          "path": "пасіка/бджолопакет.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "відводки",
+          "path": "пасіка/відводки.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "годування на зиму",
+          "path": "пасіка/годування на зиму.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "догляд роями",
+          "path": "пасіка/догляд-роями.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "Ообробка від кліща",
+          "path": "пасіка/Ообробка від кліща.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "підготовка зими",
+          "path": "пасіка/підготовка-зими.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "розвиток",
+          "path": "пасіка/розвиток.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "розширення",
+          "path": "пасіка/розширення.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "рої",
+          "path": "пасіка/рої.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "плитка",
+      "path": "плитка",
+      "type": "directory",
+      "children": [
+        {
+          "name": "Заливки плитки",
+          "path": "плитка/Заливки плитки.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "рекомендації",
+          "path": "плитка/рекомендації.md",
+          "type": "file",
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Deploy",
+      "path": "deploy.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Inbox",
+      "path": "inbox.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Index",
+      "path": "index.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "PARA MIGRATION PLAN",
+      "path": "PARA-MIGRATION-PLAN.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    }
+  ],
+  "metadata": {
+    "buildTime": "2025-10-17T21:11:10.871Z",
+    "commitInfo": {
+      "hash": "ba98375",
+      "message": "fix css and scripts folder",
+      "dateRelative": "20 seconds ago",
+      "dateISO": "2025-10-18T00:10:50+03:00",
+      "author": "Andrii Solovienko",
+      "branch": "main",
+      "timestamp": 1760735450000,
+      "shortMessage": "fix css and scripts folder",
+      "fullMessage": "fix css and scripts folder"
+    },
+    "itemCount": 69
+  }
+}
