@@ -282,9 +282,10 @@ class PageRenderer {
    */
   renderLayout({ title, content, navigation }) {
     // Determine CSS and JS paths based on site type
-    const cssPath = this.isStaticSite 
+    // Files are served from /assets/css and /assets/scripts (dev) or root for static site
+    const cssPath = this.isStaticSite
       ? `${this.baseUrl}/app.css`
-      : '/assets/styles/app.css';
+      : '/assets/css/app.css';
     const jsPath = this.isStaticSite
       ? `${this.baseUrl}/app.js`
       : '/assets/scripts/app.js';
@@ -293,16 +294,17 @@ class PageRenderer {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta version="1.0.1">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} - Documentation Portal</title>
   
   <!-- External Stylesheet -->
-  <link rel="stylesheet" href="${cssPath}">
+  <link rel="stylesheet" type="text/css" href="${cssPath}">
   
   <!-- Highlight.js CSS for syntax highlighting -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
-  
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
   <!-- Mermaid for diagrams -->
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';

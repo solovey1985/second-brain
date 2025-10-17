@@ -17,7 +17,7 @@ const contentController = new ContentController(fileService, navigationService);
 
 // Static assets
 // Remove the /content static middleware - we'll handle this in the route
-app.use('/assets', express.static(path.resolve(__dirname, '../public')));
+app.use('/assets', express.static(path.resolve(__dirname, '../assets')));
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 // Routes

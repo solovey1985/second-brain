@@ -294,6 +294,38 @@ class StaticSiteBuilder {
         }
       }
     }
+    
+    // Ensure important built assets from assets/ are also available at the docs root
+    // Some deployments and templates expect /app.css and /app.js at site root.
+    const assetsCssDir = path.resolve('./assets/css');
+    const assetsScriptsDir = path.resolve('./assets/scripts');
+    
+    try {
+      if (fs.existsSync(assetsCssDir)) {
+        const cssFiles = fs.readdirSync(assetsCssDir).filter(f => f.endsWith('.css'));
+        for (const cssFile of cssFiles) {
+          const src = path.join(assetsCssDir, cssFile);
+          // If there's an app.css or other main css, copy it to docs root so links like /app.css work
+          const destName = cssFile === 'app.css' ? 'app.css' : cssFile;
+          const dest = path.join(this.outputDir, destName);
+          fs.copyFileSync(src, dest);
+          console.log(`  📄 Copied CSS: ${cssFile} -> ${destName}`);
+        }
+      }
+      
+      if (fs.existsSync(assetsScriptsDir)) {
+        const jsFiles = fs.readdirSync(assetsScriptsDir).filter(f => f.endsWith('.js'));
+        for (const jsFile of jsFiles) {
+          const src = path.join(assetsScriptsDir, jsFile);
+          const destName = jsFile === 'app.js' ? 'app.js' : jsFile;
+          const dest = path.join(this.outputDir, destName);
+          fs.copyFileSync(src, dest);
+          console.log(`  📄 Copied JS: ${jsFile} -> ${destName}`);
+        }
+      }
+    } catch (err) {
+      console.warn('  ⚠️ Warning copying assets/css or assets/scripts:', err.message);
+    }
   }
 
   async copyDirectory(src, dest, excludeExtensions = []) {
