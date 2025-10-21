@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kaizen-credits - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="PARA update">
+            PARA update
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">3c7f0eb</span>
+            <span class="commit-date">26 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/kaizen-app/">kaizen-app</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">💠 Концепція системи кредитів</a></li>
+<ul>
+<li><a href="#1-">1. Ключові елементи</a></li>
+<li><a href="#2-">2. Способи взаємодії (платформо-незалежно)</a></li>
+<li><a href="#3-">3. Мотиваційні механіки (щоб дотримуватись системи)</a></li>
+<li><a href="#4-">4. Приклад життєвого циклу користувача</a></li>
+<li><a href="#5-">5. Узагальнена структура</a></li>
+</ul>
+<li><a href="#kaizen-credit-system-concept-diagram">Kaizen Credit System Concept Diagram</a></li>
+</ul>
+</div><p>Супер 👍
+Зробимо <strong>загальну концепцію системи обліку кредитів</strong>, яка може працювати в будь-якому середовищі (Telegram, мобільний додаток, веб, навіть папір із QR-кодами).</p>
+<hr>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          💠 Концепція системи кредитів
+        </a>
+      </h1><h2 id="1-">
+        <a href="#1-" class="header-anchor">
+          1. Ключові елементи
+        </a>
+      </h2><ol>
+<li><p><strong>Категорії валют</strong></p>
+<ul>
+<li>⚡ <strong>Кредити продуктивності (КП)</strong></li>
+<li>💚 <strong>Кредити здоров’я (КЗ)</strong></li>
+<li>🚫 <strong>Штрафи / негативні дії</strong></li>
+</ul>
+</li>
+<li><p><strong>Дії з чіткими формулами</strong></p>
+<ul>
+<li>Усі корисні й шкідливі дії мають <strong>готовий список + фіксовані коефіцієнти</strong>.</li>
+<li>Напр.: <em>«Робоча сесія 30 хв = +30 КП»</em> чи <em>«1 сигарета = −8 КЗ»</em>.</li>
+</ul>
+</li>
+<li><p><strong>Взаємодія через меню вибору</strong></p>
+<ul>
+<li>Користувач не вводить числа — лише обирає дію.</li>
+<li>Додатковий крок (якщо потрібно) → кількість/тривалість.</li>
+<li>Система сама нараховує/знімає кредити.</li>
+</ul>
+</li>
+<li><p><strong>Облік і збереження даних</strong></p>
+<ul>
+<li>Лог кожної дії (дата, категорія, кількість, результат).</li>
+<li>Баланс двох рахунків (КП і КЗ).</li>
+<li>Можливість формувати щотижневі й щомісячні підсумки.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-">
+        <a href="#2-" class="header-anchor">
+          2. Способи взаємодії (платформо-незалежно)
+        </a>
+      </h2><ul>
+<li><strong>Меню категорій</strong> → вибір виду діяльності → підтвердження → автоматичне нарахування.</li>
+<li><strong>Баланс</strong> → миттєвий перегляд (наприклад, окремим екраном чи кнопкою).</li>
+<li><strong>Звітність</strong> → денна, тижнева, місячна (графік чи список дій).</li>
+<li><strong>Магазин нагород</strong> → список бонусів, які можна «купити» за кредити.</li>
+<li><strong>Челенджі та цілі</strong> → користувач може активувати виклик (наприклад, 100 віджимань на тиждень).</li>
+</ul>
+<hr>
+<h2 id="3-">
+        <a href="#3-" class="header-anchor">
+          3. Мотиваційні механіки (щоб дотримуватись системи)
+        </a>
+      </h2><ol>
+<li><p><strong>Видимий прогрес</strong></p>
+<ul>
+<li>Баланс у реальному часі.</li>
+<li>Відображення streak (послідовність днів).</li>
+<li>Рівні/титули (Новачок → Майстер → Архітектор → Гранд).</li>
+</ul>
+</li>
+<li><p><strong>Магазин нагород</strong></p>
+<ul>
+<li>Нагороди за кредити (маленькі, середні, великі).</li>
+<li>Частина нагород «здорова» (смаколики, відпочинок), частина «продуктивна» (додатковий вихідний, привілей вибору фільму).</li>
+</ul>
+</li>
+<li><p><strong>Соціальна складова</strong></p>
+<ul>
+<li>Паралельне використання двома людьми (як у тебе з дружиною).</li>
+<li>Можливість «переказати кредити» партнеру чи накопичувати у спільний банк.</li>
+</ul>
+</li>
+<li><p><strong>Автоматичні нагадування</strong></p>
+<ul>
+<li>М’які пінги: «Ти ще не додав активність сьогодні, а вже 20:00».</li>
+<li>Позитивні: «🔥 Ти вже заробив 100 КП цього тижня!».</li>
+</ul>
+</li>
+<li><p><strong>Анти-експлойт правила</strong></p>
+<ul>
+<li>Мінімальна сесія: ≥15 хв.</li>
+<li>Обмеження на кількість кредитів на день.</li>
+<li>Штрафи, які не можна скасувати (тільки «джокером» раз на тиждень).</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-">
+        <a href="#4-" class="header-anchor">
+          4. Приклад життєвого циклу користувача
+        </a>
+      </h2><ol>
+<li>Вранці відкриває систему → обирає «Сон 00–08 → +20 КЗ».</li>
+<li>Під час роботи запускає таймер → після 30 хв тисне «Робоча сесія → +30 КП».</li>
+<li>Увечері записує тренування: «Віджимання 30 раз → +30 КЗ».</li>
+<li>Випив газованої + шоколад → «Солодке → −3 КЗ».</li>
+<li>Баланс показує: КП = 60, КЗ = 47.</li>
+<li>У «магазині нагород» купує «Вечір фільму → −40 КП».</li>
+</ol>
+<hr>
+<h2 id="5-">
+        <a href="#5-" class="header-anchor">
+          5. Узагальнена структура
+        </a>
+      </h2><ul>
+<li><strong>Категорії дій</strong> → підкатегорії → опції кількості.</li>
+<li><strong>Баланс</strong> (два рахунки: КП і КЗ).</li>
+<li><strong>Лог</strong> (список дій із датами).</li>
+<li><strong>Звіти</strong> (день/тиждень/місяць).</li>
+<li><strong>Нагороди</strong> (магазин + рівні).</li>
+<li><strong>Мотиваційні механіки</strong> (streak, нагадування, спільний банк).</li>
+</ul>
+<h1 id="kaizen-credit-system-concept-diagram">
+        <a href="#kaizen-credit-system-concept-diagram" class="header-anchor">
+          Kaizen Credit System Concept Diagram
+        </a>
+      </h1><div class="mermaid">flowchart TD
+    A[Категорії валют] -->|КП| B(Кредити продуктивності)
+    A -->|КЗ| C(Кредити здоров’я)
+    A -->|Штрафи| D(Негативні дії)
+
+    E[Дії з формулами] --> F{Список дій}
+    F --> G[Корисні дії]
+    F --> H[Шкідливі дії]
+    G --> B
+    H --> D
+
+    I[Взаємодія через меню] --> J[Вибір дії]
+    J --> K[Кількість/тривалість]
+    K --> L[Автоматичне нарахування]
+    L --> B
+    L --> C
+    L --> D
+
+    M[Облік і збереження] --> N[Лог дій]
+    M --> O[Баланс рахунків]
+    M --> P[Звіти]
+
+    Q[Мотиваційні механіки] --> R[Видимий прогрес]
+    Q --> S[Магазин нагород]
+    Q --> T[Соціальна складова]
+    Q --> U[Нагадування]
+    Q --> V[Анти-експлойт правила]
+
+    W[Життєвий цикл користувача] --> X[Вибір дії]
+    X --> Y[Оновлення балансу]
+    Y --> Z[Використання нагород]
+
+    subgraph Структура
+        A
+        E
+        I
+        M
+        Q
+    end
+
+    subgraph Взаємодія
+        W
+    end</div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

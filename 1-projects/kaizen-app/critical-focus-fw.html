@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>critical-focus-fw - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="PARA update">
+            PARA update
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">3c7f0eb</span>
+            <span class="commit-date">26 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/kaizen-app/">kaizen-app</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-critical-focus-framework">🧭 CRITICAL FOCUS FRAMEWORK</a></li>
+<ul>
+<ul>
+<li><a href="#-">*Щоденний шаблон концентрації та критичного мислення*</a></li>
+</ul>
+<li><a href="#-">☀️ РАНОК — ФОКУС ПЕРЕД ДІЄЮ</a></li>
+<ul>
+<li><a href="#-1-">🧠 1. Усвідомлення</a></li>
+<li><a href="#-2-">🎯 2. Пріоритизація</a></li>
+<li><a href="#-3-">⚙️ 3. Планування</a></li>
+<li><a href="#-4-">💬 4. Налаштування</a></li>
+</ul>
+<li><a href="#-stop-focus-act">⚡ ОДНОМОМЕНТНИЙ АНАЛІЗ — STOP • FOCUS • ACT</a></li>
+<ul>
+<li><a href="#-1-">⛔ 1. Зупинись</a></li>
+<li><a href="#-2-">❓ 2. Запитай себе</a></li>
+<li><a href="#-3-">🧭 3. Вибір дії</a></li>
+</ul>
+<li><a href="#-">🌙 ВЕЧІР — РЕФЛЕКСІЯ І КОРЕКЦІЯ ФОКУСУ</a></li>
+<ul>
+<li><a href="#-1-">🔍 1. Оцінка</a></li>
+<li><a href="#-2-">🧩 2. Уроки</a></li>
+<li><a href="#-3-">🌿 3. Завершення</a></li>
+</ul>
+<li><a href="#-">🔁 Коротка формула фокусу</a></li>
+</ul>
+</ul>
+</div><h1 id="-critical-focus-framework">
+        <a href="#-critical-focus-framework" class="header-anchor">
+          🧭 CRITICAL FOCUS FRAMEWORK
+        </a>
+      </h1><h3 id="-">
+        <a href="#-" class="header-anchor">
+          *Щоденний шаблон концентрації та критичного мислення*
+        </a>
+      </h3><blockquote>
+<p>“Роби менше, але з глибшим усвідомленням.”
+<em>— Методика критичного фокусу</em></p>
+</blockquote>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          ☀️ РАНОК — ФОКУС ПЕРЕД ДІЄЮ
+        </a>
+      </h2><p><strong>Мета:</strong> очистити думки, відфільтрувати шум і визначити, що дійсно варте енергії сьогодні.</p>
+<hr>
+<h3 id="-1-">
+        <a href="#-1-" class="header-anchor">
+          🧠 1. Усвідомлення
+        </a>
+      </h3><blockquote>
+<p><em>Що я відчуваю і про що думаю зранку?</em></p>
+</blockquote>
+<ul>
+<li>Що мене зараз турбує або приваблює?</li>
+<li>Чому саме це стало важливим? (емоція чи реальна потреба?)</li>
+<li>Як це впливає на мій настрій чи фокус?</li>
+</ul>
+<p>✏️ <strong>Мій стан зараз:</strong></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h3 id="-2-">
+        <a href="#-2-" class="header-anchor">
+          🎯 2. Пріоритизація
+        </a>
+      </h3><blockquote>
+<p><em>На що варто спрямувати енергію сьогодні?</em></p>
+</blockquote>
+<ul>
+<li>Які <strong>3 речі</strong> дадуть найбільший ефект у напрямку моїх цілей?</li>
+<li>Що буде важливо через місяць, якщо я зроблю це сьогодні?</li>
+<li>Що можна не робити або відкласти без шкоди?</li>
+</ul>
+<p>✅ <strong>Top-3 Focus</strong></p>
+<ol>
+<li>...</li>
+<li>...</li>
+<li>...</li>
+</ol>
+<hr>
+<h3 id="-3-">
+        <a href="#-3-" class="header-anchor">
+          ⚙️ 3. Планування
+        </a>
+      </h3><blockquote>
+<p><em>Як зробити це простіше та реальніше?</em></p>
+</blockquote>
+<ul>
+<li>Який перший <strong>мінімальний крок</strong>?</li>
+<li>Скільки часу це реально займе?</li>
+<li>Що можна <strong>делегувати або автоматизувати</strong>?</li>
+</ul>
+<p>🗓️ <strong>Перші дії</strong></p>
+<pre><code class="hljs"><span class="hljs-bullet">1.</span> ...
+<span class="hljs-bullet">2.</span> ...</code></pre><hr>
+<h3 id="-4-">
+        <a href="#-4-" class="header-anchor">
+          💬 4. Налаштування
+        </a>
+      </h3><blockquote>
+<p><em>Який мій намір або фраза дня?</em></p>
+</blockquote>
+<p>🧩 <strong>Фраза-нагадування:</strong></p>
+<blockquote>
+<p>&quot;<em>Я не реагую на шум.</em>&quot;
+&quot;<em>Я роблю менше, але краще.</em>&quot;</p>
+</blockquote>
+<pre><code class="hljs">Мій намір дня: ...</code></pre><hr>
+<h2 id="-stop-focus-act">
+        <a href="#-stop-focus-act" class="header-anchor">
+          ⚡ ОДНОМОМЕНТНИЙ АНАЛІЗ — STOP • FOCUS • ACT
+        </a>
+      </h2><blockquote>
+<p>Використовуй протягом дня, коли губиться фокус або з’являється сумнів.</p>
+</blockquote>
+<hr>
+<h3 id="-1-">
+        <a href="#-1-" class="header-anchor">
+          ⛔ 1. Зупинись
+        </a>
+      </h3><blockquote>
+<p>Що я зараз роблю і чому?</p>
+</blockquote>
+<h3 id="-2-">
+        <a href="#-2-" class="header-anchor">
+          ❓ 2. Запитай себе
+        </a>
+      </h3><ol>
+<li>Чи це справді важливо прямо зараз?</li>
+<li>Чи наближає це мене до однієї з моїх цілей?</li>
+<li>Чи можу зробити це простіше або відкласти?</li>
+</ol>
+<h3 id="-3-">
+        <a href="#-3-" class="header-anchor">
+          🧭 3. Вибір дії
+        </a>
+      </h3><ul>
+<li>✅ <strong>Так, важливо</strong> → зроби мікрокрок.</li>
+<li>📝 <strong>Ні, але цікаво</strong> → запиши в backlog.</li>
+<li>❌ <strong>Ні, неважливо</strong> → відпусти без провини.</li>
+</ul>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🌙 ВЕЧІР — РЕФЛЕКСІЯ І КОРЕКЦІЯ ФОКУСУ
+        </a>
+      </h2><p><strong>Мета:</strong> закріпити досвід, скоригувати напрям, заспокоїти розум.</p>
+<hr>
+<h3 id="-1-">
+        <a href="#-1-" class="header-anchor">
+          🔍 1. Оцінка
+        </a>
+      </h3><blockquote>
+<p><em>Що реально вдалося зробити і чому саме це?</em></p>
+</blockquote>
+<ul>
+<li>Які з <strong>Top-3 Focus</strong> я виконав?</li>
+<li>Що стало причиною успіху / відволікання?</li>
+<li>Чи відповідав день моїм цінностям?</li>
+</ul>
+<p>🗒️ <strong>Підсумок дня:</strong></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h3 id="-2-">
+        <a href="#-2-" class="header-anchor">
+          🧩 2. Уроки
+        </a>
+      </h3><blockquote>
+<p><em>Що я зрозумів про себе, час або пріоритети?</em></p>
+</blockquote>
+<ul>
+<li>Які помилки повторюються?</li>
+<li>Яку дію я можу змінити завтра?</li>
+<li>Чи потрібно скоригувати глобальні цілі?</li>
+</ul>
+<p>📘 <strong>Сьогодні я навчився:</strong></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h3 id="-3-">
+        <a href="#-3-" class="header-anchor">
+          🌿 3. Завершення
+        </a>
+      </h3><blockquote>
+<p><em>Заспокоїти розум і відпустити день.</em></p>
+</blockquote>
+<ul>
+<li>Що сьогодні було хорошим?</li>
+<li>За що я вдячний?</li>
+<li>Яку одну річ зроблю завтра краще?</li>
+</ul>
+<p>💭 <strong>Вдячність і фокус на завтра:</strong></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          🔁 Коротка формула фокусу
+        </a>
+      </h2><blockquote>
+<p><strong>Фокус = (Цінність × Вплив) / (Витрати × Шум)</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Пояснення</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Цінність</strong></td>
+<td>Наскільки це відповідає моїм головним цілям</td>
+</tr>
+<tr>
+<td><strong>Вплив</strong></td>
+<td>Наскільки це реально змінює ситуацію</td>
+</tr>
+<tr>
+<td><strong>Витрати</strong></td>
+<td>Час, енергія, ресурси</td>
+</tr>
+<tr>
+<td><strong>Шум</strong></td>
+<td>Відволікання, емоції, чужі очікування</td>
+</tr>
+</tbody></table>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

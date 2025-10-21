@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spa - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="PARA update">
+            PARA update
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">3c7f0eb</span>
+            <span class="commit-date">26 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/web/">web</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<ul>
+<li><a href="#1-install-angular-cli-and-create-the-app">1. Install Angular CLI and Create the App</a></li>
+<li><a href="#2-install-required-packages">2. Install Required Packages</a></li>
+<li><a href="#3-configure-oauth2-in-angular">3. Configure OAuth2 in Angular</a></li>
+<li><a href="#4-set-up-openiddict-configuration">4. Set Up OpenIdDict Configuration</a></li>
+<li><a href="#5-protect-routes">5. Protect Routes</a></li>
+<li><a href="#6-add-loginlogout-buttons">6. Add Login/Logout Buttons</a></li>
+<li><a href="#7-test-authentication-flow">7. Test Authentication Flow</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Here’s a step-by-step guide to implement an Angular SPA that uses Yapidoo.Service.Auth as an OpenIdDict service:</p>
+<h3 id="1-install-angular-cli-and-create-the-app">
+        <a href="#1-install-angular-cli-and-create-the-app" class="header-anchor">
+          1. Install Angular CLI and Create the App
+        </a>
+      </h3><pre><code class="hljs language-powershell">npm install <span class="hljs-literal">-g</span> @angular/<span class="hljs-built_in">cli</span>
+ng new yapidoo<span class="hljs-literal">-spa</span> <span class="hljs-literal">--routing</span> <span class="hljs-literal">--style</span>=scss
+<span class="hljs-built_in">cd</span> yapidoo<span class="hljs-literal">-spa</span></code></pre><h3 id="2-install-required-packages">
+        <a href="#2-install-required-packages" class="header-anchor">
+          2. Install Required Packages
+        </a>
+      </h3><ul>
+<li>For OpenID Connect authentication, use <code>@auth0/angular-jwt</code> and <code>angular-oauth2-oidc</code>:</li>
+</ul>
+<pre><code class="hljs language-powershell">npm install angular<span class="hljs-literal">-oauth2-oidc</span> @auth0/angular<span class="hljs-literal">-jwt</span></code></pre><h3 id="3-configure-oauth2-in-angular">
+        <a href="#3-configure-oauth2-in-angular" class="header-anchor">
+          3. Configure OAuth2 in Angular
+        </a>
+      </h3><ul>
+<li>In <code>app.module.ts</code>, import and configure <code>OAuthModule</code>:</li>
+</ul>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">OAuthModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+
+<span class="hljs-meta">@NgModule</span>({
+  <span class="hljs-attr">imports</span>: [
+    <span class="hljs-comment">// ...existing code...</span>
+    <span class="hljs-title class_">OAuthModule</span>.<span class="hljs-title function_">forRoot</span>()
+  ],
+  <span class="hljs-comment">// ...existing code...</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> { }</code></pre><h3 id="4-set-up-openiddict-configuration">
+        <a href="#4-set-up-openiddict-configuration" class="header-anchor">
+          4. Set Up OpenIdDict Configuration
+        </a>
+      </h3><ul>
+<li>In <code>app.component.ts</code> or a dedicated <code>auth.service.ts</code>, configure the OAuthService:</li>
+</ul>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">OAuthService</span>, <span class="hljs-title class_">AuthConfig</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">authConfig</span>: <span class="hljs-title class_">AuthConfig</span> = {
+  <span class="hljs-attr">issuer</span>: <span class="hljs-string">&#x27;https://&lt;Yapidoo.Service.Auth-URL&gt;&#x27;</span>,
+  <span class="hljs-attr">redirectUri</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">origin</span>,
+  <span class="hljs-attr">clientId</span>: <span class="hljs-string">&#x27;&lt;client_id&gt;&#x27;</span>,
+  <span class="hljs-attr">responseType</span>: <span class="hljs-string">&#x27;code&#x27;</span>,
+  <span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;openid profile email&#x27;</span>,
+  <span class="hljs-attr">requireHttps</span>: <span class="hljs-literal">true</span>,
+};
+
+<span class="hljs-meta">@Injectable</span>({ <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span> })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthService</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">oauthService</span>: <span class="hljs-title class_">OAuthService</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauthService</span>.<span class="hljs-title function_">configure</span>(authConfig);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauthService</span>.<span class="hljs-title function_">loadDiscoveryDocumentAndTryLogin</span>();
+  }
+}</code></pre><h3 id="5-protect-routes">
+        <a href="#5-protect-routes" class="header-anchor">
+          5. Protect Routes
+        </a>
+      </h3><ul>
+<li>Use Angular route guards to protect routes:</li>
+</ul>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">CanActivate</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">OAuthService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+
+<span class="hljs-meta">@Injectable</span>({ <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span> })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthGuard</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CanActivate</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">oauthService</span>: <span class="hljs-title class_">OAuthService</span></span>) {}
+  <span class="hljs-title function_">canActivate</span>(): <span class="hljs-built_in">boolean</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauthService</span>.<span class="hljs-title function_">hasValidAccessToken</span>();
+  }
+}</code></pre><ul>
+<li>Add the guard to your routes in <code>app-routing.module.ts</code>.</li>
+</ul>
+<h3 id="6-add-loginlogout-buttons">
+        <a href="#6-add-loginlogout-buttons" class="header-anchor">
+          6. Add Login/Logout Buttons
+        </a>
+      </h3><ul>
+<li>In your components, use <code>OAuthService</code> methods:</li>
+</ul>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">login</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauthService</span>.<span class="hljs-title function_">initLoginFlow</span>();
+}
+<span class="hljs-title function_">logout</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauthService</span>.<span class="hljs-title function_">logOut</span>();
+}</code></pre><h3 id="7-test-authentication-flow">
+        <a href="#7-test-authentication-flow" class="header-anchor">
+          7. Test Authentication Flow
+        </a>
+      </h3><ul>
+<li>Run the app:</li>
+</ul>
+<pre><code class="hljs language-powershell">ng serve</code></pre><ul>
+<li>Open in browser and test login/logout.</li>
+</ul>
+<hr>
+<p><strong>Summary of Packages:</strong></p>
+<ul>
+<li><code>angular-oauth2-oidc</code> (main OpenID Connect integration)</li>
+<li><code>@auth0/angular-jwt</code> (optional, for JWT handling)</li>
+</ul>
+<p><strong>Other Steps:</strong></p>
+<ul>
+<li>Register your SPA client in Yapidoo.Service.Auth/OpenIdDict.</li>
+<li>Set up CORS in Yapidoo.Service.Auth for your SPA’s URL.</li>
+<li>Use HTTPS in production.</li>
+</ul>
+<p>Let me know if you need code samples for specific files or further details!</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>
