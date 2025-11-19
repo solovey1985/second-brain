@@ -276,9 +276,9 @@ class StaticSiteBuilder {
   }
 
   async copyStaticAssets() {
-    // Copy content directory for static assets
+    // Copy content directory for static assets (including HTML files with path fixes)
     const contentOutput = path.join(this.outputDir, 'content');
-    await this.copyDirectory(this.contentDir, contentOutput, ['.md']);
+    await this.copyDirectory(this.contentDir, contentOutput, ['.md'], true);
     
     // Copy public assets if they exist
     const publicDir = './public';
@@ -293,6 +293,15 @@ class StaticSiteBuilder {
           console.log(`  📄 Copied: ${file}`);
         }
       }
+    }
+    
+    // Copy assets directory to docs for GitHub Pages
+    const assetsDir = path.resolve('./assets');
+    const assetsOutput = path.join(this.outputDir, 'assets');
+    
+    if (fs.existsSync(assetsDir)) {
+      await this.copyDirectory(assetsDir, assetsOutput, [], false);
+      console.log(`  📦 Copied assets directory`);
     }
     
     // Ensure important built assets from assets/ are also available at the docs root
@@ -328,7 +337,7 @@ class StaticSiteBuilder {
     }
   }
 
-  async copyDirectory(src, dest, excludeExtensions = []) {
+  async copyDirectory(src, dest, excludeExtensions = [], processHtml = false) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true });
     }
@@ -341,14 +350,32 @@ class StaticSiteBuilder {
       const stat = fs.statSync(srcPath);
       
       if (stat.isDirectory()) {
-        await this.copyDirectory(srcPath, destPath, excludeExtensions);
+        await this.copyDirectory(srcPath, destPath, excludeExtensions, processHtml);
       } else {
         const ext = path.extname(item);
         if (!excludeExtensions.includes(ext)) {
-          fs.copyFileSync(srcPath, destPath);
+          // Process HTML files to fix asset paths
+          if (processHtml && ext === '.html') {
+            const htmlContent = fs.readFileSync(srcPath, 'utf-8');
+            const fixedHtml = this.fixHtmlAssetPaths(htmlContent);
+            const buffer = Buffer.from(fixedHtml, 'utf8');
+            fs.writeFileSync(destPath, buffer);
+            console.log(`  🔧 Processed HTML: ${item}`);
+          } else {
+            fs.copyFileSync(srcPath, destPath);
+          }
         }
       }
     }
+  }
+  
+  fixHtmlAssetPaths(html) {
+    const baseUrl = this.deployTarget === 'local' ? '' : '/second-brain';
+    
+    // Fix absolute paths to assets for GitHub Pages
+    return html
+      .replace(/href="\/assets\//g, `href="${baseUrl}/assets/`)
+      .replace(/src="\/assets\//g, `src="${baseUrl}/assets/`);
   }
 
   async create404Page(navigation) {
