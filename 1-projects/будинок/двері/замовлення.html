@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>замовлення - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="двері">
+            двері
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">ab081ee</span>
+            <span class="commit-date">18 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/будинок/">будинок</a></li><li><a href="/second-brain/1-projects/будинок/двері/">двері</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Підбір вхідних дверей на замовлення</a></li>
+<ul>
+<li><a href="#-">Таблиця виробників</a></li>
+<li><a href="#-">Рекомендації при замовленні</a></li>
+<ul>
+<li><a href="#-">Розшифрування параметрів конструкції</a></li>
+</ul>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          Підбір вхідних дверей на замовлення
+        </a>
+      </h1><p><strong>Проєм:</strong> 2400×990 мм<br><strong>Висота полотна:</strong> 2100 мм<br><strong>Фрамуга:</strong> 300 мм<br><strong>Обов’язково:</strong> терморозрив</p>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Таблиця виробників
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>Назва</th>
+<th>Сайт</th>
+<th>Телефони/Контакти</th>
+<th>Приблизна ціна*</th>
+<th>Особливості</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Favorit Dveri</td>
+<td>favorit-dveri.ua</td>
+<td>(067) 777-19-24, (050) 777-19-24</td>
+<td>34000–44000 грн</td>
+<td>Виготовлення з терморозривом, фрамуга, гарантія</td>
+</tr>
+<tr>
+<td>Market-Dveri</td>
+<td>market-dveri.ua</td>
+<td>(067) 075-17-77, (099) 012-11-55</td>
+<td>від 28000 грн</td>
+<td>Індивідуальні розміри, доставка, монтаж</td>
+</tr>
+<tr>
+<td>Булат</td>
+<td>bulat-doors.com.ua</td>
+<td>(044) 592-83-83</td>
+<td>32000–42000 грн</td>
+<td>Посилений WarmLine, великий вибір обробки</td>
+</tr>
+<tr>
+<td>ARAMADA</td>
+<td>armada-doors.com.ua</td>
+<td>(067) 640-25-25</td>
+<td>від 29500 грн</td>
+<td>Термодвері, декор, з фрамугою</td>
+</tr>
+<tr>
+<td>HOMEDOORS</td>
+<td>homedoors.com.ua</td>
+<td>(098) 555-31-13</td>
+<td>32000–48000 грн</td>
+<td>Вузькі та високі двері, “теплі” пакети</td>
+</tr>
+<tr>
+<td>МіськБудМетал</td>
+<td>miskbudmetal.com.ua</td>
+<td>(044) 334-57-79</td>
+<td>від 27000 грн</td>
+<td>Виготовлення проємів під замір</td>
+</tr>
+<tr>
+<td>ДВЕРБУД</td>
+<td>dverbud.com.ua</td>
+<td>(098) 972-73-82</td>
+<td>29000–37000 грн</td>
+<td>Будь-яка геометрія, робота по області</td>
+</tr>
+<tr>
+<td>MetalDoors</td>
+<td>metaldoors.com.ua</td>
+<td>(097) 850-64-71</td>
+<td>32000–42000 грн</td>
+<td>Полотно з термофрагментом, вітраж</td>
+</tr>
+<tr>
+<td>DoorService</td>
+<td>doorservice.ua</td>
+<td>(067) 362-38-28</td>
+<td>від 35000 грн</td>
+<td>Виробництво під ключ, швидкий монтаж</td>
+</tr>
+<tr>
+<td>Dveri-Vdom</td>
+<td>dveri-vdom.com.ua</td>
+<td>(067) 845-52-23</td>
+<td>31000–41000 грн</td>
+<td>Вручну, індивідуальна ковка, висока фрамуга</td>
+</tr>
+</tbody></table>
+<p>*Вартість попередня, для розміру 2100×990 мм, з терморозривом та фрамугою 300 мм</p>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Рекомендації при замовленні
+        </a>
+      </h2><ul>
+<li>Оголосіть точний розмір і бажаний вигляд (зразок фасаду або фото бажаного)</li>
+<li>Уточнюйте, чи входить у ціну монтаж і доставка</li>
+<li>Вимагайте писемної гарантії</li>
+<li>Замір дверного отвору краще доручити представнику виробника</li>
+</ul>
+<hr>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          Розшифрування параметрів конструкції
+        </a>
+      </h3><ul>
+<li><strong>Терморозрив</strong> – це шар теплоізоляційного матеріалу по всьому периметру дверей, який захищає від промерзання (мінвата, пінополістирол)</li>
+<li><strong>Фрамуга</strong> – верхня вставка (можлива зі склом або глуха)</li>
+<li><strong>Висота прорізу</strong> 2400 мм = двері 2100 мм + фрамуга 300 мм</li>
+</ul>
+<hr>
+<p><strong>Посилання на виробників додані у таблиці для зручності переходу. Контакти актуальні на листопад 2025 р.</strong></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

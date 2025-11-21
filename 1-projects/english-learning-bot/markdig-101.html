@@ -1,0 +1,659 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>markdig-101 - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="двері">
+            двері
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">ab081ee</span>
+            <span class="commit-date">18 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/english-learning-bot/">english-learning-bot</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-markdown-markdig-net">Робота з Markdown через Markdig в .NET</a></li>
+<ul>
+<li><a href="#-">Базова конфігурація</a></li>
+<li><a href="#-">Приклад базового використання</a></li>
+<li><a href="#-">Сегментація контенту по розділах</a></li>
+<li><a href="#-">Обробка медіа контенту</a></li>
+<ul>
+<li><a href="#-">Відео посилання</a></li>
+<li><a href="#-">Обробка зображень</a></li>
+</ul>
+<li><a href="#-">Повний приклад використання</a></li>
+<li><a href="#-">Рекомендації та найкращі практики</a></li>
+<li><a href="#-telegram-">Специфіка використання для Telegram бота</a></li>
+<ul>
+<li><a href="#-markdown-telegram">Конвертація Markdown в повідомлення Telegram</a></li>
+<li><a href="#-">Приклад використання в боті</a></li>
+<li><a href="#-telegram">Особливості та обмеження для Telegram</a></li>
+</ul>
+<li><a href="#-markdig">Корисні розширення Markdig</a></li>
+</ul>
+</ul>
+</div><h1 id="-markdown-markdig-net">
+        <a href="#-markdown-markdig-net" class="header-anchor">
+          Робота з Markdown через Markdig в .NET
+        </a>
+      </h1><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Базова конфігурація
+        </a>
+      </h2><p>Спочатку потрібно встановити пакет Markdig через NuGet:</p>
+<pre><code class="hljs language-bash">dotnet add package Markdig</code></pre><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Приклад базового використання
+        </a>
+      </h2><pre><code class="hljs language-csharp"><span class="hljs-keyword">using</span> Markdig;
+<span class="hljs-keyword">using</span> Markdig.Syntax;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MarkdownProcessor</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MarkdownPipeline _pipeline;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MarkdownProcessor</span>()</span>
+    {
+        <span class="hljs-comment">// Налаштування пайплайну з усіма розширеннями</span>
+        _pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UseBootstrap() <span class="hljs-comment">// Для Bootstrap класів</span>
+            .UseEmojiAndSmiley() <span class="hljs-comment">// Для емодзі</span>
+            .UseMediaLinks() <span class="hljs-comment">// Для відео посилань</span>
+            .Build();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">RenderHtml</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> markdown</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> Markdown.ToHtml(markdown, _pipeline);
+    }
+}</code></pre><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Сегментація контенту по розділах
+        </a>
+      </h2><p>Для розбиття контенту на розділи можна використовувати парсинг заголовків:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ContentSegmenter</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MarkdownPipeline _pipeline;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ContentSegmenter</span>()</span>
+    {
+        _pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;ContentSection&gt; <span class="hljs-title">SegmentByHeadings</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> markdown</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> document = Markdown.Parse(markdown, _pipeline);
+        <span class="hljs-keyword">var</span> sections = <span class="hljs-keyword">new</span> List&lt;ContentSection&gt;();
+        <span class="hljs-keyword">var</span> currentSection = <span class="hljs-keyword">new</span> ContentSection();
+        
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> block <span class="hljs-keyword">in</span> document)
+        {
+            <span class="hljs-keyword">if</span> (block <span class="hljs-keyword">is</span> HeadingBlock heading)
+            {
+                <span class="hljs-comment">// Якщо знайшли новий заголовок, зберігаємо попередню секцію</span>
+                <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(currentSection.Title))
+                {
+                    sections.Add(currentSection);
+                    currentSection = <span class="hljs-keyword">new</span> ContentSection();
+                }
+                
+                currentSection.Title = heading.Inline?.FirstChild?.ToString();
+                currentSection.Level = heading.Level;
+            }
+            <span class="hljs-keyword">else</span>
+            {
+                <span class="hljs-comment">// Додаємо контент до поточної секції</span>
+                currentSection.Content.Add(block);
+            }
+        }
+        
+        <span class="hljs-comment">// Додаємо останню секцію</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(currentSection.Title))
+        {
+            sections.Add(currentSection);
+        }
+        
+        <span class="hljs-keyword">return</span> sections;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ContentSection</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Level { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> List&lt;Block&gt; Content { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+}</code></pre><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Обробка медіа контенту
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Відео посилання
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MediaProcessor</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MarkdownPipeline _pipeline;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MediaProcessor</span>()</span>
+    {
+        _pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+            .UseMediaLinks() <span class="hljs-comment">// Активуємо підтримку медіа посилань</span>
+            .Build();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">ProcessVideoLinks</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> markdown</span>)</span>
+    {
+        <span class="hljs-comment">// Кастомний обробник для відео посилань</span>
+        <span class="hljs-keyword">var</span> document = Markdown.Parse(markdown, _pipeline);
+        
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> link <span class="hljs-keyword">in</span> document.Descendants&lt;LinkInline&gt;())
+        {
+            <span class="hljs-keyword">if</span> (IsVideoUrl(link.Url))
+            {
+                <span class="hljs-comment">// Конвертуємо посилання у вбудований плеєр</span>
+                <span class="hljs-keyword">var</span> videoEmbed = GenerateVideoEmbed(link.Url);
+                <span class="hljs-comment">// Заміняємо посилання на вбудований код</span>
+                link.Url = videoEmbed;
+            }
+        }
+
+        <span class="hljs-keyword">return</span> Markdown.ToHtml(document, _pipeline);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">IsVideoUrl</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> url</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> url?.Contains(<span class="hljs-string">&quot;youtube.com&quot;</span>) == <span class="hljs-literal">true</span> || 
+               url?.Contains(<span class="hljs-string">&quot;vimeo.com&quot;</span>) == <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GenerateVideoEmbed</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> url</span>)</span>
+    {
+        <span class="hljs-comment">// Приклад для YouTube</span>
+        <span class="hljs-keyword">if</span> (url.Contains(<span class="hljs-string">&quot;youtube.com&quot;</span>))
+        {
+            <span class="hljs-keyword">var</span> videoId = ExtractYouTubeId(url);
+            <span class="hljs-keyword">return</span> <span class="hljs-string">$@&quot;&lt;div class=&quot;&quot;video-container&quot;&quot;&gt;
+                       &lt;iframe width=&quot;&quot;560&quot;&quot; height=&quot;&quot;315&quot;&quot; 
+                               src=&quot;&quot;https://www.youtube.com/embed/<span class="hljs-subst">{videoId}</span>&quot;&quot; 
+                               frameborder=&quot;&quot;0&quot;&quot; allowfullscreen&gt;
+                       &lt;/iframe&gt;
+                     &lt;/div&gt;&quot;</span>;
+        }
+        <span class="hljs-keyword">return</span> url;
+    }
+}</code></pre><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Обробка зображень
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ImageProcessor</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MarkdownPipeline _pipeline;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ImageProcessor</span>()</span>
+    {
+        _pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">ProcessImages</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> markdown</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> document = Markdown.Parse(markdown, _pipeline);
+        
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> image <span class="hljs-keyword">in</span> document.Descendants&lt;LinkInline&gt;().Where(x =&gt; x.IsImage))
+        {
+            <span class="hljs-comment">// Додаємо додаткові атрибути до зображення</span>
+            image.GetAttributes().AddClass(<span class="hljs-string">&quot;img-fluid&quot;</span>);
+            
+            <span class="hljs-comment">// Перевіряємо шлях зображення</span>
+            <span class="hljs-keyword">if</span> (!image.Url.StartsWith(<span class="hljs-string">&quot;http&quot;</span>))
+            {
+                <span class="hljs-comment">// Конвертуємо відносний шлях в абсолютний</span>
+                image.Url = ConvertToAbsolutePath(image.Url);
+            }
+            
+            <span class="hljs-comment">// Додаємо обробку помилок завантаження</span>
+            image.GetAttributes().AddProperty(<span class="hljs-string">&quot;onerror&quot;</span>, <span class="hljs-string">&quot;this.onerror=null;this.src=&#x27;placeholder.png&#x27;;&quot;</span>);
+        }
+
+        <span class="hljs-keyword">return</span> Markdown.ToHtml(document, _pipeline);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> <span class="hljs-title">ConvertToAbsolutePath</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> relativePath</span>)</span>
+    {
+        <span class="hljs-comment">// Логіка конвертації відносного шляху в абсолютний</span>
+        <span class="hljs-keyword">var</span> baseUrl = <span class="hljs-string">&quot;https://your-domain.com/images/&quot;</span>;
+        <span class="hljs-keyword">return</span> Path.Combine(baseUrl, relativePath).Replace(<span class="hljs-string">&quot;\\&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>);
+    }
+}</code></pre><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Повний приклад використання
+        </a>
+      </h2><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MarkdownDocumentProcessor</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ContentSegmenter _segmenter;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MediaProcessor _mediaProcessor;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ImageProcessor _imageProcessor;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MarkdownDocumentProcessor</span>()</span>
+    {
+        _segmenter = <span class="hljs-keyword">new</span> ContentSegmenter();
+        _mediaProcessor = <span class="hljs-keyword">new</span> MediaProcessor();
+        _imageProcessor = <span class="hljs-keyword">new</span> ImageProcessor();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ProcessedDocument&gt; <span class="hljs-title">ProcessDocumentAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> filePath</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> markdown = <span class="hljs-keyword">await</span> File.ReadAllTextAsync(filePath);
+        
+        <span class="hljs-comment">// Розбиваємо на секції</span>
+        <span class="hljs-keyword">var</span> sections = _segmenter.SegmentByHeadings(markdown);
+        
+        <span class="hljs-comment">// Обробляємо кожну секцію</span>
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> section <span class="hljs-keyword">in</span> sections)
+        {
+            <span class="hljs-keyword">var</span> sectionContent = <span class="hljs-built_in">string</span>.Join(<span class="hljs-string">&quot;\n&quot;</span>, section.Content);
+            
+            <span class="hljs-comment">// Обробляємо медіа</span>
+            sectionContent = _mediaProcessor.ProcessVideoLinks(sectionContent);
+            
+            <span class="hljs-comment">// Обробляємо зображення</span>
+            sectionContent = _imageProcessor.ProcessImages(sectionContent);
+            
+            section.ProcessedContent = sectionContent;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ProcessedDocument
+        {
+            Title = sections.FirstOrDefault()?.Title ?? Path.GetFileNameWithoutExtension(filePath),
+            Sections = sections
+        };
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ProcessedDocument</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> List&lt;ContentSection&gt; Sections { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt; Metadata { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Рекомендації та найкращі практики
+        </a>
+      </h2><ol>
+<li><p><strong>Кешування</strong>:</p>
+<ul>
+<li>Кешуйте скомпільований HTML для часто використовуваних документів</li>
+<li>Використовуйте версіонування для інвалідації кешу</li>
+</ul>
+</li>
+<li><p><strong>Безпека</strong>:</p>
+<ul>
+<li>Використовуйте <code>UseAdvancedExtensions().DisableHtml()</code> для заборони HTML</li>
+<li>Валідуйте всі зовнішні посилання</li>
+<li>Використовуйте білий список дозволених доменів для зображень</li>
+</ul>
+</li>
+<li><p><strong>Продуктивність</strong>:</p>
+<ul>
+<li>Використовуйте асинхронні операції для завантаження файлів</li>
+<li>Реалізуйте ліниве завантаження для великих документів</li>
+<li>Оптимізуйте зображення перед збереженням</li>
+</ul>
+</li>
+<li><p><strong>Підтримка</strong>:</p>
+<ul>
+<li>Ведіть лог помилок парсингу</li>
+<li>Реалізуйте механізм відновлення при помилках</li>
+<li>Додайте валідацію структури документа</li>
+</ul>
+</li>
+</ol>
+<h2 id="-telegram-">
+        <a href="#-telegram-" class="header-anchor">
+          Специфіка використання для Telegram бота
+        </a>
+      </h2><h3 id="-markdown-telegram">
+        <a href="#-markdown-telegram" class="header-anchor">
+          Конвертація Markdown в повідомлення Telegram
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">TelegramMarkdownProcessor</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> MarkdownPipeline _pipeline;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _mediaBasePath;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TelegramMarkdownProcessor</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> mediaBasePath</span>)</span>
+    {
+        _mediaBasePath = mediaBasePath;
+        _pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .DisableHtml() <span class="hljs-comment">// Для безпеки</span>
+            .UseEmphasisExtras() <span class="hljs-comment">// Для додаткового форматування</span>
+            .UseEmojiAndSmiley()
+            .Build();
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;List&lt;BotMessage&gt;&gt; ProcessMarkdownForTelegramAsync(<span class="hljs-built_in">string</span> markdown)
+    {
+        <span class="hljs-keyword">var</span> messages = <span class="hljs-keyword">new</span> List&lt;BotMessage&gt;();
+        <span class="hljs-keyword">var</span> document = Markdown.Parse(markdown, _pipeline);
+        <span class="hljs-keyword">var</span> currentTextBlock = <span class="hljs-keyword">new</span> StringBuilder();
+        
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> block <span class="hljs-keyword">in</span> document)
+        {
+            <span class="hljs-keyword">switch</span> (block)
+            {
+                <span class="hljs-keyword">case</span> HeadingBlock heading:
+                    <span class="hljs-comment">// Якщо є накопичений текст, додаємо його як повідомлення</span>
+                    <span class="hljs-keyword">if</span> (currentTextBlock.Length &gt; <span class="hljs-number">0</span>)
+                    {
+                        messages.Add(<span class="hljs-keyword">new</span> TextMessage(currentTextBlock.ToString(), ParseMode.MarkdownV2));
+                        currentTextBlock.Clear();
+                    }
+                    
+                    <span class="hljs-comment">// Форматуємо заголовок</span>
+                    <span class="hljs-keyword">var</span> headingText = <span class="hljs-string">$&quot;*<span class="hljs-subst">{EscapeMarkdown(heading.Inline?.FirstChild?.ToString())}</span>*\n\n&quot;</span>;
+                    currentTextBlock.Append(headingText);
+                    <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">case</span> ParagraphBlock paragraph:
+                    <span class="hljs-keyword">var</span> text = paragraph.Inline?.FirstChild?.ToString();
+                    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(text))
+                    {
+                        currentTextBlock.Append(EscapeMarkdown(text)).Append(<span class="hljs-string">&quot;\n\n&quot;</span>);
+                    }
+                    <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">case</span> LinkInline link <span class="hljs-keyword">when</span> link.IsImage:
+                    <span class="hljs-comment">// Якщо є накопичений текст, додаємо його як повідомлення</span>
+                    <span class="hljs-keyword">if</span> (currentTextBlock.Length &gt; <span class="hljs-number">0</span>)
+                    {
+                        messages.Add(<span class="hljs-keyword">new</span> TextMessage(currentTextBlock.ToString(), ParseMode.MarkdownV2));
+                        currentTextBlock.Clear();
+                    }
+
+                    <span class="hljs-comment">// Створюємо повідомлення з зображенням</span>
+                    <span class="hljs-keyword">var</span> imagePath = Path.Combine(_mediaBasePath, link.Url);
+                    messages.Add(<span class="hljs-keyword">new</span> PhotoMessage(link.Title ?? <span class="hljs-string">&quot;&quot;</span>, imagePath));
+                    <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">case</span> FencedCodeBlock codeBlock:
+                    <span class="hljs-comment">// Якщо є накопичений текст, додаємо його як повідомлення</span>
+                    <span class="hljs-keyword">if</span> (currentTextBlock.Length &gt; <span class="hljs-number">0</span>)
+                    {
+                        messages.Add(<span class="hljs-keyword">new</span> TextMessage(currentTextBlock.ToString(), ParseMode.MarkdownV2));
+                        currentTextBlock.Clear();
+                    }
+
+                    <span class="hljs-comment">// Форматуємо код для Telegram</span>
+                    <span class="hljs-keyword">var</span> code = <span class="hljs-string">$&quot;```<span class="hljs-subst">{codeBlock.Info}</span>\n<span class="hljs-subst">{codeBlock.Lines}</span>\n```&quot;</span>;
+                    messages.Add(<span class="hljs-keyword">new</span> TextMessage(code, ParseMode.MarkdownV2));
+                    <span class="hljs-keyword">break</span>;
+            }
+
+            <span class="hljs-comment">// Перевіряємо розмір поточного текстового блоку</span>
+            <span class="hljs-keyword">if</span> (currentTextBlock.Length &gt; <span class="hljs-number">3500</span>) <span class="hljs-comment">// Telegram ліміт ~4096</span>
+            {
+                messages.Add(<span class="hljs-keyword">new</span> TextMessage(currentTextBlock.ToString(), ParseMode.MarkdownV2));
+                currentTextBlock.Clear();
+            }
+        }
+
+        <span class="hljs-comment">// Додаємо залишковий текст</span>
+        <span class="hljs-keyword">if</span> (currentTextBlock.Length &gt; <span class="hljs-number">0</span>)
+        {
+            messages.Add(<span class="hljs-keyword">new</span> TextMessage(currentTextBlock.ToString(), ParseMode.MarkdownV2));
+        }
+
+        <span class="hljs-keyword">return</span> messages;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> <span class="hljs-title">EscapeMarkdown</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>? text</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">string</span>.IsNullOrEmpty(text)) <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>.Empty;
+        
+        <span class="hljs-comment">// Екрануємо спеціальні символи для MarkdownV2</span>
+        <span class="hljs-keyword">return</span> text
+            .Replace(<span class="hljs-string">&quot;_&quot;</span>, <span class="hljs-string">&quot;\\_&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-string">&quot;\\*&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;[&quot;</span>, <span class="hljs-string">&quot;\\[&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;]&quot;</span>, <span class="hljs-string">&quot;\\]&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;\\(&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;\\)&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;~&quot;</span>, <span class="hljs-string">&quot;\\~&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;`&quot;</span>, <span class="hljs-string">&quot;\\`&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;&gt;&quot;</span>, <span class="hljs-string">&quot;\\&gt;&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;#&quot;</span>, <span class="hljs-string">&quot;\\#&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;\\+&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot;\\-&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;=&quot;</span>, <span class="hljs-string">&quot;\\=&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;|&quot;</span>, <span class="hljs-string">&quot;\\|&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;\\.&quot;</span>)
+            .Replace(<span class="hljs-string">&quot;!&quot;</span>, <span class="hljs-string">&quot;\\!&quot;</span>);
+    }
+}
+
+<span class="hljs-comment">// Моделі повідомлень</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">record</span> <span class="hljs-title">BotMessage</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">TextMessage</span>(<span class="hljs-params">
+    <span class="hljs-built_in">string</span> Text,
+    ParseMode ParseMode = ParseMode.MarkdownV2
+</span>) : BotMessage</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">PhotoMessage</span>(<span class="hljs-params">
+    <span class="hljs-built_in">string</span> Caption,
+    <span class="hljs-built_in">string</span> PhotoPath,
+    ParseMode ParseMode = ParseMode.MarkdownV2
+</span>) : BotMessage</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> ParseMode
+{
+    MarkdownV2,
+    HTML,
+    Markdown
+}</code></pre><h3 id="-">
+        <a href="#-" class="header-anchor">
+          Приклад використання в боті
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LessonHandler</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> TelegramMarkdownProcessor _markdownProcessor;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ITelegramBotClient _botClient;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LessonHandler</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> mediaBasePath, ITelegramBotClient botClient</span>)</span>
+    {
+        _markdownProcessor = <span class="hljs-keyword">new</span> TelegramMarkdownProcessor(mediaBasePath);
+        _botClient = botClient;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">SendLessonAsync</span>(<span class="hljs-params"><span class="hljs-built_in">long</span> chatId, <span class="hljs-built_in">string</span> lessonContent</span>)</span>
+    {
+        <span class="hljs-comment">// Обробляємо markdown контент</span>
+        <span class="hljs-keyword">var</span> messages = <span class="hljs-keyword">await</span> _markdownProcessor.ProcessMarkdownForTelegramAsync(lessonContent);
+        
+        <span class="hljs-comment">// Відправляємо повідомлення</span>
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> message <span class="hljs-keyword">in</span> messages)
+        {
+            <span class="hljs-keyword">switch</span> (message)
+            {
+                <span class="hljs-keyword">case</span> TextMessage textMessage:
+                    <span class="hljs-keyword">await</span> _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: textMessage.Text,
+                        parseMode: textMessage.ParseMode);
+                    <span class="hljs-keyword">break</span>;
+                    
+                <span class="hljs-keyword">case</span> PhotoMessage photoMessage:
+                    <span class="hljs-keyword">await</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> photoStream = File.OpenRead(photoMessage.PhotoPath);
+                    <span class="hljs-keyword">await</span> _botClient.SendPhotoAsync(
+                        chatId: chatId,
+                        photo: InputFile.FromStream(photoStream),
+                        caption: photoMessage.Caption,
+                        parseMode: photoMessage.ParseMode);
+                    <span class="hljs-keyword">break</span>;
+            }
+            
+            <span class="hljs-comment">// Додаємо затримку між повідомленнями</span>
+            <span class="hljs-keyword">await</span> Task.Delay(TimeSpan.FromMilliseconds(<span class="hljs-number">100</span>));
+        }
+    }
+}</code></pre><h3 id="-telegram">
+        <a href="#-telegram" class="header-anchor">
+          Особливості та обмеження для Telegram
+        </a>
+      </h3><ol>
+<li><p><strong>Розмір повідомлень</strong>:</p>
+<ul>
+<li>Максимальний розмір текстового повідомлення: 4096 символів</li>
+<li>Необхідно розбивати великі тексти на частини</li>
+</ul>
+</li>
+<li><p><strong>Форматування</strong>:</p>
+<ul>
+<li>Використовуйте MarkdownV2 для кращої сумісності</li>
+<li>Обов&#39;язково екрануйте спеціальні символи</li>
+<li>Підтримуються: <code>*bold*, _italic_, __underline__, ~strike~, ||spoiler||, </code>code<code>, ```pre```, [text](URL)</code></li>
+</ul>
+</li>
+<li><p><strong>Медіа контент</strong>:</p>
+<ul>
+<li>Фото: максимум 10 МБ</li>
+<li>Відео: максимум 50 МБ</li>
+<li>Аудіо: максимум 50 МБ</li>
+<li>Файли: максимум 50 МБ</li>
+</ul>
+</li>
+<li><p><strong>Оптимізація</strong>:</p>
+<ul>
+<li>Використовуйте Media Groups для відправки декількох фото</li>
+<li>Кешуйте file_id для повторного використання медіа</li>
+<li>Оптимізуйте зображення перед відправкою</li>
+</ul>
+</li>
+</ol>
+<h2 id="-markdig">
+        <a href="#-markdig" class="header-anchor">
+          Корисні розширення Markdig
+        </a>
+      </h2><pre><code class="hljs language-csharp"><span class="hljs-keyword">var</span> pipeline = <span class="hljs-keyword">new</span> MarkdownPipelineBuilder()
+    .UseAdvancedExtensions()
+    .DisableHtml() <span class="hljs-comment">// Для безпеки в Telegram</span>
+    .UseEmojiAndSmiley()
+    .UseEmphasisExtras()
+    .UseAutoLinks()
+    .UseTaskLists()
+    .UseCustomContainers()
+    .UsePipeTables()
+    .Build();</code></pre>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

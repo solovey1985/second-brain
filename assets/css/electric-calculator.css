@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+.font-mono {
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Sidebar & Layout */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0f172a; 
+}
+::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 3px;
+}
+
+/* Inputs */
+.input-group label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.input-group input, .input-group select {
+    width: 100%;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    color: #f8fafc;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+.input-group input:focus, .input-group select:focus {
+    outline: none;
+    border-color: #eab308;
+    box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+}
+
+/* Navigation */
+.nav-btn {
+    color: #94a3b8;
+}
+.nav-btn:hover {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+.nav-btn.active {
+    background-color: #eab308;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* Tab Logic */
+.tab-content {
+    display: none;
+    animation: fadeUp 0.3s ease-out;
+}
+.tab-content.active {
+    display: block;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Components */
+.result-box {
+    background-color: #1e293b;
+    border-left-width: 4px;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    background-color: #334155;
+    color: #e2e8f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.badge:hover {
+    background-color: #475569;
+}
