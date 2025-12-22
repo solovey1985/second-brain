@@ -1,114 +1,176 @@
-Here’s a step-by-step guide to implement an Angular SPA that uses Yapidoo.Service.Auth as an OpenIdDict service:
+Angular SPA plan (Angular 17–20, standalone by default) using Yapidoo.Service.Auth (OpenIddict) with OIDC login/logout.
 
-### 1. Install Angular CLI and Create the App
+### 1) Create the app (standalone)
 
 ```powershell
 npm install -g @angular/cli
-ng new yapidoo-spa --routing --style=scss
+ng new yapidoo-spa --routing --style=scss --standalone
 cd yapidoo-spa
 ```
 
-### 2. Install Required Packages
+> Angular 20 removes implicit NgModule registration. Use `bootstrapApplication` with providers instead of `AppModule`.
 
-- For OpenID Connect authentication, use `@auth0/angular-jwt` and `angular-oauth2-oidc`:
+### 2) Install auth deps
 
 ```powershell
 npm install angular-oauth2-oidc @auth0/angular-jwt
 ```
 
-### 3. Configure OAuth2 in Angular
+### 3) Auth config (OIDC server details)
 
-- In `app.module.ts`, import and configure `OAuthModule`:
-
-```typescript
-import { OAuthModule } from 'angular-oauth2-oidc';
-
-@NgModule({
-  imports: [
-    // ...existing code...
-    OAuthModule.forRoot()
-  ],
-  // ...existing code...
-})
-export class AppModule { }
-```
-
-### 4. Set Up OpenIdDict Configuration
-
-- In `app.component.ts` or a dedicated `auth.service.ts`, configure the OAuthService:
+Create `src/app/auth.config.ts`:
 
 ```typescript
-import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
+import { AuthConfig } from 'angular-oauth2-oidc';
 
-const authConfig: AuthConfig = {
+export const authConfig: AuthConfig = {
   issuer: 'https://<Yapidoo.Service.Auth-URL>',
-  redirectUri: window.location.origin,
   clientId: '<client_id>',
   responseType: 'code',
-  scope: 'openid profile email',
+  scope: 'openid profile email api',
+  redirectUri: window.location.origin + '/index.html',
+  postLogoutRedirectUri: window.location.origin + '/index.html',
+  showDebugInformation: false,
   requireHttps: true,
+  useSilentRefresh: true,
+  silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+  strictDiscoveryDocumentValidation: true,
 };
+```
+
+Add `public/silent-refresh.html` as a blank page that runs the OAuth silent refresh script (see library docs).
+
+### 4) Bootstrap providers (no AppModule)
+
+In `src/main.ts` register Angular and OAuth providers explicitly:
+
+```typescript
+import { bootstrapApplication, importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { OAuthModule, provideOAuthClient } from 'angular-oauth2-oidc';
+import { authConfig } from './app/auth.config';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideAnimations(),
+    provideHttpClient(withInterceptorsFromDi()),
+    importProvidersFrom(
+      OAuthModule.forRoot({
+        resourceServer: {
+          allowedUrls: ['https://api.yapidoo.local'],
+          sendAccessToken: true,
+        },
+      })
+    ),
+    provideOAuthClient({ config: authConfig }),
+  ],
+}).catch(err => console.error(err));
+```
+
+### 5) Auth service (login/logout wiring)
+
+`src/app/auth.service.ts`:
+
+```typescript
+import { Injectable } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authConfig } from './auth.config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private oauthService: OAuthService) {
-    this.oauthService.configure(authConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  constructor(private oauth: OAuthService) {}
+
+  async init(): Promise<void> {
+    this.oauth.configure(authConfig);
+    await this.oauth.loadDiscoveryDocument();
+    await this.oauth.tryLoginCodeFlow();
+    this.oauth.setupAutomaticSilentRefresh();
+  }
+
+  login(): void {
+    this.oauth.initCodeFlow();
+  }
+
+  logout(): void {
+    this.oauth.logOut();
+  }
+
+  isAuthenticated(): boolean {
+    return this.oauth.hasValidAccessToken();
   }
 }
 ```
 
-### 5. Protect Routes
+Call `authService.init()` during app startup (e.g., in `AppComponent` constructor or via an `APP_INITIALIZER`).
 
-- Use Angular route guards to protect routes:
+### 6) Route protection without NgModules
+
+Use a standalone `CanMatch` guard:
 
 ```typescript
-import { CanActivate } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { inject } from '@angular/core';
+import { CanMatchFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
-@Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
-  constructor(private oauthService: OAuthService) {}
-  canActivate(): boolean {
-    return this.oauthService.hasValidAccessToken();
-  }
+export const authGuard: CanMatchFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (auth.isAuthenticated()) return true;
+  auth.login();
+  return false;
+};
+```
+
+Attach to protected routes in `app.routes.ts`:
+
+```typescript
+export const routes: Routes = [
+  { path: '', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+  {
+    path: 'secure',
+    canMatch: [authGuard],
+    loadComponent: () => import('./secure/secure.component').then(m => m.SecureComponent),
+  },
+];
+```
+
+### 7) UI hooks for login/logout
+
+In a header component:
+
+```typescript
+import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
+
+@Component({
+  selector: 'app-header',
+  standalone: true,
+  template: `
+    <button (click)="auth.login()">Login</button>
+    <button (click)="auth.logout()" *ngIf="auth.isAuthenticated()">Logout</button>
+  `,
+})
+export class HeaderComponent {
+  constructor(public auth: AuthService) {}
 }
 ```
 
-- Add the guard to your routes in `app-routing.module.ts`.
+### 8) OIDC server setup checklist
 
-### 6. Add Login/Logout Buttons
+- Register SPA client in Yapidoo.Service.Auth/OpenIddict with `redirectUri` and `postLogoutRedirectUri` above.
+- Enable CORS for SPA origin.
+- Allow PKCE (authorization code with proof key) and refresh tokens if needed.
+- Publish discovery document at `/.well-known/openid-configuration`.
 
-- In your components, use `OAuthService` methods:
-
-```typescript
-login() {
-  this.oauthService.initLoginFlow();
-}
-logout() {
-  this.oauthService.logOut();
-}
-```
-
-### 7. Test Authentication Flow
-
-- Run the app:
+### 9) Quick test
 
 ```powershell
-ng serve
+ng serve --open
 ```
 
-- Open in browser and test login/logout.
-
----
-
-**Summary of Packages:**
-- `angular-oauth2-oidc` (main OpenID Connect integration)
-- `@auth0/angular-jwt` (optional, for JWT handling)
-
-**Other Steps:**
-- Register your SPA client in Yapidoo.Service.Auth/OpenIdDict.
-- Set up CORS in Yapidoo.Service.Auth for your SPA’s URL.
-- Use HTTPS in production.
-
-Let me know if you need code samples for specific files or further details!
+Log in, verify token presence (network tab), hit a protected API with the bearer token, then log out and ensure the SPA returns to public state.

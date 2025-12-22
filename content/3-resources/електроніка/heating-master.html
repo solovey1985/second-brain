@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HeatPro — інструменти майстра по опаленню</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/assets/css/heating-master.css" />
+    </head>
+    <body class="min-h-screen flex flex-col md:flex-row">
+        <nav class="w-full md:w-72 bg-slate-950/90 border-r border-slate-800">
+            <div class="p-6 border-b border-slate-800">
+                <div class="text-sm uppercase tracking-widest text-sky-400">
+                    Toolbox
+                </div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-fire-flame-curved text-orange-400"></i>
+                    HeatPro
+                </h1>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                    Швидкі розрахунки для електрокотлів, арматури, камінів та бюджету.
+                </p>
+            </div>
+            <div class="p-4 space-y-2 text-sm">
+                <button
+                    id="btn-boiler"
+                    class="nav-btn active w-full text-left px-4 py-3 rounded-lg flex items-center gap-2"
+                    onclick="switchTab('boiler')"
+                >
+                    <i class="fa-solid fa-plug-circle-bolt w-5 text-center"></i>
+                    Електрокотел
+                </button>
+                <button
+                    id="btn-hydro"
+                    class="nav-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-2"
+                    onclick="switchTab('hydro')"
+                >
+                    <i class="fa-solid fa-screwdriver-wrench w-5 text-center"></i>
+                    Арматура/труби
+                </button>
+                <button
+                    id="btn-fire"
+                    class="nav-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-2"
+                    onclick="switchTab('fire')"
+                >
+                    <i class="fa-solid fa-house-chimney w-5 text-center"></i>
+                    Камін та димохід
+                </button>
+                <button
+                    id="btn-cost"
+                    class="nav-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-2"
+                    onclick="switchTab('cost')"
+                >
+                    <i class="fa-solid fa-wallet w-5 text-center"></i>
+                    Витрати/енергія
+                </button>
+            </div>
+        </nav>
+
+        <main class="flex-1 p-5 md:p-8 space-y-8">
+            <header class="flex flex-col gap-2">
+                <div class="chip w-fit">
+                    <i class="fa-regular fa-circle-dot text-sky-400"></i> Практика
+                    без зайвих формул
+                </div>
+                <div class="text-3xl font-bold text-white">
+                    Калькулятор для майстра по опаленню
+                </div>
+                <p class="subtle max-w-3xl">
+                    Введи вихідні дані й отримай орієнтовні параметри для монтажу:
+                    потужність котла, протоки для арматури, діаметр димоходу та
+                    прогноз витрат на електроопалення.
+                </p>
+                <div class="divider"></div>
+            </header>
+
+            <!-- Boiler -->
+            <section id="tab-boiler" class="tab-content active space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card space-y-3">
+                        <div class="text-sm font-semibold text-sky-300 uppercase">
+                            Вихідні дані
+                        </div>
+                        <div class="grid-gap">
+                            <div class="input-group">
+                                <label>Площа будинку, м²</label>
+                                <input
+                                    type="number"
+                                    id="boiler-area"
+                                    value="120"
+                                    min="10"
+                                    oninput="calcBoiler()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Висота стелі, м</label>
+                                <input
+                                    type="number"
+                                    id="boiler-height"
+                                    value="2.7"
+                                    step="0.1"
+                                    oninput="calcBoiler()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>tвсередині, °C</label>
+                                <input
+                                    type="number"
+                                    id="boiler-indoor"
+                                    value="22"
+                                    oninput="calcBoiler()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>tзовні (розрах.), °C</label>
+                                <input
+                                    type="number"
+                                    id="boiler-outdoor"
+                                    value="-15"
+                                    oninput="calcBoiler()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Якість ізоляції</label>
+                                <select id="boiler-insul" onchange="calcBoiler()">
+                                    <option value="0.8">Теплий (новобудова)</option>
+                                    <option value="1" selected>Нормальний</option>
+                                    <option value="1.25">Холодний будинок</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>ΔT подача/обратка, °C</label>
+                                <input
+                                    type="number"
+                                    id="boiler-dt"
+                                    value="20"
+                                    oninput="calcBoiler()"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card space-y-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-lime-400"></i>
+                            <div>
+                                <div class="font-semibold">Рекомендації</div>
+                                <div class="subtle">
+                                    Потужність з запасом 15%, струми під 1ф/3ф, протоки.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <div class="stat-box">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Розрахункове навантаження
+                                </div>
+                                <div class="text-2xl font-bold" id="boiler-heat">--</div>
+                            </div>
+                            <div class="stat-box accent-warm">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Котел з запасом
+                                </div>
+                                <div class="text-2xl font-bold" id="boiler-kw">--</div>
+                            </div>
+                            <div class="stat-box accent-green">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Струм споживання
+                                </div>
+                                <div class="text-lg font-semibold" id="boiler-i1"></div>
+                                <div class="text-sm text-slate-400" id="boiler-i3"></div>
+                            </div>
+                            <div class="stat-box accent-red">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Потрібний протік
+                                </div>
+                                <div class="text-xl font-semibold" id="boiler-flow"></div>
+                                <div class="text-xs text-slate-400">
+                                    Для ΔT контуру, стане в нагоді в гідравліці.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hydraulics -->
+            <section id="tab-hydro" class="tab-content space-y-5">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card space-y-3">
+                        <div class="text-sm font-semibold text-sky-300 uppercase">
+                            Вихідні дані контуру
+                        </div>
+                        <div class="grid-gap">
+                            <div class="input-group">
+                                <label>Теплове навантаження, кВт</label>
+                                <input
+                                    type="number"
+                                    id="hydro-power"
+                                    value="10"
+                                    step="0.1"
+                                    oninput="calcHydro()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>ΔT подача/обратка, °C</label>
+                                <input
+                                    type="number"
+                                    id="hydro-dt"
+                                    value="15"
+                                    oninput="calcHydro()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Рідина</label>
+                                <select id="hydro-fluid" onchange="calcHydro()">
+                                    <option value="1">Вода</option>
+                                    <option value="1.15">Гліколь ~30%</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>ΔP на баланс/клапан, бар</label>
+                                <input
+                                    type="number"
+                                    id="hydro-dp"
+                                    value="0.1"
+                                    step="0.05"
+                                    oninput="calcHydro()"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card space-y-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-water text-sky-400"></i>
+                            <div>
+                                <div class="font-semibold">Арматура та труби</div>
+                                <div class="subtle">
+                                    Протік, підбір діаметра та Kvs балансувального клапана.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3">
+                            <div class="stat-box">
+                                <div class="text-xs uppercase text-slate-400">Протік</div>
+                                <div class="text-2xl font-bold" id="hydro-flow">--</div>
+                            </div>
+                            <div class="stat-box accent-warm">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Орієнтовний діаметр
+                                </div>
+                                <div class="text-2xl font-bold" id="hydro-pipe">--</div>
+                            </div>
+                            <div class="stat-box accent-green">
+                                <div class="text-xs uppercase text-slate-400">Kvs</div>
+                                <div class="text-2xl font-bold" id="hydro-kvs">--</div>
+                                <div class="text-xs text-slate-400">
+                                    Для балансувального/змішувального клапана.
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500">
+                            Порада: тримай швидкість у трубі 0.3–0.9 м/с, додавай відсічну
+                            арматуру на кожну гілку та термометри перед гідрострілкою/колектором.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fireplace -->
+            <section id="tab-fire" class="tab-content space-y-5">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card space-y-3">
+                        <div class="text-sm font-semibold text-sky-300 uppercase">
+                            Камін та приміщення
+                        </div>
+                        <div class="grid-gap">
+                            <div class="input-group">
+                                <label>Потужність каміна, кВт</label>
+                                <input
+                                    type="number"
+                                    id="fire-power"
+                                    value="12"
+                                    oninput="calcFireplace()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Площа кімнати, м²</label>
+                                <input
+                                    type="number"
+                                    id="fire-area"
+                                    value="45"
+                                    oninput="calcFireplace()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Висота стелі, м</label>
+                                <input
+                                    type="number"
+                                    id="fire-height"
+                                    value="2.8"
+                                    step="0.1"
+                                    oninput="calcFireplace()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Висота димоходу, м</label>
+                                <input
+                                    type="number"
+                                    id="fire-stack"
+                                    value="6"
+                                    step="0.5"
+                                    oninput="calcFireplace()"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card space-y-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-mountain-sun text-orange-400"></i>
+                            <div>
+                                <div class="font-semibold">Димохід і приплив</div>
+                                <div class="subtle">
+                                    Швидка оцінка діаметра, витрати дров та потреби у повітрі.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <div class="stat-box">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Площа каналу
+                                </div>
+                                <div class="text-2xl font-bold" id="fire-area-req">--</div>
+                                <div class="text-sm text-slate-400">
+                                    Орієнтовно 8 см² на 1 кВт.
+                                </div>
+                            </div>
+                            <div class="stat-box accent-warm">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Діаметр димоходу
+                                </div>
+                                <div class="text-2xl font-bold" id="fire-diam">--</div>
+                            </div>
+                            <div class="stat-box accent-green">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Витрата дров
+                                </div>
+                                <div class="text-2xl font-bold" id="fire-wood">--</div>
+                                <div class="text-xs text-slate-400">
+                                    Для 75–80% КПД, суха деревина.
+                                </div>
+                            </div>
+                            <div class="stat-box accent-red">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Потрібне свіже повітря
+                                </div>
+                                <div class="text-2xl font-bold" id="fire-air">--</div>
+                                <div class="text-xs text-slate-400" id="fire-height-note">
+                                    --
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Costs -->
+            <section id="tab-cost" class="tab-content space-y-5">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card space-y-3">
+                        <div class="text-sm font-semibold text-sky-300 uppercase">
+                            Вихідні дані по бюджету
+                        </div>
+                        <div class="grid-gap">
+                            <div class="input-group">
+                                <label>Потужність котла, кВт</label>
+                                <input
+                                    type="number"
+                                    id="cost-power"
+                                    value="9"
+                                    step="0.1"
+                                    oninput="calcCost()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Тариф, грн/кВт·год</label>
+                                <input
+                                    type="number"
+                                    id="cost-tariff"
+                                    value="3.5"
+                                    step="0.1"
+                                    oninput="calcCost()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Годин роботи на добу</label>
+                                <input
+                                    type="number"
+                                    id="cost-hours"
+                                    value="8"
+                                    oninput="calcCost()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>Днів у розрахунку</label>
+                                <input
+                                    type="number"
+                                    id="cost-days"
+                                    value="30"
+                                    oninput="calcCost()"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <label>ККД системи</label>
+                                <select id="cost-eff" onchange="calcCost()">
+                                    <option value="0.97">Електрокотел (97%)</option>
+                                    <option value="0.9">Тепловий насос (90%)</option>
+                                    <option value="0.75">Камін/твердопаливний</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card space-y-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-coins text-amber-300"></i>
+                            <div>
+                                <div class="font-semibold">Витрати</div>
+                                <div class="subtle">
+                                    Проста оцінка споживання та бюджету на місяць.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <div class="stat-box">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Добове споживання
+                                </div>
+                                <div class="text-2xl font-bold" id="cost-daily">--</div>
+                            </div>
+                            <div class="stat-box accent-warm">
+                                <div class="text-xs uppercase text-slate-400">
+                                    Місячне споживання
+                                </div>
+                                <div class="text-2xl font-bold" id="cost-month">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-box accent-green">
+                            <div class="text-xs uppercase text-slate-400">
+                                Орієнтовні витрати
+                            </div>
+                            <div class="text-3xl font-bold" id="cost-money">--</div>
+                            <div class="text-xs text-slate-400">
+                                Фактичні дані залежать від погодних умов та графіка роботи.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="/assets/scripts/heating-master.js"></script>
+    </body>
+</html>
