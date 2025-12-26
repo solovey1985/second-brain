@@ -1,0 +1,475 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>35 - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/3-resources/">3-resources</a></li><li><a href="/second-brain/3-resources/diy-woodworking/">diy-woodworking</a></li><li><a href="/second-brain/3-resources/diy-woodworking/молбьерт/">молбьерт</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-md">Студійний мольберт — інструкція (MD)</a></li>
+<ul>
+<li><a href="#1-cut-list">1 Розкрій деревини (cut-list)</a></li>
+<li><a href="#2-">2 Фурнітура та кріплення (що купити)</a></li>
+<li><a href="#3-">3 Точки кріплення та отвори</a></li>
+<ul>
+<li><a href="#31-">3.1. Пази у стійках (під каретку)</a></li>
+<li><a href="#32-">3.2. Каретка + полиця</a></li>
+<li><a href="#33-">3.3. Верхній зажим</a></li>
+<li><a href="#34-">3.4. Підпірні тяги та «драбинка» нахилу</a></li>
+<li><a href="#35-">3.5. Стійки ↔ основа</a></li>
+<li><a href="#36-">3.6. Колеса / планка для ніжок</a></li>
+</ul>
+<li><a href="#4-">4 Прості текстові схеми</a></li>
+<ul>
+<li><a href="#41-">4.1 Вид спереду</a></li>
+<li><a href="#42-">4.2 Вид збоку (ліва)</a></li>
+<li><a href="#43-">4.3 Вид згори</a></li>
+</ul>
+<li><a href="#5-">5 Порядок складання (коротко)</a></li>
+<li><a href="#6-">6 Контрольні розміри</a></li>
+<li><a href="#7-">7 Поради</a></li>
+</ul>
+</ul>
+</div><h1 id="-md">
+        <a href="#-md" class="header-anchor">
+          Студійний мольберт — інструкція (MD)
+        </a>
+      </h1><p>Нижче — повний набір для самостійного виготовлення: розкрій деталей, точки кріплення, список фурнітури та прості текстові схеми (вид спереду / збоку / згори). Розміри підігнані під модель на фото з урахуванням вашого ТЗ.</p>
+<blockquote>
+<p>Одиниці — <strong>мм</strong> (інакше зазначено). Допуски ±1–2 мм для деревини, ±0.5 мм для отворів.
+Базові перерізи: рама/стіойки <strong>20×40</strong>, основа <strong>40×60</strong> (60 мм — висота).</p>
+</blockquote>
+<hr>
+<h2 id="1-cut-list">
+        <a href="#1-cut-list" class="header-anchor">
+          1 Розкрій деревини (cut-list)
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>№</th>
+<th align="right">Деталь</th>
+<th align="right">К-сть</th>
+<th align="right">Переріз</th>
+<th align="right">Довжина</th>
+<th>Примітка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td align="right">Стійка передня (ліва)</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">1530</td>
+<td>Паз 10×1000 (див. §3)</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="right">Стійка передня (права)</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">1530</td>
+<td>Паз 10×1000</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="right">Перемичка верхня</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">570</td>
+<td>Внутрішня ширина рами = <strong>570</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td align="right">Перемичка середня</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">570</td>
+<td>Жорсткість</td>
+</tr>
+<tr>
+<td>5</td>
+<td align="right">Каретка (опорна дошка)</td>
+<td align="right">1</td>
+<td align="right">20×60</td>
+<td align="right">570</td>
+<td>Довжина <strong>57 см</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td align="right">Поличка-бортик на каретці</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">570</td>
+<td>Корисна ширина полиці 60</td>
+</tr>
+<tr>
+<td>7</td>
+<td align="right">Додаткова полиця (лоток) — дно</td>
+<td align="right">1</td>
+<td align="right">12×570</td>
+<td align="right">570</td>
+<td>Мат. 10–12 мм</td>
+</tr>
+<tr>
+<td>8</td>
+<td align="right">Додаткова полиця (лоток) — боки</td>
+<td align="right">2</td>
+<td align="right">12×105</td>
+<td align="right">105</td>
+<td><strong>105×105 мм</strong> (г×в)</td>
+</tr>
+<tr>
+<td>9</td>
+<td align="right">Щогла (подовжувач)</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">1000–1200</td>
+<td>Підігнати під полотна</td>
+</tr>
+<tr>
+<td>10</td>
+<td align="right">Слайдер під верхній зажим</td>
+<td align="right">1</td>
+<td align="right">20×40</td>
+<td align="right">130</td>
+<td>Отвір/проріз (див. §3)</td>
+</tr>
+<tr>
+<td>11</td>
+<td align="right">Підпірна тяга (ліва)</td>
+<td align="right">1</td>
+<td align="right">20×30</td>
+<td align="right">720</td>
+<td>Шарніри М8</td>
+</tr>
+<tr>
+<td>12</td>
+<td align="right">Підпірна тяга (права)</td>
+<td align="right">1</td>
+<td align="right">20×30</td>
+<td align="right">720</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td align="right">Основа: брус передній</td>
+<td align="right">1</td>
+<td align="right">40×60</td>
+<td align="right">610</td>
+<td>Зовн. ширина <strong>61 см</strong></td>
+</tr>
+<tr>
+<td>14</td>
+<td align="right">Основа: брус задній</td>
+<td align="right">1</td>
+<td align="right">40×60</td>
+<td align="right">610</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td align="right">Основа: брус боковий</td>
+<td align="right">2</td>
+<td align="right">40×60</td>
+<td align="right">600</td>
+<td>Глибина <strong>60 см</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Якщо є брус 22×45 — можна використати; зовнішня ширина збільшиться на ~+10 мм (некритично).</p>
+</blockquote>
+<hr>
+<h2 id="2-">
+        <a href="#2-" class="header-anchor">
+          2 Фурнітура та кріплення (що купити)
+        </a>
+      </h2><p><strong>Обов’язково</strong></p>
+<ul>
+<li>Колісні опори Ø50–75 мм з гальмом — <strong>4 шт</strong>, гвинт <strong>M8×40</strong> + шайби.</li>
+<li>Гайки-баранці <strong>M8</strong> — <strong>6 шт</strong> (каретка ×2, верхній зажим ×1, запас ×3).</li>
+<li>Болти <strong>M8×60–70</strong> — <strong>4 шт</strong> (каретка ×2, верхній зажим ×1, запас ×1).</li>
+<li>Шайби Ø8 великі — <strong>10–12 шт</strong> (під пази та зажим).</li>
+<li>Металеві кутики 40×40×2 мм — <strong>4 шт</strong> (кріплення стійок до основи).</li>
+<li>Шарніри/осьові болти для тяг <strong>M8×50</strong> + гайки самоконтр. — <strong>4 шт</strong>.</li>
+<li>Механізм нахилу типу «драбинка/тріскачка» — <strong>2 шт</strong> (довжина 300–350 мм, крок 30 мм).</li>
+<li>Стяжні гвинти по дереву 5×60 — <strong>прибл. 30 шт</strong>.</li>
+<li>Клей ПВА D3, наждак P120–P240, олія/лак.</li>
+</ul>
+<p><strong>Опційно</strong></p>
+<ul>
+<li>Рівняльні ніжки/шпильки <strong>M10</strong> з гайкою-барашком — <strong>2 шт</strong> (передні кути).</li>
+<li>Латунні/фторопластові накладки тертя для пазів — <strong>2 шт</strong>.</li>
+</ul>
+<hr>
+<h2 id="3-">
+        <a href="#3-" class="header-anchor">
+          3 Точки кріплення та отвори
+        </a>
+      </h2><h3 id="31-">
+        <a href="#31-" class="header-anchor">
+          3.1. Пази у стійках (під каретку)
+        </a>
+      </h3><ul>
+<li><strong>Ширина пазу:</strong> 10 мм.</li>
+<li><strong>Довжина:</strong> <strong>1000 мм</strong>.</li>
+<li><strong>Відступ від внутрішнього краю стійки:</strong> 10 мм до осі пазу.</li>
+<li><strong>Початок пазу:</strong> <strong>180 мм</strong> від низу стійки (від площини верху основи).</li>
+<li><strong>Отвори в каретці:</strong> 2 шт Ø8.5, <strong>вертикальний крок 80 мм</strong> між осями, на відступі 25 мм від верхньої кромки каретки.</li>
+</ul>
+<h3 id="32-">
+        <a href="#32-" class="header-anchor">
+          3.2. Каретка + полиця
+        </a>
+      </h3><ul>
+<li>Каретка (№5) кріпиться до стійок <strong>через пази</strong> болтами <strong>M8×60</strong> з великими шайбами Ø30.</li>
+<li>Поличка-бортик (№6) прикручується зверху до каретки 4–6 шурупами 4×45.</li>
+<li>Лоток 570×105×105 (№7–8) кріпиться знизу каретки 6–8 шурупами 4×35.</li>
+</ul>
+<h3 id="33-">
+        <a href="#33-" class="header-anchor">
+          3.3. Верхній зажим
+        </a>
+      </h3><ul>
+<li>Слайдер (№10) 130 мм із <strong>овальним прорізом 15×60 мм</strong> по центру.</li>
+<li>Болт <strong>M8×70</strong> проходить через проріз і притискає полотно до щогли (№9).</li>
+<li>Відстань від верхнього торця слайдера до центру майданчика притиску — <strong>40 мм</strong>.</li>
+</ul>
+<h3 id="34-">
+        <a href="#34-" class="header-anchor">
+          3.4. Підпірні тяги та «драбинка» нахилу
+        </a>
+      </h3><ul>
+<li><strong>Верхні шарніри тяг</strong> — на стійках: <strong>500 мм</strong> від низу стійки до осі болта M8.</li>
+<li><strong>Нижні шарніри</strong> — на бокових брусах основи: <strong>120 мм</strong> від заднього зовнішнього краю вперед; <strong>центрувати</strong> по ширині бруса (30 мм від країв).</li>
+<li>«Драбинка»/планка фіксації нахилу ставиться біля верхнього шарніра; <strong>перший щабель ~70 мм</strong> нижче осі шарніра; <strong>крок 30 мм</strong>; діапазон кутів ~80–100° до горизонту.</li>
+</ul>
+<h3 id="35-">
+        <a href="#35-" class="header-anchor">
+          3.5. Стійки ↔ основа
+        </a>
+      </h3><ul>
+<li>Стійки ставимо на бокові бруси основи, центруючи по ширині бруса 60 мм.</li>
+<li>Кутики 40×40×2 — по <strong>2 шт на стійку</strong> (по одному спереду/ззаду), гвинти 5×40 у дерево.</li>
+</ul>
+<h3 id="36-">
+        <a href="#36-" class="header-anchor">
+          3.6. Колеса / планка для ніжок
+        </a>
+      </h3><ul>
+<li>Колеса в кутах: отвір Ø8 <strong>по центрах торців</strong>, відступ 35 мм від кромок.</li>
+<li>Якщо додаєте передні ніжки-«стопори»: свердління Ø10 на <strong>60 мм</strong> від передніх країв та <strong>30 мм</strong> від бокових.</li>
+</ul>
+<hr>
+<h2 id="4-">
+        <a href="#4-" class="header-anchor">
+          4 Прості текстові схеми
+        </a>
+      </h2><h3 id="41-">
+        <a href="#41-" class="header-anchor">
+          4.1 Вид спереду
+        </a>
+      </h3><pre><code class="hljs">   ↑
+  <span class="hljs-number">2530</span> (макс із щоглою)     ┌─ верхній зажим <span class="hljs-number">130</span> ─┐
+                            │        ┃ щогла      │
+  <span class="hljs-number">1530</span> (висота стійок)   ┌──┴────────┻───────────┴──┐
+                         │        верхня перемичка   │  ← <span class="hljs-number">570</span>
+                         │                           │
+                         │        (внутр. просвіт)   │
+                         │                           │
+                         │——— середня перемичка ————│
+                         │                           │
+                         │<span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span> полиця/каретка <span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span>│  ← <span class="hljs-number">570</span>
+                         │     (<span class="hljs-number">2</span> болти М<span class="hljs-number">8</span> у пазах)  │
+                         │                           │
+                         └─────────┬───────┬─────────┘
+                                   │       │
+                                   │       │
+                                   ▼       ▼
+                            підпірні тяги (шарніри М<span class="hljs-number">8</span>)
+   ───────────────────────────────────────────────────→  <span class="hljs-number">610</span> (ширина основи)</code></pre><h3 id="42-">
+        <a href="#42-" class="header-anchor">
+          4.2 Вид збоку (ліва)
+        </a>
+      </h3><pre><code class="hljs">        ↑
+        │           стійка 1530
+        │             │
+   <span class="hljs-number"> 500 </span>│   ● верхній шарнір тяги (М8)
+        │    ╲            «драбинка» 300–350 (крок 30)
+        │     ╲
+        │      ╲  тяга 720
+        │       ╲
+        │        ● нижній шарнір (М8) —<span class="hljs-number"> 120 </span>мм від зад. краю основи
+        │
+        │  ── полиця/каретка (рух у пазі<span class="hljs-number"> 1000 </span>мм, старт<span class="hljs-number"> 180 </span>мм від низу)
+        │
+        └──────────────────────────────────────────→ <span class="hljs-number"> 600 </span>(глибина основи)
+       [перед]                                   [зад]</code></pre><h3 id="43-">
+        <a href="#43-" class="header-anchor">
+          4.3 Вид згори
+        </a>
+      </h3><pre><code class="hljs">        <span class="hljs-number"> 610 </span>(загальна ширина)
+     ┌───────────────────────────────────┐
+ <span class="hljs-number"> 60 </span>│◄──────────── основа ───────────► │
+     │  ┌───── стійка ─────┐  ┌─────┐   │
+     │  │                  │  │     │   │
+     │  │      просвіт<span class="hljs-number"> 570 </span>│  │     │   │
+     │  │                  │  │     │   │
+     │  └──────────────────┘  └─────┘   │
+     │        (каретка 570)             │
+     └───────────────────────────────────┘
+            <span class="hljs-number"> 600 </span>(загальна глибина)</code></pre><hr>
+<h2 id="5-">
+        <a href="#5-" class="header-anchor">
+          5 Порядок складання (коротко)
+        </a>
+      </h2><ol>
+<li><strong>Основа 610×600.</strong> Збираємо прямокутник (13–15), ставимо колеса; перевіряємо прямокутність (діагоналі).</li>
+<li><strong>Стійки.</strong> Кріпимо до основи кутиками; перевіряємо вертикаль рівнем.</li>
+<li><strong>Перемички 570.</strong> Верхню та середню — на шурупи + клей.</li>
+<li><strong>Пази.</strong> Фрезеруємо/свердлимо паз 10×1000 у кожній стійці (старт 180 від низу).</li>
+<li><strong>Каретка + полиця + лоток.</strong> Збираємо модуль, ставимо болти М8 з шайбами.</li>
+<li><strong>Тяги та «драбинка».</strong> Свердлимо точки під шарніри (див. §3.4), ставимо планки-щаблі.</li>
+<li><strong>Щогла, слайдер, зажим.</strong> Проріз 15×60 у слайдері, болт М8×70 з баранцем.</li>
+<li><strong>Шліф/фініш.</strong> P120→P240, фініш олія/лак. Перевіряємо плавність ходу каретки та фіксацію кутів.</li>
+</ol>
+<hr>
+<h2 id="6-">
+        <a href="#6-" class="header-anchor">
+          6 Контрольні розміри
+        </a>
+      </h2><ul>
+<li><strong>Зовнішня ширина мольберта:</strong> 610 мм.</li>
+<li><strong>Глибина основи:</strong> 600 мм.</li>
+<li><strong>Внутрішній просвіт між стійками:</strong> <strong>570 мм</strong> (під полицю 570).</li>
+<li><strong>Висота роботи (каретка вгорі):</strong> ≈ 1320 мм (за ТЗ).</li>
+<li><strong>Максимальна висота з щоглою:</strong> до <strong>2530 мм</strong> (за ТЗ; підігнати довжину щогли).</li>
+<li><strong>Навантаження:</strong> до <strong>30 кг</strong> (орієнтир для бруса 20×40 з бука).</li>
+</ul>
+<hr>
+<h2 id="7-">
+        <a href="#7-" class="header-anchor">
+          7 Поради
+        </a>
+      </h2><ul>
+<li>Щоб каретка ковзала м’яко, поставте <strong>тонкі латунні/фторопластові накладки</strong> або великі шайби між баранцем і деревом.</li>
+<li>Для «драбинки» добре працює латунь/оцинкована сталь 2–3 мм завтовшки.</li>
+<li>Якщо плануєте <strong>полотна &gt;140 см</strong>, підсиліть стійки на <strong>22×45</strong> і збільшіть каретку до <strong>20×70</strong>.</li>
+</ul>
+<hr>
+<p><img src="35.webp" alt="alt text">
+<img src="simple/Screenshot%202025-08-24%20193353.png" alt="alt text"></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

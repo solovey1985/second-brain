@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>home-maintenance - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/home-maintenance/">home-maintenance</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Будівництво та ремонт</a></li>
+<ul>
+<li><a href="#">Огорожа</a></li>
+<li><a href="#">Вікна</a></li>
+<li><a href="#">Утеплення</a></li>
+<li><a href="#-">Внутрішні роботи</a></li>
+<li><a href="#">Електрика</a></li>
+<li><a href="#">Опалення</a></li>
+<li><a href="#">Водопостачання</a></li>
+<li><a href="#">Меблі</a></li>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          Будівництво та ремонт
+        </a>
+      </h1><p><a href="../index.html">Головна</a></p>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Огорожа
+        </a>
+      </h2><ul>
+<li>План</li>
+<li>Матеріали</li>
+<li>Роботи</li>
+<li>Кошторис</li>
+</ul>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Вікна
+        </a>
+      </h2><h2 id="">
+        <a href="#" class="header-anchor">
+          Утеплення
+        </a>
+      </h2><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Внутрішні роботи
+        </a>
+      </h2><h2 id="">
+        <a href="#" class="header-anchor">
+          Електрика
+        </a>
+      </h2><ul>
+<li><a href="heating-scheme.html">Схема</a></li>
+<li>Матеріали</li>
+<li>Роботи</li>
+<li>Кошторис</li>
+</ul>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Опалення
+        </a>
+      </h2><ul>
+<li>Схема</li>
+<li>Обладнання</li>
+<li>Роботи</li>
+<li>Кошторис</li>
+</ul>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Водопостачання
+        </a>
+      </h2><ul>
+<li>Схема</li>
+<li>Обладнання та матеріали</li>
+<li>Роботи</li>
+<li>Кошторис</li>
+</ul>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Меблі
+        </a>
+      </h2>
+
+<h2>📁 Directory Contents</h2>
+<div class="directory-listing">
+        <div class="entry entry-file">
+          <a href="/second-brain/2-areas/home-maintenance/heating-scheme.html">
+            <span class="icon">📄</span>
+            <span class="name">heating-scheme.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/2-areas/home-maintenance/heating.html">
+            <span class="icon">📄</span>
+            <span class="name">heating.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/2-areas/home-maintenance/index.html">
+            <span class="icon">📄</span>
+            <span class="name">index.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/2-areas/home-maintenance/todo.html">
+            <span class="icon">📄</span>
+            <span class="name">todo.md</span>
+          </a>
+        </div>
+      </div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>запобіжники - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/3-resources/">3-resources</a></li><li><a href="/second-brain/3-resources/ремонт/">ремонт</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Підбір запобіжників</a></li>
+<ul>
+<li><a href="#">Магазин</a></li>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          Підбір запобіжників
+        </a>
+      </h1><table>
+<thead>
+<tr>
+<th>Пристрій</th>
+<th>Тип запобіжника</th>
+<th>Номінал</th>
+<th>Розміри/Стандарт</th>
+<th>Оригінальні коди/примітка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Котел Ferroli LEB 7.5 TS</td>
+<td>Скляний, швидкодіючий</td>
+<td>5A/250V</td>
+<td>5x20 мм</td>
+<td>F5A, F6.3A, для плати керування</td>
+</tr>
+<tr>
+<td></td>
+<td>Автоматичний вимикач</td>
+<td>32-34A/400V</td>
+<td>DIN rail</td>
+<td>Для трифазної силової частини</td>
+</tr>
+<tr>
+<td>Мікрохвильова Samsung MS20A3010AL</td>
+<td>Високовольтний скляний/керамічний</td>
+<td>0.75A/5kV</td>
+<td>6x32 мм</td>
+<td>3601-000448, DE96-00831A</td>
+</tr>
+<tr>
+<td></td>
+<td>Скляний</td>
+<td>10A/250V</td>
+<td>6x32 мм</td>
+<td>Живлення основне</td>
+</tr>
+<tr>
+<td>Посудомийна Bosch SMV40D70EU/34</td>
+<td>Авто &quot;MAXI&quot; плоский</td>
+<td>20–30A/250V</td>
+<td>стндрт автом.</td>
+<td>Bosch 00490618 (20А), Bosch 1987529019(30A)</td>
+</tr>
+<tr>
+<td></td>
+<td>Дротяний/керамічний</td>
+<td>2–5A/250V</td>
+<td>на платі БЖ</td>
+<td>Захист електроніки</td>
+</tr>
+</tbody></table>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Магазин
+        </a>
+      </h2><p>Павильон 9
+<a href="https://radiodetali.com.ua/ua/howtobuy">https://radiodetali.com.ua/ua/howtobuy</a>
+<a href="https://www.rcscomponents.kiev.ua/">https://www.rcscomponents.kiev.ua/</a></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

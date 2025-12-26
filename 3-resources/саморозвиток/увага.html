@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>увага - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/3-resources/">3-resources</a></li><li><a href="/second-brain/3-resources/саморозвиток/">саморозвиток</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-">Резюме ідей відео</a></li>
+<li><a href="#-">Принципи саморозвитку з відео</a></li>
+<li><a href="#-">Практичні кроки щодо смартфона</a></li>
+<li><a href="#-">Тренування уваги і спостережливості</a></li>
+<li><a href="#-">Робота з «нудними» завданнями</a></li>
+</ul>
+</ul>
+</div><p>Ось стисле резюме й практичні рекомендації у форматі markdown на основі відео Дорофєєва про удачу та смартфони.[1]</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Резюме ідей відео
+        </a>
+      </h2><ul>
+<li>Річард Вайзман показує експериментально: зовнішній світ підкидає всім приблизно однакову кількість можливостей, різниця в тому, хто їх <strong>помічає</strong>.[1]</li>
+<li>В експерименті з газетою «щасливі» люди частіше вигравали гроші, бо помічали великі написи з готовою відповіддю і додатковим бонусом, тоді як «невдахи» зосереджувалися на монотонному рахунку картинок.[1]</li>
+<li>У польовому експерименті «удачливий» учасник побачив купюру біля входу в кафе і завів розмову з багатим незнайомцем, а «невдаха» буквально наступив на купюру й ні з ким не заговорив.[1]</li>
+<li>Смартфон перетягує «промінь уваги» з реального світу на екран, тому людина перестає помічати саме ті сигнали й збіги обставин, з яких могла б вирости удача.[1]</li>
+<li>Короткі відео (TikTok, Reels тощо) тренують мозок до постійної стимуляції, швидких планів, музики й можливості «промотати», через що реальні завдання (урок, книга, робота) сприймаються як «нудний стрім на 40 хвилин, який не можна прокрутити».[1]</li>
+<li>Втрата контролю над увагою веде не тільки до падіння продуктивності, а й до відчуття «невдачливості», постійного неврозу й поспіху без містики та карми.[1]</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Принципи саморозвитку з відео
+        </a>
+      </h2><ul>
+<li><strong>Цінуй увагу як ресурс</strong>: увага — основний інструмент для помічання шансів, навчання, побудови зв’язків; її розмивання контентом напряму б’є по «удачі».[1]</li>
+<li>Тренуй спостережливість: удачливість = здатність бачити «надписи в газеті» й «купюри на підлозі» в реальному житті, а не магічна властивість характеру.[1]</li>
+<li>Знижуй «фоновий шум» смартфона: чим більше часового бюджету забирає стрічка, тим менше енергії лишається на складні, довгі й важливі активності.[1]</li>
+<li>Розвивай витривалість до нудьги: уміння витримати «нудний стрим» лекції чи книги без постійної зміни стимулів — ключ до глибокого мислення й експертності.[1]</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Практичні кроки щодо смартфона
+        </a>
+      </h2><ul>
+<li>Впровадь «острови без екрана»: дорога в метро/автобусі, черга, коротка прогулянка — без смартфона; замість цього спостерігай за людьми, простором, деталями навколо.[1]</li>
+<li>Вимкни непотрібні нотифікації: залиш лише дзвінки й критично важливі застосунки, щоб не розривати <strong>фокус</strong> дрібними сигналами.[1]</li>
+<li>Створи «режим читання/роботи»: окремі години, коли смартфон лежить в іншій кімнаті або в режимі польоту, а ти робиш тільки одну задачу (читання, навчання, код).[1]</li>
+<li>Скороти споживання коротких відео: наприклад, ліміт у 15–20 хвилин на день або «тільки після завершення важливого блоку роботи».[1]</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Тренування уваги і спостережливості
+        </a>
+      </h2><ul>
+<li>Щоденна вправа «шлях без телефону»: 1 раз на день пройти/проїхати знайомим маршрутом без смартфона, навмисно помічаючи нові деталі (вивіски, людей, звуки, дрібні події).[1]</li>
+<li>Вправа «три знахідки»: щодня ввечері записати 3 ситуації, де ти помітив можливість (і використав або ні) — новий контакт, ідею, маленький збіг обставин.[1]</li>
+<li>Практикуй усвідомлене спілкування: у черзі чи кав’ярні періодично обирай не діставати телефон, а дивитися в очі людям, іноді ініціювати короткий діалог.[1]</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Робота з «нудними» завданнями
+        </a>
+      </h2><ul>
+<li>Перекоди нудьгу: сприймай «нудні» 30–40 хвилин роботи/навчання як тренування м’яза уваги, а не як покарання; кожен такий блок робить тебе більш «удачливим» у довгій перспективі.[1]</li>
+<li>Використовуй таймери: став 20–40-хвилинні інтервали глибокої роботи без відволікань, після них — коротка перерва, але не обов’язково зі смартфоном.[1]</li>
+<li>Зменшуй мультитаскинг: одна задача + один контекст замість паралельного перемикання між кодом, месенджерами й відео; це підвищує якість мислення і шанс помічати нові ідеї в задачі.[1]</li>
+</ul>
+<p>Якщо хочеш, можна на основі цих принципів скласти персональний тижневий план експериментів з увагою і смартфоном під твій режим роботи.</p>
+<p><a href="https://www.youtube.com/watch?v=uk3g9LNCVmM">1</a></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

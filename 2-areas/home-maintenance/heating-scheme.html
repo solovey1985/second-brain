@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>heating-scheme - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/home-maintenance/">home-maintenance</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-120-300-">Проєкт опалення будинку 120 м² (електрокотел + тепла підлога + камін + буфер 300 л)</a></li>
+<li><a href="#-">Робоча схема</a></li>
+<li><a href="#">автоматика</a></li>
+<li><a href="#-">Рекомендоване обладнання та автоматика</a></li>
+</ul>
+</ul>
+</div><p>Чудово 👌
+Ось <strong>Mermaid схема системи опалення</strong>: електрокотел + камін з водяним контуром + буферна ємність + контури теплої підлоги та радіаторів.</p>
+<div class="mermaid">flowchart TD
+    subgraph HeatSources["Джерела тепла"]
+        EK["Електрокотел 12 кВт (380В)"]
+        CAM["Камін з водяним контуром"]
+    end
+
+    subgraph Buffer["Буферна ємність 300 л"]
+        BUF["Теплоакумулятор"]
+    end
+
+    subgraph Distribution["Розподіл тепла"]
+        COL_TP["Колектор теплої підлоги + насос + змішувальний вузол"]
+        COL_RAD["Колектор радіаторів + насос"]
+    end
+
+    subgraph Consumers["Споживачі тепла"]
+        TP1["Тепла підлога 1-й поверх (~70 м²)"]
+        TP2["Тепла підлога 2-й поверх (ванна 15 м²)"]
+        RAD1["Радіатори (спальні 2-го поверху)"]
+        RAD2["Радіатор/рушникосушка у ванній"]
+    end
+
+    %% Зв'язки
+    EK --> BUF
+    CAM --> BUF
+    BUF --> COL_TP
+    BUF --> COL_RAD
+    COL_TP --> TP1
+    COL_TP --> TP2
+    COL_RAD --> RAD1
+    COL_RAD --> RAD2</div><p>🔎 Пояснення:</p>
+<ul>
+<li><strong>EK</strong> – електрокотел гріє буфер.</li>
+<li><strong>CAM</strong> – камін із водяною сорочкою також віддає тепло в буфер.</li>
+<li><strong>BUF</strong> – накопичує енергію та вирівнює температуру.</li>
+<li><strong>COL_TP</strong> – колектор теплої підлоги зі змішувальним вузлом (тримає низьку T ~35-45 °С).</li>
+<li><strong>COL_RAD</strong> – колектор радіаторів (подає вище T ~50-60 °С).</li>
+<li><strong>TP1, TP2, RAD1, RAD2</strong> – споживачі тепла у приміщеннях.</li>
+</ul>
+<hr>
+<p>Хочеш, я ще зроблю <strong>Mermaid sequence diagram</strong> (послідовність роботи: коли гріє камін, коли котел, як підключається буфер)?</p>
+<h2 id="-120-300-">
+        <a href="#-120-300-" class="header-anchor">
+          Проєкт опалення будинку 120 м² (електрокотел + тепла підлога + камін + буфер 300 л)
+        </a>
+      </h2><p>Добре 👍
+Ось <strong>Mermaid sequence diagram</strong>, яка показує послідовність роботи системи опалення: камін, електрокотел, буфер та споживачі тепла.</p>
+<div class="mermaid">sequenceDiagram
+    participant CAM as Камін з водяним контуром
+    participant EK as Електрокотел 12 кВт
+    participant BUF as Буферна ємність 300 л
+    participant COL_TP as Колектор теплої підлоги
+    participant COL_RAD as Колектор радіаторів
+    participant TP as Тепла підлога (1-й та 2-й поверх)
+    participant RAD as Радіатори (2-й поверх)
+
+    Note over CAM,EK: Система запускається (зима, потреба в теплі)
+
+    CAM->>BUF: Віддає тепло (70–80 °C) при горінні дров
+    EK->>BUF: Вмикається лише коли T в буфері < заданого рівня
+    BUF->>COL_TP: Подання низькотемпературного теплоносія (~35–45 °C)
+    BUF->>COL_RAD: Подання середньотемпературного теплоносія (~50–60 °C)
+    COL_TP->>TP: Нагрів підлоги (основний комфорт)
+    COL_RAD->>RAD: Догрів приміщень при морозах
+    
+    Note over BUF: Буфер накопичує надлишкове тепло<br/>та вирівнює роботу системи
+
+    alt Камін працює
+        CAM-->>EK: Електрокотел вимкнений (економія електрики)
+    else Камін згас
+        EK-->>BUF: Включається, підігріває буфер
+    end
+
+    Note over TP,RAD: Споживачі отримують стабільне тепло<br/>незалежно від джерела</div><p>📌 Логіка:</p>
+<ul>
+<li>Якщо горить камін → він гріє буфер, котел відключається.</li>
+<li>Якщо камін згас → котел підтримує температуру.</li>
+<li>Буфер віддає тепло в підлогу (низька T) та радіатори (середня T).</li>
+</ul>
+<hr>
+<p>Хочеш, я підготую ще й <strong>Mermaid state diagram</strong> (стани системи: &quot;Працює камін&quot;, &quot;Працює котел&quot;, &quot;Працюють разом&quot;, &quot;Очікування&quot;)?</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Робоча схема
+        </a>
+      </h2><p>Супер 👍
+Ось <strong>Mermaid state diagram</strong>, яка показує стани системи опалення (камін + електрокотел + буфер):</p>
+<div class="mermaid">stateDiagram-v2
+    [*] --> Idle: Система вимкнена / немає потреби в теплі
+
+    Idle --> CAM_Active: Запалено камін
+    Idle --> EK_Active: Потреба в теплі, камін не працює
+
+    CAM_Active --> BUF_Load: Камін гріє буфер (70–80 °C)
+    EK_Active --> BUF_Load: Котел гріє буфер (45–60 °C)
+
+    BUF_Load --> Distribution: Буфер передає тепло в контури
+
+    state Distribution {
+        [*] --> TP_Mode: Тепла підлога (35–45 °C)
+        TP_Mode --> RAD_Mode: При морозах підключаються радіатори
+        RAD_Mode --> [*]
+    }
+
+    CAM_Active --> EK_Support: Камін не справляється (дуже холодно)
+    EK_Support --> BUF_Load: Камін + котел працюють разом
+
+    BUF_Load --> Idle: Потреба в теплі зникла / зовнішня T > 15 °C</div><p>🔎 Пояснення станів:</p>
+<ul>
+<li><strong>Idle</strong> – система в очікуванні, нічого не гріє.</li>
+<li><strong>CAM_Active</strong> – запущено камін, він гріє буфер.</li>
+<li><strong>EK_Active</strong> – камін не працює, електрокотел гріє буфер.</li>
+<li><strong>BUF_Load</strong> – буфер наповнюється теплом.</li>
+<li><strong>Distribution</strong> – тепло від буфера розподіляється: спершу тепла підлога, при морозах додаються радіатори.</li>
+<li><strong>EK_Support</strong> – якщо мороз дуже сильний, камін + котел працюють разом.</li>
+</ul>
+<hr>
+<p>Хочеш, я зроблю ще <strong>Mermaid схему взаємозв’язків обладнання з автоматикою</strong> (термостати, насоси, датчики)?</p>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          автоматика
+        </a>
+      </h2><p>Чудово 👌
+Ось <strong>Mermaid схема взаємозв’язків обладнання та автоматики</strong> для системи опалення (електрокотел + камін + буфер + підлога + радіатори).</p>
+<div class="mermaid">flowchart LR
+    subgraph Sources["Джерела тепла"]
+        EK["Електрокотел 12 кВт"] 
+        CAM["Камін з водяним контуром"]
+    end
+
+    subgraph Buffer["Буферна ємність 300 л"]
+        BUF["Буферний бак (датчики T)"]
+    end
+
+    subgraph Control["Автоматика та керування"]
+        Tstat["Кімнатні термостати (по зонах)"]
+        ZV["Сервоприводи на колекторі"]
+        TCAM["Термостат каміна (55°C)"]
+        TBUF["Датчик температури буфера"]
+        TOUT["Датчик зовнішньої температури"]
+        CTRL["Контролер системи"]
+    end
+
+    subgraph Distribution["Розподіл тепла"]
+        COL_TP["Колектор теплої підлоги + насос"]
+        COL_RAD["Колектор радіаторів + насос"]
+    end
+
+    subgraph Consumers["Споживачі тепла"]
+        TP["Тепла підлога (1-й + 2-й поверх)"]
+        RAD["Радіатори (2-й поверх)"]
+    end
+
+    %% Connections
+    EK --> BUF
+    CAM --> BUF
+    BUF --> COL_TP
+    BUF --> COL_RAD
+    COL_TP --> TP
+    COL_RAD --> RAD
+
+    %% Automation connections
+    Tstat --> ZV
+    ZV --> COL_TP
+    TCAM --> CAM
+    TBUF --> CTRL
+    TOUT --> CTRL
+    CTRL --> EK
+    CTRL --> COL_RAD
+    CTRL --> COL_TP</div><p>📌 Логіка:</p>
+<ul>
+<li><strong>Кімнатні термостати (Tstat)</strong> керують сервоприводами (ZV) на колекторі теплої підлоги → відкривають/закривають контури.</li>
+<li><strong>Термостат каміна (TCAM)</strong> запускає насос каміна при досягненні 55 °C.</li>
+<li><strong>Датчик буфера (TBUF)</strong> повідомляє контролеру, чи потрібно включати/вимикати котел.</li>
+<li><strong>Датчик зовнішньої температури (TOUT)</strong> дозволяє реалізувати погодозалежне керування (економія).</li>
+<li><strong>Контролер (CTRL)</strong> координує роботу котла, насосів і колекторів.</li>
+</ul>
+<hr>
+<p>Хочеш, я підготую ще <strong>список рекомендованих термостатів, насосів і автоматики середнього сегменту</strong>, щоб було зрозуміло, що конкретно брати?</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Рекомендоване обладнання та автоматика
+        </a>
+      </h2>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

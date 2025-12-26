@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>розширення - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="увага">
+            увага
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">176287c</span>
+            <span class="commit-date">15 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/beekeeping/">beekeeping</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Розширення бджолиних сімей</a></li>
+<ul>
+<li><a href="#-">Покрокові інструкції</a></li>
+<ul>
+<li><a href="#1-">1. Підставлення порожніх рамок</a></li>
+<li><a href="#2-">2. Додавання вощини</a></li>
+<li><a href="#3-">3. Підставлення рамок із розплодом</a></li>
+<li><a href="#4-">4. Розширення корпусами</a></li>
+<li><a href="#5-">5. Розширення надставкою (магазином)</a></li>
+<li><a href="#6-">6. Підсадження молодих бджіл</a></li>
+<li><a href="#7-">7. Формування відводків</a></li>
+<li><a href="#8-">8. Комбіновані методи</a></li>
+<li><a href="#-">Типові помилки</a></li>
+<li><a href="#">Поради</a></li>
+</ul>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          Розширення бджолиних сімей
+        </a>
+      </h1><table>
+<thead>
+<tr>
+<th>№</th>
+<th>Метод розширення</th>
+<th>Суть методу</th>
+<th>Коли застосовують</th>
+<th>Особливості/Переваги</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Підставлення порожніх рамок</td>
+<td>Додавання порожніх рамок між розплодом</td>
+<td>Весна, активний розвиток</td>
+<td>Стимулює матку до нарощування розплоду</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Додавання вощини</td>
+<td>Підставлення рамок із вощиною для відбудови</td>
+<td>Тепла весна, літо</td>
+<td>Підвищення воскової продуктивності, омолодження бджіл</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Підставлення рамок із розплодом</td>
+<td>Переставлення розплоду з сильних сімей до слабших</td>
+<td>Весна, після обльоту</td>
+<td>Вирівнювання розвитку сімей</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Розширення корпусами</td>
+<td>Додавання корпусу з рамками зверху або знизу</td>
+<td>При зайнятті 8–9 рамок бджолами</td>
+<td>Дозволяє ефективно розвивати сильні сім&#39;ї</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Розширення надставкою (магазином)</td>
+<td>Додавання магазину для медозбору</td>
+<td>Початок медозбору</td>
+<td>Зручне збільшення об&#39;єму без надтої роботи</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Підсадження молодих бджіл</td>
+<td>Введення молодих бджіл до сімей</td>
+<td>При слабкому розвитку</td>
+<td>Підсилення сімей, але потребує обережності</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Формування відводків</td>
+<td>Відділення частини бджіл та розплоду в новий вулик</td>
+<td>Пік розвитку, запобігання роїнню</td>
+<td>Омолодження пасіки, розмноження сімей</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Комбіновані методи</td>
+<td>Поєднання декількох способів (рамки + корпуси, бджоли + розплід)</td>
+<td>Залежно від стану сімей</td>
+<td>Гнучкість у роботі, підвищення ефективності</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Покрокові інструкції
+        </a>
+      </h2><h3 id="1-">
+        <a href="#1-" class="header-anchor">
+          1. Підставлення порожніх рамок
+        </a>
+      </h3><ol>
+<li>Огляньте сім’ю та переконайтесь, що бджоли займають більшість рамок.</li>
+<li>Вийміть одну з крайніх рамок (без розплоду).</li>
+<li>Вставте порожню рамку між рамками з розплодом.</li>
+<li>Слідкуйте, щоб не охолодити розплід.</li>
+<li>Закрийте вулик та спостерігайте за розвитком.</li>
+</ol>
+<h3 id="2-">
+        <a href="#2-" class="header-anchor">
+          2. Додавання вощини
+        </a>
+      </h3><ol>
+<li>Підготуйте рамки з вощиною.</li>
+<li>Вставте їх біля розплоду або між кормовими рамками.</li>
+<li>Не ставте вощину на край гнізда.</li>
+<li>Перевіряйте, як бджоли відбудовують вощину.</li>
+</ol>
+<h3 id="3-">
+        <a href="#3-" class="header-anchor">
+          3. Підставлення рамок із розплодом
+        </a>
+      </h3><ol>
+<li>Виберіть сильну сім’ю з надлишком розплоду.</li>
+<li>Обережно вийміть рамку з розплодом і молодими бджолами.</li>
+<li>Перенесіть рамку до слабшої сім’ї.</li>
+<li>Вставте рамку в центр гнізда.</li>
+<li>Стежте за прийомом рамки.</li>
+</ol>
+<h3 id="4-">
+        <a href="#4-" class="header-anchor">
+          4. Розширення корпусами
+        </a>
+      </h3><ol>
+<li>Переконайтесь, що бджоли освоїли 8–9 рамок.</li>
+<li>Підготуйте новий корпус із рамками (вощина/суш).</li>
+<li>Зніміть дах і утеплення.</li>
+<li>Встановіть корпус зверху або знизу.</li>
+<li>Поверніть дах і утеплення.</li>
+</ol>
+<h3 id="5-">
+        <a href="#5-" class="header-anchor">
+          5. Розширення надставкою (магазином)
+        </a>
+      </h3><ol>
+<li>Підготуйте магазин із рамками.</li>
+<li>Зніміть дах і утеплення.</li>
+<li>Встановіть магазин на основний корпус.</li>
+<li>Поверніть дах і утеплення.</li>
+<li>Перевіряйте заповнення магазину.</li>
+</ol>
+<h3 id="6-">
+        <a href="#6-" class="header-anchor">
+          6. Підсадження молодих бджіл
+        </a>
+      </h3><ol>
+<li>Відберіть молодих бджіл із сильної сім’ї.</li>
+<li>Охолодіть або злегка окропіть бджіл цукровим сиропом.</li>
+<li>Акуратно пересипте бджіл у слабшу сім’ю ввечері.</li>
+<li>Спостерігайте за поведінкою бджіл.</li>
+</ol>
+<h3 id="7-">
+        <a href="#7-" class="header-anchor">
+          7. Формування відводків
+        </a>
+      </h3><ol>
+<li>Виберіть сильну сім’ю.</li>
+<li>Вийміть 2–3 рамки з розплодом і бджолами.</li>
+<li>Перенесіть їх у новий вулик.</li>
+<li>Додайте кормові рамки.</li>
+<li>Забезпечте матку або підсадіть маточник.</li>
+</ol>
+<h3 id="8-">
+        <a href="#8-" class="header-anchor">
+          8. Комбіновані методи
+        </a>
+      </h3><ol>
+<li>Оцініть стан сімей і потреби пасіки.</li>
+<li>Поєднайте кілька методів (наприклад, додайте корпус і підсадіть молодих бджіл).</li>
+<li>Дотримуйтесь інструкцій для кожного обраного методу.</li>
+<li>Контролюйте стан сімей після втручання.</li>
+</ol>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          Типові помилки
+        </a>
+      </h3><ol>
+<li>Неправильний вибір часу для розширення.</li>
+<li>Ігнорування стану бджолиних сімей.</li>
+<li>Недостатня підготовка до змін.</li>
+<li>Порушення технології виконання методів.</li>
+<li>Неправильне розташування рамок (наприклад, вощини на краю гнізда).</li>
+</ol>
+<h3 id="">
+        <a href="#" class="header-anchor">
+          Поради
+        </a>
+      </h3><ol>
+<li>Завжди перевіряйте стан бджіл перед розширенням.</li>
+<li>Використовуйте комбіновані методи для досягнення кращих результатів.</li>
+<li>Регулярно спостерігайте за розвитком сімей після розширення.</li>
+</ol>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>
