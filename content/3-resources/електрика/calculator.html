@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор Електромонтажника</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/second-brain/assets/css/electric-calculator.css">
+</head>
+<body class="min-h-screen flex flex-col md:flex-row bg-slate-900 text-slate-200">
+
+    <!-- Sidebar -->
+    <nav class="bg-slate-950 w-full md:w-72 flex-shrink-0 border-r border-slate-800 h-auto md:h-screen overflow-y-auto">
+        <div class="p-6 border-b border-slate-800">
+            <h1 class="text-xl font-bold text-yellow-500"><i class="fas fa-bolt mr-2"></i>ElectroMaster</h1>
+            <p class="text-xs text-slate-500 mt-1">Монтаж до 1000В</p>
+        </div>
+        <div class="p-4 space-y-2 text-sm">
+            <button onclick="switchTab('power')" class="nav-btn active w-full text-left px-4 py-3 rounded-lg transition flex items-center" id="btn-power">
+                <i class="fas fa-calculator w-6 text-center mr-2"></i> Потужність (A ↔ kW)
+            </button>
+            <button onclick="switchTab('cable')" class="nav-btn w-full text-left px-4 py-3 rounded-lg transition flex items-center" id="btn-cable">
+                <i class="fas fa-bezier-curve w-6 text-center mr-2"></i> Вибір кабелю
+            </button>
+            <button onclick="switchTab('drop')" class="nav-btn w-full text-left px-4 py-3 rounded-lg transition flex items-center" id="btn-drop">
+                <i class="fas fa-level-down-alt w-6 text-center mr-2"></i> Падіння напруги
+            </button>
+            <button onclick="switchTab('lighting')" class="nav-btn w-full text-left px-4 py-3 rounded-lg transition flex items-center" id="btn-lighting">
+                <i class="fas fa-lightbulb w-6 text-center mr-2"></i> Розрахунок світла
+            </button>
+            <button onclick="switchTab('colors')" class="nav-btn w-full text-left px-4 py-3 rounded-lg transition flex items-center" id="btn-colors">
+                <i class="fas fa-palette w-6 text-center mr-2"></i> Кольори жил (ПУЕ)
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto h-screen">
+        
+        <!-- 1. POWER CALC (AMPS vs KW) -->
+        <div id="tab-power" class="tab-content active max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-2 text-white">Розрахунок навантаження</h2>
+            <p class="text-slate-400 mb-6 text-sm">Переведення потужності (кВт) у струм (А) для вибору автомата.</p>
+
+            <div class="bg-slate-800 p-4 rounded-lg mb-6 border border-slate-700">
+                <div class="flex gap-4 mb-4">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="phase" value="1" checked onchange="calcPower('kw')" class="w-4 h-4 text-yellow-500 bg-slate-700 border-slate-500">
+                        <span class="ml-2 text-white">1 Фаза (220В)</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="phase" value="3" onchange="calcPower('kw')" class="w-4 h-4 text-yellow-500 bg-slate-700 border-slate-500">
+                        <span class="ml-2 text-white">3 Фази (380В)</span>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label>Потужність (P), кВт</label>
+                        <input type="number" id="p-kw" placeholder="Напр: 5.5" step="0.1" oninput="calcPower('kw')">
+                    </div>
+                    <div class="input-group relative">
+                        <label>Сила струму (I), А</label>
+                        <input type="number" id="p-amp" placeholder="Напр: 25" step="1" oninput="calcPower('amp')">
+                        <i class="fas fa-exchange-alt absolute right-3 top-9 text-slate-600"></i>
+                    </div>
+                    <div class="input-group">
+                        <label>Cos φ (Активне/Реактивне)</label>
+                        <input type="number" id="p-cos" value="0.95" step="0.05" max="1" min="0.1" oninput="calcPower('kw')">
+                        <div class="text-xs text-slate-500 mt-1">0.95 - нагрівачі, 0.7 - електродвигуни</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-box border-yellow-500">
+                <h3 class="text-yellow-400 text-sm uppercase font-bold mb-2">Рекомендований автомат</h3>
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-toggle-on text-4xl text-slate-500" id="breaker-icon"></i>
+                    <div>
+                        <p class="text-3xl font-mono text-white" id="rec-breaker">-- A</p>
+                        <p class="text-xs text-slate-400">Найближчий номінал (B/C характеристика)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. CABLE SELECTION -->
+        <div id="tab-cable" class="tab-content max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-2 text-white">Вибір перерізу кабелю (Мідь)</h2>
+            <p class="text-slate-400 mb-6 text-sm">Орієнтовний підбір для прихованої проводки (в стіні/трубі).</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <div class="input-group mb-4">
+                        <label>Навантаження (А)</label>
+                        <input type="number" id="c-load" value="16" oninput="calcCable()">
+                    </div>
+                    <div class="p-4 bg-slate-800 rounded border border-slate-700">
+                        <div class="text-xs text-slate-500 mb-1">Типові споживачі:</div>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setLoad(10)" class="badge">Світло (10А)</button>
+                            <button onclick="setLoad(16)" class="badge">Розетки (16А)</button>
+                            <button onclick="setLoad(32)" class="badge">Плита (32А)</button>
+                            <button onclick="setLoad(40)" class="badge">Ввід (40А)</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual Cable -->
+                <div class="flex flex-col items-center justify-center bg-slate-800 rounded p-4 border border-slate-700">
+                    <div class="w-24 h-24 rounded-full bg-orange-700 border-4 border-slate-600 flex items-center justify-center relative shadow-lg">
+                        <div class="w-20 h-20 rounded-full border-2 border-dashed border-orange-400 opacity-50 absolute"></div>
+                        <span class="text-white font-bold font-mono text-xl" id="c-cross-viz">1.5</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">Мідна жила (мм²)</p>
+                </div>
+            </div>
+
+            <div class="result-box border-green-500">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h3 class="text-green-400 text-sm uppercase font-bold">Рекомендований переріз</h3>
+                        <p class="text-4xl font-mono text-white mt-1" id="c-result">1.5 мм²</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400">Макс. струм для цього перерізу:</p>
+                        <p class="text-xl font-mono text-green-200" id="c-max">19 А</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. VOLTAGE DROP -->
+        <div id="tab-drop" class="tab-content max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-2 text-white">Падіння напруги</h2>
+            <p class="text-slate-400 mb-6 text-sm">Розрахунок для довгих ліній (гараж, ворота, сауна).</p>
+
+            <!-- Cable SVG Schematic -->
+            <div class="mb-6 px-4">
+                <svg width="100%" height="60" class="stroke-slate-500" style="overflow:visible">
+                    <line x1="0" y1="30" x2="100%" y2="30" stroke-width="4" stroke="#475569" />
+                    <circle cx="0" cy="30" r="6" fill="#eab308" />
+                    <circle cx="100%" cy="30" r="6" fill="#eab308" />
+                    <text x="0" y="15" class="fill-yellow-500 text-xs font-mono">220V</text>
+                    <text x="100%" y="15" text-anchor="end" class="fill-white text-xs font-mono" id="drop-v-end">? V</text>
+                    <text x="50%" y="50" text-anchor="middle" class="fill-slate-400 text-xs">Довжина L (м)</text>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="input-group">
+                    <label>Довжина (м)</label>
+                    <input type="number" id="d-len" value="50" oninput="calcDrop()">
+                </div>
+                <div class="input-group">
+                    <label>Переріз (мм²)</label>
+                    <select id="d-cross" onchange="calcDrop()">
+                        <option value="1.5">1.5 мм²</option>
+                        <option value="2.5" selected>2.5 мм²</option>
+                        <option value="4">4 мм²</option>
+                        <option value="6">6 мм²</option>
+                        <option value="10">10 мм²</option>
+                        <option value="16">16 мм²</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Навантаження (кВт)</label>
+                    <input type="number" id="d-load" value="3" step="0.5" oninput="calcDrop()">
+                </div>
+            </div>
+
+            <div class="result-box border-blue-500">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-blue-400 text-sm uppercase">Напруга в кінці</h3>
+                        <p class="text-3xl font-mono text-white" id="d-res-v">-- V</p>
+                    </div>
+                    <div>
+                        <h3 class="text-blue-400 text-sm uppercase">Втрата</h3>
+                        <p class="text-3xl font-mono text-white" id="d-res-perc">-- %</p>
+                    </div>
+                </div>
+                <p class="text-xs mt-2" id="d-status">Норма: втрата до 5%</p>
+            </div>
+        </div>
+
+        <!-- 4. LIGHTING -->
+        <div id="tab-lighting" class="tab-content max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-2 text-white">Розрахунок освітлення</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="input-group">
+                    <label>Площа кімнати (м²)</label>
+                    <input type="number" id="l-area" value="20" oninput="calcLight()">
+                </div>
+                <div class="input-group">
+                    <label>Тип приміщення</label>
+                    <select id="l-type" onchange="calcLight()">
+                        <option value="150">Вітальня / Кухня (150 Lux)</option>
+                        <option value="250" selected>Робочий кабінет (250 Lux)</option>
+                        <option value="100">Спальня / Коридор (100 Lux)</option>
+                        <option value="50">Гараж / Підвал (50 Lux)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group mb-6">
+                <label>Потужність однієї LED лампи (Люмен або Вт)</label>
+                <div class="flex gap-2">
+                     <input type="number" id="l-lumens" value="800" placeholder="Люмени (Lm)" oninput="calcLight()">
+                     <select class="w-24 text-xs" onchange="document.getElementById('l-lumens').value=this.value; calcLight()">
+                         <option value="400">5W (~400lm)</option>
+                         <option value="800" selected>9W (~800lm)</option>
+                         <option value="1200">12W (~1200lm)</option>
+                     </select>
+                </div>
+            </div>
+
+            <div class="result-box border-yellow-200 bg-yellow-900/20">
+                <h3 class="text-yellow-200 text-sm uppercase mb-2"><i class="fas fa-lightbulb mr-2"></i>Необхідна кількість ламп</h3>
+                <p class="text-5xl font-mono text-white text-center" id="l-count">6 шт</p>
+                <p class="text-center text-xs text-slate-400 mt-2">Загальний потік: <span id="l-total">5000</span> Lm</p>
+            </div>
+        </div>
+
+        <!-- 5. COLORS -->
+        <div id="tab-colors" class="tab-content max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-white">Маркування (ПУЕ/EU)</h2>
+            
+            <div class="space-y-4">
+                <!-- L Phases -->
+                <div class="flex items-center bg-slate-800 p-3 rounded border border-slate-700">
+                    <div class="w-12 h-12 bg-[#8B4513] rounded mr-4 shadow-inner border border-white/10 flex items-center justify-center text-xs font-bold text-white/50">L1</div>
+                    <div>
+                        <div class="font-bold text-white">Фаза А (L1)</div>
+                        <div class="text-sm text-slate-400">Коричневий (Brown)</div>
+                    </div>
+                </div>
+                <div class="flex items-center bg-slate-800 p-3 rounded border border-slate-700">
+                    <div class="w-12 h-12 bg-black rounded mr-4 shadow-inner border border-white/10 flex items-center justify-center text-xs font-bold text-white/50">L2</div>
+                    <div>
+                        <div class="font-bold text-white">Фаза B (L2)</div>
+                        <div class="text-sm text-slate-400">Чорний (Black)</div>
+                    </div>
+                </div>
+                <div class="flex items-center bg-slate-800 p-3 rounded border border-slate-700">
+                    <div class="w-12 h-12 bg-gray-500 rounded mr-4 shadow-inner border border-white/10 flex items-center justify-center text-xs font-bold text-white/50">L3</div>
+                    <div>
+                        <div class="font-bold text-white">Фаза C (L3)</div>
+                        <div class="text-sm text-slate-400">Сірий (Grey)</div>
+                    </div>
+                </div>
+
+                <!-- Neutral -->
+                <div class="flex items-center bg-slate-800 p-3 rounded border border-slate-700">
+                    <div class="w-12 h-12 bg-blue-600 rounded mr-4 shadow-inner border border-white/10 flex items-center justify-center text-xs font-bold text-white/50">N</div>
+                    <div>
+                        <div class="font-bold text-white">Нуль (Neutral)</div>
+                        <div class="text-sm text-slate-400">Синій (Blue)</div>
+                    </div>
+                </div>
+
+                <!-- Earth -->
+                <div class="flex items-center bg-slate-800 p-3 rounded border border-slate-700">
+                    <div class="w-12 h-12 rounded mr-4 shadow-inner border border-white/10 flex items-center justify-center text-xs font-bold text-black/50" 
+                         style="background: linear-gradient(90deg, #ffff00 50%, #008000 50%);">PE</div>
+                    <div>
+                        <div class="font-bold text-white">Заземлення (Earth)</div>
+                        <div class="text-sm text-slate-400">Жовто-Зелений</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/second-brain/assets/scripts/electric-calculator.js"></script>
+</body>
+</html>

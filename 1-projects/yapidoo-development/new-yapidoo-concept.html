@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new-yapidoo-concept - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#step-by-step-development-plan-per-net-microservice">Step-by-Step Development Plan per .NET Microservice</a></li>
+<li><a href="#shared-conventions-applies-to-all-services">Shared Conventions (Applies to All Services)</a></li>
+<ul>
+<li><a href="#1-yapidooserviceusers">1. `Yapidoo.Service.Users`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+<li><a href="#2-yapidooserviceauth">2. `Yapidoo.Service.Auth`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+<li><a href="#3-yapidooserviceevents">3. `Yapidoo.Service.Events`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+<li><a href="#4-yapidooservicemedia">4. `Yapidoo.Service.Media`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+<li><a href="#5-yapidooservicenotifications">5. `Yapidoo.Service.Notifications`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+<li><a href="#6-yapidooapigateway">6. `Yapidoo.ApiGateway`</a></li>
+<ul>
+<li><a href="#steps">Steps</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Here’s a structured step-by-step guide for each suggested .NET backend microservice in Yapidoo, aligned with the <strong>new architecture concepts used in this folder</strong> (DDD boundaries, CQRS/use-cases, event bus integration events, and an API Gateway front door).</p>
+<hr>
+<h1 id="step-by-step-development-plan-per-net-microservice">
+        <a href="#step-by-step-development-plan-per-net-microservice" class="header-anchor">
+          Step-by-Step Development Plan per .NET Microservice
+        </a>
+      </h1><hr>
+<h1 id="shared-conventions-applies-to-all-services">
+        <a href="#shared-conventions-applies-to-all-services" class="header-anchor">
+          Shared Conventions (Applies to All Services)
+        </a>
+      </h1><p>Use these conventions consistently so services compose cleanly:</p>
+<ol>
+<li><p><strong>Runtime &amp; Framework</strong></p>
+<ul>
+<li>Target <strong>.NET 9</strong>.</li>
+<li>Prefer clean separation of responsibilities (presentation vs application vs data vs infrastructure).</li>
+</ul>
+</li>
+<li><p><strong>Service Structure (recommended default)</strong></p>
+<ul>
+<li><code>*.Api</code> — HTTP endpoints/controllers, authZ policies, validation, health endpoints.</li>
+<li><code>*.UseCases</code> (or <code>*.Application</code>) — CQRS commands/queries + handlers (via <code>Yapidoo.Common.Mediator</code> or MediatR).</li>
+<li><code>*.Domain</code> — entities/aggregates/value objects + domain events (where DDD is used).</li>
+<li><code>*.Data</code> — EF Core <code>DbContext</code>, migrations, persistence models.</li>
+<li><code>*.Infrastructure</code> — messaging, external integrations, cross-cutting concerns.</li>
+</ul>
+</li>
+<li><p><strong>Messaging &amp; Integration</strong></p>
+<ul>
+<li>Prefer <strong>integration events</strong> on a message broker (e.g., RabbitMQ) over direct service-to-service calls for cross-domain side effects.</li>
+<li>Use an <strong>Outbox</strong> pattern where publishing needs to be atomic with DB writes.</li>
+<li>Make consumer handlers <strong>idempotent</strong>.</li>
+</ul>
+</li>
+<li><p><strong>Security</strong></p>
+<ul>
+<li>The Auth service is the system source for tokens/keys; APIs validate JWTs <strong>offline</strong> using JWKS.</li>
+<li>Apply <strong>scope/policy-based authorization</strong> at the API boundary.</li>
+<li>Only the API Gateway is public-facing by default.</li>
+</ul>
+</li>
+<li><p><strong>Observability &amp; Ops</strong></p>
+<ul>
+<li>Structured logs (e.g., Serilog), OpenTelemetry traces/metrics.</li>
+<li>Standard endpoints: <code>/healthz</code> and <code>/readyz</code>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-yapidooserviceusers">
+        <a href="#1-yapidooserviceusers" class="header-anchor">
+          1. `Yapidoo.Service.Users`
+        </a>
+      </h2><p><strong>Purpose:</strong> Manage user profiles, preferences, and personal data.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup:</strong></p>
+<ul>
+<li>Create <code>Yapidoo.Service.Users</code> with the shared structure (<code>Users.Api</code>, <code>Users.UseCases</code>, <code>Users.Domain</code> (optional), <code>Users.Data</code>, <code>Users.Infrastructure</code>).</li>
+<li>Add EF Core for data access with PostgreSQL or MS SQL.</li>
+<li>Define the <strong>business profile</strong> model (owned by Users), e.g.: Id, IdentityUserId (from Auth), DisplayName, Country, City, Interests, ProfilePhotoId/Url, LanguagePreference, etc.</li>
+<li>Avoid duplicating Auth-owned identity concerns (passwords, external providers, OIDC clients).</li>
+</ul>
+</li>
+<li><p><strong>Database Schema &amp; Migrations:</strong></p>
+<ul>
+<li>Implement migrations and seed minimal test data.</li>
+<li>Ensure Unicode support for multilingual content.</li>
+<li>Consider a unique index on <code>IdentityUserId</code>.</li>
+</ul>
+</li>
+<li><p><strong>API Endpoints:</strong></p>
+<ul>
+<li><code>GET /api/users/me</code> – Retrieve current user profile (from token subject).</li>
+<li><code>GET /api/users/{id}</code> – Retrieve public profile (as allowed by privacy rules).</li>
+<li><code>PUT /api/users/me</code> – Update current user profile.</li>
+<li><code>PUT /api/users/me/preferences</code> – Update interests/preferences.</li>
+<li>Keep friend graph/social features in a dedicated service if/when it exists.</li>
+</ul>
+</li>
+<li><p><strong>Authentication Integration:</strong></p>
+<ul>
+<li>Validate JWTs issued by Auth (JWKS-based offline validation).</li>
+<li>Use policies/scopes (e.g., <code>users.read</code>, <code>users.write</code>) for authorization.</li>
+</ul>
+</li>
+<li><p><strong>Image Handling Integration:</strong></p>
+<ul>
+<li>Integrate with Media service for profile photo uploads; store a <code>MediaId</code> (preferred) or URL.</li>
+</ul>
+</li>
+<li><p><strong>Localization:</strong></p>
+<ul>
+<li>Respect user’s language preference in response formatting and data.</li>
+</ul>
+</li>
+<li><p><strong>Eventing (Integration Events):</strong></p>
+<ul>
+<li>Consume <code>UserRegistered</code> / <code>UserDeleted</code> from Auth to provision/cleanup profiles.</li>
+<li>Publish <code>UserProfileUpdated</code> (optional) if other services need to react.</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Unit tests for business logic, API integration tests.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>Swagger/OpenAPI documentation for endpoints.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-yapidooserviceauth">
+        <a href="#2-yapidooserviceauth" class="header-anchor">
+          2. `Yapidoo.Service.Auth`
+        </a>
+      </h2><p><strong>Purpose:</strong> Authentication, user registration, JWT token issuance, password management, social login integration.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup:</strong></p>
+<ul>
+<li>Implement Auth as the single OIDC/OAuth2.1 authority (recommended: <strong>OpenIddict + ASP.NET Core Identity</strong>, .NET 9).</li>
+<li>Organize into <code>Auth.Api</code>, <code>Auth.UseCases</code>, <code>Auth.Data</code>, <code>Auth.Infrastructure</code> (matches existing docs in this folder).</li>
+<li>Expose discovery + keys: <code>/.well-known/openid-configuration</code> and <code>/.well-known/jwks.json</code>.</li>
+</ul>
+</li>
+<li><p><strong>Endpoints:</strong></p>
+<ul>
+<li>Prefer standard OpenIddict endpoints:<ul>
+<li><code>GET /connect/authorize</code> – Authorization endpoint (SPA code + PKCE).</li>
+<li><code>POST /connect/token</code> – Token endpoint (code exchange, refresh, client credentials).</li>
+<li><code>GET /connect/userinfo</code> – User info.</li>
+</ul>
+</li>
+<li>Keep any <code>/api/auth/*</code> endpoints only for first-party UX helpers (e.g., account pages), not as the primary token interface.</li>
+</ul>
+</li>
+<li><p><strong>Email Verification &amp; Password Reset:</strong></p>
+<ul>
+<li>Implement email confirmation flows with tokenized links.</li>
+<li>Password reset endpoints sending email/SMS codes.</li>
+</ul>
+</li>
+<li><p><strong>Social Login Integration:</strong></p>
+<ul>
+<li>Integrate with Google and Facebook OAuth2.</li>
+<li>On success, issue app-specific JWT tokens.</li>
+</ul>
+</li>
+<li><p><strong>Security:</strong></p>
+<ul>
+<li>Secure password storage (ASP.NET Identity hashing).</li>
+<li>JWT signing with strong asymmetric keys (RSA/X.509); rotate keys and publish via JWKS.</li>
+<li>Enforce HTTPS, strict CORS, redirect URI allowlists.</li>
+</ul>
+</li>
+<li><p><strong>Token Handling:</strong></p>
+<ul>
+<li>Implement access and refresh token flows.</li>
+<li>Configure token expiration and revocation strategies.</li>
+</ul>
+</li>
+<li><p><strong>Eventing (Integration Events):</strong></p>
+<ul>
+<li>Publish <code>UserRegistered { IdentityUserId, Email, DisplayName }</code> and <code>UserDeleted { IdentityUserId }</code> for Users.</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Authentication workflows, token issuance, failure cases.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>Swagger docs for all endpoints.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-yapidooserviceevents">
+        <a href="#3-yapidooserviceevents" class="header-anchor">
+          3. `Yapidoo.Service.Events`
+        </a>
+      </h2><p><strong>Purpose:</strong> Event creation, browsing, joining, status updates, and event participant management.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup (DDD + CQRS):</strong></p>
+<ul>
+<li>Create <code>Yapidoo.Service.Events</code> as a multi-project service (mirrors the migration guide in <code>services/events</code>):<ul>
+<li><code>Events.Domain</code> — Event aggregate, value objects, domain events.</li>
+<li><code>Events.UseCases</code> (or <code>Events.Application</code>) — CQRS commands/queries + handlers.</li>
+<li><code>Events.Data</code> / <code>Events.Infrastructure</code> — EF Core, repositories, messaging/outbox.</li>
+<li><code>Events.Api</code> — HTTP endpoints, authZ policies, validation, health.</li>
+</ul>
+</li>
+<li>Model an <strong>Event aggregate</strong> with invariants:<ul>
+<li>Identity: <code>Id</code>, <code>CreatorUserId</code></li>
+<li>Content: <code>Title</code>, <code>Description</code>, <code>Tags</code></li>
+<li>Time: <code>StartTime</code>, <code>EndTime</code></li>
+<li>Location: coordinates + display fields as a value object</li>
+<li>Privacy: <code>Public</code> / <code>Friends</code> / <code>Hidden</code></li>
+<li>Status: at minimum <code>Planned</code> / <code>Cancelled</code> / <code>Completed</code> (or <code>Active</code> if needed)</li>
+<li>Participation: participant list + constraints (max participants, rules)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Persistence &amp; Read Models:</strong></p>
+<ul>
+<li>Store participants as a relational association (e.g., <code>EventParticipants(EventId, UserId, JoinedAt)</code>), but enforce rules in the aggregate.</li>
+<li>Add indexes for common queries: time range, geo/region fields, tags (if stored), creator, status.</li>
+<li>If search becomes complex, introduce a read model / projection (CQRS) rather than overloading the write model.</li>
+</ul>
+</li>
+<li><p><strong>CQRS Use Cases (commands/queries):</strong></p>
+<ul>
+<li>Commands:<ul>
+<li><code>CreateEvent</code></li>
+<li><code>UpdateEvent</code> (creator-only)</li>
+<li><code>CancelEvent</code> (creator-only)</li>
+<li><code>JoinEvent</code> / <code>LeaveEvent</code> (idempotent)</li>
+</ul>
+</li>
+<li>Queries:<ul>
+<li><code>GetEventById</code></li>
+<li><code>SearchEvents</code> (filters: date range, location, tags, status)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>HTTP Endpoints (external contract):</strong></p>
+<ul>
+<li>Keep the public surface simple (typically exposed via the API Gateway):<ul>
+<li><code>POST /api/events</code> – Create event.</li>
+<li><code>GET /api/events</code> – Search/list events with filters.</li>
+<li><code>GET /api/events/{id}</code> – Get event details.</li>
+<li><code>POST /api/events/{id}/join</code> – Join an event.</li>
+<li><code>POST /api/events/{id}/leave</code> – Leave an event.</li>
+<li><code>PUT /api/events/{id}</code> – Edit event (creator-only).</li>
+<li><code>POST /api/events/{id}/cancel</code> – Cancel event (creator-only).</li>
+</ul>
+</li>
+<li>Apply optimistic concurrency where appropriate (ETag/rowversion) to avoid lost updates.</li>
+</ul>
+</li>
+<li><p><strong>Authorization &amp; Privacy:</strong></p>
+<ul>
+<li>Enforce JWT auth for event creation and participation endpoints.</li>
+<li>Validate permissions: only creator can update/cancel.</li>
+<li>Privacy rules:<ul>
+<li><code>Public</code> visible to all authenticated users (or public if product requires).</li>
+<li><code>Hidden</code> visible only to creator/invited participants.</li>
+<li><code>Friends</code> requires a “social graph” authority (future Social service or Users extension). Until that exists, keep <code>Friends</code> behavior explicitly “not implemented” or treated as <code>Hidden</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Domain &amp; Integration Events:</strong></p>
+<ul>
+<li>Raise domain events inside the aggregate (e.g., <code>EventCreated</code>, <code>EventCancelled</code>, <code>ParticipantJoined</code>).</li>
+<li>Publish integration events via outbox to the message broker so other services can react:<ul>
+<li>Notifications can notify on join/cancel.</li>
+<li>Users can update activity feeds (if applicable).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Media &amp; Location Integration:</strong></p>
+<ul>
+<li>Store a <code>CoverMediaId</code> (preferred) or URL; Media service owns storage details.</li>
+<li>Keep optional geocoding (Google Maps) at the edge (Gateway/BFF) or as an infrastructure adapter; persist canonical coordinates + display address.</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Unit tests for domain invariants and state transitions.</li>
+<li>API tests for contracts, authZ, idempotency (join/leave), and concurrency scenarios.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>OpenAPI spec with examples (create/update, join/leave, privacy).</li>
+<li>Document emitted integration events and their schemas.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-yapidooservicemedia">
+        <a href="#4-yapidooservicemedia" class="header-anchor">
+          4. `Yapidoo.Service.Media`
+        </a>
+      </h2><p><strong>Purpose:</strong> Image upload, processing (resizing, thumbnailing), storage, and retrieval.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup:</strong></p>
+<ul>
+<li>Create <code>Yapidoo.Service.Media</code> using the shared structure (<code>Media.Api</code>, <code>Media.UseCases</code>, <code>Media.Data</code>, <code>Media.Infrastructure</code>).</li>
+<li>Integrate Google Cloud Storage or Firebase Storage (or equivalent) SDK.</li>
+</ul>
+</li>
+<li><p><strong>Endpoints:</strong></p>
+<ul>
+<li><code>POST /api/media/upload-url</code> – Return a signed upload URL for direct client upload.</li>
+<li><code>POST /api/media/process</code> – Trigger image processing tasks (resize, format conversion).</li>
+<li><code>GET /api/media/{id}</code> – Return metadata and/or a signed download URL (prefer redirect to CDN/storage).</li>
+</ul>
+</li>
+<li><p><strong>Image Processing:</strong></p>
+<ul>
+<li>Use .NET image processing libraries (ImageSharp or SkiaSharp).</li>
+<li>Optionally, implement serverless cloud functions for offloaded processing.</li>
+</ul>
+</li>
+<li><p><strong>Security:</strong></p>
+<ul>
+<li>Generate signed URLs with expiration for secure upload/download.</li>
+<li>Support access control on images if required.</li>
+</ul>
+</li>
+<li><p><strong>Eventing (Integration Events):</strong></p>
+<ul>
+<li>Publish <code>MediaUploaded</code> / <code>MediaProcessed</code> so domain services can update their records safely.</li>
+</ul>
+</li>
+<li><p><strong>CDN Integration:</strong></p>
+<ul>
+<li>Configure CDN for fast global delivery of images.</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Upload/download flows, processing correctness, security of signed URLs.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>API contract describing upload/download procedures.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-yapidooservicenotifications">
+        <a href="#5-yapidooservicenotifications" class="header-anchor">
+          5. `Yapidoo.Service.Notifications`
+        </a>
+      </h2><p><strong>Purpose:</strong> Manage user notifications and push messages.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup:</strong></p>
+<ul>
+<li>Create <code>Yapidoo.Service.Notifications</code> using the shared structure (<code>Notifications.Api</code>, <code>Notifications.UseCases</code>, <code>Notifications.Data</code>, <code>Notifications.Infrastructure</code>).</li>
+<li>Integrate Firebase Cloud Messaging (FCM) or similar push notification provider.</li>
+<li>Add a background worker/consumer for message broker subscriptions (event-driven notifications).</li>
+</ul>
+</li>
+<li><p><strong>Endpoints:</strong></p>
+<ul>
+<li><code>POST /api/notifications/register</code> – Register device tokens for push notifications.</li>
+<li><code>POST /api/notifications/send</code> – (Optional/admin) send notification to user/device.</li>
+</ul>
+</li>
+<li><p><strong>Notification Types:</strong></p>
+<ul>
+<li>Support event-related notifications (invites, join alerts, cancel alerts) driven by integration events.</li>
+<li>Support friend-related notifications if/when a Social/Friends domain exists.</li>
+</ul>
+</li>
+<li><p><strong>Scheduling &amp; Delivery:</strong></p>
+<ul>
+<li>Implement immediate and scheduled notifications.</li>
+<li>Handle delivery failures and retries.</li>
+</ul>
+</li>
+<li><p><strong>Security:</strong></p>
+<ul>
+<li>Authenticate requests to notification APIs.</li>
+<li>Secure storage of device tokens.</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Verify notification delivery on multiple devices/platforms.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>Document API usage and expected payloads.</li>
+</ul>
+</li>
+<li><p><strong>Event Subscriptions:</strong></p>
+<ul>
+<li>Subscribe to Events service integration events (e.g., <code>EventCancelled</code>, <code>ParticipantJoined</code>) and translate them into push notifications.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="6-yapidooapigateway">
+        <a href="#6-yapidooapigateway" class="header-anchor">
+          6. `Yapidoo.ApiGateway`
+        </a>
+      </h2><p><strong>Purpose:</strong> Single API gateway fronting all backend microservices, handling routing, authentication, and rate limiting.</p>
+<h3 id="steps">
+        <a href="#steps" class="header-anchor">
+          Steps
+        </a>
+      </h3><ol>
+<li><p><strong>Project Setup:</strong></p>
+<ul>
+<li>Create an ASP.NET Core gateway using a reverse proxy (recommended: <strong>YARP</strong>) or Ocelot.</li>
+<li>Keep it as the primary public entrypoint; route to backend microservices.</li>
+</ul>
+</li>
+<li><p><strong>Authentication:</strong></p>
+<ul>
+<li>Validate JWT tokens for incoming requests (keys via Auth JWKS).</li>
+<li>Enforce scopes/policies at the edge where appropriate.</li>
+<li>Forward identity/claims to downstream services via standard headers (Authorization bearer) only.</li>
+</ul>
+</li>
+<li><p><strong>Cross-cutting Concerns:</strong></p>
+<ul>
+<li>Implement rate limiting and throttling.</li>
+<li>Add centralized logging and metrics collection (request tracing).</li>
+<li>Handle CORS and response caching.</li>
+<li>Add correlation IDs and consistent error mapping.</li>
+</ul>
+</li>
+<li><p><strong>Security:</strong></p>
+<ul>
+<li>Enforce HTTPS.</li>
+<li>Protect against common attack vectors (e.g., injection, DoS).</li>
+</ul>
+</li>
+<li><p><strong>Testing:</strong></p>
+<ul>
+<li>Test routing and authentication under various scenarios.</li>
+</ul>
+</li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>Describe public API surface exposed by the gateway.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>Next: if you want, we can generate a consistent starter template for each service that matches the structures described above.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

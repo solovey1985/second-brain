@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spa - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/web/">web</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<ul>
+<li><a href="#1-create-the-app-standalone">1) Create the app (standalone)</a></li>
+<li><a href="#2-install-auth-deps">2) Install auth deps</a></li>
+<li><a href="#3-auth-config-oidc-server-details">3) Auth config (OIDC server details)</a></li>
+<li><a href="#4-bootstrap-providers-no-appmodule">4) Bootstrap providers (no AppModule)</a></li>
+<li><a href="#5-auth-service-loginlogout-wiring">5) Auth service (login/logout wiring)</a></li>
+<li><a href="#6-route-protection-without-ngmodules">6) Route protection without NgModules</a></li>
+<li><a href="#7-ui-hooks-for-loginlogout">7) UI hooks for login/logout</a></li>
+<li><a href="#8-oidc-server-setup-checklist">8) OIDC server setup checklist</a></li>
+<li><a href="#9-quick-test">9) Quick test</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Angular SPA plan (Angular 17–20, standalone by default) using Yapidoo.Service.Auth (OpenIddict) with OIDC login/logout.</p>
+<h3 id="1-create-the-app-standalone">
+        <a href="#1-create-the-app-standalone" class="header-anchor">
+          1) Create the app (standalone)
+        </a>
+      </h3><pre><code class="hljs language-powershell">npm install <span class="hljs-literal">-g</span> @angular/<span class="hljs-built_in">cli</span>
+ng new yapidoo<span class="hljs-literal">-spa</span> <span class="hljs-literal">--routing</span> <span class="hljs-literal">--style</span>=scss <span class="hljs-literal">--standalone</span>
+<span class="hljs-built_in">cd</span> yapidoo<span class="hljs-literal">-spa</span></code></pre><blockquote>
+<p>Angular 20 removes implicit NgModule registration. Use <code>bootstrapApplication</code> with providers instead of <code>AppModule</code>.</p>
+</blockquote>
+<h3 id="2-install-auth-deps">
+        <a href="#2-install-auth-deps" class="header-anchor">
+          2) Install auth deps
+        </a>
+      </h3><pre><code class="hljs language-powershell">npm install angular<span class="hljs-literal">-oauth2-oidc</span> @auth0/angular<span class="hljs-literal">-jwt</span></code></pre><h3 id="3-auth-config-oidc-server-details">
+        <a href="#3-auth-config-oidc-server-details" class="header-anchor">
+          3) Auth config (OIDC server details)
+        </a>
+      </h3><p>Create <code>src/app/auth.config.ts</code>:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AuthConfig</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">authConfig</span>: <span class="hljs-title class_">AuthConfig</span> = {
+  <span class="hljs-attr">issuer</span>: <span class="hljs-string">&#x27;https://&lt;Yapidoo.Service.Auth-URL&gt;&#x27;</span>,
+  <span class="hljs-attr">clientId</span>: <span class="hljs-string">&#x27;&lt;client_id&gt;&#x27;</span>,
+  <span class="hljs-attr">responseType</span>: <span class="hljs-string">&#x27;code&#x27;</span>,
+  <span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;openid profile email api&#x27;</span>,
+  <span class="hljs-attr">redirectUri</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">origin</span> + <span class="hljs-string">&#x27;/index.html&#x27;</span>,
+  <span class="hljs-attr">postLogoutRedirectUri</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">origin</span> + <span class="hljs-string">&#x27;/index.html&#x27;</span>,
+  <span class="hljs-attr">showDebugInformation</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">requireHttps</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">useSilentRefresh</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">silentRefreshRedirectUri</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">origin</span> + <span class="hljs-string">&#x27;/silent-refresh.html&#x27;</span>,
+  <span class="hljs-attr">strictDiscoveryDocumentValidation</span>: <span class="hljs-literal">true</span>,
+};</code></pre><p>Add <code>public/silent-refresh.html</code> as a blank page that runs the OAuth silent refresh script (see library docs).</p>
+<h3 id="4-bootstrap-providers-no-appmodule">
+        <a href="#4-bootstrap-providers-no-appmodule" class="header-anchor">
+          4) Bootstrap providers (no AppModule)
+        </a>
+      </h3><p>In <code>src/main.ts</code> register Angular and OAuth providers explicitly:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { bootstrapApplication, importProvidersFrom } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { provideHttpClient, withInterceptorsFromDi } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common/http&#x27;</span>;
+<span class="hljs-keyword">import</span> { provideRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>;
+<span class="hljs-keyword">import</span> { provideAnimations } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/platform-browser/animations&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">OAuthModule</span>, provideOAuthClient } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+<span class="hljs-keyword">import</span> { authConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./app/auth.config&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./app/app.component&#x27;</span>;
+<span class="hljs-keyword">import</span> { routes } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./app/app.routes&#x27;</span>;
+
+<span class="hljs-title function_">bootstrapApplication</span>(<span class="hljs-title class_">AppComponent</span>, {
+  <span class="hljs-attr">providers</span>: [
+    <span class="hljs-title function_">provideRouter</span>(routes),
+    <span class="hljs-title function_">provideAnimations</span>(),
+    <span class="hljs-title function_">provideHttpClient</span>(<span class="hljs-title function_">withInterceptorsFromDi</span>()),
+    <span class="hljs-title function_">importProvidersFrom</span>(
+      <span class="hljs-title class_">OAuthModule</span>.<span class="hljs-title function_">forRoot</span>({
+        <span class="hljs-attr">resourceServer</span>: {
+          <span class="hljs-attr">allowedUrls</span>: [<span class="hljs-string">&#x27;https://api.yapidoo.local&#x27;</span>],
+          <span class="hljs-attr">sendAccessToken</span>: <span class="hljs-literal">true</span>,
+        },
+      })
+    ),
+    <span class="hljs-title function_">provideOAuthClient</span>({ <span class="hljs-attr">config</span>: authConfig }),
+  ],
+}).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err));</code></pre><h3 id="5-auth-service-loginlogout-wiring">
+        <a href="#5-auth-service-loginlogout-wiring" class="header-anchor">
+          5) Auth service (login/logout wiring)
+        </a>
+      </h3><p><code>src/app/auth.service.ts</code>:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">OAuthService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;angular-oauth2-oidc&#x27;</span>;
+<span class="hljs-keyword">import</span> { authConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./auth.config&#x27;</span>;
+
+<span class="hljs-meta">@Injectable</span>({ <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span> })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthService</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">oauth</span>: <span class="hljs-title class_">OAuthService</span></span>) {}
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">init</span>(): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">configure</span>(authConfig);
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">loadDiscoveryDocument</span>();
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">tryLoginCodeFlow</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">setupAutomaticSilentRefresh</span>();
+  }
+
+  <span class="hljs-title function_">login</span>(): <span class="hljs-built_in">void</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">initCodeFlow</span>();
+  }
+
+  <span class="hljs-title function_">logout</span>(): <span class="hljs-built_in">void</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">logOut</span>();
+  }
+
+  <span class="hljs-title function_">isAuthenticated</span>(): <span class="hljs-built_in">boolean</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">oauth</span>.<span class="hljs-title function_">hasValidAccessToken</span>();
+  }
+}</code></pre><p>Call <code>authService.init()</code> during app startup (e.g., in <code>AppComponent</code> constructor or via an <code>APP_INITIALIZER</code>).</p>
+<h3 id="6-route-protection-without-ngmodules">
+        <a href="#6-route-protection-without-ngmodules" class="header-anchor">
+          6) Route protection without NgModules
+        </a>
+      </h3><p>Use a standalone <code>CanMatch</code> guard:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { inject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CanMatchFn</span>, <span class="hljs-title class_">Router</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AuthService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./auth.service&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">authGuard</span>: <span class="hljs-title class_">CanMatchFn</span> = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> auth = <span class="hljs-title function_">inject</span>(<span class="hljs-title class_">AuthService</span>);
+  <span class="hljs-keyword">const</span> router = <span class="hljs-title function_">inject</span>(<span class="hljs-title class_">Router</span>);
+  <span class="hljs-keyword">if</span> (auth.<span class="hljs-title function_">isAuthenticated</span>()) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  auth.<span class="hljs-title function_">login</span>();
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};</code></pre><p>Attach to protected routes in <code>app.routes.ts</code>:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">loadComponent</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./home/home.component&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">m</span> =&gt;</span> m.<span class="hljs-property">HomeComponent</span>) },
+  {
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;secure&#x27;</span>,
+    <span class="hljs-attr">canMatch</span>: [authGuard],
+    <span class="hljs-attr">loadComponent</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./secure/secure.component&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">m</span> =&gt;</span> m.<span class="hljs-property">SecureComponent</span>),
+  },
+];</code></pre><h3 id="7-ui-hooks-for-loginlogout">
+        <a href="#7-ui-hooks-for-loginlogout" class="header-anchor">
+          7) UI hooks for login/logout
+        </a>
+      </h3><p>In a header component:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AuthService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../auth.service&#x27;</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-header&#x27;</span>,
+  <span class="hljs-attr">standalone</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;button (click)=&quot;auth.login()&quot;&gt;Login&lt;/button&gt;
+    &lt;button (click)=&quot;auth.logout()&quot; *ngIf=&quot;auth.isAuthenticated()&quot;&gt;Logout&lt;/button&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HeaderComponent</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> <span class="hljs-attr">auth</span>: <span class="hljs-title class_">AuthService</span></span>) {}
+}</code></pre><h3 id="8-oidc-server-setup-checklist">
+        <a href="#8-oidc-server-setup-checklist" class="header-anchor">
+          8) OIDC server setup checklist
+        </a>
+      </h3><ul>
+<li>Register SPA client in Yapidoo.Service.Auth/OpenIddict with <code>redirectUri</code> and <code>postLogoutRedirectUri</code> above.</li>
+<li>Enable CORS for SPA origin.</li>
+<li>Allow PKCE (authorization code with proof key) and refresh tokens if needed.</li>
+<li>Publish discovery document at <code>/.well-known/openid-configuration</code>.</li>
+</ul>
+<h3 id="9-quick-test">
+        <a href="#9-quick-test" class="header-anchor">
+          9) Quick test
+        </a>
+      </h3><pre><code class="hljs language-powershell">ng serve <span class="hljs-literal">--open</span></code></pre><p>Log in, verify token presence (network tab), hit a protected API with the bearer token, then log out and ensure the SPA returns to public state.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

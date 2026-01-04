@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>overview-and-concepts - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#yapidoo-auth-service-high-level-architecture-implementation-guide-net-9-openiddict">Yapidoo Auth Service — High-Level Architecture & Implementation Guide (.NET 9 + OpenIddict)</a></li>
+<ul>
+<li><a href="#1-vision-scope">1 Vision & Scope</a></li>
+<ul>
+<li><a href="#intent">Intent</a></li>
+<li><a href="#out-of-scope-owned-by-other-services">Out of scope (owned by other services)</a></li>
+</ul>
+<li><a href="#2-key-architectural-decisions">2 Key Architectural Decisions</a></li>
+<li><a href="#3-context-view-c4-system-context">3 Context View (C4: System Context)</a></li>
+<li><a href="#4-container-view-c4-containers-major-components">4 Container View (C4: Containers & Major Components)</a></li>
+<li><a href="#5-runtime-sequence-views">5 Runtime (Sequence) Views</a></li>
+<ul>
+<li><a href="#51-authorization-code-pkce-spa">5.1 Authorization Code + PKCE (SPA)</a></li>
+<li><a href="#52-machine-to-machine-client-credentials">5.2 Machine-to-Machine (Client Credentials)</a></li>
+<li><a href="#53-token-validation-via-jwks-resource-api">5.3 Token Validation via JWKS (Resource API)</a></li>
+</ul>
+<li><a href="#6-data-view">6 Data View</a></li>
+<li><a href="#7-security-posture">7 Security Posture</a></li>
+<li><a href="#8-integration-with-users-service">8 Integration with Users Service</a></li>
+<li><a href="#9-deployment-view">9 Deployment View</a></li>
+<li><a href="#10-implementation-milestones-outcomes">10 Implementation Milestones (Outcomes)</a></li>
+<li><a href="#11-success-criteria-definition-of-done">11 Success Criteria (Definition of Done)</a></li>
+<li><a href="#12-risks-mitigations">12 Risks & Mitigations</a></li>
+<li><a href="#13-final-result-snapshot">13 Final Result Snapshot</a></li>
+</ul>
+</ul>
+</div><h1 id="yapidoo-auth-service-high-level-architecture-implementation-guide-net-9-openiddict">
+        <a href="#yapidoo-auth-service-high-level-architecture-implementation-guide-net-9-openiddict" class="header-anchor">
+          Yapidoo Auth Service — High-Level Architecture & Implementation Guide (.NET 9 + OpenIddict)
+        </a>
+      </h1><p>This guide frames <strong>why</strong> and <strong>what</strong> we’re building for Yapidoo’s <strong>Auth</strong> microservice, then shows <strong>how</strong> the pieces fit together—so the team ships the right thing once, and evolves it cleanly.</p>
+<hr>
+<h2 id="1-vision-scope">
+        <a href="#1-vision-scope" class="header-anchor">
+          1 Vision & Scope
+        </a>
+      </h2><h3 id="intent">
+        <a href="#intent" class="header-anchor">
+          Intent
+        </a>
+      </h3><p>Build a <strong>single, standards-compliant Identity &amp; Authorization service</strong> that:</p>
+<ul>
+<li>Authenticates users via <strong>local credentials</strong> and <strong>external IdPs</strong> (Google/Facebook).</li>
+<li>Issues <strong>OIDC/OAuth2.1</strong> tokens (<strong>JWT</strong> or reference tokens) to <strong>first-party</strong> clients (Angular SPA, mobile) and <strong>service-to-service</strong> actors.</li>
+<li>Enables <strong>loose coupling</strong> across microservices through <strong>JWKS</strong> key distribution, <strong>scopes</strong>, and <strong>claims</strong>.</li>
+<li>Publishes <strong>minimal identity events</strong> so the <strong>Users service</strong> can provision business profiles.</li>
+</ul>
+<h3 id="out-of-scope-owned-by-other-services">
+        <a href="#out-of-scope-owned-by-other-services" class="header-anchor">
+          Out of scope (owned by other services)
+        </a>
+      </h3><ul>
+<li>Business profile data (name, preferences, friendships, avatars) → <strong>Users service</strong></li>
+<li>Event domain logic, chat, notifications → respective services</li>
+</ul>
+<hr>
+<h2 id="2-key-architectural-decisions">
+        <a href="#2-key-architectural-decisions" class="header-anchor">
+          2 Key Architectural Decisions
+        </a>
+      </h2><ul>
+<li><strong>Protocol</strong>: OpenID Connect + OAuth 2.1 (Authorization Code + <strong>PKCE</strong>, Refresh Tokens, Client Credentials).</li>
+<li><strong>Implementation</strong>: <strong>OpenIddict</strong> on <strong>.NET 9</strong> with <strong>ASP.NET Core Identity</strong>.</li>
+<li><strong>Token Model</strong>: Short-lived <strong>access tokens</strong> (JWT), rotating <strong>refresh tokens</strong>; optional <strong>reference tokens</strong> for instant revocation scenarios.</li>
+<li><strong>Authorization</strong>: Scope-based + claims; policies enforced in resource APIs.</li>
+<li><strong>CQRS</strong>: Commands/queries implemented in <code>Yapidoo.Service.Auth.UseCases</code> using <strong>Yapidoo.Common.Mediator</strong>.</li>
+<li><strong>Persistence</strong>: EF Core, migrations in <code>Yapidoo.Service.Auth.Data</code>; Identity + OpenIddict tables.</li>
+<li><strong>Inter-service trust</strong>: JWKS endpoint for key distribution; APIs validate JWT offline.</li>
+<li><strong>Eventing</strong>: <code>UserRegistered</code>, <code>UserDeleted</code> published to the bus for the <strong>Users</strong> service.</li>
+<li><strong>Deployment</strong>: Containerized, IaC-driven (Helm/K8s), provider monitoring.</li>
+</ul>
+<hr>
+<h2 id="3-context-view-c4-system-context">
+        <a href="#3-context-view-c4-system-context" class="header-anchor">
+          3 Context View (C4: System Context)
+        </a>
+      </h2><div class="mermaid">flowchart LR
+  user[End User]
+  spa[Angular SPA]
+  auth["Auth Service<br/>OpenIddict + ASP.NET Identity"]
+  users[Users Service]
+  events[Events Service]
+  gw[API Gateway]
+  google["Google IdP"]
+  facebook["Facebook IdP"]
+  m2m[Backend Job]
+  bus[(Event Bus)]
+
+  user -->|Uses| spa
+  spa -->|OIDC code + PKCE| auth
+  spa -->|JWT| gw
+  gw -->|JWT| users
+  gw -->|JWT| events
+  m2m -->|Client Credentials| auth
+  auth -->|External login| google
+  auth -->|External login| facebook
+  auth -->|Publishes UserRegistered / UserDeleted| bus
+  bus --> users</div><hr>
+<h2 id="4-container-view-c4-containers-major-components">
+        <a href="#4-container-view-c4-containers-major-components" class="header-anchor">
+          4 Container View (C4: Containers & Major Components)
+        </a>
+      </h2><div class="mermaid">---
+id: 9202f0f7-042d-426c-b2fb-cc845619acae
+---
+flowchart LR
+  subgraph Auth_Service["Auth Service (.NET 9)"]
+    api["Auth.Api<br/>Presentation (OpenIddict endpoints, Account controllers, healthz)"]
+    usecases["Auth.UseCases<br/>Application (CQRS via Yapidoo.Common.Mediator)"]
+    infra["Auth.Infrastructure<br/>OpenIddict config, external IdPs, messaging, keys"]
+    data["Auth.Data<br/>EF Core DbContext, Identity models, migrations"]
+  end
+
+  db[("Auth Database<br/>SQL: Identity + OpenIddict schema")]
+  spa[Angular SPA]
+  users[Users Service]
+  gateway[API Gateway]
+
+  spa -->|OIDC Authorize/Token/UserInfo| api
+  api -->|MediatR| usecases
+  usecases -->|EF Core| data
+  api --> infra
+  infra --> db
+  api --> db
+  api -->|Discovery/JWKS exposure| gateway
+  api -->|Domain events UserRegistered| users</div><hr>
+<h2 id="5-runtime-sequence-views">
+        <a href="#5-runtime-sequence-views" class="header-anchor">
+          5 Runtime (Sequence) Views
+        </a>
+      </h2><h3 id="51-authorization-code-pkce-spa">
+        <a href="#51-authorization-code-pkce-spa" class="header-anchor">
+          5.1 Authorization Code + PKCE (SPA)
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+  participant SPA as Angular SPA
+  participant Auth as Auth Service (OpenIddict)
+  participant Id as ASP.NET Identity
+  participant JWKS as JWKS Consumer (Users API)
+  SPA->>Auth: GET /connect/authorize (code + PKCE)
+  Auth->>SPA: Redirect to /account/login (if no session)
+  SPA->>Auth: POST /account/login (email+password)
+  Auth->>Id: Validate credentials
+  Id-->>Auth: OK (cookie session established)
+  SPA->>Auth: GET /connect/authorize (resume)
+  Auth-->>SPA: 302 with authorization code
+  SPA->>Auth: POST /connect/token (code+verifier)
+  Auth-->>SPA: access_token (JWT), id_token, refresh_token
+  SPA->>Users API: GET /profiles/me (Authorization: Bearer)
+  Users API->>JWKS: Fetch signing keys (cache)
+  Users API-->>SPA: 200 (data)</div><h3 id="52-machine-to-machine-client-credentials">
+        <a href="#52-machine-to-machine-client-credentials" class="header-anchor">
+          5.2 Machine-to-Machine (Client Credentials)
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+  participant Job as Backend Job
+  participant Auth as Auth Service
+  participant Users as Users API
+  Job->>Auth: POST /connect/token (client_credentials)
+  Auth-->>Job: access_token (JWT)
+  Job->>Users: POST /admin/...
+  Users-->>Job: 200/204</div><h3 id="53-token-validation-via-jwks-resource-api">
+        <a href="#53-token-validation-via-jwks-resource-api" class="header-anchor">
+          5.3 Token Validation via JWKS (Resource API)
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+  participant API as Users API
+  participant Auth as Auth Service
+  participant JWKS as /.well-known/jwks.json
+  API->>JWKS: Load & cache public keys
+  Note over API: Validate JWT offline using kid
+  API-->>Client: Authorized response</div><hr>
+<h2 id="6-data-view">
+        <a href="#6-data-view" class="header-anchor">
+          6 Data View
+        </a>
+      </h2><ul>
+<li><p><strong>Identity tables</strong>: Users, Roles, UserRoles, ExternalLogins, Claims</p>
+</li>
+<li><p><strong>OpenIddict tables</strong>: Applications (clients), Authorizations, Tokens, Scopes</p>
+</li>
+<li><p><strong>Design principles</strong>:</p>
+<ul>
+<li>Minimal PII in <strong>access tokens</strong> (use <strong>userinfo</strong> endpoint for rich identity)</li>
+<li><strong>Short-lived</strong> access tokens (e.g., 15m), <strong>rotating</strong> refresh tokens (e.g., 30d)</li>
+<li><strong>Asymmetric keys</strong> for signing; <strong>JWKS</strong> exposed</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="7-security-posture">
+        <a href="#7-security-posture" class="header-anchor">
+          7 Security Posture
+        </a>
+      </h2><ul>
+<li><strong>Flows</strong>: Authorization Code + <strong>PKCE</strong> for SPA; <strong>Client Credentials</strong> for M2M</li>
+<li><strong>Key management</strong>: RSA/X.509 from KMS/KeyVault; rotate and publish via JWKS</li>
+<li><strong>Revocation</strong>: Prefer JWT with short TTL; use <strong>reference tokens + introspection</strong> if instant revocation is required at the gateway</li>
+<li><strong>Hardening</strong>: Strict CORS &amp; redirect URIs, rate-limit <code>/connect/token</code>, lockout &amp; 2FA options, HTTPS-only + HSTS, CSP headers</li>
+</ul>
+<hr>
+<h2 id="8-integration-with-users-service">
+        <a href="#8-integration-with-users-service" class="header-anchor">
+          8 Integration with Users Service
+        </a>
+      </h2><ul>
+<li>On registration (local or first external login), emit <strong><code>UserRegistered { IdentityUserId, Email, DisplayName }</code></strong>.</li>
+<li>On deletion, emit <strong><code>UserDeleted { IdentityUserId }</code></strong>.</li>
+<li>Users service listens and <strong>provisions/cleans</strong> business profiles accordingly.</li>
+</ul>
+<div class="mermaid">sequenceDiagram
+  participant Auth as Auth Service
+  participant Bus as Event Bus
+  participant Users as Users Service
+  Auth->>Bus: Publish UserRegistered
+  Bus->>Users: Deliver UserRegistered
+  Users-->>Users: Create UserProfile</div><hr>
+<h2 id="9-deployment-view">
+        <a href="#9-deployment-view" class="header-anchor">
+          9 Deployment View
+        </a>
+      </h2><div class="mermaid">flowchart LR
+  subgraph K8s Cluster
+    subgraph ns[namespace: yapidoo-auth]
+      A[Auth.Api Pod] -- TLS --> I[Ingress]
+      C[ConfigMap/Secret] --> A
+      S[(SQL DB/PaaS)] <-- EF Core --> A
+      M[Metrics/Logs] --> P[Provider Monitor]
+    end
+  end
+  Dev[CI/CD Pipeline] -->|Build, Test, Push| Reg[(Container Registry)]
+  Reg -->|Deploy| I</div><ul>
+<li><strong>CI/CD</strong>: Build (dotnet 9) → Test → Publish Docker → Helm deploy → DB migration Job.</li>
+<li><strong>Observability</strong>: Serilog JSON logs; OpenTelemetry counters (issuance, failures, latency); provider-native dashboards/alerts.</li>
+</ul>
+<hr>
+<h2 id="10-implementation-milestones-outcomes">
+        <a href="#10-implementation-milestones-outcomes" class="header-anchor">
+          10 Implementation Milestones (Outcomes)
+        </a>
+      </h2><ol>
+<li><p><strong>Identity &amp; Data Ready</strong>
+EF Core schema, Identity models, migrations in <code>Data</code>; DB provisioned.</p>
+</li>
+<li><p><strong>OpenIddict Online</strong>
+OIDC endpoints (<code>/authorize</code>, <code>/token</code>, <code>/userinfo</code>, discovery, JWKS); clients seeded (SPA, M2M).</p>
+</li>
+<li><p><strong>CQRS Accounts</strong>
+<code>Register</code>, <code>Login</code>, <code>Logout</code> commands wired; cookie session enables interactive OIDC flow.</p>
+</li>
+<li><p><strong>Clients Integrated</strong>
+Angular SPA via Auth Code + PKCE; M2M via Client Credentials; resource APIs validate JWT via JWKS.</p>
+</li>
+<li><p><strong>Claims &amp; Scopes</strong>
+Minimal claims in tokens; <code>users.read</code>/<code>users.write</code> policies enforced in resource APIs.</p>
+</li>
+<li><p><strong>Keys &amp; Hardening</strong>
+Persisted signing keys; rate limits; strict CORS/redirects; short TTLs; refresh rotation.</p>
+</li>
+<li><p><strong>External IdPs</strong>
+Google/Facebook login + account linking; continue OIDC flow.</p>
+</li>
+<li><p><strong>Eventing</strong>
+<code>UserRegistered</code>/<code>UserDeleted</code> published; Users service provisions/cleans profiles.</p>
+</li>
+<li><p><strong>Operate &amp; Scale</strong>
+Dashboards/alerts; autoscale stateless Auth pods; blue/green or canary via Helm.</p>
+</li>
+</ol>
+<hr>
+<h2 id="11-success-criteria-definition-of-done">
+        <a href="#11-success-criteria-definition-of-done" class="header-anchor">
+          11 Success Criteria (Definition of Done)
+        </a>
+      </h2><ul>
+<li><strong>Security</strong>: OIDC/OAuth2.1 compliant; PKCE enforced; keys rotated; TLS everywhere.</li>
+<li><strong>Interoperability</strong>: Discovery and <strong>JWKS</strong> available; resource services validate tokens <strong>offline</strong>.</li>
+<li><strong>Reliability</strong>: Stateless Auth API; health/ready probes pass; token throughput meets SLOs.</li>
+<li><strong>Extensibility</strong>: New scopes/clients added without code changes; external IdPs pluggable.</li>
+<li><strong>Observability</strong>: Token issuance/failure metrics and logs actionable; alerts configured.</li>
+<li><strong>Separation of Concerns</strong>: No business profile data in Auth; Users service owns user domain.</li>
+</ul>
+<hr>
+<h2 id="12-risks-mitigations">
+        <a href="#12-risks-mitigations" class="header-anchor">
+          12 Risks & Mitigations
+        </a>
+      </h2><ul>
+<li><strong>Token revocation timing</strong> → Use short TTL JWTs; for instant revocation adopt <strong>reference tokens + introspection</strong> at gateway.</li>
+<li><strong>Key leakage</strong> → Store in KMS/KeyVault; restrict RBAC; rotate and monitor.</li>
+<li><strong>Redirect/CORS misconfig</strong> → Maintain allowlists per environment; test with e2e OIDC suite.</li>
+<li><strong>Scope creep in tokens</strong> → Keep PII out of access tokens; prefer <strong>userinfo</strong>.</li>
+</ul>
+<hr>
+<h2 id="13-final-result-snapshot">
+        <a href="#13-final-result-snapshot" class="header-anchor">
+          13 Final Result Snapshot
+        </a>
+      </h2><ul>
+<li>A <strong>hardened</strong> Auth service that <strong>issues/validates</strong> standards-compliant tokens,</li>
+<li>clean <strong>service boundaries</strong> with Users and other APIs via <strong>scopes/claims/JWKS</strong>,</li>
+<li><strong>event-driven</strong> provisioning of user profiles,</li>
+<li><strong>operable at scale</strong> with clear metrics, dashboards, and automated delivery.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

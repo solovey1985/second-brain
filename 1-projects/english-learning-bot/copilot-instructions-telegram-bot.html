@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>copilot-instructions-telegram-bot - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/english-learning-bot/">english-learning-bot</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#copilot-instructions-net-9-telegram-bot-mvp-english">Copilot Instructions: .NET 9 Telegram Bot MVP (English)</a></li>
+<ul>
+<li><a href="#project-overview">Project Overview</a></li>
+<li><a href="#1-preparation">1. Preparation</a></li>
+<li><a href="#2-solution-and-project-setup">2. Solution and Project Setup</a></li>
+<li><a href="#3-configuration">3. Configuration</a></li>
+<li><a href="#4-data-model">4. Data Model</a></li>
+<li><a href="#5-scenes-and-scene-manager">5. Scenes and Scene Manager</a></li>
+<li><a href="#6-programcs-api-di-webhook">6. Program.cs (API, DI, Webhook)</a></li>
+<li><a href="#7-migrations-and-running">7. Migrations and Running</a></li>
+<li><a href="#8-manual-mvp-testing">8. Manual MVP Testing</a></li>
+<li><a href="#9-next-steps">9. Next Steps</a></li>
+<li><a href="#production-notes">Production Notes</a></li>
+</ul>
+</ul>
+</div><h1 id="copilot-instructions-net-9-telegram-bot-mvp-english">
+        <a href="#copilot-instructions-net-9-telegram-bot-mvp-english" class="header-anchor">
+          Copilot Instructions: .NET 9 Telegram Bot MVP (English)
+        </a>
+      </h1><h2 id="project-overview">
+        <a href="#project-overview" class="header-anchor">
+          Project Overview
+        </a>
+      </h2><p>Build a Telegram bot for English learning using .NET 9. The MVP includes onboarding, lessons, and quizzes.</p>
+<hr>
+<h2 id="1-preparation">
+        <a href="#1-preparation" class="header-anchor">
+          1. Preparation
+        </a>
+      </h2><ul>
+<li>Register your bot with BotFather and get <code>BOT_TOKEN</code>.</li>
+<li>Choose a domain or use ngrok/cloudflared for local development (HTTPS URL required).</li>
+<li>Set a <code>WEBHOOK_SECRET</code> for webhook security.</li>
+</ul>
+<hr>
+<h2 id="2-solution-and-project-setup">
+        <a href="#2-solution-and-project-setup" class="header-anchor">
+          2. Solution and Project Setup
+        </a>
+      </h2><ul>
+<li>Create solution and projects:<pre><code class="hljs language-bash">md EnglishBot &amp;&amp; <span class="hljs-built_in">cd</span> EnglishBot
+dotnet new sln -n EnglishBot
+dotnet new web -n EnglishBot.Api
+dotnet new classlib -n EnglishBot.Domain
+dotnet new classlib -n EnglishBot.Application
+dotnet new classlib -n EnglishBot.Infrastructure
+dotnet sln add **/*.csproj
+dotnet add EnglishBot.Api/EnglishBot.Api.csproj reference EnglishBot.Application/EnglishBot.Application.csproj EnglishBot.Infrastructure/EnglishBot.Infrastructure.csproj EnglishBot.Domain/EnglishBot.Domain.csproj
+dotnet add EnglishBot.Application/EnglishBot.Application.csproj reference EnglishBot.Domain/EnglishBot.Domain.csproj EnglishBot.Infrastructure/EnglishBot.Infrastructure.csproj
+dotnet add EnglishBot.Infrastructure/EnglishBot.Infrastructure.csproj reference EnglishBot.Domain/EnglishBot.Domain.csproj</code></pre></li>
+<li>Install packages:<pre><code class="hljs language-bash"><span class="hljs-comment"># API</span>
+dotnet add EnglishBot.Api package Telegram.Bot
+dotnet add EnglishBot.Api package Serilog.AspNetCore
+dotnet add EnglishBot.Api package Microsoft.Extensions.Http.Polly
+<span class="hljs-comment"># Infrastructure / EF Core (PostgreSQL)</span>
+dotnet add EnglishBot.Infrastructure package Microsoft.EntityFrameworkCore
+dotnet add EnglishBot.Infrastructure package Npgsql.EntityFrameworkCore.PostgreSQL
+dotnet add EnglishBot.Infrastructure package Microsoft.EntityFrameworkCore.Design
+<span class="hljs-comment"># (Optional) Validation</span>
+dotnet add EnglishBot.Application package FluentValidation</code></pre></li>
+</ul>
+<hr>
+<h2 id="3-configuration">
+        <a href="#3-configuration" class="header-anchor">
+          3. Configuration
+        </a>
+      </h2><ul>
+<li>Update <code>EnglishBot.Api/appsettings.json</code>:<ul>
+<li>Add your bot token, webhook secret, public base URL, and PostgreSQL connection string.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-data-model">
+        <a href="#4-data-model" class="header-anchor">
+          4. Data Model
+        </a>
+      </h2><ul>
+<li>Define entities: <code>BotUser</code>, <code>UserState</code>, <code>QuizItem</code>, <code>UserQuizResult</code> in <code>EnglishBot.Domain</code>.</li>
+<li>Configure EF Core context in <code>EnglishBot.Infrastructure/BotDb.cs</code>.</li>
+<li>Add seeding logic in <code>EnglishBot.Infrastructure/Seed.cs</code> for initial quiz questions.</li>
+</ul>
+<hr>
+<h2 id="5-scenes-and-scene-manager">
+        <a href="#5-scenes-and-scene-manager" class="header-anchor">
+          5. Scenes and Scene Manager
+        </a>
+      </h2><ul>
+<li>Implement scene interface and manager in <code>EnglishBot.Application.Scenes</code>.</li>
+<li>Create scenes: <code>IdleScene</code>, <code>OnboardingScene</code>, <code>LessonScene</code>.</li>
+</ul>
+<hr>
+<h2 id="6-programcs-api-di-webhook">
+        <a href="#6-programcs-api-di-webhook" class="header-anchor">
+          6. Program.cs (API, DI, Webhook)
+        </a>
+      </h2><ul>
+<li>Configure services and DI in <code>EnglishBot.Api/Program.cs</code>.</li>
+<li>Use PostgreSQL with EF Core.</li>
+<li>Set up webhook endpoint and health check.</li>
+</ul>
+<hr>
+<h2 id="7-migrations-and-running">
+        <a href="#7-migrations-and-running" class="header-anchor">
+          7. Migrations and Running
+        </a>
+      </h2><ul>
+<li>Create and apply migrations:<pre><code class="hljs language-bash">dotnet tool install --global dotnet-ef
+dotnet ef migrations add Init --project EnglishBot.Infrastructure --startup-project EnglishBot.Api
+dotnet ef database update --project EnglishBot.Infrastructure --startup-project EnglishBot.Api
+dotnet run --project EnglishBot.Api</code></pre></li>
+<li>For local development, use ngrok/cloudflared and update <code>PublicBaseUrl</code>.</li>
+</ul>
+<hr>
+<h2 id="8-manual-mvp-testing">
+        <a href="#8-manual-mvp-testing" class="header-anchor">
+          8. Manual MVP Testing
+        </a>
+      </h2><ul>
+<li>Send <code>/start</code> to the bot, select level (A1/A2), bot confirms.</li>
+<li>Send <code>/lesson</code>, bot sends intro and first quiz question.</li>
+<li>Answer all 3 quizzes, see score summary.</li>
+</ul>
+<hr>
+<h2 id="9-next-steps">
+        <a href="#9-next-steps" class="header-anchor">
+          9. Next Steps
+        </a>
+      </h2><ul>
+<li>Add word list scene (SRS), import content from CSV/Google Sheets, implement <code>/stats</code>, add environment sections, Docker support.</li>
+</ul>
+<hr>
+<h2 id="production-notes">
+        <a href="#production-notes" class="header-anchor">
+          Production Notes
+        </a>
+      </h2><ul>
+<li>Store secrets securely (User Secrets/KeyVault).</li>
+<li>Use Serilog for logging.</li>
+<li>Validate webhook secret header.</li>
+<li>Ensure idempotency for updates.</li>
+</ul>
+<hr>
+<p>Ready: Instructions and code skeleton for a .NET 9 Telegram bot MVP.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

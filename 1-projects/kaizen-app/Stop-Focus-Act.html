@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stop-Focus-Act - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/kaizen-app/">kaizen-app</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">⚡ СТОП • ФОКУС • ДІЙ</a></li>
+<ul>
+<ul>
+<li><a href="#-">*Інструмент самоконтролю для середини дня*</a></li>
+</ul>
+<li><a href="#-1-">🔶 1. СТОП — ЗУПИНИ МОТОР РЕАКЦІЇ</a></li>
+<ul>
+<li><a href="#-">🔹 Ознаки, що настав час «Стоп»</a></li>
+<li><a href="#-">🧘 Дія</a></li>
+</ul>
+<li><a href="#-2-">🔶 2. ФОКУС — ПОВЕРНЕННЯ ДО СВІДОМОСТІ</a></li>
+<ul>
+<li><a href="#-">🔹 Ключові питання</a></li>
+<li><a href="#-">🧩 Ментальні фільтри</a></li>
+</ul>
+<li><a href="#-3-">🔶 3. ДІЙ — СВІДОМА РЕАЛІЗАЦІЯ</a></li>
+<li><a href="#-4-">🔶 4. РЕФОКУС — ПІСЛЯ ДІЇ</a></li>
+<li><a href="#-60-">🔁 60-СЕКУНДНИЙ АЛГОРИТМ</a></li>
+<li><a href="#-">💡 Поради для щоденної практики</a></li>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          ⚡ СТОП • ФОКУС • ДІЙ
+        </a>
+      </h1><h3 id="-">
+        <a href="#-" class="header-anchor">
+          *Інструмент самоконтролю для середини дня*
+        </a>
+      </h3><blockquote>
+<p>“Зупинись, усвідом, сфокусуйся, обери дію.”
+<em>— Практика свідомого мислення</em></p>
+</blockquote>
+<hr>
+<h2 id="-1-">
+        <a href="#-1-" class="header-anchor">
+          🔶 1. СТОП — ЗУПИНИ МОТОР РЕАКЦІЇ
+        </a>
+      </h2><p><strong>Мета:</strong> створити мікропаузу між стимулом і реакцією.</p>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🔹 Ознаки, що настав час «Стоп»
+        </a>
+      </h3><ul>
+<li>Відчуваєш напругу або дратівливість.</li>
+<li>Є імпульс одразу відповісти, перевірити, почати щось нове.</li>
+<li>Розсіяність: перескакування між задачами.</li>
+<li>Втома, відчуття “застрягання” чи емоційного шуму.</li>
+</ul>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🧘 Дія
+        </a>
+      </h3><ol>
+<li><p>Зупинись. Відклади руки від клавіатури, закрий очі на кілька секунд.</p>
+</li>
+<li><p><strong>Box breathing (4–4–4–4):</strong> вдих — 4с, пауза — 4с, видих — 4с, пауза — 4с.</p>
+</li>
+<li><p>Назви свій стан:</p>
+<blockquote>
+<p>“Я відчуваю роздратування / втому / хаос.”</p>
+</blockquote>
+</li>
+</ol>
+<p>🕒 <em>Познач час зупинки: <code>_____</code></em></p>
+<hr>
+<h2 id="-2-">
+        <a href="#-2-" class="header-anchor">
+          🔶 2. ФОКУС — ПОВЕРНЕННЯ ДО СВІДОМОСТІ
+        </a>
+      </h2><p><strong>Мета:</strong> відновити ясність і спрямованість уваги.</p>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🔹 Ключові питання
+        </a>
+      </h3><ol>
+<li>Що я <strong>насправді роблю зараз</strong>?</li>
+<li>Чи це <strong>наближає мене до однієї з головних цілей</strong>?</li>
+<li>Чи не уникаю я чогось складного, роблячи “інше”?</li>
+<li>Що я хочу <strong>відчути через годину</strong>?</li>
+</ol>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🧩 Ментальні фільтри
+        </a>
+      </h3><blockquote>
+<p>“Це реакція чи дія?”
+“Це важливе чи просто термінове?”
+“Це приносить спокій чи шум?”</p>
+</blockquote>
+<p>✏️ <em>Мій поточний фокус:</em></p>
+<pre><code class="hljs"><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__</span></code></pre><hr>
+<h2 id="-3-">
+        <a href="#-3-" class="header-anchor">
+          🔶 3. ДІЙ — СВІДОМА РЕАЛІЗАЦІЯ
+        </a>
+      </h2><p><strong>Мета:</strong> перетворити усвідомлення на контрольовану дію.</p>
+<table>
+<thead>
+<tr>
+<th>Тип дії</th>
+<th>Коли застосовувати</th>
+<th>Приклад</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ <strong>Мікрокрок</strong></td>
+<td>Якщо завдання важливе, але є опір</td>
+<td>“Відкрити документ і написати перше речення.”</td>
+</tr>
+<tr>
+<td>🕓 <strong>Відкласти з наміром</strong></td>
+<td>Якщо зараз не час, але важливо</td>
+<td>“Занести в backlog із тегом <code>later today</code>.”</td>
+</tr>
+<tr>
+<td>♻️ <strong>Переключити режим</strong></td>
+<td>Якщо мозок перевантажений</td>
+<td>“Вийти на 3 хвилини, змінити позу, випити води.”</td>
+</tr>
+<tr>
+<td>❌ <strong>Відпустити</strong></td>
+<td>Якщо це шум або емоційний імпульс</td>
+<td>“Не робити й прийняти, що це ок.”</td>
+</tr>
+</tbody></table>
+<p>📔 <em>Обрана дія:</em></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h2 id="-4-">
+        <a href="#-4-" class="header-anchor">
+          🔶 4. РЕФОКУС — ПІСЛЯ ДІЇ
+        </a>
+      </h2><p><strong>Мета:</strong> закріпити ясність і відчути ефект.</p>
+<ul>
+<li>Як я почуваюсь зараз (1–10)?</li>
+<li>Чи стало легше зосередитись?</li>
+<li>Чи повернувся я до головного завдання?</li>
+<li>Якщо ні — що мене все ще тримає?</li>
+</ul>
+<p>✏️ <em>Мій стан після перезапуску:</em></p>
+<pre><code class="hljs"><span class="hljs-meta prompt_">...</span></code></pre><hr>
+<h2 id="-60-">
+        <a href="#-60-" class="header-anchor">
+          🔁 60-СЕКУНДНИЙ АЛГОРИТМ
+        </a>
+      </h2><blockquote>
+<p>Для швидкої стабілізації у будь-який момент.</p>
+</blockquote>
+<p>1️⃣ Зупинись.
+2️⃣ Вдихни 4 рази (box breathing).
+3️⃣ Назви свій стан.
+4️⃣ Згадай головну ціль дня.
+5️⃣ Обери дію: зроби / відклади / відпусти.
+6️⃣ Повернись у фокус.</p>
+<p>⏱ <strong>1 хвилина = повне перезавантаження свідомості.</strong></p>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          💡 Поради для щоденної практики
+        </a>
+      </h2><ul>
+<li>⏰ Встанови нагадування <strong>“Stop-Focus-Act”</strong> о 12:00 та 16:00.</li>
+<li>✍️ Відмічай, скільки разів вдалося зловити себе на імпульсі.</li>
+<li>📈 Поступово збільшуй тривалість паузи з 10 до 60 секунд.</li>
+<li>🧠 З часом “Стоп-Фокус-Дій” стане <strong>автоматичним анти-стрес механізмом</strong>.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>техзадання - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/beekeeping/">beekeeping</a></li><li><a href="/second-brain/2-areas/beekeeping/додаток/">додаток</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-technical-specification-tech-spec">📋 Technical Specification (Tech Spec)</a></li>
+<ul>
+<li><a href="#mobile-app-beecontrol-ua-flutter-firebase">**Mobile App "BeeControl UA" — Flutter + Firebase**</a></li>
+<ul>
+<li><a href="#1-project-overview">**1. Project Overview**</a></li>
+<li><a href="#2-main-requirements">**2. Main Requirements**</a></li>
+<li><a href="#3-localization-requirements">**3. Localization Requirements**</a></li>
+<li><a href="#4-step-by-step-execution-copilot-prompts-tasks">**4. Step-by-Step Execution (Copilot Prompts / Tasks)**</a></li>
+<ul>
+<li><a href="#step-1-create-flutter-project-and-integrate-firebase">**Step 1: Create Flutter Project and Integrate Firebase**</a></li>
+<li><a href="#step-2-authentication-and-multi-user-support">**Step 2: Authentication and Multi-user Support**</a></li>
+<li><a href="#step-3-localization">**Step 3: Localization**</a></li>
+<li><a href="#step-4-data-structure-in-firestore">**Step 4: Data Structure in Firestore**</a></li>
+<li><a href="#step-5-state-management-riverpod">**Step 5: State Management — Riverpod**</a></li>
+<li><a href="#step-6-main-screens-see-drawio-wireframe">**Step 6: Main Screens (see draw\.io wireframe)**</a></li>
+<li><a href="#step-7-media-upload-and-offline-support">**Step 7: Media Upload and Offline Support**</a></li>
+<li><a href="#step-8-documentation">**Step 8: Documentation**</a></li>
+</ul>
+<li><a href="#5-additional-features-future-extensions">**5. Additional Features (Future Extensions):**</a></li>
+<li><a href="#6-expected-result">**6. Expected Result**</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Ось <strong>оновлене технічне завдання англійською мовою</strong>, із підтримкою локалізації (українська/англійська), багатокористувацького входу та рекомендацією щодо оптимального State Management.
+Для локалізації додано приклади текстів інтерфейсу обома мовами (en/uk).
+<strong>State management:</strong> рекомендую <a href="https://riverpod.dev/">Riverpod</a> — сучасний, безпечний і чудово працює з Firebase, підтримує масштабованість.</p>
+<hr>
+<h1 id="-technical-specification-tech-spec">
+        <a href="#-technical-specification-tech-spec" class="header-anchor">
+          📋 Technical Specification (Tech Spec)
+        </a>
+      </h1><h2 id="mobile-app-beecontrol-ua-flutter-firebase">
+        <a href="#mobile-app-beecontrol-ua-flutter-firebase" class="header-anchor">
+          **Mobile App "BeeControl UA" — Flutter + Firebase**
+        </a>
+      </h2><hr>
+<h3 id="1-project-overview">
+        <a href="#1-project-overview" class="header-anchor">
+          **1. Project Overview**
+        </a>
+      </h3><p>Create a mobile application for beekeepers with key features:</p>
+<ul>
+<li>Auditing the condition of families and hives (inspections, logs)</li>
+<li>Inventory and consumable materials tracking</li>
+<li>Task calendar and planning</li>
+<li>Sign-in via Google and support for multiple users/accounts</li>
+<li>Cloud data storage in Firebase Firestore/Storage</li>
+<li>Full interface localization: Ukrainian and English</li>
+</ul>
+<hr>
+<h3 id="2-main-requirements">
+        <a href="#2-main-requirements" class="header-anchor">
+          **2. Main Requirements**
+        </a>
+      </h3><ul>
+<li><strong>Platform:</strong> Android (Flutter)</li>
+<li><strong>Backend:</strong> Firebase (Auth, Firestore, Storage)</li>
+<li><strong>Interface languages:</strong> Ukrainian, English (see localization notes below)</li>
+<li><strong>Sign-in:</strong> Google Account (Firebase Auth), support for multiple user accounts and switching</li>
+<li><strong>State Management:</strong> Riverpod</li>
+<li><strong>UI:</strong> As per previously described draw.io/figma wireframes</li>
+<li><strong>Offline support:</strong> Local cache and sync when network is available</li>
+</ul>
+<hr>
+<h3 id="3-localization-requirements">
+        <a href="#3-localization-requirements" class="header-anchor">
+          **3. Localization Requirements**
+        </a>
+      </h3><p>Use <a href="https://pub.dev/packages/intl">intl</a> and ARB files for localization.
+All interface text and messages must be translatable.
+Below are <strong>examples of localized interface strings:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>en (English)</th>
+<th>uk (Українська)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>app_title</td>
+<td>BeeControl UA</td>
+<td>BeeControl UA</td>
+</tr>
+<tr>
+<td>sign_in_google</td>
+<td>Sign in with Google</td>
+<td>Увійти через Google</td>
+</tr>
+<tr>
+<td>welcome</td>
+<td>Welcome!</td>
+<td>Ласкаво просимо!</td>
+</tr>
+<tr>
+<td>main_dashboard</td>
+<td>Dashboard</td>
+<td>Головна</td>
+</tr>
+<tr>
+<td>apiary</td>
+<td>Apiary</td>
+<td>Пасіка</td>
+</tr>
+<tr>
+<td>hive</td>
+<td>Hive</td>
+<td>Вулик</td>
+</tr>
+<tr>
+<td>inspection</td>
+<td>Inspection</td>
+<td>Огляд</td>
+</tr>
+<tr>
+<td>add_hive</td>
+<td>Add Hive</td>
+<td>Додати вулик</td>
+</tr>
+<tr>
+<td>log_out</td>
+<td>Log out</td>
+<td>Вийти</td>
+</tr>
+<tr>
+<td>switch_user</td>
+<td>Switch User</td>
+<td>Змінити користувача</td>
+</tr>
+<tr>
+<td>inventory</td>
+<td>Inventory</td>
+<td>Інвентар</td>
+</tr>
+<tr>
+<td>tasks</td>
+<td>Tasks</td>
+<td>План робіт</td>
+</tr>
+<tr>
+<td>save</td>
+<td>Save</td>
+<td>Зберегти</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>Cancel</td>
+<td>Скасувати</td>
+</tr>
+<tr>
+<td>profile</td>
+<td>Profile</td>
+<td>Профіль</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody></table>
+<p><strong>All UI screens, dialogs, button labels, and notifications must use localized strings!</strong></p>
+<hr>
+<h3 id="4-step-by-step-execution-copilot-prompts-tasks">
+        <a href="#4-step-by-step-execution-copilot-prompts-tasks" class="header-anchor">
+          **4. Step-by-Step Execution (Copilot Prompts / Tasks)**
+        </a>
+      </h3><h4 id="step-1-create-flutter-project-and-integrate-firebase">
+        <a href="#step-1-create-flutter-project-and-integrate-firebase" class="header-anchor">
+          **Step 1: Create Flutter Project and Integrate Firebase**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Create a new Flutter project: beecontrol_ua.</span>
+<span class="hljs-comment"># Add dependencies: firebase_core, firebase_auth, cloud_firestore, firebase_storage, google_sign_in, riverpod, flutter_riverpod, intl, qr_flutter, image_picker.</span>
+<span class="hljs-comment"># Configure Firebase for Android (add google-services.json).</span>
+<span class="hljs-comment"># Set up Firebase initialization in main.dart.</span></code></pre><hr>
+<h4 id="step-2-authentication-and-multi-user-support">
+        <a href="#step-2-authentication-and-multi-user-support" class="header-anchor">
+          **Step 2: Authentication and Multi-user Support**
+        </a>
+      </h4><pre><code class="hljs"># Implement Google Sign-<span class="hljs-keyword">In</span> <span class="hljs-keyword">using</span> Firebase Auth.
+# Support multiple <span class="hljs-keyword">user</span> accounts (e.g., allow logging <span class="hljs-keyword">out</span> <span class="hljs-keyword">and</span> logging <span class="hljs-keyword">in</span> <span class="hljs-keyword">with</span> another Google account).
+# <span class="hljs-keyword">Add</span> <span class="hljs-keyword">login</span> screen <span class="hljs-keyword">with</span> &quot;Sign in with Google&quot; button.
+# <span class="hljs-keyword">After</span> successful <span class="hljs-keyword">login</span>, redirect <span class="hljs-keyword">to</span> main dashboard.
+# <span class="hljs-keyword">In</span> profile/settings screen, allow <span class="hljs-keyword">user</span> <span class="hljs-keyword">to</span> &quot;Switch User&quot; (sign <span class="hljs-keyword">out</span> <span class="hljs-keyword">and</span> sign <span class="hljs-keyword">in</span> <span class="hljs-keyword">as</span> another <span class="hljs-keyword">user</span>).</code></pre><hr>
+<h4 id="step-3-localization">
+        <a href="#step-3-localization" class="header-anchor">
+          **Step 3: Localization**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Add intl and flutter_localizations dependencies.</span>
+<span class="hljs-comment"># Create ARB files for en and uk locales.</span>
+<span class="hljs-comment"># All UI texts, buttons, and messages must use localized keys (see localization table above).</span>
+<span class="hljs-comment"># Implement language switcher in app settings.</span>
+<span class="hljs-comment"># Test all UI with both Ukrainian and English.</span></code></pre><hr>
+<h4 id="step-4-data-structure-in-firestore">
+        <a href="#step-4-data-structure-in-firestore" class="header-anchor">
+          **Step 4: Data Structure in Firestore**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-meta prompt_"># </span><span class="language-bash">Design collections structure:</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">users</span>/{userId}/apiaries/{apiaryId}/hives/{hiveId}/inspections/{inspectionId}</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">users</span>/{userId}/inventory/{itemId}</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">users</span>/{userId}/tasks/{taskId}</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">For each entity, create corresponding Dart model classes (Hive, Apiary, Inspection, InventoryItem, Task).</span></code></pre><hr>
+<h4 id="step-5-state-management-riverpod">
+        <a href="#step-5-state-management-riverpod" class="header-anchor">
+          **Step 5: State Management — Riverpod**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Use Riverpod for all app state management (authentication state, user data, UI updates).</span>
+<span class="hljs-comment"># Create Riverpod providers for:</span>
+<span class="hljs-comment"># - User authentication</span>
+<span class="hljs-comment"># - Firestore data streams (apiaries, hives, inspections, inventory, tasks)</span>
+<span class="hljs-comment"># - Language/locale state</span>
+<span class="hljs-comment"># Use StateNotifierProvider or AsyncNotifierProvider as needed for state mutations and async operations.</span></code></pre><hr>
+<h4 id="step-6-main-screens-see-drawio-wireframe">
+        <a href="#step-6-main-screens-see-drawio-wireframe" class="header-anchor">
+          **Step 6: Main Screens (see draw\.io wireframe)**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Implement dashboard (statistical overview, upcoming tasks, key actions).</span>
+<span class="hljs-comment"># Add bottom navigation (Dashboard, Apiary, Tasks, Inventory, Settings/Profile).</span>
+<span class="hljs-comment"># Implement CRUD for apiaries, hives, inspections (including photo attachments).</span>
+<span class="hljs-comment"># Add inspection log screen per hive.</span>
+<span class="hljs-comment"># Add inventory tracking screen (support for QR codes for inventory).</span>
+<span class="hljs-comment"># Add task planner (calendar, upcoming/finished tasks).</span>
+<span class="hljs-comment"># Implement profile/settings screen (user info, language selection, logout, switch user).</span></code></pre><hr>
+<h4 id="step-7-media-upload-and-offline-support">
+        <a href="#step-7-media-upload-and-offline-support" class="header-anchor">
+          **Step 7: Media Upload and Offline Support**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Allow users to attach photos to inspections (image_picker, Firebase Storage).</span>
+<span class="hljs-comment"># Store photo URLs in Firestore.</span>
+<span class="hljs-comment"># Implement local caching for offline access (cloud_firestore offline persistence).</span></code></pre><hr>
+<h4 id="step-8-documentation">
+        <a href="#step-8-documentation" class="header-anchor">
+          **Step 8: Documentation**
+        </a>
+      </h4><pre><code class="hljs"><span class="hljs-comment"># Add documentation (README.md) and comments in code.</span>
+<span class="hljs-comment"># Describe localization usage and how to add new languages.</span>
+<span class="hljs-comment"># Document Firestore structure, Riverpod providers, and main business logic.</span></code></pre><hr>
+<h3 id="5-additional-features-future-extensions">
+        <a href="#5-additional-features-future-extensions" class="header-anchor">
+          **5. Additional Features (Future Extensions):**
+        </a>
+      </h3><ul>
+<li>Integration with hardware sensors/weight platforms (IoT)</li>
+<li>Voice notes for inspections</li>
+<li>AI-based frame photo analysis</li>
+<li>Exporting reports to PDF/Excel</li>
+</ul>
+<hr>
+<h3 id="6-expected-result">
+        <a href="#6-expected-result" class="header-anchor">
+          **6. Expected Result**
+        </a>
+      </h3><p>A full-featured Flutter app for Android with modern architecture, Google sign-in (with multiple user support), Riverpod-based state management, complete localization (Ukrainian/English), Firebase backend, intuitive navigation, and robust offline support.</p>
+<hr>
+<p><strong>Ready to detail any step (sample code, ARB example, Riverpod setup, etc.) — just specify which step you want to elaborate for Copilot!</strong></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

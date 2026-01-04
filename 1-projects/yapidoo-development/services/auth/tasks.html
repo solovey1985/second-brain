@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tasks - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#implementation-tasks-yapidooserviceauth">Implementation Tasks — Yapidoo.Service.Auth</a></li>
+<ul>
+<li><a href="#milestone-1-identity-data">Milestone 1: Identity & Data</a></li>
+<li><a href="#milestone-2-openiddict-online">Milestone 2: OpenIddict Online</a></li>
+<li><a href="#milestone-3-cqrs-accounts">Milestone 3: CQRS Accounts</a></li>
+<li><a href="#milestone-4-clients-integrated">Milestone 4: Clients Integrated</a></li>
+<li><a href="#milestone-5-claims-scopes">Milestone 5: Claims & Scopes</a></li>
+<li><a href="#milestone-6-keys-hardening">Milestone 6: Keys & Hardening</a></li>
+<li><a href="#milestone-7-external-idps">Milestone 7: External IdPs</a></li>
+<li><a href="#milestone-8-eventing">Milestone 8: Eventing</a></li>
+<li><a href="#milestone-9-operate-scale">Milestone 9: Operate & Scale</a></li>
+</ul>
+</ul>
+</div><h1 id="implementation-tasks-yapidooserviceauth">
+        <a href="#implementation-tasks-yapidooserviceauth" class="header-anchor">
+          Implementation Tasks — Yapidoo.Service.Auth
+        </a>
+      </h1><h2 id="milestone-1-identity-data">
+        <a href="#milestone-1-identity-data" class="header-anchor">
+          Milestone 1: Identity & Data
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Design EF Core schema for Identity and OpenIddict tables</strong><ul>
+<li>Define tables for users, roles, claims, external logins, and OpenIddict entities (applications, tokens, authorizations, scopes).</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Implement Identity models and migrations</strong><ul>
+<li>Create C# models and configure EF Core migrations for initial schema setup.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Provision and test database</strong><ul>
+<li>Deploy the database, run migrations, and verify schema correctness.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-2-openiddict-online">
+        <a href="#milestone-2-openiddict-online" class="header-anchor">
+          Milestone 2: OpenIddict Online
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Integrate OpenIddict with ASP.NET Core Identity</strong><ul>
+<li>Configure OpenIddict to use Identity for authentication and token issuance.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Implement OIDC endpoints: /authorize, /token, /userinfo, discovery, JWKS</strong><ul>
+<li>Expose endpoints for OAuth2/OIDC flows and key discovery.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Seed clients (SPA, M2M)</strong><ul>
+<li>Register initial client applications for SPA and machine-to-machine scenarios.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-3-cqrs-accounts">
+        <a href="#milestone-3-cqrs-accounts" class="header-anchor">
+          Milestone 3: CQRS Accounts
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Implement Register, Login, Logout commands using Yapidoo.Common.Mediator</strong><ul>
+<li>Use CQRS pattern for account operations, wiring up commands and queries.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Enable cookie session for interactive OIDC flow</strong><ul>
+<li>Configure session management for browser-based authentication.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-4-clients-integrated">
+        <a href="#milestone-4-clients-integrated" class="header-anchor">
+          Milestone 4: Clients Integrated
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Integrate Angular SPA via Auth Code + PKCE</strong><ul>
+<li>Set up SPA to use Authorization Code flow with PKCE for secure login.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Integrate M2M via Client Credentials</strong><ul>
+<li>Enable backend jobs/services to authenticate using client credentials.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Validate JWT via JWKS in resource APIs</strong><ul>
+<li>Ensure resource APIs can validate JWTs using JWKS endpoint.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-5-claims-scopes">
+        <a href="#milestone-5-claims-scopes" class="header-anchor">
+          Milestone 5: Claims & Scopes
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Define minimal claims in tokens</strong><ul>
+<li>Decide which claims are included in access and ID tokens.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Enforce users.read/users.write policies in resource APIs</strong><ul>
+<li>Implement scope-based authorization in downstream APIs.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-6-keys-hardening">
+        <a href="#milestone-6-keys-hardening" class="header-anchor">
+          Milestone 6: Keys & Hardening
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Persist signing keys</strong><ul>
+<li>Store RSA/X.509 keys securely for token signing and rotation.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Implement rate limits, strict CORS/redirects</strong><ul>
+<li>Protect endpoints from abuse and restrict allowed origins/redirects.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Configure short TTLs and refresh rotation</strong><ul>
+<li>Set token lifetimes and enable refresh token rotation for security.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-7-external-idps">
+        <a href="#milestone-7-external-idps" class="header-anchor">
+          Milestone 7: External IdPs
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Add Google/Facebook login and account linking</strong><ul>
+<li>Integrate external identity providers and support account linking.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Continue OIDC flow after external login</strong><ul>
+<li>Ensure users can complete OIDC authentication after external login.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-8-eventing">
+        <a href="#milestone-8-eventing" class="header-anchor">
+          Milestone 8: Eventing
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Publish UserRegistered/UserDeleted events</strong><ul>
+<li>Emit events to the bus when users register or are deleted.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Ensure Users service provisions/cleans profiles</strong><ul>
+<li>Confirm Users service reacts to events and manages profiles accordingly.</li>
+</ul>
+</li>
+</ul>
+<h2 id="milestone-9-operate-scale">
+        <a href="#milestone-9-operate-scale" class="header-anchor">
+          Milestone 9: Operate & Scale
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> <strong>Set up dashboards/alerts</strong><ul>
+<li>Monitor Auth service health, usage, and errors with dashboards and alerts.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Autoscale stateless Auth pods</strong><ul>
+<li>Configure Kubernetes or platform to scale Auth service as needed.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Enable blue/green or canary deployments via Helm</strong><ul>
+<li>Implement safe deployment strategies for updates and rollbacks.</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

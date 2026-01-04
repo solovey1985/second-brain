@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>starter - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/english-learning-bot/">english-learning-bot</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#1-">1) Стек без коду (мінімум інструментів)</a></li>
+<li><a href="#2-1520-kaizen">2) Щоденний ритуал 15–20 хв (Kaizen)</a></li>
+<li><a href="#3-">3) Тижневий цикл (система, а не просто уроки)</a></li>
+<li><a href="#4-">4) Конкретні “рецепти” (як клеїти все разом)</a></li>
+<li><a href="#5-notionsheets">5) Трекінг без коду (скопіюй у Notion/Sheets)</a></li>
+<li><a href="#6-a1-4-">6) Пілотний план A1 → 4 тижні (без коду й платних курсів)</a></li>
+<li><a href="#7-">7) Фізичні “якорі”, щоб система трималась</a></li>
+<li><a href="#8-">8) Варіанти під різні смаки</a></li>
+<li><a href="#9-">9) Що дам від мене (готові шаблони)</a></li>
+</ul>
+</div><p>круто. робимо “систему без коду”: підбираємо готові сервіси й збираємо їх у щоденний ритуал + тижневий цикл. усе працює з телефона.</p>
+<h1 id="1-">
+        <a href="#1-" class="header-anchor">
+          1) Стек без коду (мінімум інструментів)
+        </a>
+      </h1><p><strong>Навчання:</strong></p>
+<ul>
+<li>Уроки/граматика: British Council LearnEnglish, BBC Learning English, Perfect English Grammar.</li>
+<li>Лексика (SRS): Anki / Quizlet (будь-що зручніше).</li>
+<li>Вимова/аудіювання: YouGlish (живі приклади вимови), BBC “6 Minute English”, VOA Learning English.</li>
+<li>Письмо: Cambridge Write &amp; Improve (автофідбек на короткі тексти).</li>
+<li>Читання: Readlang (браузер/мобільний веб) + News in Levels.</li>
+</ul>
+<p><strong>Організація й звички:</strong></p>
+<ul>
+<li>Щоденні нагадування: Google Calendar або Telegram-нагадування.</li>
+<li>Трекінг: Notion або Google Sheets (шаблон нижче).</li>
+<li>Мотивація: паперовий “стікер-трекер” на холодильнику (7 клітинок/тиждень).</li>
+</ul>
+<p><strong>Опціонально (за бажанням):</strong></p>
+<ul>
+<li>Говоріння з фідбеком: Speechling / Elsa.</li>
+<li>Розбір відео з субтитрами: Language Reactor (YouTube/Netflix).</li>
+</ul>
+<hr>
+<h1 id="2-1520-kaizen">
+        <a href="#2-1520-kaizen" class="header-anchor">
+          2) Щоденний ритуал 15–20 хв (Kaizen)
+        </a>
+      </h1><ol>
+<li><strong>Розігрів 2 хв</strong> — “слово дня” (бот/картка) + 1 приклад на YouGlish.</li>
+<li><strong>Міні-урок 8–10 хв</strong> — одна тема/вправи з British Council/BBC.</li>
+<li><strong>SRS 5–7 хв</strong> — 10–20 карток у Anki/Quizlet (повтори + 3 нові).</li>
+<li><strong>1 речення письма 1–2 хв</strong> — коротка репліка у Write &amp; Improve (2–3 рази/тиждень).</li>
+</ol>
+<blockquote>
+<p>Правило мінімуму: якщо зовсім нема сил — зроби лише пункт 3 (SRS ≤3 хв). Стрік не обривається.</p>
+</blockquote>
+<hr>
+<h1 id="3-">
+        <a href="#3-" class="header-anchor">
+          3) Тижневий цикл (система, а не просто уроки)
+        </a>
+      </h1><ul>
+<li><strong>Пн–Пт:</strong> щоденний ритуал (одна мікротема/день).</li>
+<li><strong>Сб (15 хв):</strong> підсумок тижня: 1 короткий диктант (з відео/аудіо), 1 абзац письма, розбір 5 типових помилок.</li>
+<li><strong>Нд (5 хв):</strong> план наступного тижня: 5 нових мінітем + додати 15–20 карток у SRS.</li>
+</ul>
+<div class="mermaid">flowchart LR
+  Plan[Нд: План тем] --> Learn[Пн-Пт: Мікроуроки+SRS]
+  Learn --> Review[Сб: Підсумок/аналіз]
+  Review --> Adjust[Корекція: додати картки/теми]
+  Adjust --> Plan</div><hr>
+<h1 id="4-">
+        <a href="#4-" class="header-anchor">
+          4) Конкретні “рецепти” (як клеїти все разом)
+        </a>
+      </h1><ul>
+<li><strong>Вимова:</strong> щодня 1 слово/фраза → пошук у YouGlish → 3 відео-приклади → повторити вголос → записати собі в Telegram voice (щоб чути прогрес).</li>
+<li><strong>Лексика:</strong> робити власні картки (слово → переклад/картинка → 1 приклад). Краще 3 нових/день, ніж 30 раз на тиждень.</li>
+<li><strong>Граматика:</strong> кожна тема = 1 коротке пояснення + 3 вправи з British Council. Не збираємо “все відразу”.</li>
+<li><strong>Письмо:</strong> 2×/тиждень — 3–5 речень у Write &amp; Improve. Зберігати приклади “до/після”.</li>
+<li><strong>Аудіювання:</strong> 6 Minute English (6 хв) → занотувати 3 нові фрази в SRS.</li>
+</ul>
+<hr>
+<h1 id="5-notionsheets">
+        <a href="#5-notionsheets" class="header-anchor">
+          5) Трекінг без коду (скопіюй у Notion/Sheets)
+        </a>
+      </h1><table>
+<thead>
+<tr>
+<th>Дата</th>
+<th>Тема дня</th>
+<th>Нові слова</th>
+<th>Повтори SRS</th>
+<th>% правильних у вправах</th>
+<th>Аудіо (так/ні)</th>
+<th>1 фраза письма (так/ні)</th>
+<th>Настрій/нотатка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2025-08-25</td>
+<td>Present Simple (пит.)</td>
+<td>3</td>
+<td>18</td>
+<td>80%</td>
+<td>так</td>
+<td>ні</td>
+<td>«Було легко»</td>
+</tr>
+</tbody></table>
+<p><strong>Щотижневі підсумки:</strong></p>
+<ul>
+<li>Скільки днів із 7 закрито?</li>
+<li>3 найчастіші помилки (→ в план наступного тижня).</li>
+<li>10 найповільніших карток у SRS (→ окремо пропрацювати з прикладами на YouGlish).</li>
+</ul>
+<hr>
+<h1 id="6-a1-4-">
+        <a href="#6-a1-4-" class="header-anchor">
+          6) Пілотний план A1 → 4 тижні (без коду й платних курсів)
+        </a>
+      </h1><p><strong>Тиждень 1:</strong> Family, Present Simple (+/−/?), фонетика /æ/ vs /ʌ/.
+<strong>Тиждень 2:</strong> Daily routines, час/частотні прислівники, правопис 3rd person -s.
+<strong>Тиждень 3:</strong> Home &amp; places, There is/are, артиклі a/an/the (базово).
+<strong>Тиждень 4:</strong> Food &amp; shopping, Count/Uncount, some/any, much/many.</p>
+<p>Кожен день — 1 підтема (лінк на матеріал BBC/BC) + 3 картки лексики + 1 вимовна вправа на YouGlish.</p>
+<hr>
+<h1 id="7-">
+        <a href="#7-" class="header-anchor">
+          7) Фізичні “якорі”, щоб система трималась
+        </a>
+      </h1><ul>
+<li>Роздрукований <strong>стікер-трекер</strong> на холодильнику: 5 стікерів/тиждень = маленький приз.</li>
+<li>Наклейка на ноут/телефон: “15 хв англійської перед соцмережами”.</li>
+<li>Спільний 10-хв івент у календарі з тобою 1×/тиждень: короткий review і похвала.</li>
+</ul>
+<hr>
+<h1 id="8-">
+        <a href="#8-" class="header-anchor">
+          8) Варіанти під різні смаки
+        </a>
+      </h1><ul>
+<li><strong>Ультралегко (тільки телефон):</strong> Duolingo/Quizlet + YouGlish + 6 Minute English + Telegram-нагадування.</li>
+<li><strong>Баланс:</strong> BBC/British Council + Anki + Write &amp; Improve + Readlang + календар.</li>
+<li><strong>Максимум практики:</strong> Speechling/Elsa + Language Reactor для відео + щотижневий міні-розмовний кол із другом/репетитором 20 хв.</li>
+</ul>
+<hr>
+<h1 id="9-">
+        <a href="#9-" class="header-anchor">
+          9) Що дам від мене (готові шаблони)
+        </a>
+      </h1><ul>
+<li>Шаблон таблиці прогресу (вище).</li>
+<li>Список стартових тем на 2 тижні з посиланнями на матеріали BBC/BC.</li>
+<li>Інструкцію “Як додавати ефективні картки в Anki/Quizlet” (з прикладом формату).</li>
+</ul>
+<p>скажи, який варіант стеку беремо (ультралегко / баланс / максимум практики), і я під це зразу накидаю конкретний тижневий план з посиланнями та списком карток на перші 3 дні.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

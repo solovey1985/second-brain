@@ -1,0 +1,668 @@
+{
+  "tree": [
+    {
+      "name": "1-projects",
+      "path": "1-projects",
+      "type": "directory",
+      "children": [
+        {
+          "name": "english-learning-bot",
+          "path": "1-projects/english-learning-bot",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Copilot Instructions Telegram Bot",
+              "path": "1-projects/english-learning-bot/copilot-instructions-telegram-bot.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Final Implementation Guide",
+              "path": "1-projects/english-learning-bot/final-implementation-guide.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Markdig 101",
+              "path": "1-projects/english-learning-bot/markdig-101.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Scene Navigation",
+              "path": "1-projects/english-learning-bot/scene-navigation.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Starter",
+              "path": "1-projects/english-learning-bot/starter.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Telegram Bot Capabilities",
+              "path": "1-projects/english-learning-bot/telegram-bot-capabilities.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Whatsup Integration",
+              "path": "1-projects/english-learning-bot/whatsup-integration.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "kaizen-app",
+          "path": "1-projects/kaizen-app",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Critical Focus Fw",
+              "path": "1-projects/kaizen-app/critical-focus-fw.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Firebase Api",
+              "path": "1-projects/kaizen-app/firebase-api.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Kaizen Credits",
+              "path": "1-projects/kaizen-app/kaizen-credits.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Stop Focus Act",
+              "path": "1-projects/kaizen-app/Stop-Focus-Act.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Stop Focus Act Now",
+              "path": "1-projects/kaizen-app/Stop-Focus-Act-Now.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "System Diagram",
+              "path": "1-projects/kaizen-app/system-diagram.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "User Flow",
+              "path": "1-projects/kaizen-app/user-flow.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "tile-installation",
+          "path": "1-projects/tile-installation",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Заливки плитки",
+              "path": "1-projects/tile-installation/Заливки плитки.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "рекомендації",
+              "path": "1-projects/tile-installation/рекомендації.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "yapidoo-development",
+          "path": "1-projects/yapidoo-development",
+          "type": "directory",
+          "children": [
+            {
+              "name": "services",
+              "path": "1-projects/yapidoo-development/services",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "web",
+              "path": "1-projects/yapidoo-development/web",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Index",
+              "path": "1-projects/yapidoo-development/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "New Yapidoo Concept",
+              "path": "1-projects/yapidoo-development/new-yapidoo-concept.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "README",
+              "path": "1-projects/yapidoo-development/README.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "будинок",
+          "path": "1-projects/будинок",
+          "type": "directory",
+          "children": [
+            {
+              "name": "двері",
+              "path": "1-projects/будинок/двері",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "зразки",
+              "path": "1-projects/будинок/зразки",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "моделювання",
+              "path": "1-projects/будинок/моделювання",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "утеплення",
+              "path": "1-projects/будинок/утеплення",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "2-areas",
+      "path": "2-areas",
+      "type": "directory",
+      "children": [
+        {
+          "name": "beekeeping",
+          "path": "2-areas/beekeeping",
+          "type": "directory",
+          "children": [
+            {
+              "name": "assets",
+              "path": "2-areas/beekeeping/assets",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "додаток",
+              "path": "2-areas/beekeeping/додаток",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "бджолопакет",
+              "path": "2-areas/beekeeping/бджолопакет.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "відводки",
+              "path": "2-areas/beekeeping/відводки.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "годування на зиму",
+              "path": "2-areas/beekeeping/годування на зиму.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "догляд роями",
+              "path": "2-areas/beekeeping/догляд-роями.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Ообробка від кліща",
+              "path": "2-areas/beekeeping/Ообробка від кліща.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "підготовка зими",
+              "path": "2-areas/beekeeping/підготовка-зими.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "розвиток",
+              "path": "2-areas/beekeeping/розвиток.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "розширення",
+              "path": "2-areas/beekeeping/розширення.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "рої",
+              "path": "2-areas/beekeeping/рої.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "domestic-operations",
+          "path": "2-areas/domestic-operations",
+          "type": "directory",
+          "children": [
+            {
+              "name": "shelfs",
+              "path": "2-areas/domestic-operations/shelfs",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Index",
+              "path": "2-areas/domestic-operations/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Todo",
+              "path": "2-areas/domestic-operations/todo.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "home-maintenance",
+          "path": "2-areas/home-maintenance",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Heating",
+              "path": "2-areas/home-maintenance/heating.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Heating Scheme",
+              "path": "2-areas/home-maintenance/heating-scheme.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Index",
+              "path": "2-areas/home-maintenance/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Todo",
+              "path": "2-areas/home-maintenance/todo.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "soland-inventory",
+          "path": "2-areas/soland-inventory",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Inbox",
+              "path": "2-areas/soland-inventory/inbox.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Index",
+              "path": "2-areas/soland-inventory/index.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "Todo",
+              "path": "2-areas/soland-inventory/todo.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "3-resources",
+      "path": "3-resources",
+      "type": "directory",
+      "children": [
+        {
+          "name": "diy-woodworking",
+          "path": "3-resources/diy-woodworking",
+          "type": "directory",
+          "children": [
+            {
+              "name": "tables",
+              "path": "3-resources/diy-woodworking/tables",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "молбьерт",
+              "path": "3-resources/diy-woodworking/молбьерт",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "поличка",
+              "path": "3-resources/diy-woodworking/поличка",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "drones",
+          "path": "3-resources/drones",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Auto Drone",
+              "path": "3-resources/drones/auto-drone.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "електрика",
+          "path": "3-resources/електрика",
+          "type": "directory",
+          "children": [],
+          "hasChildren": false,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "електроніка",
+          "path": "3-resources/електроніка",
+          "type": "directory",
+          "children": [
+            {
+              "name": "лінійний блок",
+              "path": "3-resources/електроніка/лінійний блок.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "ремонт",
+          "path": "3-resources/ремонт",
+          "type": "directory",
+          "children": [
+            {
+              "name": "плата",
+              "path": "3-resources/ремонт/плата",
+              "type": "directory",
+              "children": [],
+              "hasChildren": false,
+              "isExpanded": false,
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "запобіжники",
+              "path": "3-resources/ремонт/запобіжники.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            },
+            {
+              "name": "компоненти",
+              "path": "3-resources/ремонт/компоненти.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        },
+        {
+          "name": "саморозвиток",
+          "path": "3-resources/саморозвиток",
+          "type": "directory",
+          "children": [
+            {
+              "name": "увага",
+              "path": "3-resources/саморозвиток/увага.md",
+              "type": "file",
+              "isActive": false,
+              "level": 2
+            }
+          ],
+          "hasChildren": true,
+          "isExpanded": false,
+          "isActive": false,
+          "level": 1
+        }
+      ],
+      "hasChildren": true,
+      "isExpanded": true,
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Deploy",
+      "path": "deploy.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Inbox",
+      "path": "inbox.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "Index",
+      "path": "index.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    },
+    {
+      "name": "PARA MIGRATION PLAN",
+      "path": "PARA-MIGRATION-PLAN.md",
+      "type": "file",
+      "isActive": false,
+      "level": 0
+    }
+  ],
+  "metadata": {
+    "buildTime": "2026-01-04T02:16:49.650Z",
+    "commitInfo": {
+      "hash": "e70d352",
+      "message": "events service migration guide",
+      "dateRelative": "16 seconds ago",
+      "dateISO": "2026-01-04T04:16:33+02:00",
+      "author": "Andrii Solovienko",
+      "branch": "main",
+      "timestamp": 1767492993000,
+      "shortMessage": "events service migration guide",
+      "fullMessage": "events service migration guide"
+    },
+    "itemCount": 77
+  }
+}

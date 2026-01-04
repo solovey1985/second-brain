@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>inbox - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#inbox">Inbox</a></li>
+<ul>
+<li><a href="#capture-log">Capture Log</a></li>
+<ul>
+<li><a href="#2025-10-20">2025-10-20</a></li>
+<li><a href="#2025-10-19">2025-10-19</a></li>
+<li><a href="#2025-10-18">2025-10-18</a></li>
+</ul>
+<li><a href="#weekly-processing">Weekly Processing</a></li>
+<ul>
+<li><a href="#para-decision-tree">PARA Decision Tree</a></li>
+</ul>
+</ul>
+</ul>
+</div><h1 id="inbox">
+        <a href="#inbox" class="header-anchor">
+          Inbox
+        </a>
+      </h1><p>Quick capture for new ideas, links, notes, todos.</p>
+<h2 id="capture-log">
+        <a href="#capture-log" class="header-anchor">
+          Capture Log
+        </a>
+      </h2><h3 id="2025-10-20">
+        <a href="#2025-10-20" class="header-anchor">
+          2025-10-20
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Idea: Add PARA filtering to navigation</li>
+<li><input disabled="" type="checkbox"> Article: PARA method implementation</li>
+<li><input disabled="" type="checkbox"> Link: <a href="https://fortelabs.com/blog/para/">https://fortelabs.com/blog/para/</a></li>
+<li><input disabled="" type="checkbox"> TODO: Review PR for authentication service</li>
+<li><input disabled="" type="checkbox"> Meeting: Weekly standup - Action: Update Kaizen firebase config</li>
+</ul>
+<h3 id="2025-10-19">
+        <a href="#2025-10-19" class="header-anchor">
+          2025-10-19
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Code Snippet: Async navigation loader</li>
+<li><input disabled="" type="checkbox"> Voice memo: Ideas for English learning bot UI</li>
+</ul>
+<h3 id="2025-10-18">
+        <a href="#2025-10-18" class="header-anchor">
+          2025-10-18
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Article: &quot;The Psychology of Deep Work&quot;</li>
+<li><input disabled="" type="checkbox"> TODO: Move old documentation to archives</li>
+</ul>
+<hr>
+<h2 id="weekly-processing">
+        <a href="#weekly-processing" class="header-anchor">
+          Weekly Processing
+        </a>
+      </h2><p><em>Process every Friday: Move items to appropriate PARA folders</em></p>
+<h3 id="para-decision-tree">
+        <a href="#para-decision-tree" class="header-anchor">
+          PARA Decision Tree
+        </a>
+      </h3><ol>
+<li>Project? → Move to 1-projects/[project-name]/</li>
+<li>Area? → Move to 2-areas/[area-name]/</li>
+<li>Resource? → Move to 3-resources/[topic]/</li>
+<li>Completed/inactive? → Move to 4-archives/</li>
+</ol>
+<hr>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

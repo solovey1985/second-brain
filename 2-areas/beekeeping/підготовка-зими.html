@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>підготовка-зими - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/beekeeping/">beekeeping</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-6-">🐝 План підготовки пасіки на 6 сімей до зими</a></li>
+<ul>
+<li><a href="#1-">1. Оцінка стану сімей (серпень)</a></li>
+<li><a href="#2-">2. Лікування від кліща Варроа</a></li>
+<li><a href="#3-">3. Формування гнізда</a></li>
+<li><a href="#4-">4. Заготівля кормів</a></li>
+<li><a href="#5-">5. Останні роботи з матками</a></li>
+<li><a href="#6-">6. Підготовка вуликів</a></li>
+<li><a href="#7-">7. Утеплення та захист</a></li>
+<ul>
+<li><a href="#-">Кліщ Варроа</a></li>
+<ul>
+<li><a href="#-">Оброобка мурашиною ксилотою:</a></li>
+</ul>
+</ul>
+<li><a href="#8-">8. Контроль у вересні–жовтні</a></li>
+<li><a href="#9-">9. Зимівля</a></li>
+</ul>
+</ul>
+</div><h1 id="-6-">
+        <a href="#-6-" class="header-anchor">
+          🐝 План підготовки пасіки на 6 сімей до зими
+        </a>
+      </h1><h2 id="1-">
+        <a href="#1-" class="header-anchor">
+          1. Оцінка стану сімей (серпень)
+        </a>
+      </h2><ul>
+<li>Провести повний огляд кожного вулика.</li>
+<li>Визначити силу сімей (кількість вуличок, щільність обсіду).</li>
+<li>Перевірити якість матки (наявність розплоду, рівномірність засіву).</li>
+<li>Виявити слабкі сім’ї → об’єднати з сильнішими або підсилити розплодом.</li>
+</ul>
+<h2 id="2-">
+        <a href="#2-" class="header-anchor">
+          2. Лікування від кліща Варроа
+        </a>
+      </h2><ul>
+<li>Після відкачки меду провести обробку від варроатозу (препарати: щавлева кислота, мурашина кислота, смужки з амітразом чи флуметрином).</li>
+<li>Повторити курс за потреби через 10–14 днів.</li>
+</ul>
+<h2 id="3-">
+        <a href="#3-" class="header-anchor">
+          3. Формування гнізда
+        </a>
+      </h2><ul>
+<li>Вилучити зайві та старі чорні стільники.</li>
+<li>Залишити у гнізді 8–10 рамок (залежно від сили сім’ї).</li>
+<li>В центрі – рамки з якісним перговим і медово-перговим запасом, далі – медові рамки.</li>
+<li>Вилучити маломедні рамки, щоб не створювати пустот.</li>
+</ul>
+<h2 id="4-">
+        <a href="#4-" class="header-anchor">
+          4. Заготівля кормів
+        </a>
+      </h2><ul>
+<li><p>Розрахувати норму корму:</p>
+<ul>
+<li><strong>Сильна сім’я</strong> – 18–20 кг меду (на 8–10 рамок).</li>
+<li><strong>Середня сім’я</strong> – 15–17 кг.</li>
+</ul>
+</li>
+<li><p>Якщо запасу меду бракує → підгодівля цукровим сиропом 3:2 (цукор:вода).</p>
+</li>
+<li><p>Годувати порціями по 2–3 л ввечері, доки сім’я не матиме потрібних запасів.</p>
+</li>
+</ul>
+<h2 id="5-">
+        <a href="#5-" class="header-anchor">
+          5. Останні роботи з матками
+        </a>
+      </h2><ul>
+<li>Якщо матка стара або малопродуктивна → замінити на молоду.</li>
+<li>Об’єднати сім’ї без матки з повноцінними.</li>
+</ul>
+<h2 id="6-">
+        <a href="#6-" class="header-anchor">
+          6. Підготовка вуликів
+        </a>
+      </h2><ul>
+<li>Перевірити щільність стінок, дах, вентиляцію.</li>
+<li>Відремонтувати щілини, утеплити дах і боки (подушки, мати, пінополістирол).</li>
+<li>Встановити заставні дошки для зменшення об’єму гнізда.</li>
+<li>Забезпечити верхню вентиляцію (малий отвір чи сітка під кришкою).</li>
+</ul>
+<h2 id="7-">
+        <a href="#7-" class="header-anchor">
+          7. Утеплення та захист
+        </a>
+      </h2><ul>
+<li>Поставити утеплювальні подушки над рамками.</li>
+<li>Підкласти сухий папір/тирсу для поглинання вологи (за потреби).</li>
+<li>Захистити від мишей: звузити льотки, поставити металеві решітки.</li>
+</ul>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          Кліщ Варроа
+        </a>
+      </h3><ul>
+<li>Регулярно контролювати рівень кліща (після обробки та перед зимівлею).</li>
+<li>Використовувати пастки або листи з олією для збору кліща.</li>
+</ul>
+<h4 id="-">
+        <a href="#-" class="header-anchor">
+          Оброобка мурашиною ксилотою:
+        </a>
+      </h4><ul>
+<li>3–4 рази з інтервалом 5–7 днів.</li>
+<li>Температура повітря не нижче +10°C.</li>
+<li>Використовувати 60% розчин (1 частина кислоти на 1,5 частини води).</li>
+<li>Налити 20–30 мл на рамку (залежно від сили сім’ї).</li>
+<li>Проводити ввечері, коли бджоли спокійні.</li>
+<li>Після обробки закрити льоток на 1–2 години.</li>
+</ul>
+<h2 id="8-">
+        <a href="#8-" class="header-anchor">
+          8. Контроль у вересні–жовтні
+        </a>
+      </h2><ul>
+<li>Перевірити, чи взяли бджоли весь сироп.</li>
+<li>Скоригувати кількість рамок відповідно до клубу бджіл.</li>
+<li>Останній раз перевірити наявність корму та стан матки.</li>
+</ul>
+<h2 id="9-">
+        <a href="#9-" class="header-anchor">
+          9. Зимівля
+        </a>
+      </h2><ul>
+<li>Умови: температура +2…–4°C, вологість 75–85%.</li>
+<li>Варіанти: зимівля <strong>на волі</strong> (на точку під накриттям) або в <strong>зимівнику</strong>.</li>
+<li>Перевіряти раз на місяць (без зайвого турбування).</li>
+</ul>
+<hr>
+<p>✅ Таким чином, для <strong>6 сімей</strong> потрібно мати приблизно <strong>100–110 кг якісного корму (меду/сиропу)</strong>, усі вулики утеплені, проліковані від кліща та сформовані по силі.</p>
+<p>✅ Орієнтовна норма корму: <strong>15–20 кг на сім’ю</strong><br>✅ Загалом для 6 сімей: <strong>100–110 кг меду або сиропу</strong></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

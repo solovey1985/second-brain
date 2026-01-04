@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>бджолопакет - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/beekeeping/">beekeeping</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#">Бджолопакети</a></li>
+<ul>
+<li><a href="#-">Виготовлення бджолопакетів</a></li>
+<li><a href="#httpsyakkoshachekcomarticlesjak-zrobiti-pchelopaket-svoimi-rukami-kreslennja-ihtml">[Посилання](https://yak.koshachek.com/articles/jak-zrobiti-pchelopaket-svoimi-rukami-kreslennja-i.html)</a></li>
+<ul>
+<li><a href="#-">🛠️ Необхідні матеріали та інструменти</a></li>
+<ul>
+<li><a href="#">Матеріали</a></li>
+<li><a href="#">Інструменти</a></li>
+</ul>
+<li><a href="#-">🧰 Покрокова інструкція з виготовлення</a></li>
+<ul>
+<li><a href="#1-">1. **Підготовка деталей**</a></li>
+<li><a href="#2-">2. **Збірка каркасу**</a></li>
+<li><a href="#3-">3. **Встановлення вентиляційних отворів**</a></li>
+<li><a href="#4-">4. **Монтаж гребінок для рамок**</a></li>
+<li><a href="#5-">5. **Встановлення годівниці**</a></li>
+<li><a href="#6-">6. **Фіксація рамок**</a></li>
+<li><a href="#7-">7. **Завершальні роботи**</a></li>
+<li><a href="#-">📐 Рекомендації</a></li>
+</ul>
+</ul>
+</ul>
+</ul>
+</div><h1 id="">
+        <a href="#" class="header-anchor">
+          Бджолопакети
+        </a>
+      </h1><p>Бджолопакет - це пакет бджіл, що складається з матки, робочих бджіл та трутнів. Бджолопакети використовуються для розмноження бджолиних сімей або для поповнення вуликів. Вони можуть бути куплені у бджолярів або спеціалізованих магазинах.
+Бджолопакети зазвичай містять від 2 до 5 тисяч бджіл, а також матку. Вони можуть бути використані для створення нових бджолиних сімей або для поповнення існуючих вуликів.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Виготовлення бджолопакетів
+        </a>
+      </h2><h2 id="httpsyakkoshachekcomarticlesjak-zrobiti-pchelopaket-svoimi-rukami-kreslennja-ihtml">
+        <a href="#httpsyakkoshachekcomarticlesjak-zrobiti-pchelopaket-svoimi-rukami-kreslennja-ihtml" class="header-anchor">
+          [Посилання](https://yak.koshachek.com/articles/jak-zrobiti-pchelopaket-svoimi-rukami-kreslennja-i.html)
+        </a>
+      </h2><h3 id="-">
+        <a href="#-" class="header-anchor">
+          🛠️ Необхідні матеріали та інструменти
+        </a>
+      </h3><h4 id="">
+        <a href="#" class="header-anchor">
+          Матеріали
+        </a>
+      </h4><ul>
+<li><p><strong>Бруски дерев&#39;яні</strong>:</p>
+<ul>
+<li>15×19×520 мм — 8 шт.</li>
+<li>15×19×390 мм — 8 шт.</li>
+<li>15×19×240 мм — 4 шт.</li>
+<li>15×19×200 мм — 9 шт.</li>
+<li>15×19×160 мм — 2 шт.</li>
+</ul>
+</li>
+<li><p><strong>Фанера або ДВП</strong>:</p>
+<ul>
+<li>4×240×520 мм — 2 шт. (бічні стінки)</li>
+<li>4×430×520 мм — 2 шт. (верхня та нижня частини)</li>
+<li>4×200×330 мм — 1 шт. (кришка)</li>
+<li>4×20×160 мм — 1 шт. (пластина)</li>
+<li>4×20×100 мм — 4 шт. (пластини)</li>
+<li>4×20×70 мм — 1 шт. (пластина)</li>
+</ul>
+</li>
+<li><p><strong>Сітка вентиляційна</strong>: 120×200 мм — 2 шт.</p>
+</li>
+<li><p><strong>Цвяхи</strong>:</p>
+<ul>
+<li>2×45 мм</li>
+<li>1,6×40 мм</li>
+<li>1,8×32 мм</li>
+<li>1,2×20 мм</li>
+</ul>
+</li>
+<li><p><strong>Клітинка для матки</strong> — 1 шт.</p>
+</li>
+</ul>
+<h4 id="">
+        <a href="#" class="header-anchor">
+          Інструменти
+        </a>
+      </h4><ul>
+<li>Пила або лобзик</li>
+<li>Молоток</li>
+<li>Стамеска</li>
+<li>Рулетка або лінійка</li>
+<li>Олівець</li>
+</ul>
+<hr>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🧰 Покрокова інструкція з виготовлення
+        </a>
+      </h3><h4 id="1-">
+        <a href="#1-" class="header-anchor">
+          1. **Підготовка деталей**
+        </a>
+      </h4><p>Виріжте всі необхідні деталі згідно з вказаними розмірами. Переконайтеся, що всі елементи мають точні розміри для забезпечення щільного прилягання.</p>
+<h4 id="2-">
+        <a href="#2-" class="header-anchor">
+          2. **Збірка каркасу**
+        </a>
+      </h4><ul>
+<li><strong>Бічні стінки</strong>: З&#39;єднайте бруски 15×19×520 мм з брусками 15×19×390 мм, утворюючи прямокутні рами для бічних стінок.</li>
+<li><strong>Передня та задня стінки</strong>: Використайте бруски 15×19×240 мм та 15×19×200 мм для створення передньої та задньої частин каркасу.</li>
+<li><strong>Кришка та дно</strong>: Прикріпіть фанерні пластини 4×430×520 мм до верхньої та нижньої частин каркасу.</li>
+</ul>
+<h4 id="3-">
+        <a href="#3-" class="header-anchor">
+          3. **Встановлення вентиляційних отворів**
+        </a>
+      </h4><ul>
+<li>Виріжте отвори розміром 120×200 мм у передній та задній стінках.</li>
+<li>Прикріпіть сітки до отворів з внутрішньої сторони, забезпечуючи вентиляцію та запобігаючи втечі бджіл.</li>
+</ul>
+<h4 id="4-">
+        <a href="#4-" class="header-anchor">
+          4. **Монтаж гребінок для рамок**
+        </a>
+      </h4><ul>
+<li>Встановіть верхні та нижні гребінки всередині каркасу на відповідній висоті, щоб рамки Дадан могли вільно вставлятися та фіксуватися.</li>
+</ul>
+<h4 id="5-">
+        <a href="#5-" class="header-anchor">
+          5. **Встановлення годівниці**
+        </a>
+      </h4><ul>
+<li>Змонтуйте годівницю з фанерної пластини 4×200×330 мм та відповідних брусків, розмістивши її на одному з боків пакета.</li>
+</ul>
+<h4 id="6-">
+        <a href="#6-" class="header-anchor">
+          6. **Фіксація рамок**
+        </a>
+      </h4><ul>
+<li>Встановіть рамки Дадан у гребінки, переконавшись, що вони надійно закріплені та не рухаються під час транспортування.</li>
+</ul>
+<h4 id="7-">
+        <a href="#7-" class="header-anchor">
+          7. **Завершальні роботи**
+        </a>
+      </h4><ul>
+<li>Перевірте всі з&#39;єднання на міцність.</li>
+<li>За потреби, обробіть зовнішні поверхні пакета захисним покриттям для підвищення довговічності.</li>
+</ul>
+<hr>
+<h4 id="-">
+        <a href="#-" class="header-anchor">
+          📐 Рекомендації
+        </a>
+      </h4><ul>
+<li><strong>Матеріал</strong>: Використовуйте легкі та міцні матеріали, такі як фанера або ДВП, для зменшення ваги пакета.</li>
+<li><strong>Вентиляція</strong>: Забезпечте достатню вентиляцію, але уникайте надмірних отворів, щоб підтримувати оптимальний мікроклімат всередині пакета.</li>
+<li><strong>Безпека</strong>: Уникайте гострих кутів та виступів, які можуть пошкодити бджіл під час транспортування.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

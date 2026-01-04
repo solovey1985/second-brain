@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>implementation - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#0-project-shape-suggested">0) Project shape (suggested)</a></li>
+<li><a href="#1-nuget-packages">1) NuGet packages</a></li>
+<li><a href="#2-identity-ef-core-dbcontext">2 Identity + EF Core DbContext</a></li>
+<li><a href="#3-programcs-services">3 Program.cs – services</a></li>
+<li><a href="#4-database-migrations">4 Database & migrations</a></li>
+<li><a href="#5-seed-openiddict-clients-spa-m2m">5 Seed OpenIddict clients (SPA + M2M)</a></li>
+<li><a href="#6-minimal-auth-uiapi-for-interactive-sign-in">6 Minimal auth UI/API for interactive sign-in</a></li>
+<li><a href="#7-angular-spa-auth-code-pkce-quick-notes">7 Angular SPA (Auth Code + PKCE) quick notes</a></li>
+<li><a href="#8-resource-apis-users-events-token-validation">8 Resource APIs (Users, Events) token validation</a></li>
+<li><a href="#9-local-testing-quick">9 Local testing (quick)</a></li>
+<li><a href="#10-production-hardening-checklist">10 Production hardening checklist</a></li>
+<li><a href="#11-optional-extras-when-ready">11 Optional extras (when ready)</a></li>
+<ul>
+<li><a href="#tldr">TL;DR</a></li>
+</ul>
+</ul>
+</div><p>Awesome — let’s wire up <strong>OpenIddict</strong> in your <strong>Auth</strong> microservice on <strong>.NET 8</strong> with <strong>ASP.NET Core Identity + EF Core</strong>, using the <strong>Authorization Code + PKCE</strong> flow for the Angular SPA, plus a <strong>Client Credentials</strong> client for service-to-service calls.</p>
+<p>I’ll keep it tight and copy-pasteable.</p>
+<hr>
+<h1 id="0-project-shape-suggested">
+        <a href="#0-project-shape-suggested" class="header-anchor">
+          0) Project shape (suggested)
+        </a>
+      </h1><pre><code class="hljs">AuthService<span class="hljs-symbol">/</span>
+  src<span class="hljs-symbol">/</span>
+    Auth.Api<span class="hljs-symbol">/</span>             <span class="hljs-operator">//</span> ASP.NET Core Web API (hosts OpenIddict server endpoints)
+    Auth.Infrastructure<span class="hljs-symbol">/</span>   <span class="hljs-operator">//</span> EF Core, Identity stores, migrations
+    Auth.Domain<span class="hljs-symbol">/</span>           <span class="hljs-operator">//</span> (optional) domain models
+  docker<span class="hljs-symbol">/</span>
+  build<span class="hljs-operator">/</span></code></pre><hr>
+<h1 id="1-nuget-packages">
+        <a href="#1-nuget-packages" class="header-anchor">
+          1) NuGet packages
+        </a>
+      </h1><p>In <code>Auth.Api</code> (web) and <code>Auth.Infrastructure</code> (data):</p>
+<pre><code class="hljs language-bash">dotnet add src/Auth.Api package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add src/Auth.Api package Microsoft.EntityFrameworkCore
+dotnet add src/Auth.Api package Microsoft.EntityFrameworkCore.Design
+dotnet add src/Auth.Api package Npgsql.EntityFrameworkCore.PostgreSQL   <span class="hljs-comment"># or SqlServer</span>
+
+<span class="hljs-comment"># OpenIddict core bits</span>
+dotnet add src/Auth.Api package OpenIddict.AspNetCore
+dotnet add src/Auth.Api package OpenIddict.Server.AspNetCore
+dotnet add src/Auth.Api package OpenIddict.Validation.AspNetCore
+dotnet add src/Auth.Api package OpenIddict.EntityFrameworkCore
+
+<span class="hljs-comment"># (Optional) external providers later</span>
+dotnet add src/Auth.Api package Microsoft.AspNetCore.Authentication.Google
+dotnet add src/Auth.Api package Microsoft.AspNetCore.Authentication.Facebook</code></pre><hr>
+<h1 id="2-identity-ef-core-dbcontext">
+        <a href="#2-identity-ef-core-dbcontext" class="header-anchor">
+          2 Identity + EF Core DbContext
+        </a>
+      </h1><p>In <code>Auth.Infrastructure/AuthDbContext.cs</code>:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Identity;
+<span class="hljs-keyword">using</span> Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> OpenIddict.EntityFrameworkCore.Models;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationUser</span> : <span class="hljs-title">IdentityUser</span>&lt;<span class="hljs-title">Guid</span>&gt;
+{
+    <span class="hljs-comment">// add profile linkage fields if needed (not business profile)</span>
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationRole</span> : <span class="hljs-title">IdentityRole</span>&lt;<span class="hljs-title">Guid</span>&gt; { }
+
+<span class="hljs-comment">// OpenIddict EF models: you can use the default ones (recommended)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AuthDbContext</span> : <span class="hljs-title">IdentityDbContext</span>&lt;<span class="hljs-title">ApplicationUser</span>, <span class="hljs-title">ApplicationRole</span>, <span class="hljs-title">Guid</span>&gt;
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AuthDbContext</span>(<span class="hljs-params">DbContextOptions&lt;AuthDbContext&gt; options</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">options</span>)</span> {}
+
+    <span class="hljs-comment">// OpenIddict entities (don’t declare DbSet&lt;T&gt; unless you need; OpenIddict will register them)</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnModelCreating</span>(<span class="hljs-params">ModelBuilder builder</span>)</span>
+    {
+        <span class="hljs-keyword">base</span>.OnModelCreating(builder);
+        builder.UseOpenIddict();
+    }
+}</code></pre><hr>
+<h1 id="3-programcs-services">
+        <a href="#3-programcs-services" class="header-anchor">
+          3 Program.cs – services
+        </a>
+      </h1><pre><code class="hljs language-csharp"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);
+
+<span class="hljs-keyword">var</span> services = builder.Services;
+<span class="hljs-keyword">var</span> config   = builder.Configuration;
+
+<span class="hljs-comment">// 3.1 EF Core</span>
+services.AddDbContext&lt;AuthDbContext&gt;(opt =&gt;
+{
+    opt.UseNpgsql(config.GetConnectionString(<span class="hljs-string">&quot;AuthDb&quot;</span>)); <span class="hljs-comment">// or UseSqlServer</span>
+    <span class="hljs-comment">// OpenIddict needs relational features</span>
+    opt.UseOpenIddict();
+});
+
+<span class="hljs-comment">// 3.2 Identity</span>
+services
+    .AddIdentityCore&lt;ApplicationUser&gt;(o =&gt;
+    {
+        o.Password.RequireDigit = <span class="hljs-literal">false</span>;
+        o.Password.RequireNonAlphanumeric = <span class="hljs-literal">false</span>;
+        o.Password.RequireUppercase = <span class="hljs-literal">false</span>;
+        o.Password.RequiredLength = <span class="hljs-number">6</span>;
+        o.User.RequireUniqueEmail = <span class="hljs-literal">true</span>;
+        o.SignIn.RequireConfirmedEmail = <span class="hljs-literal">false</span>; <span class="hljs-comment">// enable later in prod</span>
+    })
+    .AddRoles&lt;ApplicationRole&gt;()
+    .AddEntityFrameworkStores&lt;AuthDbContext&gt;()
+    .AddSignInManager();
+
+<span class="hljs-comment">// 3.3 Authentication (cookies for interactive login, bearer for APIs)</span>
+services.AddAuthentication()
+    .AddCookie(IdentityConstants.ApplicationScheme);
+
+services.AddAuthorization();
+
+<span class="hljs-comment">// 3.4 OpenIddict</span>
+services.AddOpenIddict()
+    .AddCore(opt =&gt;
+    {
+        opt.UseEntityFrameworkCore()
+           .UseDbContext&lt;AuthDbContext&gt;();
+    })
+    .AddServer(opt =&gt;
+    {
+        <span class="hljs-comment">// Endpoints exposed by your Auth service</span>
+        opt.SetAuthorizationEndpointUris(<span class="hljs-string">&quot;/connect/authorize&quot;</span>)
+           .SetTokenEndpointUris(<span class="hljs-string">&quot;/connect/token&quot;</span>)
+           .SetUserinfoEndpointUris(<span class="hljs-string">&quot;/connect/userinfo&quot;</span>)
+           .SetIntrospectionEndpointUris(<span class="hljs-string">&quot;/connect/introspect&quot;</span>)
+           .SetLogoutEndpointUris(<span class="hljs-string">&quot;/connect/logout&quot;</span>);
+
+        <span class="hljs-comment">// Flows</span>
+        opt.AllowAuthorizationCodeFlow()     <span class="hljs-comment">// SPA/mobile (with PKCE)</span>
+           .RequireProofKeyForCodeExchange()
+           .AllowRefreshTokenFlow()
+           .AllowClientCredentialsFlow();    <span class="hljs-comment">// M2M</span>
+
+        <span class="hljs-comment">// Scopes (adjust to your domains)</span>
+        opt.RegisterScopes(<span class="hljs-string">&quot;openid&quot;</span>, <span class="hljs-string">&quot;profile&quot;</span>, <span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-string">&quot;yapidoo.api&quot;</span>);
+
+        <span class="hljs-comment">// Token formats &amp; signing</span>
+        opt.AddEphemeralEncryptionKey()
+           .AddEphemeralSigningKey(); <span class="hljs-comment">// for dev only; replace with persisted keys/cert in prod</span>
+
+        <span class="hljs-comment">// ASP.NET Core host integration</span>
+        opt.UseAspNetCore()
+           .EnableAuthorizationEndpointPassthrough()
+           .EnableTokenEndpointPassthrough()
+           .EnableUserinfoEndpointPassthrough()
+           .EnableLogoutEndpointPassthrough();
+
+        <span class="hljs-comment">// Access token as JWT</span>
+        opt.DisableAccessTokenEncryption();
+    })
+    .AddValidation(opt =&gt;
+    {
+        <span class="hljs-comment">// Local validation: the same app that issues tokens also validates</span>
+        opt.UseLocalServer();
+        opt.UseAspNetCore();
+    });
+
+<span class="hljs-comment">// CORS for SPA</span>
+services.AddCors(opt =&gt;
+{
+    opt.AddPolicy(<span class="hljs-string">&quot;spa&quot;</span>, p =&gt; p
+        .WithOrigins(config[<span class="hljs-string">&quot;Spa:Origin&quot;</span>] ?? <span class="hljs-string">&quot;http://localhost:4200&quot;</span>)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
+});
+
+services.AddControllers();
+
+<span class="hljs-keyword">var</span> app = builder.Build();
+app.UseCors(<span class="hljs-string">&quot;spa&quot;</span>);
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();</code></pre><blockquote>
+<p><strong>Prod keys</strong>: replace <code>.AddEphemeral*()</code> with X.509 certificate or a persisted RSA key. Store via KMS/KeyVault/Secret Manager and mount to the pod.</p>
+</blockquote>
+<hr>
+<h1 id="4-database-migrations">
+        <a href="#4-database-migrations" class="header-anchor">
+          4 Database & migrations
+        </a>
+      </h1><pre><code class="hljs language-bash">dotnet tool install --global dotnet-ef
+dotnet ef migrations add InitAuth -p src/Auth.Api -s src/Auth.Api
+dotnet ef database update -p src/Auth.Api -s src/Auth.Api</code></pre><p>This creates tables for ASP.NET Identity <strong>and</strong> OpenIddict (applications/authorizations/tokens/scopes).</p>
+<hr>
+<h1 id="5-seed-openiddict-clients-spa-m2m">
+        <a href="#5-seed-openiddict-clients-spa-m2m" class="header-anchor">
+          5 Seed OpenIddict clients (SPA + M2M)
+        </a>
+      </h1><p>Create a startup seed (e.g., <code>OpenIddictSeeder.cs</code>) and call it once on boot.</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">using</span> OpenIddict.Abstractions;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> OpenIddict.Abstractions.OpenIddictConstants;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OpenIddictSeeder</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">SeedAsync</span>(<span class="hljs-params">IServiceProvider sp, IConfiguration config</span>)</span>
+    {
+        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> scope = sp.CreateScope();
+        <span class="hljs-keyword">var</span> manager = scope.ServiceProvider.GetRequiredService&lt;IOpenIddictApplicationManager&gt;();
+        <span class="hljs-keyword">var</span> scopeMgr = scope.ServiceProvider.GetRequiredService&lt;IOpenIddictScopeManager&gt;();
+
+        <span class="hljs-keyword">var</span> spaOrigin = config[<span class="hljs-string">&quot;Spa:Origin&quot;</span>] ?? <span class="hljs-string">&quot;http://localhost:4200&quot;</span>;
+        <span class="hljs-keyword">var</span> spaRedirect = <span class="hljs-string">$&quot;<span class="hljs-subst">{spaOrigin}</span>/auth/callback&quot;</span>;
+        <span class="hljs-keyword">var</span> spaLogout   = <span class="hljs-string">$&quot;<span class="hljs-subst">{spaOrigin}</span>/auth/logout-callback&quot;</span>;
+
+        <span class="hljs-comment">// 5.1 SPA public client (PKCE)</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> manager.FindByClientIdAsync(<span class="hljs-string">&quot;yapidoo-spa&quot;</span>) <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> manager.CreateAsync(<span class="hljs-keyword">new</span> OpenIddictApplicationDescriptor
+            {
+                ClientId = <span class="hljs-string">&quot;yapidoo-spa&quot;</span>,
+                ConsentType = ConsentTypes.Explicit, <span class="hljs-comment">// or External if only first-party</span>
+                DisplayName = <span class="hljs-string">&quot;Yapidoo Angular SPA&quot;</span>,
+                Type = ClientTypes.Public, <span class="hljs-comment">// no client secret for browser apps</span>
+                RedirectUris =
+                {
+                    <span class="hljs-keyword">new</span> Uri(spaRedirect)
+                },
+                PostLogoutRedirectUris =
+                {
+                    <span class="hljs-keyword">new</span> Uri(spaLogout)
+                },
+                Permissions =
+                {
+                    <span class="hljs-comment">// endpoints</span>
+                    Permissions.Endpoints.Authorization,
+                    Permissions.Endpoints.Token,
+                    Permissions.Endpoints.Logout,
+                    Permissions.Endpoints.Userinfo,
+
+                    <span class="hljs-comment">// grant types</span>
+                    Permissions.GrantTypes.AuthorizationCode,
+                    Permissions.GrantTypes.RefreshToken,
+
+                    <span class="hljs-comment">// response types</span>
+                    Permissions.ResponseTypes.Code,
+
+                    <span class="hljs-comment">// scopes</span>
+                    Permissions.Scopes.OpenId,
+                    Permissions.Scopes.Profile,
+                    Permissions.Scopes.Email,
+                    <span class="hljs-string">&quot;yapidoo.api&quot;</span>
+                },
+                Requirements =
+                {
+                    Requirements.Features.ProofKeyForCodeExchange
+                }
+            });
+        }
+
+        <span class="hljs-comment">// 5.2 Machine-to-machine client (service to service)</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> manager.FindByClientIdAsync(<span class="hljs-string">&quot;yapidoo-m2m&quot;</span>) <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> manager.CreateAsync(<span class="hljs-keyword">new</span> OpenIddictApplicationDescriptor
+            {
+                ClientId = <span class="hljs-string">&quot;yapidoo-m2m&quot;</span>,
+                ClientSecret = <span class="hljs-string">&quot;super-secret-change-me&quot;</span>, <span class="hljs-comment">// store securely</span>
+                DisplayName = <span class="hljs-string">&quot;Yapidoo Backend Client&quot;</span>,
+                Permissions =
+                {
+                    Permissions.Endpoints.Token,
+                    Permissions.GrantTypes.ClientCredentials,
+                    <span class="hljs-string">&quot;yapidoo.api&quot;</span>
+                }
+            });
+        }
+
+        <span class="hljs-comment">// 5.3 Scopes</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> scopeMgr.FindByNameAsync(<span class="hljs-string">&quot;yapidoo.api&quot;</span>) <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> scopeMgr.CreateAsync(<span class="hljs-keyword">new</span> OpenIddictScopeDescriptor
+            {
+                Name = <span class="hljs-string">&quot;yapidoo.api&quot;</span>,
+                DisplayName = <span class="hljs-string">&quot;Access to Yapidoo APIs&quot;</span>
+            });
+        }
+    }
+}</code></pre><p>Call it in <code>Program.cs</code> after <code>app = builder.Build()</code>:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">await</span> OpenIddictSeeder.SeedAsync(app.Services, app.Configuration);</code></pre><hr>
+<h1 id="6-minimal-auth-uiapi-for-interactive-sign-in">
+        <a href="#6-minimal-auth-uiapi-for-interactive-sign-in" class="header-anchor">
+          6 Minimal auth UI/API for interactive sign-in
+        </a>
+      </h1><p>For <strong>authorization code</strong> you need a user session. Easiest is a tiny Razor Pages area or controller to show a login form and sign the user into the cookie scheme. Example controller:</p>
+<pre><code class="hljs language-csharp">[<span class="hljs-meta">Route(<span class="hljs-string">&quot;account&quot;</span>)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AccountController</span> : <span class="hljs-title">Controller</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> SignInManager&lt;ApplicationUser&gt; _signInManager;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> UserManager&lt;ApplicationUser&gt; _userManager;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AccountController</span>(<span class="hljs-params">SignInManager&lt;ApplicationUser&gt; s, UserManager&lt;ApplicationUser&gt; u</span>)</span>
+    {
+        _signInManager = s; _userManager = u;
+    }
+
+    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;register&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">Register</span>(<span class="hljs-params">[FromBody] RegisterDto dto</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> user = <span class="hljs-keyword">new</span> ApplicationUser { UserName = dto.Email, Email = dto.Email };
+        <span class="hljs-keyword">var</span> res = <span class="hljs-keyword">await</span> _userManager.CreateAsync(user, dto.Password);
+        <span class="hljs-keyword">if</span> (!res.Succeeded) <span class="hljs-keyword">return</span> BadRequest(res.Errors);
+
+        <span class="hljs-comment">// Optional: emit UserRegistered event for Users service here</span>
+
+        <span class="hljs-keyword">return</span> Ok();
+    }
+
+    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;login&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">Login</span>(<span class="hljs-params">[FromBody] LoginDto dto</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> user = <span class="hljs-keyword">await</span> _userManager.FindByEmailAsync(dto.Email);
+        <span class="hljs-keyword">if</span> (user <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> Unauthorized();
+
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _signInManager.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: <span class="hljs-literal">true</span>);
+        <span class="hljs-keyword">if</span> (!result.Succeeded) <span class="hljs-keyword">return</span> Unauthorized();
+
+        <span class="hljs-comment">// create auth cookie session for interactive flows</span>
+        <span class="hljs-keyword">await</span> _signInManager.SignInAsync(user, isPersistent: <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span> Ok();
+    }
+
+    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;logout&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">Logout</span>()</span>
+    {
+        <span class="hljs-keyword">await</span> _signInManager.SignOutAsync();
+        <span class="hljs-keyword">return</span> Ok();
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">RegisterDto</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Email, <span class="hljs-built_in">string</span> Password</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title">LoginDto</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Email, <span class="hljs-built_in">string</span> Password</span>)</span>;</code></pre><blockquote>
+<p>For production UX, you’ll typically show a login form, then redirect back to <code>/connect/authorize</code> with the original parameters. During development you can: (1) call <code>/account/login</code> to establish the cookie session, then (2) start the OIDC authorize flow from the SPA.</p>
+</blockquote>
+<hr>
+<h1 id="7-angular-spa-auth-code-pkce-quick-notes">
+        <a href="#7-angular-spa-auth-code-pkce-quick-notes" class="header-anchor">
+          7 Angular SPA (Auth Code + PKCE) quick notes
+        </a>
+      </h1><ul>
+<li><p>Use an OIDC client (e.g., <code>angular-auth-oidc-client</code> or <code>oidc-client-ts</code>).</p>
+</li>
+<li><p>Configure:</p>
+<ul>
+<li><code>authority</code> → <code>https://auth.&lt;your-domain&gt;</code> (your Auth service)</li>
+<li><code>client_id</code> → <code>yapidoo-spa</code></li>
+<li><code>response_type</code> → <code>code</code></li>
+<li><code>scope</code> → <code>openid profile email yapidoo.api</code></li>
+<li><code>redirect_uri</code> → <code>http://localhost:4200/auth/callback</code></li>
+<li><code>post_logout_redirect_uri</code> → <code>http://localhost:4200/auth/logout-callback</code></li>
+<li>Enable <strong>PKCE</strong> (default in modern libs).</li>
+</ul>
+</li>
+</ul>
+<p>The SPA obtains an access token and calls your resource APIs (Users, Events) with <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+<hr>
+<h1 id="8-resource-apis-users-events-token-validation">
+        <a href="#8-resource-apis-users-events-token-validation" class="header-anchor">
+          8 Resource APIs (Users, Events) token validation
+        </a>
+      </h1><p>In each API (e.g., Users service):</p>
+<pre><code class="hljs language-csharp">services.AddAuthentication(<span class="hljs-string">&quot;Bearer&quot;</span>)
+    .AddJwtBearer(<span class="hljs-string">&quot;Bearer&quot;</span>, o =&gt;
+    {
+        o.Authority = builder.Configuration[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]; <span class="hljs-comment">// https://auth.&lt;domain&gt;</span>
+        o.TokenValidationParameters.ValidAudience = <span class="hljs-string">&quot;yapidoo.api&quot;</span>; <span class="hljs-comment">// or use audience validation mapping</span>
+        o.RequireHttpsMetadata = <span class="hljs-literal">true</span>;
+    });
+
+services.AddAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();</code></pre><p>Expose audience/scope checks with policies if you like.</p>
+<hr>
+<h1 id="9-local-testing-quick">
+        <a href="#9-local-testing-quick" class="header-anchor">
+          9 Local testing (quick)
+        </a>
+      </h1><p><strong>Auth code (SPA):</strong></p>
+<ol>
+<li>Run Auth service and Angular app.</li>
+<li>Hit SPA → login form → you post to <code>/account/login</code> → SPA triggers OIDC authorize → consent/page → token arrives on callback.</li>
+</ol>
+<p><strong>Client credentials (M2M):</strong></p>
+<pre><code class="hljs language-bash">curl -X POST https://auth.local/connect/token \
+ -H <span class="hljs-string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> \
+ -d <span class="hljs-string">&quot;grant_type=client_credentials&amp;client_id=yapidoo-m2m&amp;client_secret=super-secret-change-me&amp;scope=yapidoo.api&quot;</span></code></pre><hr>
+<h1 id="10-production-hardening-checklist">
+        <a href="#10-production-hardening-checklist" class="header-anchor">
+          10 Production hardening checklist
+        </a>
+      </h1><ul>
+<li>Replace ephemeral keys with <strong>persisted RSA/X.509</strong>, enable <strong>automatic rotation</strong>.</li>
+<li>Turn on <strong>email confirmation</strong>, <strong>2FA</strong> (optional), <strong>lockout</strong> policies.</li>
+<li>Enforce <strong>short-lived access tokens</strong> (e.g., 5–15 min) and <strong>refresh rotation</strong>.</li>
+<li>Lock down <strong>CORS</strong> and <strong>redirect URIs</strong> to known hosts.</li>
+<li>Add <strong>/connect/.well-known/openid-configuration</strong> (OpenIddict publishes discovery automatically).</li>
+<li>Centralized logging of auth events; rate-limit <code>/connect/token</code>.</li>
+</ul>
+<hr>
+<h1 id="11-optional-extras-when-ready">
+        <a href="#11-optional-extras-when-ready" class="header-anchor">
+          11 Optional extras (when ready)
+        </a>
+      </h1><ul>
+<li>External providers (Google/Facebook): add <code>.AddAuthentication().AddGoogle(...).AddFacebook(...)</code> and map external sign-in to Identity user; then rely on standard OIDC flow for tokens.</li>
+<li>Reference tokens + <strong>/connect/introspect</strong> if you need instant revocation at API gateway.</li>
+<li>Emit <strong>domain events</strong> to Users service on registration/deletion (<code>UserRegistered</code>, <code>UserDeleted</code>).</li>
+<li>JWKS caching at the API gateway.</li>
+</ul>
+<hr>
+<h2 id="tldr">
+        <a href="#tldr" class="header-anchor">
+          TL;DR
+        </a>
+      </h2><ol>
+<li>Add <strong>Identity + EF + OpenIddict</strong> as above.</li>
+<li><strong>Seed clients</strong>: <code>yapidoo-spa</code> (public+PKCE), <code>yapidoo-m2m</code> (secret).</li>
+<li>Provide a <strong>minimal login endpoint</strong> to create a cookie session for interactive code flow.</li>
+<li>Configure <strong>Angular OIDC client</strong>.</li>
+<li>Configure <strong>resource APIs</strong> to validate JWT via your Auth authority.</li>
+</ol>
+<p>If you want, I can drop in a tiny sample repo layout (solution files + ready Program.cs, DbContext, seeder, and a Postman collection) for your exact stack (Postgres/GKE).</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

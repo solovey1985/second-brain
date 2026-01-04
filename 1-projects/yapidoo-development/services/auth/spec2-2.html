@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spec2-2 - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#why-this-matters">Why this matters</a></li>
+<li><a href="#nonnegotiable-requirements-from-rfc-6749">Non‑negotiable requirements (from RFC 6749)</a></li>
+<ul>
+<li><a href="#client-identifier-section-22">Client identifier (Section 2.2)</a></li>
+<li><a href="#client-types-section-21-context-youll-rely-on">Client types (Section 2.1) — context you’ll rely on</a></li>
+<li><a href="#client-authentication-sections-23-321">Client authentication (Sections 2.3 & 3.2.1)</a></li>
+</ul>
+<li><a href="#how-this-maps-to-yapidooserviceauth-openiddict">How this maps to Yapidoo.Service.Auth (OpenIddict)</a></li>
+<ul>
+<li><a href="#1-client-catalogue-registration-policy">1) Client catalogue & registration policy</a></li>
+<li><a href="#2-authentication-methods-at-the-token-endpoint">2) Authentication methods at the token endpoint</a></li>
+<li><a href="#3-token-endpoint-hardening">3) Token endpoint hardening</a></li>
+<li><a href="#4-authorization-endpoint-enforcement">4) Authorization endpoint enforcement</a></li>
+<li><a href="#5-what-goes-where-yapidoo-context">5) What goes where (Yapidoo context)</a></li>
+</ul>
+<li><a href="#implementation-checklist">Implementation checklist</a></li>
+<li><a href="#do-vs-dont-quick-hits">“Do vs Don’t” quick hits</a></li>
+<li><a href="#minimal-sequence-token-request-confidential-client">Minimal sequence (token request, confidential client)</a></li>
+</ul>
+</div><p>Here’s a focused, “what you need to know” guide for designing <strong>Yapidoo.Service.Auth</strong> (OpenIddict-based) around the OAuth 2.0 spec you referenced — specifically the parts about <strong>client identifiers and client authentication</strong>. I’ll anchor the requirements to the RFC so you can trace each rule back to source.</p>
+<h1 id="why-this-matters">
+        <a href="#why-this-matters" class="header-anchor">
+          Why this matters
+        </a>
+      </h1><p>In OAuth, <em>clients</em> (your SPA, mobile app, backend jobs, other microservices) must be registered and identified. The <strong>client identifier (client_id)</strong> is the handle by which the Auth service recognizes them; the <strong>authentication method</strong> (e.g., client secret or key) is how confidential clients prove they are who they say they are. Getting this right determines which flows you can safely support and how you harden the token endpoint.</p>
+<hr>
+<h1 id="nonnegotiable-requirements-from-rfc-6749">
+        <a href="#nonnegotiable-requirements-from-rfc-6749" class="header-anchor">
+          Non‑negotiable requirements (from RFC 6749)
+        </a>
+      </h1><h2 id="client-identifier-section-22">
+        <a href="#client-identifier-section-22" class="header-anchor">
+          Client identifier (Section 2.2)
+        </a>
+      </h2><ul>
+<li>Your Auth service must issue each registered client a <strong>client identifier</strong> — “a unique string representing the registration information provided by the client.” It’s <strong>not a secret</strong> and <strong>MUST NOT</strong> be used alone for authentication. It’s unique <strong>per authorization server</strong>. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The spec leaves <strong>identifier length unspecified</strong>; clients <strong>shouldn’t assume</strong> a size. The server <strong>SHOULD document</strong> the sizes it issues. Action: publish a doc (or discovery metadata) stating your client_id length policy. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The <strong>client_id</strong> is a <strong>required parameter</strong> in authorization requests (authorization code and implicit). Your authorization endpoint must enforce its presence. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<h2 id="client-types-section-21-context-youll-rely-on">
+        <a href="#client-types-section-21-context-youll-rely-on" class="header-anchor">
+          Client types (Section 2.1) — context you’ll rely on
+        </a>
+      </h2><ul>
+<li><strong>Confidential</strong> clients can keep credentials secret (e.g., backend services).</li>
+<li><strong>Public</strong> clients cannot (e.g., SPA in browser, native apps). Don’t “upgrade” a public client by handing it a secret. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<h2 id="client-authentication-sections-23-321">
+        <a href="#client-authentication-sections-23-321" class="header-anchor">
+          Client authentication (Sections 2.3 & 3.2.1)
+        </a>
+      </h2><ul>
+<li>For <strong>confidential clients</strong>, you and the client must agree on an authentication method; the server may accept any method meeting its security requirements (password/secret, key pair, etc.). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Do not rely</strong> on public client authentication to identify the client (treat it as unauthenticated from the server’s perspective). Pair it with PKCE and redirect URI checks instead. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>The client <strong>MUST NOT use more than one authentication method in a request</strong> (e.g., don’t send both Basic and body credentials). Enforce this in the token endpoint. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>If you issue <strong>client passwords/secrets</strong>, the server <strong>MUST support HTTP Basic</strong> at the token endpoint for those clients; you <strong>MAY</strong> also allow credentials in the request body. Ensure your implementation supports both if you choose to allow the latter. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>When using password/secret auth, <strong>require TLS</strong> and <strong>protect against brute force</strong> (rate limiting, lockouts). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="how-this-maps-to-yapidooserviceauth-openiddict">
+        <a href="#how-this-maps-to-yapidooserviceauth-openiddict" class="header-anchor">
+          How this maps to Yapidoo.Service.Auth (OpenIddict)
+        </a>
+      </h1><h2 id="1-client-catalogue-registration-policy">
+        <a href="#1-client-catalogue-registration-policy" class="header-anchor">
+          1) Client catalogue & registration policy
+        </a>
+      </h2><p>Define and persist a <strong>Client</strong> aggregate with (at minimum):</p>
+<ul>
+<li><p><code>client_id</code> (public, unique, opaque string — document length); <code>client_name</code></p>
+</li>
+<li><p><code>client_type</code>: <code>confidential | public</code> (from RFC)</p>
+</li>
+<li><p>Allowed <strong>grant types</strong> and <strong>response types</strong></p>
+</li>
+<li><p><strong>Redirect URIs</strong> (for code/implicit), and <strong>post-logout redirect URIs</strong></p>
+</li>
+<li><p><strong>Auth methods</strong> at token endpoint:</p>
+<ul>
+<li>confidential: <code>client_secret_basic</code> (MUST support), optionally <code>client_secret_post</code>, <code>private_key_jwt</code>, and (if required) <code>tls_client_auth</code></li>
+<li>public: <code>none</code> (authN not relied upon)</li>
+</ul>
+</li>
+<li><p><strong>PKCE required</strong> (true for public/native; recommended even for confidential web apps)</p>
+</li>
+<li><p><strong>Scopes</strong> allowed; token lifetimes; consent policy</p>
+</li>
+</ul>
+<p>(Section 2 lists what clients must provide at registration — client type and redirect URIs — which your admin UI or provisioning pipeline must capture.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</p>
+<p><strong>OpenIddict notes:</strong></p>
+<ul>
+<li>Model these fields in your <strong>Data</strong> project; hash client secrets at rest; rotate secrets; log issuance/rotation events.</li>
+<li>Expose an <strong>admin-only</strong> registration endpoint/console (or IaC seeding) to create/update clients.</li>
+</ul>
+<h2 id="2-authentication-methods-at-the-token-endpoint">
+        <a href="#2-authentication-methods-at-the-token-endpoint" class="header-anchor">
+          2) Authentication methods at the token endpoint
+        </a>
+      </h2><p>Implement and enforce:</p>
+<ul>
+<li><strong>client_secret_basic</strong>: Accept HTTP Basic with <code>client_id</code> as username and URL-encoded <code>client_secret</code> as password. (Required if you issue passwords.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>client_secret_post</strong> (optional): Accept credentials in the request body only if you explicitly opt in. (Still enforce TLS.)</li>
+<li><strong>private_key_jwt</strong> (recommended for high-security confidential clients): Issue a JWKS to clients or register their JWKS URL; validate <code>client_assertion</code> at <code>/token</code>. (Allowed under “other authentication methods”.) (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>none</strong>: For public clients (SPAs, native), <strong>no client secret</strong>; rely on PKCE + strict redirect URI and origin checks. Do <strong>not</strong> use public-client auth to identify the client. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<p>Also enforce: <strong>one method per request</strong>; reject mixed-mode attempts. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</p>
+<h2 id="3-token-endpoint-hardening">
+        <a href="#3-token-endpoint-hardening" class="header-anchor">
+          3) Token endpoint hardening
+        </a>
+      </h2><ul>
+<li><strong>TLS everywhere</strong>, especially for requests with client passwords. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Brute-force protection</strong>: per-client rate limits and exponential backoff/temporary lock after failed client auth. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><strong>Error behavior</strong>: Don’t leak whether an unknown <code>client_id</code> exists; return generic invalid_client errors.</li>
+<li><strong>Audit</strong>: Log client auth failures/successes with correlation IDs.</li>
+</ul>
+<h2 id="4-authorization-endpoint-enforcement">
+        <a href="#4-authorization-endpoint-enforcement" class="header-anchor">
+          4) Authorization endpoint enforcement
+        </a>
+      </h2><ul>
+<li>Require <strong>client_id</strong> on authorization requests (code/implicit). Reject if missing or unknown. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>Validate <strong>redirect_uri</strong> against registered URIs (exact match rules from Section 3.1.2). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>Enforce <strong>PKCE</strong> for public clients; recommend for confidential web apps as defense-in-depth.</li>
+</ul>
+<h2 id="5-what-goes-where-yapidoo-context">
+        <a href="#5-what-goes-where-yapidoo-context" class="header-anchor">
+          5) What goes where (Yapidoo context)
+        </a>
+      </h2><ul>
+<li><strong>Angular SPA</strong> (public): no secret; code flow + PKCE; CORS locked down; <code>token_endpoint_auth_method = none</code>.</li>
+<li><strong>Mobile app</strong> (public): same as SPA, code + PKCE.</li>
+<li><strong>Server-side web app (BFF)</strong> (confidential): code flow; <code>client_secret_basic</code> or <code>private_key_jwt</code>.</li>
+<li><strong>Microservices / job runners</strong> (confidential): client credentials grant; prefer <code>private_key_jwt</code> for stronger auth; otherwise <code>client_secret_basic</code>.</li>
+</ul>
+<hr>
+<h1 id="implementation-checklist">
+        <a href="#implementation-checklist" class="header-anchor">
+          Implementation checklist
+        </a>
+      </h1><p><strong>Client model &amp; storage</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Generate opaque <strong>client_id</strong>; document size range in your developer portal/config docs. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> Store <strong>secrets hashed</strong> (PBKDF2/Argon2id), with created/rotated timestamps.</li>
+<li><input disabled="" type="checkbox"> Persist: redirect URIs, grant/response types, scopes, token lifetimes, auth method(s).</li>
+</ul>
+<p><strong>Endpoints</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>/connect/authorize</code>: require <code>client_id</code>; validate registered redirect; enforce PKCE for public. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> <code>/connect/token</code>: support <strong>Basic</strong>; optionally <strong>POST body</strong>; optionally <strong>private_key_jwt</strong>; <strong>one method per request</strong>. Enforce TLS and brute‑force protection. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<p><strong>Security controls</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Rate limiting on token endpoint; generic error messages.</li>
+<li><input disabled="" type="checkbox"> Disallow secrets for public clients; don’t rely on public client auth for identification. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> Rotation tooling for client secrets &amp; keys; JWKS management for private_key_jwt.</li>
+</ul>
+<p><strong>Docs for integrators</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Publish client_id length policy and accepted auth methods. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li><input disabled="" type="checkbox"> List required fields at registration (type, redirect URIs). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="do-vs-dont-quick-hits">
+        <a href="#do-vs-dont-quick-hits" class="header-anchor">
+          “Do vs Don’t” quick hits
+        </a>
+      </h1><ul>
+<li>✅ <strong>Do</strong> treat <code>client_id</code> as public and stable; it identifies the client but does not authenticate it. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>✅ <strong>Do</strong> support <strong>HTTP Basic</strong> for confidential clients with passwords. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>✅ <strong>Do</strong> enforce <strong>exact redirect URI matching</strong> and PKCE for public clients. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> put <strong>client_secret</strong> in SPAs or mobile apps; they’re public clients by definition. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> allow mixed client auth schemes in one token request. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+<li>❌ <strong>Don’t</strong> accept client password auth over non‑TLS or without brute‑force protections. (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<h1 id="minimal-sequence-token-request-confidential-client">
+        <a href="#minimal-sequence-token-request-confidential-client" class="header-anchor">
+          Minimal sequence (token request, confidential client)
+        </a>
+      </h1><div class="mermaid">sequenceDiagram
+  participant C as Client (confidential)
+  participant AS as Auth Server (OpenIddict)
+  C->>AS: POST /connect/token + Authorization: Basic base64(client_id:client_secret)
+  AS->>AS: Validate TLS, auth method=Basic, rate-limit check
+  AS->>AS: Look up client_id, verify secret (hashed)
+  AS-->>C: 200 OK {access_token, refresh_token, ...}</div><ul>
+<li>Must handle the same with <code>client_secret_post</code> or <code>private_key_jwt</code> (one method per request). (<a href="https://datatracker.ietf.org/doc/html/rfc6749" title="
+            
+            
+        ">datatracker.ietf.org</a>)</li>
+</ul>
+<hr>
+<p>If you want, I can turn this into a short <strong>OpenIddict configuration snippet</strong> and a <strong>client registration JSON template</strong> you can drop into your provisioning pipeline.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

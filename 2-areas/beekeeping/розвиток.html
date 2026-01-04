@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>розвиток - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/beekeeping/">beekeeping</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">🐝 Розвиток бджіл</a></li>
+<ul>
+<li><a href="#-">📊 Таблиця розвитку бджіл</a></li>
+<ul>
+<li><a href="#-">🔁 Життєвий цикл робочої бджоли влітку</a></li>
+</ul>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          🐝 Розвиток бджіл
+        </a>
+      </h1><h2 id="-">
+        <a href="#-" class="header-anchor">
+          📊 Таблиця розвитку бджіл
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>Стадія / Каста</th>
+<th>Робоча бджола</th>
+<th>Матка</th>
+<th>Трутень</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Яйце</td>
+<td>1–3</td>
+<td>1–3</td>
+<td>1–3</td>
+</tr>
+<tr>
+<td>Личинка (молочко)</td>
+<td>4–6</td>
+<td>4–5</td>
+<td>4–6</td>
+</tr>
+<tr>
+<td>Личинка (перга+мед)</td>
+<td>6–8</td>
+<td>—</td>
+<td>6–10</td>
+</tr>
+<tr>
+<td>Запечатування</td>
+<td>9 день</td>
+<td>8 день</td>
+<td>10 день</td>
+</tr>
+<tr>
+<td>Лялечка</td>
+<td>9–20</td>
+<td>8–16</td>
+<td>10–24</td>
+</tr>
+<tr>
+<td>Вихід з комірки</td>
+<td>21 день</td>
+<td>16 день</td>
+<td>24 день</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          🔁 Життєвий цикл робочої бджоли влітку
+        </a>
+      </h3><table>
+<thead>
+<tr>
+<th>Вік (дні)</th>
+<th>Функції</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1–3</td>
+<td>Очищення комірок, обігрів розплоду</td>
+</tr>
+<tr>
+<td>4–10</td>
+<td>Годування личинок, прийом нектару, вироблення маточного молочка</td>
+</tr>
+<tr>
+<td>11–15</td>
+<td>Виділення воску, будівництво стільників, запечатування розплоду</td>
+</tr>
+<tr>
+<td>16–20</td>
+<td>Прийом нектару, переробка в мед, вентиляція</td>
+</tr>
+<tr>
+<td>21+</td>
+<td>Польові роботи: нектар, пилок, вода, прополіс, охорона</td>
+</tr>
+</tbody></table>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

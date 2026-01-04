@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>heating - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/2-areas/">2-areas</a></li><li><a href="/second-brain/2-areas/home-maintenance/">home-maintenance</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<ul>
+<li><a href="#-">Автоматика та обладнання</a></li>
+</ul>
+<li><a href="#-">Термостати (кімнатні) та проводка під ТП</a></li>
+<li><a href="#-">Контролери змішувального вузла / погодозалежка</a></li>
+<li><a href="#-tp-">Насоси циркуляційні (TP/радіатори/камінний контур)</a></li>
+<li><a href="#-">Змішувальні/захисні клапани</a></li>
+<li><a href="#-">Колектори та «обв’язка» ТП</a></li>
+<ul>
+<li><a href="#-uah-2025-">Орієнтовні ціни (UAH, вересень 2025) — середній сегмент</a></li>
+<li><a href="#-">Що саме поставити у вашій системі (рекомендація)</a></li>
+<li><a href="#-">Зведена таблиця обладнання (приклад)</a></li>
+</ul>
+<li><a href="#-">📋 Специфікація обладнання та автоматики</a></li>
+<li><a href="#-">💰 Підсумок</a></li>
+</ul>
+</div><p>Добре 👌
+Ось діаграма у форматі <strong>Mermaid Gantt</strong>, яка показує послідовність етапів робіт із приблизними витратами (середній сегмент).</p>
+<div class="mermaid">gantt
+    title Проєкт опалення будинку 120 м² (електрокотел + тепла підлога + камін + буфер 300 л)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d.%m
+
+    section Підготовка
+    Технічні умови та розмітка           :done,    prep, 2025-09-15, 5d
+    Утеплення та підготовка підлоги      :active,  ins,  2025-09-20, 7d
+
+    section Тепла підлога
+    Монтаж труб (≈500 м)                 :tube,    after ins, 7d
+    Заливка стяжки та сушка              :str,     after tube, 14d
+
+    section Обладнання
+    Встановлення буфера 300 л            :buf,     2025-10-10, 3d
+    Монтаж електрокотла 12 кВт           :boiler,  after buf, 3d
+    Радіатори (2-й поверх)               :rad,     after boiler, 4d
+    Колектори + автоматика               :coll,    after rad, 4d
+
+    section Камін
+    Монтаж каміна та обв’язки            :fire,    2025-10-25, 5d
+
+    section Завершення
+    Пусконалагоджувальні роботи          :test,    after fire, 4d
+
+    section Орієнтовні витрати (грн)
+    Підготовка та утеплення ~25k         :milestone, m1, 2025-09-15, 0d
+    Тепла підлога ~70k                   :milestone, m2, 2025-09-27, 0d
+    Буферний бак ~25k                    :milestone, m3, 2025-10-10, 0d
+    Електрокотел ~30k                    :milestone, m4, 2025-10-13, 0d
+    Радіатори ~20k                       :milestone, m5, 2025-10-17, 0d
+    Колектори + автоматика ~25k          :milestone, m6, 2025-10-21, 0d
+    Камінна обв’язка ~30k                :milestone, m7, 2025-10-25, 0d
+    Пусконалагодження ~10k               :milestone, m8, 2025-10-30, 0d</div><p>📊 Ця діаграма показує:</p>
+<ul>
+<li>етапи й тривалість робіт;</li>
+<li>орієнтовну послідовність монтажу;</li>
+<li>контрольні точки з бюджетом по етапах.</li>
+</ul>
+<p>Хочеш, я ще зроблю <strong>Mermaid діаграму-схему системи опалення</strong> (котел + камін + буфер + контури підлоги та радіаторів)?</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Автоматика та обладнання
+        </a>
+      </h2><p>Клас, ось стисла добірка <strong>середнього сегмента</strong>: що саме брати, навіщо, орієнтовні ціни й де подивитись характеристики/придбати.</p>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          Термостати (кімнатні) та проводка під ТП
+        </a>
+      </h1><ul>
+<li><strong>SALUS T105 / T105RF (дротовий/радіо)</strong> — прості тижневі програмовані термостати для кімнат і зон ТП; у версії RF не треба тягнути дроти до колектора. Добре закривають більшість сценаріїв зонального керування. (<a href="https://manuals.plus/salus/t105rf-digital-programmable-thermostat-manual?utm_source=chatgpt.com" title="SALUS T105RF Digital Programmable Thermostat User ...">Manuals+</a>)</li>
+<li><strong>SALUS KL08NSB (wiring center, 8 зон)</strong> — «мозок» водяної теплої підлоги: підключення кімнатних термостатів, сервоприводів на колекторі, керування насосом і сигналом на котел. Ідеально для вашої схеми з кількома контурами. (<a href="https://saluscontrols.com/global/product/kl08nsb-wiring-centre-for-8-zones/?utm_source=chatgpt.com" title="KL08NSB Wiring centre, for 8 zones - SALUS Controls">Salus</a>)</li>
+</ul>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          Контролери змішувального вузла / погодозалежка
+        </a>
+      </h1><ul>
+<li><strong>TECH ST-431N (контролер 3-/4-ходового клапана + насос)</strong> — керує змішувальним вузлом ТП, підтримує зв’язок із кімнатним термостатом та погодозалежний режим; стабільна «робоча конячка» для колекторної групи. (<a href="https://kotly.com/gb/55-mixing-valve-and-pump-controller-tech-st-431n-eu.html?utm_source=chatgpt.com" title="Mixing valve and pump controller TECH ST-431N EU">kotly.com</a>)</li>
+</ul>
+<h1 id="-tp-">
+        <a href="#-tp-" class="header-anchor">
+          Насоси циркуляційні (TP/радіатори/камінний контур)
+        </a>
+      </h1><ul>
+<li><strong>Grundfos ALPHA2 25-60</strong> — енергоефективний, «мокрий ротор», авто-режими, голова до ~6 м; універсальний вибір для колектора ТП та радіаторного контуру. (<a href="https://e-catalog.com/GRUNDFOS-ALPHA2-25-60-180.htm?utm_source=chatgpt.com" title="Grundfos ALPHA2 25-60-180 6.2 m 1 1/2" 180 mm">E-каталог</a>)</li>
+<li><strong>Wilo Yonos PICO 25/1-6</strong> — альтернатива середнього класу з електронним регулюванням; добре стає на колектор чи радіатори. (<a href="https://ukrinstal.com.ua/ua/tsirkulyatsionnyy-nasos-wilo-yonos-pico1-0-25-1-6-130-row-4248085/?srsltid=AfmBOorRIrzGvJ6vd-6xRES2QC4RIegbT-Q39-85cVPmOqRMDjAnhinK&utm_source=chatgpt.com" title="Циркуляційний насос Wilo YONOS PICO1.0 25/1-6-130- ...">ukrinstal.com.ua</a>)</li>
+</ul>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          Змішувальні/захисні клапани
+        </a>
+      </h1><ul>
+<li><strong>ESBE VTA (термостатичний змішувальний 20–43 °C або 35–60 °C)</strong> — тримає низькотемпературний режим ТП (~35–45 °C). Брати серію VTA3xx/VTA5xx під вашу гідравліку. (<a href="https://www.atria-europe.com/thermostatic-mixing-valve-esbe-vta/?utm_source=chatgpt.com" title="Thermostatic mixing valve ESBE VTA">atria-europe.com</a>)</li>
+<li><strong>Laddomat 21-60 (завантажувальний вузол для каміна/твердопаливного контуру)</strong> — швидкий прогрів сорочки каміна, захист від конденсації, правильне заряджання буфера; комплектний вузол із насосом. (<a href="https://trade.mibec.co.uk/product/laddomat-21-60-loading-valve/?utm_source=chatgpt.com" title="Laddomat 21 - 60 Loading Valve">Mibec Trade</a>)</li>
+</ul>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          Колектори та «обв’язка» ТП
+        </a>
+      </h1><ul>
+<li><strong>VALTEC колектор з витратомірами (6–8 контурів)</strong> — надійна гребінка для балансування витрат; є готові комплекти з ротаметрами й запірною арматурою. (<a href="https://www.valtecsrl.com/eng/catalog/kollektornye_sistemy/kollektornye_bloki/kollektornyj_blok_so_vstroennymi_rashodomerami_vtc596emnx.html?utm_source=chatgpt.com" title="Manifold shut-off regulator kit with flow meters - VALTEC">VALTEC | Impianti sanitari affidabili</a>)</li>
+</ul>
+<hr>
+<h2 id="-uah-2025-">
+        <a href="#-uah-2025-" class="header-anchor">
+          Орієнтовні ціни (UAH, вересень 2025) — середній сегмент
+        </a>
+      </h2><ul>
+<li>Кімнатний термостат SALUS T105 / T105RF: <strong>≈ 1 500–2 800</strong> за зону (RF дорожчий). (<a href="https://manuals.plus/salus/t105rf-digital-programmable-thermostat-manual?utm_source=chatgpt.com" title="SALUS T105RF Digital Programmable Thermostat User ...">Manuals+</a>)</li>
+<li>Центр керування ТП SALUS KL08NSB (8 зон): <strong>≈ 4 500–6 500</strong>. (<a href="https://controls.com.ua/en/tsentr-komutatsii-8-zon-drotovyi-230v-salus-kl08nsb/?utm_source=chatgpt.com" title="Switching center for 8 zones Salus KL08NSB">controls.com.ua</a>)</li>
+<li>Контролер змішувального вузла TECH ST-431N: <strong>≈ 6 500–8 500</strong> (екв. €200). (<a href="https://foest.eu/index.php?cPath=1_55_74&language=en&main_page=product_info&products_id=363&utm_source=chatgpt.com" title="Valve Controller EU-I-1 (ST-431N) (DE.100 V1)">Foest.Europa®</a>)</li>
+<li>Насос Grundfos ALPHA2 25-60: <strong>≈ 7 500–10 500</strong> (залежно від модифікації/постачальника). (<a href="https://www.grundfos.com/content/dam/local/uk-ua/catalogues/_jcr_content1/%D0%9F%D1%80%D0%B0%D0%B9%D1%81%20%D0%BB%D0%B8%D1%81%D1%82%202025%20%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%B1%D1%83%D1%82%D0%BE%D0%B2%D0%B5%20%D0%BE%D0%B1%D0%BB%D0%B0%D0%B4%D0%BD%D0%B0%D0%BD%D0%BD%D1%8F.pdf?utm_source=chatgpt.com" title="Прайс-лист">grundfos.com</a>)</li>
+<li>Насос Wilo Yonos PICO 25/1-6: <strong>≈ 8 000–9 500</strong>. (<a href="https://epicentrk.ua/shop/wilo-yonos-pico-25-1-6-4215515.html?utm_source=chatgpt.com" title="ᐉ Wilo Yonos Pico 25/1-6 (4215515)">epicentrk.ua</a>)</li>
+<li>Термостатичний змішувальний ESBE VTA: <strong>≈ 3 800–5 500</strong> (екв. €90–110). (<a href="https://www.atria-europe.com/thermostatic-mixing-valve-esbe-vta/?utm_source=chatgpt.com" title="Thermostatic mixing valve ESBE VTA">atria-europe.com</a>)</li>
+<li>Laddomat 21-60 (вузол каміна → буфер): <strong>≈ 12 000–16 000</strong> (екв. £280–340). (<a href="https://trade.mibec.co.uk/product/laddomat-21-60-loading-valve/?utm_source=chatgpt.com" title="Laddomat 21 - 60 Loading Valve">Mibec Trade</a>)</li>
+<li>Колектор VALTEC з витратомірами (8 контурів): <strong>≈ 9 000–13 000</strong> (ціна сильно залежить від комплектації). (<a href="https://www.valtecsrl.com/eng/catalog/kollektornye_sistemy/kollektornye_bloki/kollektornyj_blok_so_vstroennymi_rashodomerami_vtc596emnx.html?utm_source=chatgpt.com" title="Manifold shut-off regulator kit with flow meters - VALTEC">VALTEC | Impianti sanitari affidabili</a>)</li>
+</ul>
+<blockquote>
+<p>Примітка: курси/доставка дають розкид. Я взяв середину по ринку; за наявності конкретних продавців у Білогородці/Вишневому можна ще «притиснути» кошторис.</p>
+</blockquote>
+<hr>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Що саме поставити у вашій системі (рекомендація)
+        </a>
+      </h2><ol>
+<li><strong>ТП (1-й поверх + ванна 2-го):</strong>
+KL08NSB (1 шт) + термостати SALUS по зонах (3–5 шт) + сервоприводи 230 В NC на колектор + ESBE VTA (40 °C) + насос Grundfos ALPHA2 25-60. (<a href="https://saluscontrols.com/global/product/kl08nsb-wiring-centre-for-8-zones/?utm_source=chatgpt.com" title="KL08NSB Wiring centre, for 8 zones - SALUS Controls">Salus</a>)</li>
+<li><strong>Радіатори (2-й поверх):</strong>
+Насос Wilo Yonos PICO 25/1-6 + стандартні термоголовки на радіаторах. (<a href="https://epicentrk.ua/shop/wilo-yonos-pico-25-1-6-4215515.html?utm_source=chatgpt.com" title="ᐉ Wilo Yonos Pico 25/1-6 (4215515)">epicentrk.ua</a>)</li>
+<li><strong>Камін з водяним контуром → буфер:</strong>
+Laddomat 21-60 як «завантажувальний» вузол + термостат каміна на 55 °C (з насосом у складі вузла). (<a href="https://trade.mibec.co.uk/product/laddomat-21-60-loading-valve/?utm_source=chatgpt.com" title="Laddomat 21 - 60 Loading Valve">Mibec Trade</a>)</li>
+<li><strong>Колектори:</strong>
+VALTEC з витратомірами (8 виходів на 1-й поверх, 2–3 на 2-й під ванну/малий контур). (<a href="https://www.valtecsrl.com/eng/catalog/kollektornye_sistemy/kollektornye_bloki/kollektornyj_blok_so_vstroennymi_rashodomerami_vtc596emnx.html?utm_source=chatgpt.com" title="Manifold shut-off regulator kit with flow meters - VALTEC">VALTEC | Impianti sanitari affidabili</a>)</li>
+<li><strong>Автоматика змішувального вузла (опційно):</strong>
+Якщо хочете погодозалежний режим — TECH ST-431N на трьохходовий клапан ТП. (<a href="https://kotly.com/gb/55-mixing-valve-and-pump-controller-tech-st-431n-eu.html?utm_source=chatgpt.com" title="Mixing valve and pump controller TECH ST-431N EU">kotly.com</a>)</li>
+</ol>
+<p>Хочеш, зберу це все у зведену таблицю <strong>«специфікація + кількість + ціна + підсумок»</strong> саме під твій план (кількість зон/контурів), щоб можна було віддати підряднику як ТЗ?</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Зведена таблиця обладнання (приклад)
+        </a>
+      </h2><p>Добре 👍
+Складу <strong>зведену таблицю-специфікацію</strong> для твого будинку (120 м², тепла підлога 1-й поверх + ванна 2-го, буфер 300 л, камін + електрокотел), у середньому ціновому сегменті.</p>
+<hr>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          📋 Специфікація обладнання та автоматики
+        </a>
+      </h1><table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Бренд / модель (приклад)</th>
+<th>Кількість</th>
+<th>Орієнт. ціна за од., ₴</th>
+<th>Сума, ₴</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Електрокотел 12 кВт (380 В)</strong></td>
+<td>Midea DSFB120BW / Kospel EKCO.L2M-12</td>
+<td>1</td>
+<td>22 000–30 000</td>
+<td>~27 000</td>
+</tr>
+<tr>
+<td><strong>Буферна ємність 300 л (утеплена)</strong></td>
+<td>Apogey / Termico</td>
+<td>1</td>
+<td>18 000–22 000</td>
+<td>~20 000</td>
+</tr>
+<tr>
+<td><strong>Труба PEX-A 16×2 мм з EVOH</strong></td>
+<td>Valtec / Kan / Henco</td>
+<td>~500 м</td>
+<td>50–60/м</td>
+<td>~25 000</td>
+</tr>
+<tr>
+<td><strong>Утеплювач EPS 50 мм під ТП</strong></td>
+<td>Budmat / Technonikol</td>
+<td>~85 м²</td>
+<td>230–250/м²</td>
+<td>~20 000</td>
+</tr>
+<tr>
+<td><strong>Колектор з витратомірами (8 контурів)</strong></td>
+<td>Valtec / Icma</td>
+<td>1</td>
+<td>10 000–13 000</td>
+<td>~12 000</td>
+</tr>
+<tr>
+<td><strong>Насос циркуляційний (ТП)</strong></td>
+<td>Grundfos ALPHA2 25-60</td>
+<td>1</td>
+<td>8 000–10 000</td>
+<td>~9 000</td>
+</tr>
+<tr>
+<td><strong>Термостатичний змішувальний клапан</strong></td>
+<td>ESBE VTA 322/522</td>
+<td>1</td>
+<td>4 500–5 500</td>
+<td>~5 000</td>
+</tr>
+<tr>
+<td><strong>Сервоприводи колектора (NC 230 В)</strong></td>
+<td>Valtec / Salus</td>
+<td>6–8</td>
+<td>500–600</td>
+<td>~4 000</td>
+</tr>
+<tr>
+<td><strong>Центр керування ТП (wiring center)</strong></td>
+<td>SALUS KL08NSB</td>
+<td>1</td>
+<td>5 000–6 000</td>
+<td>~5 500</td>
+</tr>
+<tr>
+<td><strong>Кімнатні термостати (по зонах)</strong></td>
+<td>SALUS T105 / T105RF</td>
+<td>4–5</td>
+<td>1 800–2 200</td>
+<td>~9 000</td>
+</tr>
+<tr>
+<td><strong>Насос для радіаторів</strong></td>
+<td>Wilo Yonos PICO 25/1-6</td>
+<td>1</td>
+<td>8 000–9 000</td>
+<td>~8 500</td>
+</tr>
+<tr>
+<td><strong>Радіатори сталеві панельні</strong></td>
+<td>Korado / Prado</td>
+<td>4–5</td>
+<td>3 000–4 000</td>
+<td>~15 000</td>
+</tr>
+<tr>
+<td><strong>Термоголовки для радіаторів</strong></td>
+<td>Danfoss / Herz</td>
+<td>4–5</td>
+<td>500–700</td>
+<td>~2 500</td>
+</tr>
+<tr>
+<td><strong>Набір арматури (крани, фільтри, зворотні клапани, групи безпеки)</strong></td>
+<td>Icma / Valtec</td>
+<td>комплект</td>
+<td>~10 000</td>
+<td>~10 000</td>
+</tr>
+<tr>
+<td><strong>Камінна обв’язка (Laddomat 21-60 + насос)</strong></td>
+<td>Laddomat / ESBE</td>
+<td>1</td>
+<td>12 000–16 000</td>
+<td>~14 000</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          💰 Підсумок
+        </a>
+      </h1><ul>
+<li><strong>Разом обладнання + матеріали:</strong> ≈ <strong>186 500 ₴</strong></li>
+<li><strong>Монтажні роботи (укладання труб, стяжка, підключення, пусконалагодження):</strong> ≈ <strong>45 000–55 000 ₴</strong></li>
+<li><strong>Загалом (середній сегмент):</strong> ≈ <strong>230 000–240 000 ₴</strong></li>
+</ul>
+<hr>
+<p>Ця таблиця вже готова як <strong>технічне завдання для підрядника</strong>:</p>
+<ul>
+<li>тут є перелік компонентів, бренди, кількість;</li>
+<li>вказані реалістичні ціни середнього рівня;</li>
+<li>підсумок співпадає з твоїм бюджетом.</li>
+</ul>
+<p>📌 Якщо хочеш, я можу ще оформити це у <strong>формат Excel/CSV</strong> для зручності підрахунку чи коригування підрядником. Хочеш такий файл?</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

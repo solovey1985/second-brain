@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>openiddict-integration - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#openiddict-integration-guide">OpenIddict Integration Guide</a></li>
+<ul>
+<li><a href="#references">References</a></li>
+<li><a href="#context-goals">Context & Goals</a></li>
+<li><a href="#required-packages">Required packages</a></li>
+<li><a href="#data-model-dbcontext">Data model & DbContext</a></li>
+<li><a href="#openiddict-server-configuration-core-parts">OpenIddict server configuration (core parts)</a></li>
+<li><a href="#seeding-clients-and-scopes">Seeding clients and scopes</a></li>
+<li><a href="#migrations-db">Migrations & DB</a></li>
+<li><a href="#external-identity-providers">External Identity Providers</a></li>
+<li><a href="#testing-the-server">Testing the server</a></li>
+<li><a href="#operational-notes-security">Operational notes & security</a></li>
+<li><a href="#integration-with-resource-apis">Integration with resource APIs</a></li>
+</ul>
+</ul>
+</div><h1 id="openiddict-integration-guide">
+        <a href="#openiddict-integration-guide" class="header-anchor">
+          OpenIddict Integration Guide
+        </a>
+      </h1><p>This note explains how to integrate OpenIddict into the Yapidoo Auth Service, with context, recommended architecture, and actionable code snippets for .NET 9 + ASP.NET Core Identity + EF Core.</p>
+<p><a href="index.html">Index</a></p>
+<hr>
+<h2 id="references">
+        <a href="#references" class="header-anchor">
+          References
+        </a>
+      </h2><ul>
+<li><a href="https://documentation.openiddict.com/">OpenIdDict Documentation</a></li>
+<li><a href="https://github.com/openiddict/openiddict-samples">Samples</a></li>
+</ul>
+<h2 id="context-goals">
+        <a href="#context-goals" class="header-anchor">
+          Context & Goals
+        </a>
+      </h2><ul>
+<li>Provide a standards-compliant OIDC/OAuth2 authorization server for first‑party clients (SPA, mobile) and machine clients (M2M).</li>
+<li>Support Authorization Code + PKCE, Refresh Tokens, and Client Credentials flows.</li>
+<li>Use ASP.NET Core Identity for user management and EF Core for persistence.</li>
+<li>Publish JWKS for inter-service JWT validation.</li>
+</ul>
+<hr>
+<h2 id="required-packages">
+        <a href="#required-packages" class="header-anchor">
+          Required packages
+        </a>
+      </h2><ul>
+<li>OpenIddict.AspNetCore</li>
+<li>OpenIddict.EntityFrameworkCore</li>
+<li>OpenIddict.Validation.AspNetCore (resource APIs)</li>
+<li>Microsoft.AspNetCore.Authentication.JwtBearer (optional for resource APIs)</li>
+<li>Microsoft.AspNetCore.Identity.EntityFrameworkCore</li>
+<li>Npgsql.EntityFrameworkCore.PostgreSQL or Microsoft.EntityFrameworkCore.SqlServer</li>
+</ul>
+<p>Install via NuGet or Directory.Packages.props.</p>
+<hr>
+<h2 id="data-model-dbcontext">
+        <a href="#data-model-dbcontext" class="header-anchor">
+          Data model & DbContext
+        </a>
+      </h2><ul>
+<li>Keep Identity entities (ApplicationUser : IdentityUser<Guid>) and OpenIddict schema in the same DbContext (AuthDbContext) to simplify migrations and transactions.</li>
+</ul>
+<p>Sample DbContext registration (Program.cs):</p>
+<pre><code class="hljs language-csharp">
+builder.Services.AddDbContext&lt;AuthDbContext&gt;(options =&gt;
+    options.UseNpgsql(builder.Configuration.GetConnectionString(<span class="hljs-string">&quot;DefaultConnection&quot;</span>))
+           .UseOpenIddict());
+
+builder.Services.AddIdentity&lt;ApplicationUser, IdentityRole&lt;Guid&gt;&gt;()
+    .AddEntityFrameworkStores&lt;AuthDbContext&gt;()
+    .AddDefaultTokenProviders();
+</code></pre><p>Notes:</p>
+<ul>
+<li>Call <code>.UseOpenIddict()</code> on options to let EF model include OpenIddict tables.</li>
+</ul>
+<hr>
+<h2 id="openiddict-server-configuration-core-parts">
+        <a href="#openiddict-server-configuration-core-parts" class="header-anchor">
+          OpenIddict server configuration (core parts)
+        </a>
+      </h2><p>Register OpenIddict in DI and configure core/server/auth flows:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] <span class="hljs-keyword">args</span></span>)</span>
+{
+  builder.Services.AddOpenIddict()
+      .AddCore(options =&gt;
+      {
+          options.UseEntityFrameworkCore()
+                .UseDbContext&lt;AuthDbContext&gt;();
+      })
+      .AddServer(options =&gt;
+      {
+          options.SetTokenEndpointUris(<span class="hljs-string">&quot;/connect/token&quot;</span>)
+                .SetAuthorizationEndpointUris(<span class="hljs-string">&quot;/connect/authorize&quot;</span>)
+                .SetUserinfoEndpointUris(<span class="hljs-string">&quot;/connect/userinfo&quot;</span>);
+
+          options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+          options.AllowRefreshTokenFlow();
+          options.AllowClientCredentialsFlow();
+
+          options.RegisterScopes(<span class="hljs-string">&quot;openid&quot;</span>, <span class="hljs-string">&quot;profile&quot;</span>, <span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-string">&quot;yapidoo.api&quot;</span>, <span class="hljs-string">&quot;users.read&quot;</span>, <span class="hljs-string">&quot;users.write&quot;</span>);
+
+          <span class="hljs-comment">// Use ASP.NET Core integration</span>
+          options.UseAspNetCore()
+                .EnableTokenEndpointPassthrough()
+                .EnableAuthorizationEndpointPassthrough()
+                .EnableUserinfoEndpointPassthrough();
+
+          <span class="hljs-comment">// Signing/encryption keys - dev ephemeral by default</span>
+          options.AddDevelopmentEncryptionCertificate()
+                .AddDevelopmentSigningCertificate();
+      })
+      .AddValidation(options =&gt;
+      {
+          options.UseLocalServer();
+          options.UseAspNetCore();
+    });
+}</code></pre><p>Production keys:</p>
+<ul>
+<li>Replace dev certificates with an RSA or X.509 certificate from KeyVault/SecretManager.</li>
+<li>Configure OpenIddict to load the certificate via AddSigningCertificate/FromCertificate.</li>
+<li>Ensure JWKS is discoverable at <code>/.well-known/jwks.json</code>. OpenIddict exposes it automatically.</li>
+</ul>
+<hr>
+<h2 id="seeding-clients-and-scopes">
+        <a href="#seeding-clients-and-scopes" class="header-anchor">
+          Seeding clients and scopes
+        </a>
+      </h2><p>Seed initial clients via a hosted service or startup task using <code>OpenIddictApplicationManager</code>:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-function"><span class="hljs-keyword">async</span> Task <span class="hljs-title">SeedAsync</span>(<span class="hljs-params">IServiceProvider sp</span>)</span> {
+  <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> scope = sp.CreateScope();
+  <span class="hljs-keyword">var</span> mgr = scope.ServiceProvider.GetRequiredService&lt;OpenIddictApplicationManager&lt;OpenIddictEntityFrameworkCoreApplication&gt;&gt;();
+
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> mgr.FindByClientIdAsync(<span class="hljs-string">&quot;yapidoo-spa&quot;</span>) <span class="hljs-keyword">is</span> <span class="hljs-built_in">object</span>) {
+    <span class="hljs-keyword">await</span> mgr.CreateAsync(<span class="hljs-keyword">new</span> OpenIddictApplicationDescriptor {
+      ClientId = <span class="hljs-string">&quot;yapidoo-spa&quot;</span>,
+      DisplayName = <span class="hljs-string">&quot;Yapidoo SPA&quot;</span>,
+      RedirectUris = { <span class="hljs-keyword">new</span> Uri(<span class="hljs-string">&quot;http://localhost:4200/auth/callback&quot;</span>) },
+      Permissions = {
+        OpenIddictConstants.Permissions.Endpoints.Authorization,
+        OpenIddictConstants.Permissions.Endpoints.Token,
+        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+        OpenIddictConstants.Permissions.ResponseTypes.Code
+      }
+    });
+  }
+}</code></pre><p>Also seed M2M client (<code>yapidoo-m2m</code>) with Client Credentials grant and appropriate scopes.</p>
+<hr>
+<h2 id="migrations-db">
+        <a href="#migrations-db" class="header-anchor">
+          Migrations & DB
+        </a>
+      </h2><ul>
+<li>Add migrations for <code>AuthDbContext</code> and update DB:</li>
+</ul>
+<pre><code class="hljs language-ps1">dotnet ef migrations add Init <span class="hljs-literal">-p</span> Yapidoo.Service.Auth.Data <span class="hljs-literal">-s</span> Yapidoo.Service.Auth.Api
+dotnet ef database update <span class="hljs-literal">-p</span> Yapidoo.Service.Auth.Data <span class="hljs-literal">-s</span> Yapidoo.Service.Auth.Api</code></pre><ul>
+<li>Verify OpenIddict tables (Applications, Authorizations, Tokens, Scopes) are created.</li>
+</ul>
+<hr>
+<h2 id="external-identity-providers">
+        <a href="#external-identity-providers" class="header-anchor">
+          External Identity Providers
+        </a>
+      </h2><p>Configure external IdPs (Google, Microsoft):</p>
+<pre><code class="hljs language-csharp">builder.Services.AddAuthentication()
+    .AddGoogle(options =&gt; {
+       options.ClientId = config[<span class="hljs-string">&quot;ExternalProviders:Google:ClientId&quot;</span>];
+       options.ClientSecret = config[<span class="hljs-string">&quot;ExternalProviders:Google:ClientSecret&quot;</span>];
+       options.SignInScheme = IdentityConstants.ExternalScheme;
+    });</code></pre><p>On external callback, map external login to local <code>ApplicationUser</code> and continue OIDC flow (issue tokens / create local account and sign-in).</p>
+<hr>
+<h2 id="testing-the-server">
+        <a href="#testing-the-server" class="header-anchor">
+          Testing the server
+        </a>
+      </h2><p>Client credentials (curl):</p>
+<pre><code class="hljs language-bash">curl -X POST https://auth.local/connect/token \
+  -H <span class="hljs-string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> \
+  -d <span class="hljs-string">&quot;grant_type=client_credentials&amp;client_id=yapidoo-m2m&amp;client_secret=SECRET&amp;scope=yapidoo.api&quot;</span></code></pre><p>Authorization code (manual):</p>
+<ul>
+<li>Browser: GET /connect/authorize?client_id=yapidoo-spa&amp;response_type=code&amp;scope=openid%20profile&amp;redirect_uri=...</li>
+<li>Complete login, receive code, exchange for token at /connect/token with code+PKCE verifier.</li>
+</ul>
+<hr>
+<h2 id="operational-notes-security">
+        <a href="#operational-notes-security" class="header-anchor">
+          Operational notes & security
+        </a>
+      </h2><ul>
+<li>Enforce HTTPS in all environments.</li>
+<li>Use short access token TTLs and rotating refresh tokens.</li>
+<li>Consider reference tokens + introspection for immediate revocation.</li>
+<li>Rate-limit <code>/connect/token</code> and monitor failed attempts.</li>
+<li>Store signing keys in KMS/KeyVault; enable key rotation and ensure JWKS reflects current keys.</li>
+<li>Lock down allowed redirect URIs and CORS origins per environment.</li>
+<li>Audit and log important auth events (token issuance, failed logins, client creation).</li>
+</ul>
+<hr>
+<h2 id="integration-with-resource-apis">
+        <a href="#integration-with-resource-apis" class="header-anchor">
+          Integration with resource APIs
+        </a>
+      </h2><ul>
+<li>Resource APIs should validate tokens using JWKS; prefer offline validation using cached keys.</li>
+<li>Use OpenIddict.Validation or JwtBearer with <code>MetadataAddress</code> pointing to <code>https://auth/.well-known/openid-configuration</code>.</li>
+</ul>
+<hr>
+<p><em>Last updated: 2025-08-16</em></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

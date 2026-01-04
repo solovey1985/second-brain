@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>oidc-integration - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#authservice-integration-guide-for-resource-apis">AuthService Integration Guide for Resource APIs</a></li>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<ul>
+<li><a href="#token-validation-flow">Token Validation Flow</a></li>
+</ul>
+<li><a href="#main-concepts">Main Concepts</a></li>
+<ul>
+<li><a href="#1-jwks-json-web-key-set">1. JWKS (JSON Web Key Set)</a></li>
+<li><a href="#2-access-tokens-jwt">2. Access Tokens (JWT)</a></li>
+<li><a href="#3-scopes">3. Scopes</a></li>
+<li><a href="#4-authorization-policies">4. Authorization Policies</a></li>
+<li><a href="#5-trust-model">5. Trust Model</a></li>
+</ul>
+<li><a href="#integration-steps">Integration Steps</a></li>
+<ul>
+<li><a href="#step-1-install-required-packages">Step 1: Install Required Packages</a></li>
+<li><a href="#step-2-configure-authentication-in-programcs">Step 2: Configure Authentication in Program.cs</a></li>
+<ul>
+<li><a href="#option-a-using-jwtbearer-recommended-for-simplicity">Option A: Using JwtBearer (Recommended for simplicity)</a></li>
+<li><a href="#option-b-using-openiddict-validation">Option B: Using OpenIddict Validation</a></li>
+</ul>
+<li><a href="#step-3-configure-appsettingsjson">Step 3: Configure appsettings.json</a></li>
+<li><a href="#step-4-define-authorization-policies">Step 4: Define Authorization Policies</a></li>
+<li><a href="#step-5-protect-controllersendpoints">Step 5: Protect Controllers/Endpoints</a></li>
+<li><a href="#step-6-handle-service-to-service-calls-m2m">Step 6: Handle Service-to-Service Calls (M2M)</a></li>
+<li><a href="#step-7-add-health-check-for-auth-dependency">Step 7: Add Health Check for Auth Dependency</a></li>
+</ul>
+<li><a href="#checklist">Checklist</a></li>
+<ul>
+<li><a href="#pre-integration">Pre-Integration</a></li>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#authentication-setup">Authentication Setup</a></li>
+<li><a href="#authorization-policies">Authorization Policies</a></li>
+<li><a href="#endpoint-protection">Endpoint Protection</a></li>
+<li><a href="#service-to-service-if-applicable">Service-to-Service (if applicable)</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#production-readiness">Production Readiness</a></li>
+</ul>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<ul>
+<li><a href="#common-issues">Common Issues</a></li>
+<li><a href="#debugging-token-issues">Debugging Token Issues</a></li>
+</ul>
+<li><a href="#related-documentation">Related Documentation</a></li>
+</ul>
+</ul>
+</div><h1 id="authservice-integration-guide-for-resource-apis">
+        <a href="#authservice-integration-guide-for-resource-apis" class="header-anchor">
+          AuthService Integration Guide for Resource APIs
+        </a>
+      </h1><p>This document provides instructions for integrating resource APIs (e.g., Users Service, Events Service) with the <strong>Yapidoo AuthService</strong> to validate tokens and enforce permissions.</p>
+<p><a href="index.html">Back to Services Index</a> | <a href="auth/index.html">Auth Service Docs</a></p>
+<hr>
+<h2 id="introduction">
+        <a href="#introduction" class="header-anchor">
+          Introduction
+        </a>
+      </h2><p>The Yapidoo platform uses a centralized <strong>AuthService</strong> built on <strong>OpenIddict</strong> and <strong>.NET 9</strong> to issue and manage OAuth2/OIDC tokens. All resource APIs must integrate with AuthService to:</p>
+<ol>
+<li><strong>Validate JWT access tokens</strong> issued by AuthService</li>
+<li><strong>Enforce authorization policies</strong> based on scopes and claims</li>
+<li><strong>Enable secure service-to-service communication</strong> using Client Credentials flow</li>
+</ol>
+<p>This guide uses the <strong>Users Service</strong> as a reference implementation, but the same patterns apply to all resource APIs (Events, Notifications, etc.).</p>
+<h3 id="token-validation-flow">
+        <a href="#token-validation-flow" class="header-anchor">
+          Token Validation Flow
+        </a>
+      </h3><div class="mermaid">sequenceDiagram
+  participant Client as SPA / Backend Job
+  participant API as Users Service
+  participant Auth as Auth Service
+  participant JWKS as /.well-known/jwks.json
+
+  Client->>API: Request with Authorization: Bearer <token>
+  API->>JWKS: Fetch public keys (cached)
+  Note over API: Validate JWT signature offline
+  Note over API: Check issuer, audience, expiry
+  Note over API: Verify required scopes/claims
+  API-->>Client: 200 OK / 401 Unauthorized / 403 Forbidden</div><hr>
+<h2 id="main-concepts">
+        <a href="#main-concepts" class="header-anchor">
+          Main Concepts
+        </a>
+      </h2><h3 id="1-jwks-json-web-key-set">
+        <a href="#1-jwks-json-web-key-set" class="header-anchor">
+          1. JWKS (JSON Web Key Set)
+        </a>
+      </h3><p>AuthService automatically publishes its public signing keys at <code>/.well-known/jwks.json</code>. Resource APIs use these keys to validate JWT signatures <strong>offline</strong> without calling AuthService for every request.</p>
+<ul>
+<li><strong>Discovery endpoint</strong>: <code>https://auth.&lt;domain&gt;/.well-known/openid-configuration</code></li>
+<li><strong>JWKS endpoint</strong>: <code>https://auth.&lt;domain&gt;/.well-known/jwks.json</code></li>
+<li>Keys are cached by the JWT middleware; refresh happens automatically</li>
+</ul>
+<h3 id="2-access-tokens-jwt">
+        <a href="#2-access-tokens-jwt" class="header-anchor">
+          2. Access Tokens (JWT)
+        </a>
+      </h3><p>AuthService issues short-lived JWT access tokens containing:</p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sub</code></td>
+<td>Subject (Identity User ID)</td>
+</tr>
+<tr>
+<td><code>aud</code></td>
+<td>Audience (e.g., <code>yapidoo.api</code>)</td>
+</tr>
+<tr>
+<td><code>iss</code></td>
+<td>Issuer (AuthService URL)</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td>Granted scopes (e.g., <code>openid profile users.read</code>)</td>
+</tr>
+<tr>
+<td><code>exp</code></td>
+<td>Expiration timestamp</td>
+</tr>
+<tr>
+<td>Custom claims</td>
+<td>Roles, permissions, etc.</td>
+</tr>
+</tbody></table>
+<h3 id="3-scopes">
+        <a href="#3-scopes" class="header-anchor">
+          3. Scopes
+        </a>
+      </h3><p>Scopes define what actions a client can perform. Common scopes:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>openid</code></td>
+<td>Required for OIDC flows</td>
+</tr>
+<tr>
+<td><code>profile</code></td>
+<td>Access to user profile info</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>Access to user email</td>
+</tr>
+<tr>
+<td><code>yapidoo.api</code></td>
+<td>General API access</td>
+</tr>
+<tr>
+<td><code>users.read</code></td>
+<td>Read user data</td>
+</tr>
+<tr>
+<td><code>users.write</code></td>
+<td>Modify user data</td>
+</tr>
+</tbody></table>
+<h3 id="4-authorization-policies">
+        <a href="#4-authorization-policies" class="header-anchor">
+          4. Authorization Policies
+        </a>
+      </h3><p>Policies combine scope and claim requirements to control access to specific endpoints:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-comment">// Example policy requiring users.write scope</span>
+options.AddPolicy(<span class="hljs-string">&quot;CanWriteUsers&quot;</span>, policy =&gt;
+    policy.RequireScope(<span class="hljs-string">&quot;users.write&quot;</span>));</code></pre><h3 id="5-trust-model">
+        <a href="#5-trust-model" class="header-anchor">
+          5. Trust Model
+        </a>
+      </h3><ul>
+<li><strong>First-party clients</strong> (SPA, mobile): Use Authorization Code + PKCE flow</li>
+<li><strong>Service-to-service</strong> (M2M): Use Client Credentials flow with a confidential client</li>
+<li><strong>Resource APIs</strong>: Trust tokens signed by AuthService; validate via JWKS</li>
+</ul>
+<hr>
+<h2 id="integration-steps">
+        <a href="#integration-steps" class="header-anchor">
+          Integration Steps
+        </a>
+      </h2><h3 id="step-1-install-required-packages">
+        <a href="#step-1-install-required-packages" class="header-anchor">
+          Step 1: Install Required Packages
+        </a>
+      </h3><p>Add JWT Bearer authentication to your resource API:</p>
+<pre><code class="hljs language-bash">dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer</code></pre><p>Alternatively, use OpenIddict validation:</p>
+<pre><code class="hljs language-bash">dotnet add package OpenIddict.Validation.AspNetCore</code></pre><h3 id="step-2-configure-authentication-in-programcs">
+        <a href="#step-2-configure-authentication-in-programcs" class="header-anchor">
+          Step 2: Configure Authentication in Program.cs
+        </a>
+      </h3><h4 id="option-a-using-jwtbearer-recommended-for-simplicity">
+        <a href="#option-a-using-jwtbearer-recommended-for-simplicity" class="header-anchor">
+          Option A: Using JwtBearer (Recommended for simplicity)
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);
+
+<span class="hljs-comment">// Configure JWT Bearer authentication</span>
+builder.Services.AddAuthentication(<span class="hljs-string">&quot;Bearer&quot;</span>)
+    .AddJwtBearer(<span class="hljs-string">&quot;Bearer&quot;</span>, options =&gt;
+    {
+        <span class="hljs-comment">// AuthService URL (OIDC discovery endpoint)</span>
+        options.Authority = builder.Configuration[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]; 
+        <span class="hljs-comment">// e.g., &quot;https://auth.yapidoo.com&quot;</span>
+
+        options.TokenValidationParameters = <span class="hljs-keyword">new</span> TokenValidationParameters
+        {
+            ValidateIssuer = <span class="hljs-literal">true</span>,
+            ValidateAudience = <span class="hljs-literal">true</span>,
+            ValidAudience = <span class="hljs-string">&quot;yapidoo.api&quot;</span>,
+            ValidateLifetime = <span class="hljs-literal">true</span>,
+            ClockSkew = TimeSpan.FromMinutes(<span class="hljs-number">1</span>)
+        };
+
+        <span class="hljs-comment">// Require HTTPS in production</span>
+        options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
+    });
+
+builder.Services.AddAuthorization();
+
+<span class="hljs-keyword">var</span> app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();</code></pre><h4 id="option-b-using-openiddict-validation">
+        <a href="#option-b-using-openiddict-validation" class="header-anchor">
+          Option B: Using OpenIddict Validation
+        </a>
+      </h4><pre><code class="hljs language-csharp">builder.Services.AddOpenIddict()
+    .AddValidation(options =&gt;
+    {
+        <span class="hljs-comment">// Use remote server (AuthService) for validation</span>
+        options.SetIssuer(builder.Configuration[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]);
+        options.UseSystemNetHttp();
+        options.UseAspNetCore();
+    });
+
+builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization();</code></pre><h3 id="step-3-configure-appsettingsjson">
+        <a href="#step-3-configure-appsettingsjson" class="header-anchor">
+          Step 3: Configure appsettings.json
+        </a>
+      </h3><pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;Auth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Authority&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://auth.yapidoo.com&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Audience&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;yapidoo.api&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre><p>For local development:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;Auth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Authority&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://localhost:5001&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Audience&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;yapidoo.api&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre><h3 id="step-4-define-authorization-policies">
+        <a href="#step-4-define-authorization-policies" class="header-anchor">
+          Step 4: Define Authorization Policies
+        </a>
+      </h3><p>Add scope-based policies for fine-grained access control:</p>
+<pre><code class="hljs language-csharp">builder.Services.AddAuthorization(options =&gt;
+{
+    <span class="hljs-comment">// Policy for reading user data</span>
+    options.AddPolicy(<span class="hljs-string">&quot;UsersRead&quot;</span>, policy =&gt;
+        policy.RequireClaim(<span class="hljs-string">&quot;scope&quot;</span>, <span class="hljs-string">&quot;users.read&quot;</span>));
+
+    <span class="hljs-comment">// Policy for writing user data</span>
+    options.AddPolicy(<span class="hljs-string">&quot;UsersWrite&quot;</span>, policy =&gt;
+        policy.RequireClaim(<span class="hljs-string">&quot;scope&quot;</span>, <span class="hljs-string">&quot;users.write&quot;</span>));
+
+    <span class="hljs-comment">// Policy requiring authenticated user</span>
+    options.AddPolicy(<span class="hljs-string">&quot;Authenticated&quot;</span>, policy =&gt;
+        policy.RequireAuthenticatedUser());
+
+    <span class="hljs-comment">// Combined policy example</span>
+    options.AddPolicy(<span class="hljs-string">&quot;UsersAdmin&quot;</span>, policy =&gt;
+        policy.RequireClaim(<span class="hljs-string">&quot;scope&quot;</span>, <span class="hljs-string">&quot;users.read&quot;</span>)
+              .RequireClaim(<span class="hljs-string">&quot;scope&quot;</span>, <span class="hljs-string">&quot;users.write&quot;</span>));
+});</code></pre><h3 id="step-5-protect-controllersendpoints">
+        <a href="#step-5-protect-controllersendpoints" class="header-anchor">
+          Step 5: Protect Controllers/Endpoints
+        </a>
+      </h3><p>Apply authentication and authorization to your endpoints:</p>
+<pre><code class="hljs language-csharp">[<span class="hljs-meta">ApiController</span>]
+[<span class="hljs-meta">Route(<span class="hljs-string">&quot;api/[controller]&quot;</span>)</span>]
+[<span class="hljs-meta">Authorize</span>] <span class="hljs-comment">// Requires any valid token</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UsersController</span> : <span class="hljs-title">ControllerBase</span>
+{
+    <span class="hljs-comment">// GET /api/users - requires users.read scope</span>
+    [<span class="hljs-meta">HttpGet</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;UsersRead&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">GetUsers</span>()</span>
+    {
+        <span class="hljs-comment">// Access user claims</span>
+        <span class="hljs-keyword">var</span> userId = User.FindFirst(<span class="hljs-string">&quot;sub&quot;</span>)?.Value;
+        <span class="hljs-keyword">var</span> scopes = User.FindFirst(<span class="hljs-string">&quot;scope&quot;</span>)?.Value;
+
+        <span class="hljs-keyword">return</span> Ok(<span class="hljs-keyword">await</span> _userService.GetAllAsync());
+    }
+
+    <span class="hljs-comment">// POST /api/users - requires users.write scope</span>
+    [<span class="hljs-meta">HttpPost</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;UsersWrite&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">CreateUser</span>(<span class="hljs-params">[FromBody] CreateUserDto dto</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> Ok(<span class="hljs-keyword">await</span> _userService.CreateAsync(dto));
+    }
+
+    <span class="hljs-comment">// GET /api/users/me - requires any authenticated user</span>
+    [<span class="hljs-meta">HttpGet(<span class="hljs-string">&quot;me&quot;</span>)</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;IActionResult&gt; <span class="hljs-title">GetCurrentUser</span>()</span>
+    {
+        <span class="hljs-keyword">var</span> identityUserId = User.FindFirst(<span class="hljs-string">&quot;sub&quot;</span>)?.Value;
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">string</span>.IsNullOrEmpty(identityUserId))
+            <span class="hljs-keyword">return</span> Unauthorized();
+
+        <span class="hljs-keyword">return</span> Ok(<span class="hljs-keyword">await</span> _userService.GetByIdentityIdAsync(identityUserId));
+    }
+}</code></pre><h3 id="step-6-handle-service-to-service-calls-m2m">
+        <a href="#step-6-handle-service-to-service-calls-m2m" class="header-anchor">
+          Step 6: Handle Service-to-Service Calls (M2M)
+        </a>
+      </h3><p>For backend services calling each other, use the Client Credentials flow:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AuthTokenService</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> HttpClient _httpClient;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IConfiguration _config;
+    <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span>? _cachedToken;
+    <span class="hljs-keyword">private</span> DateTime _tokenExpiry;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AuthTokenService</span>(<span class="hljs-params">HttpClient httpClient, IConfiguration config</span>)</span>
+    {
+        _httpClient = httpClient;
+        _config = config;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">GetAccessTokenAsync</span>()</span>
+    {
+        <span class="hljs-comment">// Return cached token if still valid</span>
+        <span class="hljs-keyword">if</span> (_cachedToken != <span class="hljs-literal">null</span> &amp;&amp; DateTime.UtcNow &lt; _tokenExpiry.AddMinutes(<span class="hljs-number">-1</span>))
+            <span class="hljs-keyword">return</span> _cachedToken;
+
+        <span class="hljs-keyword">var</span> tokenEndpoint = <span class="hljs-string">$&quot;<span class="hljs-subst">{_config[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]}</span>/connect/token&quot;</span>;
+
+        <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> HttpRequestMessage(HttpMethod.Post, tokenEndpoint)
+        {
+            Content = <span class="hljs-keyword">new</span> FormUrlEncodedContent(<span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt;
+            {
+                [<span class="hljs-string">&quot;grant_type&quot;</span>] = <span class="hljs-string">&quot;client_credentials&quot;</span>,
+                [<span class="hljs-string">&quot;client_id&quot;</span>] = _config[<span class="hljs-string">&quot;Auth:ClientId&quot;</span>],
+                [<span class="hljs-string">&quot;client_secret&quot;</span>] = _config[<span class="hljs-string">&quot;Auth:ClientSecret&quot;</span>],
+                [<span class="hljs-string">&quot;scope&quot;</span>] = <span class="hljs-string">&quot;yapidoo.api users.read&quot;</span>
+            })
+        };
+
+        <span class="hljs-keyword">var</span> response = <span class="hljs-keyword">await</span> _httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        <span class="hljs-keyword">var</span> tokenResponse = <span class="hljs-keyword">await</span> response.Content
+            .ReadFromJsonAsync&lt;TokenResponse&gt;();
+
+        _cachedToken = tokenResponse!.AccessToken;
+        _tokenExpiry = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn);
+
+        <span class="hljs-keyword">return</span> _cachedToken;
+    }
+}
+
+<span class="hljs-keyword">record</span> <span class="hljs-title">TokenResponse</span>(
+    [<span class="hljs-title">property</span>: <span class="hljs-title">JsonPropertyName</span>(&quot;<span class="hljs-title">access_token</span>&quot;)] <span class="hljs-title">string</span> <span class="hljs-title">AccessToken</span>,
+    [<span class="hljs-title">property</span>: <span class="hljs-title">JsonPropertyName</span>(&quot;<span class="hljs-title">expires_in</span>&quot;)] <span class="hljs-title">int</span> <span class="hljs-title">ExpiresIn</span>);</code></pre><h3 id="step-7-add-health-check-for-auth-dependency">
+        <a href="#step-7-add-health-check-for-auth-dependency" class="header-anchor">
+          Step 7: Add Health Check for Auth Dependency
+        </a>
+      </h3><pre><code class="hljs language-csharp">builder.Services.AddHealthChecks()
+    .AddUrlGroup(
+        <span class="hljs-keyword">new</span> Uri(<span class="hljs-string">$&quot;<span class="hljs-subst">{builder.Configuration[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]}</span>/.well-known/openid-configuration&quot;</span>),
+        name: <span class="hljs-string">&quot;auth-service&quot;</span>,
+        failureStatus: HealthStatus.Degraded);</code></pre><hr>
+<h2 id="checklist">
+        <a href="#checklist" class="header-anchor">
+          Checklist
+        </a>
+      </h2><h3 id="pre-integration">
+        <a href="#pre-integration" class="header-anchor">
+          Pre-Integration
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> AuthService is deployed and accessible</li>
+<li><input disabled="" type="checkbox"> OIDC discovery endpoint responds: <code>GET /.well-known/openid-configuration</code></li>
+<li><input disabled="" type="checkbox"> JWKS endpoint responds: <code>GET /.well-known/jwks.json</code></li>
+<li><input disabled="" type="checkbox"> Required scopes are registered in AuthService (e.g., <code>users.read</code>, <code>users.write</code>)</li>
+<li><input disabled="" type="checkbox"> M2M client is seeded in AuthService (for service-to-service calls)</li>
+</ul>
+<h3 id="configuration">
+        <a href="#configuration" class="header-anchor">
+          Configuration
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> <code>Auth:Authority</code> configured in appsettings.json</li>
+<li><input disabled="" type="checkbox"> <code>Auth:Audience</code> matches token audience claim</li>
+<li><input disabled="" type="checkbox"> HTTPS enforcement enabled in production (<code>RequireHttpsMetadata = true</code>)</li>
+<li><input disabled="" type="checkbox"> Development settings configured for local testing</li>
+</ul>
+<h3 id="authentication-setup">
+        <a href="#authentication-setup" class="header-anchor">
+          Authentication Setup
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> JWT Bearer or OpenIddict Validation package installed</li>
+<li><input disabled="" type="checkbox"> Authentication configured in <code>Program.cs</code></li>
+<li><input disabled="" type="checkbox"> <code>UseAuthentication()</code> called before <code>UseAuthorization()</code></li>
+<li><input disabled="" type="checkbox"> Authorization middleware registered</li>
+</ul>
+<h3 id="authorization-policies">
+        <a href="#authorization-policies" class="header-anchor">
+          Authorization Policies
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Scope-based policies defined for API operations</li>
+<li><input disabled="" type="checkbox"> <code>[Authorize]</code> attribute applied to protected controllers/endpoints</li>
+<li><input disabled="" type="checkbox"> Policy names match expected scopes from AuthService</li>
+</ul>
+<h3 id="endpoint-protection">
+        <a href="#endpoint-protection" class="header-anchor">
+          Endpoint Protection
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> All sensitive endpoints require authentication</li>
+<li><input disabled="" type="checkbox"> Write operations require appropriate scopes</li>
+<li><input disabled="" type="checkbox"> User context (<code>sub</code> claim) extracted correctly</li>
+<li><input disabled="" type="checkbox"> 401 returned for missing/invalid tokens</li>
+<li><input disabled="" type="checkbox"> 403 returned for insufficient permissions</li>
+</ul>
+<h3 id="service-to-service-if-applicable">
+        <a href="#service-to-service-if-applicable" class="header-anchor">
+          Service-to-Service (if applicable)
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> M2M client credentials configured securely (secrets in vault)</li>
+<li><input disabled="" type="checkbox"> Token caching implemented to avoid excessive token requests</li>
+<li><input disabled="" type="checkbox"> Token refresh logic handles expiration</li>
+</ul>
+<h3 id="testing">
+        <a href="#testing" class="header-anchor">
+          Testing
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Verified token validation with valid JWT</li>
+<li><input disabled="" type="checkbox"> Verified 401 response for missing token</li>
+<li><input disabled="" type="checkbox"> Verified 401 response for expired token</li>
+<li><input disabled="" type="checkbox"> Verified 403 response for missing required scope</li>
+<li><input disabled="" type="checkbox"> Verified M2M flow with Client Credentials (if applicable)</li>
+<li><input disabled="" type="checkbox"> Load tested JWKS caching behavior</li>
+</ul>
+<h3 id="production-readiness">
+        <a href="#production-readiness" class="header-anchor">
+          Production Readiness
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Health check includes AuthService connectivity</li>
+<li><input disabled="" type="checkbox"> Logging captures auth failures for debugging</li>
+<li><input disabled="" type="checkbox"> CORS configured if needed for SPA access</li>
+<li><input disabled="" type="checkbox"> Clock sync verified (token expiry validation)</li>
+<li><input disabled="" type="checkbox"> TLS/HTTPS enabled end-to-end</li>
+</ul>
+<hr>
+<h2 id="troubleshooting">
+        <a href="#troubleshooting" class="header-anchor">
+          Troubleshooting
+        </a>
+      </h2><h3 id="common-issues">
+        <a href="#common-issues" class="header-anchor">
+          Common Issues
+        </a>
+      </h3><table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>401 on all requests</td>
+<td>Invalid Authority URL</td>
+<td>Verify <code>Auth:Authority</code> points to AuthService</td>
+</tr>
+<tr>
+<td>401 with valid token</td>
+<td>Audience mismatch</td>
+<td>Ensure <code>ValidAudience</code> matches token <code>aud</code> claim</td>
+</tr>
+<tr>
+<td>401 intermittently</td>
+<td>Clock skew</td>
+<td>Increase <code>ClockSkew</code> or sync server clocks</td>
+</tr>
+<tr>
+<td>403 despite scope</td>
+<td>Claim name mismatch</td>
+<td>Check if scope is in <code>scope</code> or <code>scp</code> claim</td>
+</tr>
+<tr>
+<td>JWKS fetch fails</td>
+<td>Network/firewall issue</td>
+<td>Verify connectivity to AuthService</td>
+</tr>
+</tbody></table>
+<h3 id="debugging-token-issues">
+        <a href="#debugging-token-issues" class="header-anchor">
+          Debugging Token Issues
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-comment">// Decode and log token claims for debugging</span>
+[<span class="hljs-meta">HttpGet(<span class="hljs-string">&quot;debug-token&quot;</span>)</span>]
+[<span class="hljs-meta">Authorize</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">DebugToken</span>()</span>
+{
+    <span class="hljs-keyword">var</span> claims = User.Claims.Select(c =&gt; <span class="hljs-keyword">new</span> { c.Type, c.Value });
+    <span class="hljs-keyword">return</span> Ok(claims);
+}</code></pre><hr>
+<h2 id="related-documentation">
+        <a href="#related-documentation" class="header-anchor">
+          Related Documentation
+        </a>
+      </h2><ul>
+<li><a href="/second-brain/1-projects/yapidoo-development/services/auth/architecture.html">Auth Service Architecture</a></li>
+<li><a href="/second-brain/1-projects/yapidoo-development/services/auth/overview-and-concepts.html">Auth Service Overview & Concepts</a></li>
+<li><a href="/second-brain/1-projects/yapidoo-development/services/auth/openiddict-integration.html">OpenIddict Integration</a></li>
+<li><a href="/second-brain/1-projects/yapidoo-development/services/auth/implementation.html">Auth Service Implementation</a></li>
+</ul>
+<hr>
+<p><em>Last updated: 2025-12-28</em></p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

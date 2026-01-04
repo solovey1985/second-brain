@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>architecture - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/auth/">auth</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#auth-service-architecture">Auth Service Architecture</a></li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#project-structure">Project Structure</a></li>
+<ul>
+<li><a href="#api">Api</a></li>
+<li><a href="#usecases">UseCases</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#infrastructure">Infrastructure</a></li>
+</ul>
+</ul>
+</ul>
+</div><h1 id="auth-service-architecture">
+        <a href="#auth-service-architecture" class="header-anchor">
+          Auth Service Architecture
+        </a>
+      </h1><h2 id="overview">
+        <a href="#overview" class="header-anchor">
+          Overview
+        </a>
+      </h2><p>Includes next fetuares:</p>
+<ul>
+<li><strong>Logging</strong> - Centralized logging with Serilog</li>
+<li><strong>CQRS</strong> - with Yapidoo.Coommon.Mediator</li>
+<li><strong>Message Broker</strong> - RabbitMQ with event publishing</li>
+<li>Domain Driven Design (DDD) principles</li>
+<li><strong>OpenTelemetry</strong> - for observability and metrics</li>
+<li>Clustered deployment with Kubernetes</li>
+<li><strong>OpenIddict</strong> - Implements OAuth2 and OpenID Connect standards</li>
+</ul>
+<h2 id="project-structure">
+        <a href="#project-structure" class="header-anchor">
+          Project Structure
+        </a>
+      </h2><ul>
+<li><strong>Api</strong> - ASP.NET Core Web API</li>
+<li><strong>UseCases</strong> - Application logic (Commands/Queries)</li>
+<li><strong>Data</strong> - EF Core DbContext and migrations</li>
+<li><strong>Infrastructure</strong> - Cross-cutting concerns (OpenIddict, Messaging, External IdPs)</li>
+</ul>
+<h3 id="api">
+        <a href="#api" class="header-anchor">
+          Api
+        </a>
+      </h3><ul>
+<li><strong>Controllers</strong> - Handles HTTP requests</li>
+<li><strong>Endpoints</strong> - OpenIddict endpoints for token issuance</li>
+<li><strong>Health Checks</strong> - <code>/healthz</code> and <code>/readyz</code> endpoints</li>
+<li><strong>Configuration</strong> - OpenIddict and Identity setup</li>
+</ul>
+<h3 id="usecases">
+        <a href="#usecases" class="header-anchor">
+          UseCases
+        </a>
+      </h3><ul>
+<li><p><strong>Commands</strong> - Actions like RegisterUser, Login, etc.</p>
+<ul>
+<li>RegisterUserCommand</li>
+<li>Login Command</li>
+<li>Logout Command</li>
+<li>UpdateUserCommand</li>
+<li>DeleteUserCommand</li>
+<li>VerifyEmailCommand</li>
+<li>ResetPasswordCommand</li>
+<li>ExternalLoginCommand</li>
+</ul>
+</li>
+<li><p><strong>Queries</strong> - Read operations like GetUserInfo</p>
+<ul>
+<li>GetUserInfoQuery</li>
+<li>GetUserRolesQuery</li>
+<li>GetExternalProvidersQuery</li>
+</ul>
+</li>
+<li><p><strong>Events</strong> - Domain events for user actions</p>
+<ul>
+<li>UserRegisteredEvent</li>
+<li>UserDeletedEvent</li>
+<li>UserUpdatedEvent</li>
+</ul>
+</li>
+</ul>
+<h3 id="data">
+        <a href="#data" class="header-anchor">
+          Data
+        </a>
+      </h3><ul>
+<li><strong>DbContext</strong> - AuthDbContext for EF Core</li>
+<li><strong>Models</strong> - Identity models like ApplicationUser, ApplicationRole</li>
+<li><strong>Migrations</strong> - EF Core migrations for database schema</li>
+<li><strong>Seed Data</strong> - Initial data for development/testing</li>
+<li><strong>Repositories</strong> - Data access layer for user and role management</li>
+</ul>
+<h3 id="infrastructure">
+        <a href="#infrastructure" class="header-anchor">
+          Infrastructure
+        </a>
+      </h3><ul>
+<li><strong>OpenIddict</strong> - Configuration for OAuth2/OIDC</li>
+<li><strong>External IdPs</strong> - Integration with Google, Facebook, etc.</li>
+<li><strong>Messaging</strong> - Event publishing with RabbitMQ</li>
+<li><strong>Keys</strong> - Signing keys management</li>
+<li><strong>Configuration</strong> - App settings and environment variables</li>
+<li><strong>Security</strong> - TLS, CORS, and security policies</li>
+<li><strong>Logging</strong> - Serilog setup for structured logging</li>
+<li><strong>Telemetry</strong> - OpenTelemetry for metrics and tracing</li>
+<li><strong>Health Checks</strong> - Custom health checks for service readiness</li>
+<li><strong>Dependency Injection</strong> - Service registrations for DI container</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

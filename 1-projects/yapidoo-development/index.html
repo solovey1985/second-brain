@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>yapidoo-development - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#yapidoo">Yapidoo</a></li>
+<ul>
+<li><a href="#services">Services</a></li>
+<li><a href="#quick-links">Quick Links</a></li>
+</ul>
+</ul>
+</div><h1 id="yapidoo">
+        <a href="#yapidoo" class="header-anchor">
+          Yapidoo
+        </a>
+      </h1><p>Yapidoo project documentation index — top-level navigation for service docs and implementation notes.</p>
+<h2 id="services">
+        <a href="#services" class="header-anchor">
+          Services
+        </a>
+      </h2><ul>
+<li><a href="services/index.html">Services Index</a><ul>
+<li><a href="services/auth/index.html">Authentication Service</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="quick-links">
+        <a href="#quick-links" class="header-anchor">
+          Quick Links
+        </a>
+      </h2><ul>
+<li><a href="services/auth/overview-and-concepts.html">Overview & Concepts</a></li>
+<li><a href="services/auth/openiddict-integration.html">OpenIddict Integration Guide</a></li>
+</ul>
+<hr>
+<p><em>Last updated: 2025-08-16</em></p>
+<p>Tags: #yapidoo #project-index #services</p>
+
+
+<h2>📁 Directory Contents</h2>
+<div class="directory-listing">
+        <div class="entry entry-file">
+          <a href="/second-brain/1-projects/yapidoo-development/README.html">
+            <span class="icon">📄</span>
+            <span class="name">README.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/1-projects/yapidoo-development/index.html">
+            <span class="icon">📄</span>
+            <span class="name">index.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/1-projects/yapidoo-development/new-yapidoo-concept.html">
+            <span class="icon">📄</span>
+            <span class="name">new-yapidoo-concept.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/content/1-projects/yapidoo-development/Concepts and Overview.pdf">
+            <span class="icon">📕</span>
+            <span class="name">Concepts and Overview.pdf</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-directory">
+          <a href="/second-brain/1-projects/yapidoo-development/services/">
+            <span class="icon">📁</span>
+            <span class="name">services</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-directory">
+          <a href="/second-brain/1-projects/yapidoo-development/web/">
+            <span class="icon">📁</span>
+            <span class="name">web</span>
+          </a>
+        </div>
+      </div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

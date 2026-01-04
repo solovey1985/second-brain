@@ -1,0 +1,2145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>migration-guide - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/events/">events</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#yapidoo-events-service-event-aggregate-migration-instructions-net-9">Yapidoo Events Service — Event Aggregate Migration Instructions (.NET 9)</a></li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#0-how-this-service-fits-yapidoo">0. How This Service Fits Yapidoo</a></li>
+<li><a href="#1-project-structure">1. Project Structure</a></li>
+<ul>
+<li><a href="#create-projects">Create Projects</a></li>
+</ul>
+<li><a href="#2-domain-layer-yapidooserviceeventsdomain">2. Domain Layer (Yapidoo.Service.Events.Domain)</a></li>
+<ul>
+<li><a href="#21-package-dependencies">2.1 Package Dependencies</a></li>
+<li><a href="#22-seedwork-base-classes">2.2 SeedWork (Base Classes)</a></li>
+<ul>
+<li><a href="#entitycs">Entity.cs</a></li>
+<li><a href="#auditableentitycs">AuditableEntity.cs</a></li>
+<li><a href="#iaggregaterootcs">IAggregateRoot.cs</a></li>
+<li><a href="#valueobjectcs">ValueObject.cs</a></li>
+<li><a href="#irepositorycs">IRepository.cs</a></li>
+<li><a href="#iunitofworkcs">IUnitOfWork.cs</a></li>
+</ul>
+<li><a href="#23-enumerations">2.3 Enumerations</a></li>
+<ul>
+<li><a href="#eventenumscs">EventEnums.cs</a></li>
+</ul>
+<li><a href="#24-common-entities">2.4 Common Entities</a></li>
+<ul>
+<li><a href="#locationcs">Location.cs</a></li>
+</ul>
+<li><a href="#25-event-aggregate">2.5 Event Aggregate</a></li>
+<ul>
+<li><a href="#eventcs-aggregate-root">Event.cs (Aggregate Root)</a></li>
+<li><a href="#event-extensions-eventextensionscs">Event Extensions (EventExtensions.cs)</a></li>
+<li><a href="#venuecs">Venue.cs</a></li>
+<li><a href="#participationcs">Participation.cs</a></li>
+<li><a href="#followingcs">Following.cs</a></li>
+<li><a href="#conditioncs">Condition.cs</a></li>
+<li><a href="#eventtimelinecs">EventTimeline.cs</a></li>
+<li><a href="#eventhashtagcs-many-to-many-relation">EventHashtag.cs (Many-to-Many Relation)</a></li>
+<li><a href="#hashtagcs">Hashtag.cs</a></li>
+<li><a href="#categorycs">Category.cs</a></li>
+</ul>
+<li><a href="#26-domain-events">2.6 Domain Events</a></li>
+<ul>
+<li><a href="#eventcreateddomaineventcs">EventCreatedDomainEvent.cs</a></li>
+</ul>
+<li><a href="#27-repository-interfaces">2.7 Repository Interfaces</a></li>
+<ul>
+<li><a href="#ieventrepositorycs">IEventRepository.cs</a></li>
+<li><a href="#ivenuerepositorycs">IVenueRepository.cs</a></li>
+<li><a href="#ieventhashtagrepositorycs">IEventHashtagRepository.cs</a></li>
+</ul>
+<li><a href="#28-domain-exceptions">2.8 Domain Exceptions</a></li>
+<ul>
+<li><a href="#eventdomainexceptioncs">EventDomainException.cs</a></li>
+</ul>
+</ul>
+<li><a href="#3-data-infrastructure-layers-yapidooserviceeventsdata-yapidooserviceeventsinfrastructure">3. Data & Infrastructure Layers (Yapidoo.Service.Events.Data + Yapidoo.Service.Events.Infrastructure)</a></li>
+<ul>
+<li><a href="#31-package-dependencies">3.1 Package Dependencies</a></li>
+<li><a href="#32-dbcontext">3.2 DbContext</a></li>
+<ul>
+<li><a href="#eventdbcontextcs">EventDbContext.cs</a></li>
+</ul>
+<li><a href="#321-outbox-integration-events-recommended">3.2.1 Outbox & Integration Events (Recommended)</a></li>
+<li><a href="#33-entity-configurations">3.3 Entity Configurations</a></li>
+<ul>
+<li><a href="#evententitytypeconfigurationcs">EventEntityTypeConfiguration.cs</a></li>
+</ul>
+<li><a href="#34-repository-implementation">3.4 Repository Implementation</a></li>
+<ul>
+<li><a href="#repositorycs-base-repository">Repository.cs (Base Repository)</a></li>
+<li><a href="#eventrepositorycs">EventRepository.cs</a></li>
+<li><a href="#venuerepositorycs">VenueRepository.cs</a></li>
+<li><a href="#eventhashtagrepositorycs">EventHashtagRepository.cs</a></li>
+</ul>
+</ul>
+<li><a href="#4-usecases-layer-yapidooserviceeventsusecases">4. UseCases Layer (Yapidoo.Service.Events.UseCases)</a></li>
+<ul>
+<li><a href="#41-package-dependencies">4.1 Package Dependencies</a></li>
+<li><a href="#42-commands">4.2 Commands</a></li>
+<ul>
+<li><a href="#createeventcommandcs">CreateEventCommand.cs</a></li>
+<li><a href="#updateeventcommandcs">UpdateEventCommand.cs</a></li>
+<li><a href="#participateeventcommandcs">ParticipateEventCommand.cs</a></li>
+</ul>
+<li><a href="#43-command-handlers">4.3 Command Handlers</a></li>
+<ul>
+<li><a href="#createeventcommandhandlercs">CreateEventCommandHandler.cs</a></li>
+<li><a href="#updateeventcommandhandlercs">UpdateEventCommandHandler.cs</a></li>
+</ul>
+<li><a href="#44-domain-event-handlers">4.4 Domain Event Handlers</a></li>
+<ul>
+<li><a href="#notifyinvitedoneventcreatedhandlercs">NotifyInvitedOnEventCreatedHandler.cs</a></li>
+</ul>
+<li><a href="#45-validators">4.5 Validators</a></li>
+<ul>
+<li><a href="#createeventcommandvalidatorcs">CreateEventCommandValidator.cs</a></li>
+</ul>
+<li><a href="#46-dtos">4.6 DTOs</a></li>
+<ul>
+<li><a href="#eventviewmodelcs">EventViewModel.cs</a></li>
+<li><a href="#eventlocationdtocs">EventLocationDTO.cs</a></li>
+<li><a href="#locationviewmodelcs">LocationViewModel.cs</a></li>
+<li><a href="#categoryviewmodelcs">CategoryViewModel.cs</a></li>
+</ul>
+<li><a href="#47-automapper-profile">4.7 AutoMapper Profile</a></li>
+<ul>
+<li><a href="#mappingprofilecs">MappingProfile.cs</a></li>
+</ul>
+</ul>
+<li><a href="#5-api-layer-yapidooserviceeventsapi">5. API Layer (Yapidoo.Service.Events.Api)</a></li>
+<ul>
+<li><a href="#51-package-dependencies">5.1 Package Dependencies</a></li>
+<li><a href="#52-controller">5.2 Controller</a></li>
+<ul>
+<li><a href="#eventscontrollercs">EventsController.cs</a></li>
+</ul>
+<li><a href="#53-programcs-startup-configuration">5.3 Program.cs (Startup Configuration)</a></li>
+<li><a href="#54-appsettingsjson">5.4 appsettings.json</a></li>
+</ul>
+<li><a href="#6-database-migrations">6. Database Migrations</a></li>
+<ul>
+<li><a href="#create-initial-migration">Create Initial Migration</a></li>
+</ul>
+<li><a href="#7-key-considerations-for-net-9">7. Key Considerations for .NET 9</a></li>
+<ul>
+<li><a href="#71-new-features-to-leverage">7.1 New Features to Leverage</a></li>
+<li><a href="#72-updated-patterns">7.2 Updated Patterns</a></li>
+<li><a href="#73-performance-improvements">7.3 Performance Improvements</a></li>
+</ul>
+<li><a href="#8-testing-strategy">8. Testing Strategy</a></li>
+<ul>
+<li><a href="#81-unit-tests">8.1 Unit Tests</a></li>
+<li><a href="#82-integration-tests">8.2 Integration Tests</a></li>
+<li><a href="#83-example-test">8.3 Example Test</a></li>
+</ul>
+<li><a href="#9-deployment-checklist">9. Deployment Checklist</a></li>
+<li><a href="#10-additional-recommendations">10. Additional Recommendations</a></li>
+<ul>
+<li><a href="#101-microservice-considerations">10.1 Microservice Considerations</a></li>
+<li><a href="#102-security">10.2 Security</a></li>
+<li><a href="#103-observability">10.3 Observability</a></li>
+</ul>
+<li><a href="#summary">Summary</a></li>
+</ul>
+</ul>
+</div><h1 id="yapidoo-events-service-event-aggregate-migration-instructions-net-9">
+        <a href="#yapidoo-events-service-event-aggregate-migration-instructions-net-9" class="header-anchor">
+          Yapidoo Events Service — Event Aggregate Migration Instructions (.NET 9)
+        </a>
+      </h1><h2 id="overview">
+        <a href="#overview" class="header-anchor">
+          Overview
+        </a>
+      </h2><p>This document provides comprehensive instructions for recreating the <strong>Events</strong> domain (Event aggregate + participation) in a new <strong>Yapidoo</strong> .NET 9 microservice, aligned with the platform approach used across this folder:</p>
+<ul>
+<li><strong>Microservice boundary</strong> (Events owns Event + participants)</li>
+<li><strong>API Gateway</strong> is the public front door</li>
+<li><strong>Auth service</strong> is the identity authority (JWT validation via <strong>JWKS</strong>, offline)</li>
+<li><strong>DDD + CQRS</strong> for domain behavior and clean separation of concerns</li>
+<li><strong>Event bus</strong> for cross-service side effects (publish integration events)</li>
+<li><strong>Outbox + idempotent consumers</strong> for reliable messaging</li>
+</ul>
+<blockquote>
+<p>Naming note: The original draft used <code>EventService.*</code>. Prefer <code>Yapidoo.Service.Events.*</code> for solution/projects/namespaces.</p>
+</blockquote>
+<hr>
+<h2 id="0-how-this-service-fits-yapidoo">
+        <a href="#0-how-this-service-fits-yapidoo" class="header-anchor">
+          0. How This Service Fits Yapidoo
+        </a>
+      </h2><ol>
+<li><p><strong>Public access</strong></p>
+<ul>
+<li>Mobile/Web clients call the <strong>API Gateway</strong>.</li>
+<li>Gateway routes to <code>Yapidoo.Service.Events.Api</code>.</li>
+</ul>
+</li>
+<li><p><strong>Authentication &amp; Authorization</strong></p>
+<ul>
+<li>Events API validates JWT access tokens issued by <code>Yapidoo.Service.Auth</code>.</li>
+<li>Validation is done using Auth discovery/JWKS (<code>/.well-known/openid-configuration</code>, <code>/.well-known/jwks.json</code>).</li>
+<li>Use policy/scope-based authorization (e.g., <code>events.read</code>, <code>events.write</code>).</li>
+</ul>
+</li>
+<li><p><strong>Integration</strong></p>
+<ul>
+<li>Events publishes integration events (e.g., <code>EventCreated</code>, <code>EventCancelled</code>, <code>EventParticipantJoined</code>) for Notifications and other consumers.</li>
+<li>Avoid direct HTTP calls for cross-domain side effects where possible.</li>
+</ul>
+</li>
+<li><p><strong>Ops conventions</strong></p>
+<ul>
+<li>Standard endpoints: <code>/healthz</code> and <code>/readyz</code>.</li>
+<li>Structured logs + OpenTelemetry traces/metrics.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-project-structure">
+        <a href="#1-project-structure" class="header-anchor">
+          1. Project Structure
+        </a>
+      </h2><p>Create a new .NET 9 solution with the following projects:</p>
+<pre><code class="hljs">Yapidoo.Service.Events<span class="hljs-symbol">/</span>
+<span class="hljs-operator">?</span><span class="hljs-operator">?</span><span class="hljs-operator">?</span> Yapidoo.Service.Events.Domain<span class="hljs-symbol">/</span>         <span class="hljs-comment"># Domain layer (entities, aggregates, interfaces, domain events)</span>
+<span class="hljs-operator">?</span><span class="hljs-operator">?</span><span class="hljs-operator">?</span> Yapidoo.Service.Events.UseCases<span class="hljs-symbol">/</span>       <span class="hljs-comment"># Application layer (CQRS handlers, DTOs)</span>
+<span class="hljs-operator">?</span><span class="hljs-operator">?</span><span class="hljs-operator">?</span> Yapidoo.Service.Events.Data<span class="hljs-symbol">/</span>           <span class="hljs-comment"># EF Core DbContext + migrations</span>
+<span class="hljs-operator">?</span><span class="hljs-operator">?</span><span class="hljs-operator">?</span> Yapidoo.Service.Events.Infrastructure<span class="hljs-symbol">/</span> <span class="hljs-comment"># Messaging/outbox, repositories, external integrations</span>
+<span class="hljs-operator">?</span><span class="hljs-operator">?</span><span class="hljs-operator">?</span> Yapidoo.Service.Events.Api<span class="hljs-symbol">/</span>            <span class="hljs-comment"># API layer (controllers, authN/authZ, health, startup)</span></code></pre><h3 id="create-projects">
+        <a href="#create-projects" class="header-anchor">
+          Create Projects
+        </a>
+      </h3><pre><code class="hljs language-bash">dotnet new sln -n Yapidoo.Service.Events
+dotnet new classlib -n Yapidoo.Service.Events.Domain -f net9.0
+dotnet new classlib -n Yapidoo.Service.Events.UseCases -f net9.0
+dotnet new classlib -n Yapidoo.Service.Events.Data -f net9.0
+dotnet new classlib -n Yapidoo.Service.Events.Infrastructure -f net9.0
+dotnet new webapi -n Yapidoo.Service.Events.Api -f net9.0
+dotnet sln add Yapidoo.Service.Events.Domain/Yapidoo.Service.Events.Domain.csproj
+dotnet sln add Yapidoo.Service.Events.UseCases/Yapidoo.Service.Events.UseCases.csproj
+dotnet sln add Yapidoo.Service.Events.Data/Yapidoo.Service.Events.Data.csproj
+dotnet sln add Yapidoo.Service.Events.Infrastructure/Yapidoo.Service.Events.Infrastructure.csproj
+dotnet sln add Yapidoo.Service.Events.Api/Yapidoo.Service.Events.Api.csproj</code></pre><hr>
+<h2 id="2-domain-layer-yapidooserviceeventsdomain">
+        <a href="#2-domain-layer-yapidooserviceeventsdomain" class="header-anchor">
+          2. Domain Layer (Yapidoo.Service.Events.Domain)
+        </a>
+      </h2><h3 id="21-package-dependencies">
+        <a href="#21-package-dependencies" class="header-anchor">
+          2.1 Package Dependencies
+        </a>
+      </h3><pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;MediatR&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;12.2.0&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span></code></pre><blockquote>
+<p>If the platform standardizes on <code>Yapidoo.Common.Mediator</code>, keep the domain events shape compatible (e.g., <code>INotification</code> style) and adapt in the UseCases layer.</p>
+</blockquote>
+<h3 id="22-seedwork-base-classes">
+        <a href="#22-seedwork-base-classes" class="header-anchor">
+          2.2 SeedWork (Base Classes)
+        </a>
+      </h3><h4 id="entitycs">
+        <a href="#entitycs" class="header-anchor">
+          Entity.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Entity</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span>? _requestedHashCode;
+    <span class="hljs-keyword">private</span> <span class="hljs-built_in">long</span> _id;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-built_in">long</span> Id 
+    {
+        <span class="hljs-keyword">get</span> =&gt; _id;
+        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">set</span> =&gt; _id = <span class="hljs-keyword">value</span>;
+    }
+
+    <span class="hljs-keyword">private</span> List&lt;INotification&gt;? _domainEvents;
+    <span class="hljs-keyword">public</span> IReadOnlyCollection&lt;INotification&gt;? DomainEvents =&gt; _domainEvents?.AsReadOnly();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddDomainEvent</span>(<span class="hljs-params">INotification eventItem</span>)</span>
+    {
+        _domainEvents ??= <span class="hljs-keyword">new</span> List&lt;INotification&gt;();
+        _domainEvents.Add(eventItem);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">RemoveDomainEvent</span>(<span class="hljs-params">INotification eventItem</span>)</span>
+    {
+        _domainEvents?.Remove(eventItem);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ClearDomainEvents</span>()</span>
+    {
+        _domainEvents?.Clear();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">IsTransient</span>()</span> =&gt; Id == <span class="hljs-literal">default</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Equals</span>(<span class="hljs-params"><span class="hljs-built_in">object</span>? obj</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> Entity entity)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">if</span> (ReferenceEquals(<span class="hljs-keyword">this</span>, obj))
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+
+        <span class="hljs-keyword">if</span> (GetType() != obj.GetType())
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">if</span> (entity.IsTransient() || IsTransient())
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">return</span> entity.Id == Id;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">int</span> <span class="hljs-title">GetHashCode</span>()</span>
+    {
+        <span class="hljs-keyword">if</span> (!IsTransient())
+        {
+            _requestedHashCode ??= Id.GetHashCode() ^ <span class="hljs-number">33</span>;
+            <span class="hljs-keyword">return</span> _requestedHashCode.Value;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.GetHashCode();
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> <span class="hljs-keyword">operator</span> ==(Entity? left, Entity? right)
+    {
+        <span class="hljs-keyword">return</span> Equals(left, <span class="hljs-literal">null</span>) ? Equals(right, <span class="hljs-literal">null</span>) : left.Equals(right);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> <span class="hljs-keyword">operator</span> !=(Entity? left, Entity? right)
+    {
+        <span class="hljs-keyword">return</span> !(left == right);
+    }
+}</code></pre><h4 id="auditableentitycs">
+        <a href="#auditableentitycs" class="header-anchor">
+          AuditableEntity.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AuditableEntity</span> : <span class="hljs-title">Entity</span>
+{
+    <span class="hljs-keyword">public</span> DateTime CreatedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> CreatedBy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime EditedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = DateTime.UtcNow;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EditedBy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? DeletedAt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> DeletedBy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="iaggregaterootcs">
+        <a href="#iaggregaterootcs" class="header-anchor">
+          IAggregateRoot.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IAggregateRoot</span>
+{
+    <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; }
+}</code></pre><h4 id="valueobjectcs">
+        <a href="#valueobjectcs" class="header-anchor">
+          ValueObject.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ValueObject</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">EqualOperator</span>(<span class="hljs-params">ValueObject? left, ValueObject? right</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (ReferenceEquals(left, <span class="hljs-literal">null</span>) ^ ReferenceEquals(right, <span class="hljs-literal">null</span>))
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> ReferenceEquals(left, <span class="hljs-literal">null</span>) || left.Equals(right);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">NotEqualOperator</span>(<span class="hljs-params">ValueObject? left, ValueObject? right</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> !EqualOperator(left, right);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> IEnumerable&lt;<span class="hljs-built_in">object</span>&gt; <span class="hljs-title">GetAtomicValues</span>()</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Equals</span>(<span class="hljs-params"><span class="hljs-built_in">object</span>? obj</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span> || obj.GetType() != GetType())
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">var</span> other = (ValueObject)obj;
+        <span class="hljs-keyword">var</span> thisValues = GetAtomicValues().GetEnumerator();
+        <span class="hljs-keyword">var</span> otherValues = other.GetAtomicValues().GetEnumerator();
+
+        <span class="hljs-keyword">while</span> (thisValues.MoveNext() &amp;&amp; otherValues.MoveNext())
+        {
+            <span class="hljs-keyword">if</span> (ReferenceEquals(thisValues.Current, <span class="hljs-literal">null</span>) ^ ReferenceEquals(otherValues.Current, <span class="hljs-literal">null</span>))
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+            <span class="hljs-keyword">if</span> (thisValues.Current != <span class="hljs-literal">null</span> &amp;&amp; !thisValues.Current.Equals(otherValues.Current))
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+
+        <span class="hljs-keyword">return</span> !thisValues.MoveNext() &amp;&amp; !otherValues.MoveNext();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">int</span> <span class="hljs-title">GetHashCode</span>()</span>
+    {
+        <span class="hljs-keyword">return</span> GetAtomicValues()
+            .Select(x =&gt; x?.GetHashCode() ?? <span class="hljs-number">0</span>)
+            .Aggregate((x, y) =&gt; x ^ y);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ValueObject <span class="hljs-title">GetCopy</span>()</span>
+    {
+        <span class="hljs-keyword">return</span> (MemberwiseClone() <span class="hljs-keyword">as</span> ValueObject)!;
+    }
+}</code></pre><h4 id="irepositorycs">
+        <a href="#irepositorycs" class="header-anchor">
+          IRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">using</span> System.Linq.Expressions;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IRepository</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">where</span> <span class="hljs-title">T</span> : <span class="hljs-title">Entity</span>
+{
+    IUnitOfWork UnitOfWork { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-function">T <span class="hljs-title">Add</span>(<span class="hljs-params">T entity</span>)</span>;
+    <span class="hljs-function">T <span class="hljs-title">Update</span>(<span class="hljs-params">T entity</span>)</span>;
+    <span class="hljs-function"><span class="hljs-built_in">bool</span> <span class="hljs-title">Delete</span>(<span class="hljs-params">T entity</span>)</span>;
+    <span class="hljs-function">IQueryable&lt;T&gt; <span class="hljs-title">Get</span>()</span>;
+    T? GetById(<span class="hljs-built_in">long</span> id);
+    <span class="hljs-function">IQueryable&lt;T&gt; <span class="hljs-title">Get</span>(<span class="hljs-params">Expression&lt;Func&lt;T, <span class="hljs-built_in">bool</span>&gt;&gt; predicate</span>)</span>;
+}</code></pre><h4 id="iunitofworkcs">
+        <a href="#iunitofworkcs" class="header-anchor">
+          IUnitOfWork.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.SeedWork</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnitOfWork</span> : <span class="hljs-title">IDisposable</span>
+{
+    <span class="hljs-function">Task&lt;<span class="hljs-built_in">int</span>&gt; <span class="hljs-title">SaveChangesAsync</span>(<span class="hljs-params">CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)</span>;
+    <span class="hljs-function">Task&lt;<span class="hljs-built_in">bool</span>&gt; <span class="hljs-title">SaveEntitiesAsync</span>(<span class="hljs-params">CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)</span>;
+}</code></pre><h3 id="23-enumerations">
+        <a href="#23-enumerations" class="header-anchor">
+          2.3 Enumerations
+        </a>
+      </h3><h4 id="eventenumscs">
+        <a href="#eventenumscs" class="header-anchor">
+          EventEnums.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Enums</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> PrivacyTypeEnum
+{
+    Public = <span class="hljs-number">1</span>,
+    Friends = <span class="hljs-number">2</span>,
+    Hidden = <span class="hljs-number">3</span>
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> EventStatusEnum
+{
+    Planned = <span class="hljs-number">1</span>,
+    Active = <span class="hljs-number">2</span>,
+    Cancelled = <span class="hljs-number">3</span>,
+    Interrupted = <span class="hljs-number">4</span>,
+    Completed = <span class="hljs-number">5</span>,
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> ConditionValueEnum
+{
+    Boolean = <span class="hljs-number">1</span>,
+    Digit = <span class="hljs-number">2</span>,
+    String = <span class="hljs-number">3</span>
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> LogicEnum
+{
+    And = <span class="hljs-number">1</span>,
+    Or = <span class="hljs-number">2</span>,
+    InList = <span class="hljs-number">3</span>,
+    Contains = <span class="hljs-number">4</span>,
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> LocationTypeEnum
+{
+    Text = <span class="hljs-number">0</span>,
+    Coordinates = <span class="hljs-number">1</span>,
+    MapUrl = <span class="hljs-number">2</span>,
+}</code></pre><h3 id="24-common-entities">
+        <a href="#24-common-entities" class="header-anchor">
+          2.4 Common Entities
+        </a>
+      </h3><h4 id="locationcs">
+        <a href="#locationcs" class="header-anchor">
+          Location.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Common</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Enums;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Location</span> : <span class="hljs-title">AuditableEntity</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Address { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? City { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Region { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CountryName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CountryCode { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? District { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Longitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Latitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? MapUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> LocationTypeEnum Type { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h3 id="25-event-aggregate">
+        <a href="#25-event-aggregate" class="header-anchor">
+          2.5 Event Aggregate
+        </a>
+      </h3><h4 id="eventcs-aggregate-root">
+        <a href="#eventcs-aggregate-root" class="header-anchor">
+          Event.cs (Aggregate Root)
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Enums;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.DomainEvents;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Event</span> : <span class="hljs-title">AuditableEntity</span>, <span class="hljs-title">IAggregateRoot</span>
+{
+    <span class="hljs-comment">// Primitive Properties</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> CreatorUserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsVirtual { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CoverMediaId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">internal</span> <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Status &amp; Dates</span>
+    <span class="hljs-keyword">public</span> EventStatusEnum Status { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? EndDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? CanceledDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? InterruptedDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Foreign Keys</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> LocationId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span>? CategoryId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Navigation Properties</span>
+    <span class="hljs-keyword">public</span> Venue Location { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> Category? Category { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> EventTimeline? Timeline { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Privacy</span>
+    <span class="hljs-keyword">public</span> PrivacyTypeEnum Privacy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Collections</span>
+    <span class="hljs-keyword">public</span> ICollection&lt;Condition&gt; Conditions { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Condition&gt;();
+    <span class="hljs-keyword">public</span> ICollection&lt;EventHashtag&gt; EventHashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;EventHashtag&gt;();
+    <span class="hljs-keyword">public</span> ICollection&lt;Participation&gt; Participations { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Participation&gt;();
+    <span class="hljs-keyword">public</span> ICollection&lt;Following&gt; FollowingProfiles { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Following&gt;();
+
+    <span class="hljs-comment">// Factory Method</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">Create</span>(<span class="hljs-params">
+        <span class="hljs-built_in">string</span> title,
+        <span class="hljs-built_in">string</span> description,
+        <span class="hljs-built_in">bool</span> isVirtual,
+        <span class="hljs-built_in">string</span> address,
+        DateTime startAt,
+        DateTime endDate,
+        <span class="hljs-built_in">long</span> creatorUserId,
+        <span class="hljs-built_in">int</span> categoryId,
+        <span class="hljs-built_in">string</span> privacy</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> newEvent = <span class="hljs-keyword">new</span> Event
+        {
+            CreatorUserId = creatorUserId,
+            IsVirtual = isVirtual,
+            Title = title,
+            Description = description,
+            Location = <span class="hljs-keyword">new</span> Venue { Address = address, Type = LocationTypeEnum.Text },
+            Privacy = Enum.Parse&lt;PrivacyTypeEnum&gt;(privacy),
+            StartDate = startAt,
+            EndDate = endDate,
+            CategoryId = categoryId,
+            Status = EventStatusEnum.Planned
+        };
+        
+        <span class="hljs-keyword">return</span> newEvent;
+    }
+
+    <span class="hljs-comment">// Domain Methods</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddEventCreatedDomainEvent</span>()</span>
+    {
+        <span class="hljs-keyword">var</span> eventCreatedDomainEvent = <span class="hljs-keyword">new</span> EventCreatedDomainEvent(<span class="hljs-keyword">this</span>, CreatorUserId);
+        AddDomainEvent(eventCreatedDomainEvent);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetStatus</span>(<span class="hljs-params">EventStatusEnum newStatus</span>)</span>
+    {
+        Status = newStatus;
+    }
+}</code></pre><h4 id="event-extensions-eventextensionscs">
+        <a href="#event-extensions-eventextensionscs" class="header-anchor">
+          Event Extensions (EventExtensions.cs)
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Enums;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventExtensions</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">WithPrivacy</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Event that, PrivacyTypeEnum privacy</span>)</span>
+    {
+        that.Privacy = privacy;
+        <span class="hljs-keyword">return</span> that;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">WithGeocoordinates</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Event that, <span class="hljs-built_in">double</span> latitude, <span class="hljs-built_in">double</span> longitude</span>)</span>
+    {
+        that.Location.Latitude = latitude;
+        that.Location.Longitude = longitude;
+        <span class="hljs-keyword">return</span> that;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">WithAddress</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Event that, <span class="hljs-built_in">string</span> address</span>)</span>
+    {
+        that.Location.Address = address;
+        <span class="hljs-keyword">return</span> that;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">WithLocation</span>(<span class="hljs-params">
+        <span class="hljs-keyword">this</span> Event that,
+        <span class="hljs-built_in">string</span> address,
+        <span class="hljs-built_in">double</span> latitude,
+        <span class="hljs-built_in">double</span> longitude,
+        <span class="hljs-built_in">string</span> mapUrl,
+        LocationTypeEnum type</span>)</span>
+    {
+        that.WithAddress(address).WithGeocoordinates(latitude, longitude);
+        that.Location.MapUrl = mapUrl;
+        that.Location.Type = type;
+        <span class="hljs-keyword">return</span> that;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Event <span class="hljs-title">WithCoverMedia</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Event that, <span class="hljs-built_in">string</span>? coverMediaId</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrWhiteSpace(coverMediaId))
+        {
+            that.CoverMediaId = coverMediaId;
+        }
+        <span class="hljs-keyword">return</span> that;
+    }
+}</code></pre><h4 id="venuecs">
+        <a href="#venuecs" class="header-anchor">
+          Venue.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Common;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Venue</span> : <span class="hljs-title">Location</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Street { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? HouseNumber { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> ICollection&lt;Event&gt; Events { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Event&gt;();
+}</code></pre><h4 id="participationcs">
+        <a href="#participationcs" class="header-anchor">
+          Participation.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Participation</span> : <span class="hljs-title">AuditableEntity</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> UserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> Event Event { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-comment">// Note: Users/Profile data is owned by Users service.</span>
+    <span class="hljs-comment">// Store only the user identity key here.</span>
+}</code></pre><h4 id="followingcs">
+        <a href="#followingcs" class="header-anchor">
+          Following.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Following</span> : <span class="hljs-title">AuditableEntity</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> UserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> Event Event { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-comment">// Note: Users/Profile data is owned by Users service.</span>
+}</code></pre><h4 id="conditioncs">
+        <a href="#conditioncs" class="header-anchor">
+          Condition.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Enums;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Condition</span> : <span class="hljs-title">Entity</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Value { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> ConditionValueEnum ValueType { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> LogicEnum Logic { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="eventtimelinecs">
+        <a href="#eventtimelinecs" class="header-anchor">
+          EventTimeline.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventTimeline</span> : <span class="hljs-title">Entity</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? StartedDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? FinishedDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? CanceledDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? InterruptedDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="eventhashtagcs-many-to-many-relation">
+        <a href="#eventhashtagcs-many-to-many-relation" class="header-anchor">
+          EventHashtag.cs (Many-to-Many Relation)
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventHashtag</span> : <span class="hljs-title">Entity</span>, <span class="hljs-title">IAggregateRoot</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> Event Event { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> HashtagId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> Hashtag Hashtag { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+}</code></pre><h4 id="hashtagcs">
+        <a href="#hashtagcs" class="header-anchor">
+          Hashtag.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Hashtag</span> : <span class="hljs-title">ValueObject</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> ICollection&lt;EventHashtag&gt; EventHashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;EventHashtag&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> IEnumerable&lt;<span class="hljs-built_in">object</span>&gt; <span class="hljs-title">GetAtomicValues</span>()</span>
+    {
+        <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> Title;
+    }
+}</code></pre><h4 id="categorycs">
+        <a href="#categorycs" class="header-anchor">
+          Category.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.CategoryAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Category</span> : <span class="hljs-title">AuditableEntity</span>, <span class="hljs-title">IAggregateRoot</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? TitleUa { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? DescriptionUa { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsEnabled { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? ImageUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? SmallImageUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Icon { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span>? ParentCategoryId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-comment">// public SuperCategory? ParentCategory { get; set; }</span>
+}</code></pre><h3 id="26-domain-events">
+        <a href="#26-domain-events" class="header-anchor">
+          2.6 Domain Events
+        </a>
+      </h3><h4 id="eventcreateddomaineventcs">
+        <a href="#eventcreateddomaineventcs" class="header-anchor">
+          EventCreatedDomainEvent.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.DomainEvents</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventCreatedDomainEvent</span> : <span class="hljs-title">INotification</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> CreatorUserId { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-keyword">public</span> Event Event { <span class="hljs-keyword">get</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventCreatedDomainEvent</span>(<span class="hljs-params">Event @<span class="hljs-keyword">event</span>, <span class="hljs-built_in">long</span> creatorUserId</span>)</span>
+    {
+        CreatorUserId = creatorUserId;
+        Event = @event;
+    }
+}</code></pre><h3 id="27-repository-interfaces">
+        <a href="#27-repository-interfaces" class="header-anchor">
+          2.7 Repository Interfaces
+        </a>
+      </h3><h4 id="ieventrepositorycs">
+        <a href="#ieventrepositorycs" class="header-anchor">
+          IEventRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IEventRepository</span> : <span class="hljs-title">IRepository</span>&lt;<span class="hljs-title">Event</span>&gt;
+{
+    <span class="hljs-function">Task&lt;<span class="hljs-built_in">bool</span>&gt; <span class="hljs-title">CreateWithVenue</span>(<span class="hljs-params">Event newEvent</span>)</span>;
+}</code></pre><h4 id="ivenuerepositorycs">
+        <a href="#ivenuerepositorycs" class="header-anchor">
+          IVenueRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IVenueRepository</span> : <span class="hljs-title">IRepository</span>&lt;<span class="hljs-title">Venue</span>&gt;
+{
+}</code></pre><h4 id="ieventhashtagrepositorycs">
+        <a href="#ieventhashtagrepositorycs" class="header-anchor">
+          IEventHashtagRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Aggregates.EventAggregate</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IEventHashtagRepository</span> : <span class="hljs-title">IRepository</span>&lt;<span class="hljs-title">EventHashtag</span>&gt;
+{
+}</code></pre><h3 id="28-domain-exceptions">
+        <a href="#28-domain-exceptions" class="header-anchor">
+          2.8 Domain Exceptions
+        </a>
+      </h3><h4 id="eventdomainexceptioncs">
+        <a href="#eventdomainexceptioncs" class="header-anchor">
+          EventDomainException.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Domain.Exceptions</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventDomainException</span> : <span class="hljs-title">Exception</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventDomainException</span>()</span>
+    { }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventDomainException</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> message</span>)
+        : <span class="hljs-title">base</span>(<span class="hljs-params">message</span>)</span>
+    { }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventDomainException</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> message, Exception innerException</span>)
+        : <span class="hljs-title">base</span>(<span class="hljs-params">message, innerException</span>)</span>
+    { }
+}</code></pre><hr>
+<h2 id="3-data-infrastructure-layers-yapidooserviceeventsdata-yapidooserviceeventsinfrastructure">
+        <a href="#3-data-infrastructure-layers-yapidooserviceeventsdata-yapidooserviceeventsinfrastructure" class="header-anchor">
+          3. Data & Infrastructure Layers (Yapidoo.Service.Events.Data + Yapidoo.Service.Events.Infrastructure)
+        </a>
+      </h2><h3 id="31-package-dependencies">
+        <a href="#31-package-dependencies" class="header-anchor">
+          3.1 Package Dependencies
+        </a>
+      </h3><pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.EntityFrameworkCore&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.EntityFrameworkCore.SqlServer&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.EntityFrameworkCore.Design&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.EntityFrameworkCore.Tools&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProjectReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;..\Yapidoo.Service.Events.Domain\Yapidoo.Service.Events.Domain.csproj&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span></code></pre><h3 id="32-dbcontext">
+        <a href="#32-dbcontext" class="header-anchor">
+          3.2 DbContext
+        </a>
+      </h3><h4 id="eventdbcontextcs">
+        <a href="#eventdbcontextcs" class="header-anchor">
+          EventDbContext.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Data</span>;
+
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.CategoryAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+<span class="hljs-keyword">using</span> MediatR;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventDbContext</span> : <span class="hljs-title">DbContext</span>, <span class="hljs-title">IUnitOfWork</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IMediator _mediator;
+
+    <span class="hljs-keyword">public</span> DbSet&lt;Event&gt; Events { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Venue&gt; Venues { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Participation&gt; Participations { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Following&gt; Followings { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Condition&gt; Conditions { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;EventTimeline&gt; EventTimelines { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;EventHashtag&gt; EventHashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Hashtag&gt; Hashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> DbSet&lt;Category&gt; Categories { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventDbContext</span>(<span class="hljs-params">DbContextOptions&lt;EventDbContext&gt; options, IMediator mediator</span>)
+        : <span class="hljs-title">base</span>(<span class="hljs-params">options</span>)</span>
+    {
+        _mediator = mediator;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnModelCreating</span>(<span class="hljs-params">ModelBuilder modelBuilder</span>)</span>
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(<span class="hljs-keyword">typeof</span>(EventDbContext).Assembly);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;<span class="hljs-built_in">bool</span>&gt; <span class="hljs-title">SaveEntitiesAsync</span>(<span class="hljs-params">CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)</span>
+    {
+        <span class="hljs-comment">// Dispatch Domain Events collection</span>
+        <span class="hljs-keyword">await</span> DispatchDomainEventsAsync();
+
+        <span class="hljs-comment">// After executing this line all the changes (from the Command Handler and Domain Event Handlers) </span>
+        <span class="hljs-comment">// performed through the DbContext will be committed</span>
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> <span class="hljs-keyword">base</span>.SaveChangesAsync(cancellationToken);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">DispatchDomainEventsAsync</span>()</span>
+    {
+        <span class="hljs-keyword">var</span> domainEntities = ChangeTracker
+            .Entries&lt;Entity&gt;()
+            .Where(x =&gt; x.Entity.DomainEvents != <span class="hljs-literal">null</span> &amp;&amp; x.Entity.DomainEvents.Any())
+            .ToList();
+
+        <span class="hljs-keyword">var</span> domainEvents = domainEntities
+            .SelectMany(x =&gt; x.Entity.DomainEvents!)
+            .ToList();
+
+        domainEntities.ForEach(entity =&gt; entity.Entity.ClearDomainEvents());
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> domainEvent <span class="hljs-keyword">in</span> domainEvents)
+            <span class="hljs-keyword">await</span> _mediator.Publish(domainEvent);
+    }
+}</code></pre><h3 id="321-outbox-integration-events-recommended">
+        <a href="#321-outbox-integration-events-recommended" class="header-anchor">
+          3.2.1 Outbox & Integration Events (Recommended)
+        </a>
+      </h3><p>To align with the Yapidoo microservice approach (reliable eventing and loose coupling):</p>
+<ol>
+<li><strong>Persist integration events with the same DB transaction</strong> as the domain change (Outbox table).</li>
+<li><strong>Publish asynchronously</strong> from a background worker (or a hosted service) that reads undispatched outbox rows.</li>
+<li>Make consumers <strong>idempotent</strong> (use an <code>EventId</code>/dedupe key per message) to tolerate redeliveries.</li>
+</ol>
+<p>Suggested integration events emitted by Events:</p>
+<ul>
+<li><code>EventCreated { EventId, CreatorUserId, StartDate, LocationSummary, Privacy }</code></li>
+<li><code>EventCancelled { EventId, CreatorUserId, CancelledAt }</code></li>
+<li><code>EventParticipantJoined { EventId, UserId }</code></li>
+<li><code>EventParticipantLeft { EventId, UserId }</code></li>
+</ul>
+<h3 id="33-entity-configurations">
+        <a href="#33-entity-configurations" class="header-anchor">
+          3.3 Entity Configurations
+        </a>
+      </h3><h4 id="evententitytypeconfigurationcs">
+        <a href="#evententitytypeconfigurationcs" class="header-anchor">
+          EventEntityTypeConfiguration.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Data.EntityConfigurations</span>;
+
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore.Metadata.Builders;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+
+<span class="hljs-keyword">internal</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventEntityTypeConfiguration</span> : <span class="hljs-title">IEntityTypeConfiguration</span>&lt;<span class="hljs-title">Event</span>&gt;
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Configure</span>(<span class="hljs-params">EntityTypeBuilder&lt;Event&gt; builder</span>)</span>
+    {
+        builder.ToTable(<span class="hljs-string">&quot;events&quot;</span>);
+        builder.HasKey(e =&gt; e.Id);
+        
+        builder.Property(e =&gt; e.Title)
+            .IsRequired()
+            .HasMaxLength(<span class="hljs-number">255</span>);
+
+        builder.Property(e =&gt; e.Status)
+            .IsRequired()
+            .HasConversion&lt;<span class="hljs-built_in">int</span>&gt;();
+
+        builder.Property(e =&gt; e.Privacy)
+            .IsRequired()
+            .HasConversion&lt;<span class="hljs-built_in">int</span>&gt;();
+
+        builder.HasOne(x =&gt; x.Location)
+            .WithMany(l =&gt; l.Events)
+            .HasForeignKey(e =&gt; e.LocationId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(x =&gt; x.Conditions)
+            .WithOne()
+            .HasForeignKey(x =&gt; x.EventId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x =&gt; x.Participations)
+            .WithOne(p =&gt; p.Event)
+            .HasForeignKey(x =&gt; x.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x =&gt; x.FollowingProfiles)
+            .WithOne(f =&gt; f.Event)
+            .HasForeignKey(x =&gt; x.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x =&gt; x.Timeline)
+            .WithOne()
+            .HasForeignKey&lt;EventTimeline&gt;(x =&gt; x.EventId)
+            .IsRequired(<span class="hljs-literal">false</span>)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x =&gt; x.Category)
+            .WithMany()
+            .HasForeignKey(x =&gt; x.CategoryId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(x =&gt; x.EventHashtags)
+            .WithOne(eh =&gt; eh.Event)
+            .HasForeignKey(eh =&gt; eh.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+}</code></pre><h3 id="34-repository-implementation">
+        <a href="#34-repository-implementation" class="header-anchor">
+          3.4 Repository Implementation
+        </a>
+      </h3><h4 id="repositorycs-base-repository">
+        <a href="#repositorycs-base-repository" class="header-anchor">
+          Repository.cs (Base Repository)
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Infrastructure.Repositories</span>;
+
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.SeedWork;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Data;
+<span class="hljs-keyword">using</span> System.Linq.Expressions;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Repository</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">IRepository</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">where</span> <span class="hljs-title">T</span> : <span class="hljs-title">Entity</span>
+{
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> EventDbContext _context;
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> DbSet&lt;T&gt; _dbSet;
+
+    <span class="hljs-keyword">public</span> IUnitOfWork UnitOfWork =&gt; _context;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Repository</span>(<span class="hljs-params">EventDbContext context</span>)</span>
+    {
+        _context = context;
+        _dbSet = context.Set&lt;T&gt;();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> T <span class="hljs-title">Add</span>(<span class="hljs-params">T entity</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> _dbSet.Add(entity).Entity;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> T <span class="hljs-title">Update</span>(<span class="hljs-params">T entity</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> _dbSet.Update(entity).Entity;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Delete</span>(<span class="hljs-params">T entity</span>)</span>
+    {
+        _dbSet.Remove(entity);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> IQueryable&lt;T&gt; <span class="hljs-title">Get</span>()</span>
+    {
+        <span class="hljs-keyword">return</span> _dbSet.AsQueryable();
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> T? GetById(<span class="hljs-built_in">long</span> id)
+    {
+        <span class="hljs-keyword">return</span> _dbSet.FirstOrDefault(x =&gt; x.Id == id);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> IQueryable&lt;T&gt; <span class="hljs-title">Get</span>(<span class="hljs-params">Expression&lt;Func&lt;T, <span class="hljs-built_in">bool</span>&gt;&gt; predicate</span>)</span>
+    {
+        <span class="hljs-keyword">return</span> _dbSet.Where(predicate);
+    }
+}</code></pre><h4 id="eventrepositorycs">
+        <a href="#eventrepositorycs" class="header-anchor">
+          EventRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Infrastructure.Repositories</span>;
+
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Data;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventRepository</span> : <span class="hljs-title">Repository</span>&lt;<span class="hljs-title">Event</span>&gt;, <span class="hljs-title">IEventRepository</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventRepository</span>(<span class="hljs-params">EventDbContext context</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">context</span>)</span>
+    {
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;<span class="hljs-built_in">bool</span>&gt; <span class="hljs-title">CreateWithVenue</span>(<span class="hljs-params">Event newEvent</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (newEvent == <span class="hljs-literal">null</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">if</span> (newEvent.Location != <span class="hljs-literal">null</span>)
+        {
+            _context.Venues.Add(newEvent.Location);
+        }
+
+        Add(newEvent);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> UnitOfWork.SaveChangesAsync() &gt; <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> Event? GetById(<span class="hljs-built_in">long</span> id)
+    {
+        <span class="hljs-keyword">return</span> _dbSet
+            .Include(x =&gt; x.Participations)
+            .Include(x =&gt; x.Location)
+            .Include(x =&gt; x.Category)
+            .FirstOrDefault(x =&gt; x.Id == id);
+    }
+}</code></pre><h4 id="venuerepositorycs">
+        <a href="#venuerepositorycs" class="header-anchor">
+          VenueRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Infrastructure.Repositories</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Data;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VenueRepository</span> : <span class="hljs-title">Repository</span>&lt;<span class="hljs-title">Venue</span>&gt;, <span class="hljs-title">IVenueRepository</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">VenueRepository</span>(<span class="hljs-params">EventDbContext context</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">context</span>)</span>
+    {
+    }
+}</code></pre><h4 id="eventhashtagrepositorycs">
+        <a href="#eventhashtagrepositorycs" class="header-anchor">
+          EventHashtagRepository.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Infrastructure.Repositories</span>;
+
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Data;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventHashtagRepository</span> : <span class="hljs-title">Repository</span>&lt;<span class="hljs-title">EventHashtag</span>&gt;, <span class="hljs-title">IEventHashtagRepository</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventHashtagRepository</span>(<span class="hljs-params">EventDbContext context</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">context</span>)</span>
+    {
+    }
+}</code></pre><hr>
+<h2 id="4-usecases-layer-yapidooserviceeventsusecases">
+        <a href="#4-usecases-layer-yapidooserviceeventsusecases" class="header-anchor">
+          4. UseCases Layer (Yapidoo.Service.Events.UseCases)
+        </a>
+      </h2><h3 id="41-package-dependencies">
+        <a href="#41-package-dependencies" class="header-anchor">
+          4.1 Package Dependencies
+        </a>
+      </h3><pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;MediatR&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;12.2.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;AutoMapper&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;13.0.1&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;FluentValidation&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;11.9.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;FluentValidation.DependencyInjectionExtensions&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;11.9.0&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProjectReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;..\Yapidoo.Service.Events.Domain\Yapidoo.Service.Events.Domain.csproj&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span></code></pre><h3 id="42-commands">
+        <a href="#42-commands" class="header-anchor">
+          4.2 Commands
+        </a>
+      </h3><h4 id="createeventcommandcs">
+        <a href="#createeventcommandcs" class="header-anchor">
+          CreateEventCommand.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Commands</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CreateEventCommand</span> : <span class="hljs-title">IRequest</span>&lt;<span class="hljs-title">EventViewModel</span>&gt;
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime EndDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> EventLocationDTO Location { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsVirtual { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> CategoryId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> SubCategoryId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Privacy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>[]? Hashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CoverMediaId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// User context (resolved from the validated JWT, set by middleware/pipeline)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> CreatorUserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="updateeventcommandcs">
+        <a href="#updateeventcommandcs" class="header-anchor">
+          UpdateEventCommand.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Commands</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UpdateEventCommand</span> : <span class="hljs-title">IRequest</span>&lt;<span class="hljs-title">EventViewModel</span>&gt;
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? EndDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> EventLocationDTO Location { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">null</span>!;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Privacy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CoverMediaId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="participateeventcommandcs">
+        <a href="#participateeventcommandcs" class="header-anchor">
+          ParticipateEventCommand.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Commands</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ParticipateEventCommand</span> : <span class="hljs-title">IRequest</span>&lt;<span class="hljs-title">bool</span>&gt;
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> EventId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> UserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> ParticipationType ParticipationType { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> ParticipationType
+{
+    Join,
+    Leave
+}</code></pre><h3 id="43-command-handlers">
+        <a href="#43-command-handlers" class="header-anchor">
+          4.3 Command Handlers
+        </a>
+      </h3><h4 id="createeventcommandhandlercs">
+        <a href="#createeventcommandhandlercs" class="header-anchor">
+          CreateEventCommandHandler.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Handlers</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> AutoMapper;
+<span class="hljs-keyword">using</span> Microsoft.Extensions.Logging;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Exceptions;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Commands;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Validators;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CreateEventCommandHandler</span> : <span class="hljs-title">IRequestHandler</span>&lt;<span class="hljs-title">CreateEventCommand</span>, <span class="hljs-title">EventViewModel</span>&gt;
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IMapper _mapper;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IMediator _mediator;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IEventRepository _eventRepository;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IEventHashtagRepository _eventHashtagRepository;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IVenueRepository _venueRepository;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;CreateEventCommandHandler&gt; _logger;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CreateEventCommandHandler</span>(<span class="hljs-params">
+        IEventRepository eventRepository,
+        IEventHashtagRepository eventHashtagRepository,
+        IVenueRepository venueRepository,
+        IMediator mediator,
+        ILogger&lt;CreateEventCommandHandler&gt; logger,
+        IMapper mapper</span>)</span>
+    {
+        _eventRepository = eventRepository;
+        _mediator = mediator;
+        _eventHashtagRepository = eventHashtagRepository;
+        _venueRepository = venueRepository;
+        _logger = logger;
+        _mapper = mapper;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;EventViewModel&gt; <span class="hljs-title">Handle</span>(<span class="hljs-params">CreateEventCommand request, CancellationToken cancellationToken</span>)</span>
+    {
+        <span class="hljs-keyword">try</span>
+        {
+            <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> CreateEventCommandValidator();
+            <span class="hljs-keyword">var</span> validationResult = <span class="hljs-keyword">await</span> validator.ValidateAsync(request, cancellationToken);
+            
+            <span class="hljs-keyword">if</span> (!validationResult.IsValid)
+            {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> EventDomainException(
+                    <span class="hljs-built_in">string</span>.Join(<span class="hljs-string">&quot;;&quot;</span>, validationResult.Errors.Select(x =&gt; x.ErrorMessage)));
+            }
+
+            <span class="hljs-keyword">var</span> @event = _mapper.Map&lt;Event&gt;(request);
+            <span class="hljs-keyword">var</span> venue = _mapper.Map&lt;Venue&gt;(request.Location);
+            
+            _venueRepository.Add(venue);
+            @event.Location = venue;
+            @event.CreatorUserId = request.CreatorUserId;
+            @event.WithCoverMedia(request.CoverMediaId);
+
+            AddHashtags(@event, request.Hashtags);
+
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> _eventRepository.CreateWithVenue(@event))
+            {
+                <span class="hljs-keyword">var</span> vm = _mapper.Map&lt;EventViewModel&gt;(@event);
+                vm.Location = _mapper.Map&lt;LocationViewModel&gt;(@event.Location);
+                <span class="hljs-keyword">return</span> vm;
+            }
+            
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> EventDomainException(<span class="hljs-string">&quot;Error on Event Creation&quot;</span>);
+        }
+        <span class="hljs-keyword">catch</span> (Exception ex)
+        {
+            _logger.LogError(ex, <span class="hljs-string">&quot;Error on event creation: {Message}&quot;</span>, ex.Message);
+            <span class="hljs-keyword">throw</span>;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddHashtags</span>(<span class="hljs-params">Event @<span class="hljs-keyword">event</span>, <span class="hljs-built_in">string</span>[]? hashtags</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (hashtags == <span class="hljs-literal">null</span> || hashtags.Length == <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span>;
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> tag <span class="hljs-keyword">in</span> hashtags)
+        {
+            <span class="hljs-comment">// Implementation depends on hashtag handling strategy</span>
+            <span class="hljs-comment">// Could search for existing hashtags or create new ones</span>
+        }
+    }
+}</code></pre><h4 id="updateeventcommandhandlercs">
+        <a href="#updateeventcommandhandlercs" class="header-anchor">
+          UpdateEventCommandHandler.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Handlers</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> AutoMapper;
+<span class="hljs-keyword">using</span> Microsoft.Extensions.Logging;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Exceptions;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Commands;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UpdateEventCommandHandler</span> : <span class="hljs-title">IRequestHandler</span>&lt;<span class="hljs-title">UpdateEventCommand</span>, <span class="hljs-title">EventViewModel</span>&gt;
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IMapper _mapper;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IEventRepository _eventRepository;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IVenueRepository _venueRepository;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;UpdateEventCommandHandler&gt; _logger;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UpdateEventCommandHandler</span>(<span class="hljs-params">
+        IEventRepository eventRepository,
+        IVenueRepository venueRepository,
+        ILogger&lt;UpdateEventCommandHandler&gt; logger,
+        IMapper mapper</span>)</span>
+    {
+        _eventRepository = eventRepository;
+        _venueRepository = venueRepository;
+        _logger = logger;
+        _mapper = mapper;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;EventViewModel&gt; <span class="hljs-title">Handle</span>(<span class="hljs-params">UpdateEventCommand request, CancellationToken cancellationToken</span>)</span>
+    {
+        <span class="hljs-keyword">try</span>
+        {
+            <span class="hljs-keyword">var</span> dbEvent = _eventRepository.GetById(request.Id);
+            <span class="hljs-keyword">if</span> (dbEvent == <span class="hljs-literal">null</span>)
+            {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> EventDomainException(<span class="hljs-string">$&quot;Event with id <span class="hljs-subst">{request.Id}</span> was not found&quot;</span>);
+            }
+
+            <span class="hljs-keyword">var</span> venue = _mapper.Map&lt;Venue&gt;(request.Location);
+
+            dbEvent.Title = request.Title;
+            dbEvent.Description = request.Description;
+            dbEvent.StartDate = request.StartDate;
+            dbEvent.EndDate = request.EndDate;
+            dbEvent.Privacy = Enum.Parse&lt;Domain.Enums.PrivacyTypeEnum&gt;(request.Privacy);
+
+            <span class="hljs-keyword">var</span> dbLocation = _venueRepository.GetById(dbEvent.LocationId);
+            <span class="hljs-keyword">if</span> (dbLocation != <span class="hljs-literal">null</span>)
+            {
+                dbLocation.Address = venue.Address;
+                dbLocation.Latitude = venue.Latitude;
+                dbLocation.Longitude = venue.Longitude;
+                dbLocation.MapUrl = venue.MapUrl;
+                dbLocation.Type = venue.Type;
+                _venueRepository.Update(dbLocation);
+            }
+
+            dbEvent.WithCoverMedia(request.CoverMediaId);
+
+            _eventRepository.Update(dbEvent);
+            
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> _eventRepository.UnitOfWork.SaveChangesAsync(cancellationToken) &gt; <span class="hljs-number">0</span>)
+            {
+                <span class="hljs-keyword">return</span> _mapper.Map&lt;EventViewModel&gt;(dbEvent);
+            }
+            
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> EventDomainException(<span class="hljs-string">&quot;Error on Event Update&quot;</span>);
+        }
+        <span class="hljs-keyword">catch</span> (Exception ex)
+        {
+            _logger.LogError(ex, <span class="hljs-string">&quot;Error on event update: {Message}&quot;</span>, ex.Message);
+            <span class="hljs-keyword">throw</span>;
+        }
+    }
+}</code></pre><h3 id="44-domain-event-handlers">
+        <a href="#44-domain-event-handlers" class="header-anchor">
+          4.4 Domain Event Handlers
+        </a>
+      </h3><h4 id="notifyinvitedoneventcreatedhandlercs">
+        <a href="#notifyinvitedoneventcreatedhandlercs" class="header-anchor">
+          NotifyInvitedOnEventCreatedHandler.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.DomainEventHandlers</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> Microsoft.Extensions.Logging;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.DomainEvents;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">NotifyInvitedOnEventCreatedHandler</span> : <span class="hljs-title">INotificationHandler</span>&lt;<span class="hljs-title">EventCreatedDomainEvent</span>&gt;
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;NotifyInvitedOnEventCreatedHandler&gt; _logger;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NotifyInvitedOnEventCreatedHandler</span>(<span class="hljs-params">ILogger&lt;NotifyInvitedOnEventCreatedHandler&gt; logger</span>)</span>
+    {
+        _logger = logger;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">Handle</span>(<span class="hljs-params">EventCreatedDomainEvent notification, CancellationToken cancellationToken</span>)</span>
+    {
+        _logger.LogInformation(
+            <span class="hljs-string">&quot;Event creator {CreatorUserId} has created event with Title: {Title}&quot;</span>,
+            notification.CreatorUserId,
+            notification.Event.Title);
+
+        <span class="hljs-comment">// Add notification logic here (e.g., send to message queue, notification service)</span>
+        
+        <span class="hljs-keyword">return</span> Task.CompletedTask;
+    }
+}</code></pre><h3 id="45-validators">
+        <a href="#45-validators" class="header-anchor">
+          4.5 Validators
+        </a>
+      </h3><h4 id="createeventcommandvalidatorcs">
+        <a href="#createeventcommandvalidatorcs" class="header-anchor">
+          CreateEventCommandValidator.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Validators</span>;
+
+<span class="hljs-keyword">using</span> FluentValidation;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Commands;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CreateEventCommandValidator</span> : <span class="hljs-title">AbstractValidator</span>&lt;<span class="hljs-title">CreateEventCommand</span>&gt;
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CreateEventCommandValidator</span>()</span>
+    {
+        RuleFor(x =&gt; x.Title)
+            .NotEmpty().WithMessage(<span class="hljs-string">&quot;Title is required&quot;</span>)
+            .MaximumLength(<span class="hljs-number">255</span>).WithMessage(<span class="hljs-string">&quot;Title cannot exceed 255 characters&quot;</span>);
+
+        RuleFor(x =&gt; x.StartDate)
+            .NotEmpty().WithMessage(<span class="hljs-string">&quot;Start date is required&quot;</span>)
+            .GreaterThanOrEqualTo(DateTime.UtcNow).WithMessage(<span class="hljs-string">&quot;Start date must be in the future&quot;</span>);
+
+        RuleFor(x =&gt; x.EndDate)
+            .GreaterThan(x =&gt; x.StartDate).WithMessage(<span class="hljs-string">&quot;End date must be after start date&quot;</span>);
+
+        RuleFor(x =&gt; x.Location)
+            .NotNull().WithMessage(<span class="hljs-string">&quot;Location is required&quot;</span>);
+
+        RuleFor(x =&gt; x.CategoryId)
+            .GreaterThan(<span class="hljs-number">0</span>).WithMessage(<span class="hljs-string">&quot;Category is required&quot;</span>);
+
+        RuleFor(x =&gt; x.Privacy)
+            .NotEmpty().WithMessage(<span class="hljs-string">&quot;Privacy setting is required&quot;</span>)
+            .Must(p =&gt; <span class="hljs-keyword">new</span>[] { <span class="hljs-string">&quot;Public&quot;</span>, <span class="hljs-string">&quot;Hidden&quot;</span>, <span class="hljs-string">&quot;Friends&quot;</span> }.Contains(p))
+            .WithMessage(<span class="hljs-string">&quot;Privacy must be Public, Hidden, or Friends&quot;</span>);
+    }
+}</code></pre><h3 id="46-dtos">
+        <a href="#46-dtos" class="header-anchor">
+          4.6 DTOs
+        </a>
+      </h3><h4 id="eventviewmodelcs">
+        <a href="#eventviewmodelcs" class="header-anchor">
+          EventViewModel.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.DTOs</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventViewModel</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime StartDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime? EndDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> IsVirtual { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Privacy { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Status { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? CoverMediaId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> CreatorUserId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> LocationViewModel? Location { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> CategoryViewModel? Category { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> List&lt;<span class="hljs-built_in">string</span>&gt; Hashtags { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span>();
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ParticipantsCount { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> FollowersCount { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h4 id="eventlocationdtocs">
+        <a href="#eventlocationdtocs" class="header-anchor">
+          EventLocationDTO.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.DTOs</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventLocationDTO</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Address { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Latitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Longitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? MapUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Type { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;Text&quot;</span>;
+}</code></pre><h4 id="locationviewmodelcs">
+        <a href="#locationviewmodelcs" class="header-anchor">
+          LocationViewModel.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.DTOs</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LocationViewModel</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Address { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? City { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Latitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? Longitude { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? MapUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Type { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+}</code></pre><h4 id="categoryviewmodelcs">
+        <a href="#categoryviewmodelcs" class="header-anchor">
+          CategoryViewModel.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.DTOs</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CategoryViewModel</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Title { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-built_in">string</span>.Empty;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Description { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? ImageUrl { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Icon { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}</code></pre><h3 id="47-automapper-profile">
+        <a href="#47-automapper-profile" class="header-anchor">
+          4.7 AutoMapper Profile
+        </a>
+      </h3><h4 id="mappingprofilecs">
+        <a href="#mappingprofilecs" class="header-anchor">
+          MappingProfile.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.UseCases.Mappings</span>;
+
+<span class="hljs-keyword">using</span> AutoMapper;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Commands;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MappingProfile</span> : <span class="hljs-title">Profile</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MappingProfile</span>()</span>
+    {
+        <span class="hljs-comment">// Command to Entity</span>
+        CreateMap&lt;CreateEventCommand, Event&gt;()
+            .ForMember(dest =&gt; dest.Location, opt =&gt; opt.Ignore())
+            .ForMember(dest =&gt; dest.Privacy, opt =&gt; opt.MapFrom(src =&gt; 
+                Enum.Parse&lt;Domain.Enums.PrivacyTypeEnum&gt;(src.Privacy)));
+
+        CreateMap&lt;UpdateEventCommand, Event&gt;()
+            .ForMember(dest =&gt; dest.Location, opt =&gt; opt.Ignore());
+
+        <span class="hljs-comment">// DTO Mappings</span>
+        CreateMap&lt;EventLocationDTO, Venue&gt;()
+            .ForMember(dest =&gt; dest.Type, opt =&gt; opt.MapFrom(src =&gt; 
+                Enum.Parse&lt;Domain.Enums.LocationTypeEnum&gt;(src.Type)));
+
+        <span class="hljs-comment">// Entity to ViewModel</span>
+        CreateMap&lt;Event, EventViewModel&gt;()
+            .ForMember(dest =&gt; dest.Privacy, opt =&gt; opt.MapFrom(src =&gt; src.Privacy.ToString()))
+            .ForMember(dest =&gt; dest.Status, opt =&gt; opt.MapFrom(src =&gt; src.Status.ToString()))
+            .ForMember(dest =&gt; dest.CreatorUserId, opt =&gt; opt.MapFrom(src =&gt; src.CreatorUserId))
+            .ForMember(dest =&gt; dest.CoverMediaId, opt =&gt; opt.MapFrom(src =&gt; src.CoverMediaId))
+            .ForMember(dest =&gt; dest.Hashtags, opt =&gt; opt.MapFrom(src =&gt; 
+                src.EventHashtags.Select(eh =&gt; eh.Hashtag.Title)))
+            .ForMember(dest =&gt; dest.ParticipantsCount, opt =&gt; opt.MapFrom(src =&gt; 
+                src.Participations.Count))
+            .ForMember(dest =&gt; dest.FollowersCount, opt =&gt; opt.MapFrom(src =&gt; 
+                src.FollowingProfiles.Count));
+
+        CreateMap&lt;Venue, LocationViewModel&gt;()
+            .ForMember(dest =&gt; dest.Type, opt =&gt; opt.MapFrom(src =&gt; src.Type.ToString()));
+
+        CreateMap&lt;Domain.Aggregates.CategoryAggregate.Category, CategoryViewModel&gt;();
+    }
+}</code></pre><hr>
+<h2 id="5-api-layer-yapidooserviceeventsapi">
+        <a href="#5-api-layer-yapidooserviceeventsapi" class="header-anchor">
+          5. API Layer (Yapidoo.Service.Events.Api)
+        </a>
+      </h2><h3 id="51-package-dependencies">
+        <a href="#51-package-dependencies" class="header-anchor">
+          5.1 Package Dependencies
+        </a>
+      </h3><pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.AspNetCore.OpenApi&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Swashbuckle.AspNetCore&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;6.8.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;MediatR&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;12.2.0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.EntityFrameworkCore.Design&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.AspNetCore.Authentication.JwtBearer&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.Extensions.Diagnostics.HealthChecks&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;9.0.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;OpenTelemetry.Extensions.Hosting&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;1.10.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;OpenTelemetry.Exporter.OpenTelemetryProtocol&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;1.10.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">PackageReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Serilog.AspNetCore&quot;</span> <span class="hljs-attr">Version</span>=<span class="hljs-string">&quot;8.0.0&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProjectReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;..\Yapidoo.Service.Events.UseCases\Yapidoo.Service.Events.UseCases.csproj&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProjectReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;..\Yapidoo.Service.Events.Infrastructure\Yapidoo.Service.Events.Infrastructure.csproj&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProjectReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;..\Yapidoo.Service.Events.Data\Yapidoo.Service.Events.Data.csproj&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span></code></pre><h3 id="52-controller">
+        <a href="#52-controller" class="header-anchor">
+          5.2 Controller
+        </a>
+      </h3><h4 id="eventscontrollercs">
+        <a href="#eventscontrollercs" class="header-anchor">
+          EventsController.cs
+        </a>
+      </h4><pre><code class="hljs language-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">Yapidoo.Service.Events.Api.Controllers</span>;
+
+<span class="hljs-keyword">using</span> MediatR;
+<span class="hljs-keyword">using</span> Microsoft.AspNetCore.Authorization;
+<span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Commands;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.DTOs;
+
+[<span class="hljs-meta">ApiController</span>]
+[<span class="hljs-meta">Route(<span class="hljs-string">&quot;api/events&quot;</span>)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventsController</span> : <span class="hljs-title">ControllerBase</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IMediator _mediator;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;EventsController&gt; _logger;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventsController</span>(<span class="hljs-params">IMediator mediator, ILogger&lt;EventsController&gt; logger</span>)</span>
+    {
+        _mediator = mediator;
+        _logger = logger;
+    }
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> Create New Event</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;command&quot;&gt;</span>Create Event Model<span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span>Created Event Model<span class="hljs-doctag">&lt;/returns&gt;</span></span>
+    [<span class="hljs-meta">HttpPost</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;events.write&quot;</span>)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EventViewModel))</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status400BadRequest)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status500InternalServerError)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ActionResult&lt;EventViewModel&gt;&gt; Create([FromBody] CreateEventCommand command)
+    {
+        <span class="hljs-comment">// Populate creator from JWT (e.g., sub/user_id claim) in middleware or here.</span>
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _mediator.Send(command);
+        <span class="hljs-keyword">return</span> Ok(result);
+    }
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> Update Event</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;id&quot;&gt;</span>Event Id<span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;command&quot;&gt;</span>Update Event Model<span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span>Updated Event Model<span class="hljs-doctag">&lt;/returns&gt;</span></span>
+    [<span class="hljs-meta">HttpPut(<span class="hljs-string">&quot;{id:long}&quot;</span>)</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;events.write&quot;</span>)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EventViewModel))</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status404NotFound)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status500InternalServerError)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ActionResult&lt;EventViewModel&gt;&gt; Update(<span class="hljs-built_in">long</span> id, [FromBody] UpdateEventCommand command)
+    {
+        command.Id = id;
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _mediator.Send(command);
+        <span class="hljs-keyword">return</span> Ok(result);
+    }
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> Get Event By Id</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    [<span class="hljs-meta">HttpGet(<span class="hljs-string">&quot;{id:long}&quot;</span>)</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;events.read&quot;</span>)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EventViewModel))</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status404NotFound)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ActionResult&lt;EventViewModel&gt;&gt; GetById(<span class="hljs-built_in">long</span> id)
+    {
+        <span class="hljs-comment">// Implement GetEventQuery and handler</span>
+        <span class="hljs-keyword">return</span> Ok();
+    }
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> Join an event</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;{id:long}/join&quot;</span>)</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;events.write&quot;</span>)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status200OK)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status400BadRequest)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ActionResult&lt;<span class="hljs-built_in">bool</span>&gt;&gt; Join(<span class="hljs-built_in">long</span> id)
+    {
+        <span class="hljs-keyword">var</span> command = <span class="hljs-keyword">new</span> ParticipateEventCommand
+        {
+            EventId = id,
+            ParticipationType = ParticipationType.Join,
+            <span class="hljs-comment">// UserId should be populated from JWT context</span>
+        };
+
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _mediator.Send(command);
+        <span class="hljs-keyword">return</span> Ok(result);
+    }
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> Leave an event</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;{id:long}/leave&quot;</span>)</span>]
+    [<span class="hljs-meta">Authorize(Policy = <span class="hljs-string">&quot;events.write&quot;</span>)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status200OK)</span>]
+    [<span class="hljs-meta">ProducesResponseType(StatusCodes.Status400BadRequest)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task&lt;ActionResult&lt;<span class="hljs-built_in">bool</span>&gt;&gt; Leave(<span class="hljs-built_in">long</span> id)
+    {
+        <span class="hljs-keyword">var</span> command = <span class="hljs-keyword">new</span> ParticipateEventCommand
+        {
+            EventId = id,
+            ParticipationType = ParticipationType.Leave,
+            <span class="hljs-comment">// UserId should be populated from JWT context</span>
+        };
+
+        <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _mediator.Send(command);
+        <span class="hljs-keyword">return</span> Ok(result);
+    }
+}</code></pre><h3 id="53-programcs-startup-configuration">
+        <a href="#53-programcs-startup-configuration" class="header-anchor">
+          5.3 Program.cs (Startup Configuration)
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Authentication.JwtBearer;
+<span class="hljs-keyword">using</span> Microsoft.IdentityModel.Tokens;
+<span class="hljs-keyword">using</span> Serilog;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Data;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Infrastructure.Repositories;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.Domain.Aggregates.EventAggregate;
+<span class="hljs-keyword">using</span> Yapidoo.Service.Events.UseCases.Mappings;
+<span class="hljs-keyword">using</span> FluentValidation;
+<span class="hljs-keyword">using</span> Microsoft.EntityFrameworkCore;
+<span class="hljs-keyword">using</span> System.Reflection;
+
+<span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);
+
+builder.Host.UseSerilog((ctx, services, cfg) =&gt;
+    cfg.ReadFrom.Configuration(ctx.Configuration));
+
+<span class="hljs-comment">// Add services to the container</span>
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =&gt;
+{
+    c.SwaggerDoc(<span class="hljs-string">&quot;v1&quot;</span>, <span class="hljs-keyword">new</span>() { Title = <span class="hljs-string">&quot;Yapidoo Events API&quot;</span>, Version = <span class="hljs-string">&quot;v1&quot;</span> });
+    <span class="hljs-keyword">var</span> xmlFile = <span class="hljs-string">$&quot;<span class="hljs-subst">{Assembly.GetExecutingAssembly().GetName().Name}</span>.xml&quot;</span>;
+    <span class="hljs-keyword">var</span> xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    <span class="hljs-keyword">if</span> (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+});
+
+<span class="hljs-comment">// Database</span>
+builder.Services.AddDbContext&lt;EventDbContext&gt;(options =&gt;
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString(<span class="hljs-string">&quot;DefaultConnection&quot;</span>),
+        sqlOptions =&gt;
+        {
+            sqlOptions.MigrationsAssembly(<span class="hljs-keyword">typeof</span>(EventDbContext).Assembly.FullName);
+            sqlOptions.EnableRetryOnFailure(maxRetryCount: <span class="hljs-number">15</span>, maxRetryDelay: TimeSpan.FromSeconds(<span class="hljs-number">30</span>), errorNumbersToAdd: <span class="hljs-literal">null</span>);
+        });
+});
+
+<span class="hljs-comment">// AuthN: Validate JWTs issued by Yapidoo.Service.Auth using OIDC metadata/JWKS</span>
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =&gt;
+    {
+        options.Authority = builder.Configuration[<span class="hljs-string">&quot;Auth:Authority&quot;</span>]; <span class="hljs-comment">// e.g. https://auth.yapidoo.com</span>
+        options.RequireHttpsMetadata = <span class="hljs-literal">true</span>;
+
+        <span class="hljs-comment">// If you use audiences, set them explicitly.</span>
+        options.TokenValidationParameters = <span class="hljs-keyword">new</span> TokenValidationParameters
+        {
+            ValidateIssuer = <span class="hljs-literal">true</span>,
+            ValidateAudience = <span class="hljs-literal">false</span>,
+        };
+    });
+
+builder.Services.AddAuthorization(options =&gt;
+{
+    options.AddPolicy(<span class="hljs-string">&quot;events.read&quot;</span>, p =&gt; p.RequireAuthenticatedUser());
+    options.AddPolicy(<span class="hljs-string">&quot;events.write&quot;</span>, p =&gt; p.RequireAuthenticatedUser());
+});
+
+<span class="hljs-comment">// Health</span>
+builder.Services.AddHealthChecks();
+
+<span class="hljs-comment">// Observability (example)</span>
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =&gt; tracing
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddOtlpExporter());
+
+<span class="hljs-comment">// MediatR</span>
+builder.Services.AddMediatR(cfg =&gt;
+{
+    cfg.RegisterServicesFromAssembly(<span class="hljs-keyword">typeof</span>(Yapidoo.Service.Events.UseCases.Commands.CreateEventCommand).Assembly);
+    cfg.RegisterServicesFromAssembly(<span class="hljs-keyword">typeof</span>(Yapidoo.Service.Events.Domain.DomainEvents.EventCreatedDomainEvent).Assembly);
+});
+
+<span class="hljs-comment">// AutoMapper</span>
+builder.Services.AddAutoMapper(<span class="hljs-keyword">typeof</span>(MappingProfile));
+
+<span class="hljs-comment">// FluentValidation</span>
+builder.Services.AddValidatorsFromAssembly(<span class="hljs-keyword">typeof</span>(Yapidoo.Service.Events.UseCases.Validators.CreateEventCommandValidator).Assembly);
+
+<span class="hljs-comment">// Repositories</span>
+builder.Services.AddScoped&lt;IEventRepository, EventRepository&gt;();
+builder.Services.AddScoped&lt;IVenueRepository, VenueRepository&gt;();
+builder.Services.AddScoped&lt;IEventHashtagRepository, EventHashtagRepository&gt;();
+
+<span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> CORS should typically be handled at the API Gateway edge.</span>
+
+<span class="hljs-keyword">var</span> app = builder.Build();
+
+<span class="hljs-comment">// Configure the HTTP request pipeline</span>
+<span class="hljs-keyword">if</span> (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =&gt;
+    {
+        c.SwaggerEndpoint(<span class="hljs-string">&quot;/swagger/v1/swagger.json&quot;</span>, <span class="hljs-string">&quot;Yapidoo Events API v1&quot;</span>);
+    });
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+app.MapHealthChecks(<span class="hljs-string">&quot;/healthz&quot;</span>);
+app.MapHealthChecks(<span class="hljs-string">&quot;/readyz&quot;</span>);
+
+<span class="hljs-comment">// Apply migrations and seed data</span>
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> scope = app.Services.CreateScope())
+{
+    <span class="hljs-keyword">var</span> context = scope.ServiceProvider.GetRequiredService&lt;EventDbContext&gt;();
+    <span class="hljs-keyword">await</span> context.Database.MigrateAsync();
+}
+
+app.Run();</code></pre><h3 id="54-appsettingsjson">
+        <a href="#54-appsettingsjson" class="header-anchor">
+          5.4 appsettings.json
+        </a>
+      </h3><pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;ConnectionStrings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;DefaultConnection&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Server=(localdb)\\mssqllocaldb;Database=YapidooEventsDb;Trusted_Connection=True;MultipleActiveResultSets=true&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Auth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;Authority&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://auth.yapidoo.local&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;Logging&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;LogLevel&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;Default&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Information&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;Microsoft.AspNetCore&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Warning&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;Microsoft.EntityFrameworkCore&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Warning&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;AllowedHosts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;*&quot;</span>
+<span class="hljs-punctuation">}</span></code></pre><hr>
+<h2 id="6-database-migrations">
+        <a href="#6-database-migrations" class="header-anchor">
+          6. Database Migrations
+        </a>
+      </h2><h3 id="create-initial-migration">
+        <a href="#create-initial-migration" class="header-anchor">
+          Create Initial Migration
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> Yapidoo.Service.Events.Api
+dotnet ef migrations add InitialCreate --project ../Yapidoo.Service.Events.Data --context EventDbContext
+dotnet ef database update --project ../Yapidoo.Service.Events.Data --context EventDbContext</code></pre><hr>
+<h2 id="7-key-considerations-for-net-9">
+        <a href="#7-key-considerations-for-net-9" class="header-anchor">
+          7. Key Considerations for .NET 9
+        </a>
+      </h2><h3 id="71-new-features-to-leverage">
+        <a href="#71-new-features-to-leverage" class="header-anchor">
+          7.1 New Features to Leverage
+        </a>
+      </h3><ul>
+<li><strong>Primary Constructors</strong>: Use for dependency injection in classes</li>
+<li><strong>Collection Expressions</strong>: Use <code>[]</code> syntax for collections</li>
+<li><strong>Improved LINQ</strong>: Take advantage of new LINQ methods</li>
+<li><strong>Native AOT</strong>: Consider for performance-critical scenarios</li>
+</ul>
+<h3 id="72-updated-patterns">
+        <a href="#72-updated-patterns" class="header-anchor">
+          7.2 Updated Patterns
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-comment">// Using primary constructors</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EventRepository</span>(<span class="hljs-params">EventDbContext context</span>) : <span class="hljs-title">Repository</span>&lt;<span class="hljs-title">Event</span>&gt;(<span class="hljs-params">context</span>), IEventRepository</span>
+{
+    <span class="hljs-comment">// Implementation</span>
+}
+
+<span class="hljs-comment">// Collection expressions</span>
+<span class="hljs-keyword">public</span> ICollection&lt;Participation&gt; Participations { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = [];</code></pre><h3 id="73-performance-improvements">
+        <a href="#73-performance-improvements" class="header-anchor">
+          7.3 Performance Improvements
+        </a>
+      </h3><ul>
+<li>Use <code>IAsyncEnumerable&lt;T&gt;</code> for large result sets</li>
+<li>Implement pagination for list queries</li>
+<li>Use compiled queries for frequently executed queries</li>
+<li>Consider using EF Core 9&#39;s new features like primitive collections</li>
+</ul>
+<hr>
+<h2 id="8-testing-strategy">
+        <a href="#8-testing-strategy" class="header-anchor">
+          8. Testing Strategy
+        </a>
+      </h2><h3 id="81-unit-tests">
+        <a href="#81-unit-tests" class="header-anchor">
+          8.1 Unit Tests
+        </a>
+      </h3><ul>
+<li>Test domain logic (Event aggregate methods, extensions)</li>
+<li>Test validators</li>
+<li>Test mapping profiles</li>
+</ul>
+<h3 id="82-integration-tests">
+        <a href="#82-integration-tests" class="header-anchor">
+          8.2 Integration Tests
+        </a>
+      </h3><ul>
+<li>Test command handlers with in-memory database</li>
+<li>Test repository implementations</li>
+<li>Test API endpoints</li>
+</ul>
+<h3 id="83-example-test">
+        <a href="#83-example-test" class="header-anchor">
+          8.3 Example Test
+        </a>
+      </h3><pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CreateEventCommandHandlerTests</span>
+{
+    [<span class="hljs-meta">Fact</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Handle_ValidCommand_ReturnsEventViewModel</span>()</span>
+    {
+        <span class="hljs-comment">// Arrange</span>
+        <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">new</span> DbContextOptionsBuilder&lt;EventDbContext&gt;()
+            .UseInMemoryDatabase(databaseName: <span class="hljs-string">&quot;TestDb&quot;</span>)
+            .Options;
+
+        <span class="hljs-keyword">var</span> mediator = Mock.Of&lt;IMediator&gt;();
+        <span class="hljs-keyword">var</span> context = <span class="hljs-keyword">new</span> EventDbContext(options, mediator);
+        <span class="hljs-keyword">var</span> repository = <span class="hljs-keyword">new</span> EventRepository(context);
+        
+        <span class="hljs-comment">// Act &amp; Assert</span>
+        <span class="hljs-comment">// ...</span>
+    }
+}</code></pre><hr>
+<h2 id="9-deployment-checklist">
+        <a href="#9-deployment-checklist" class="header-anchor">
+          9. Deployment Checklist
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> Configure proper connection strings for production</li>
+<li><input disabled="" type="checkbox"> Set up authentication/authorization middleware</li>
+<li><input disabled="" type="checkbox"> Configure logging (e.g., Serilog, Application Insights)</li>
+<li><input disabled="" type="checkbox"> Set up health checks</li>
+<li><input disabled="" type="checkbox"> Configure proper CORS policies</li>
+<li><input disabled="" type="checkbox"> Set up API versioning</li>
+<li><input disabled="" type="checkbox"> Implement rate limiting</li>
+<li><input disabled="" type="checkbox"> Configure Swagger for production (optional)</li>
+<li><input disabled="" type="checkbox"> Set up CI/CD pipelines</li>
+<li><input disabled="" type="checkbox"> Configure container orchestration (if using Docker/Kubernetes)</li>
+</ul>
+<hr>
+<h2 id="10-additional-recommendations">
+        <a href="#10-additional-recommendations" class="header-anchor">
+          10. Additional Recommendations
+        </a>
+      </h2><h3 id="101-microservice-considerations">
+        <a href="#101-microservice-considerations" class="header-anchor">
+          10.1 Microservice Considerations
+        </a>
+      </h3><ul>
+<li>Implement service-to-service communication (gRPC or HTTP)</li>
+<li>Add message bus integration (RabbitMQ, Azure Service Bus)</li>
+<li>Implement distributed tracing (OpenTelemetry)</li>
+<li>Add resilience patterns (Polly)</li>
+</ul>
+<h3 id="102-security">
+        <a href="#102-security" class="header-anchor">
+          10.2 Security
+        </a>
+      </h3><ul>
+<li>Implement JWT authentication</li>
+<li>Add authorization policies</li>
+<li>Validate and sanitize all inputs</li>
+<li>Implement rate limiting and throttling</li>
+</ul>
+<h3 id="103-observability">
+        <a href="#103-observability" class="header-anchor">
+          10.3 Observability
+        </a>
+      </h3><ul>
+<li>Add structured logging (Serilog)</li>
+<li>Implement health checks</li>
+<li>Add metrics (Prometheus)</li>
+<li>Set up distributed tracing</li>
+</ul>
+<hr>
+<h2 id="summary">
+        <a href="#summary" class="header-anchor">
+          Summary
+        </a>
+      </h2><p>This document provides a complete blueprint for recreating the Event aggregate in a new .NET 9 microservice. The architecture follows:</p>
+<ul>
+<li><strong>Domain-Driven Design (DDD)</strong> with proper aggregate boundaries</li>
+<li><strong>CQRS</strong> pattern with MediatR</li>
+<li><strong>Clean Architecture</strong> with clear separation of concerns</li>
+<li><strong>Repository Pattern</strong> for data access</li>
+<li><strong>Domain Events</strong> for cross-aggregate communication</li>
+<li><strong>.NET 9 Best Practices</strong> and modern C# features</li>
+</ul>
+<p>The migration maintains all the business logic and relationships from the original system while modernizing the codebase for .NET 9.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

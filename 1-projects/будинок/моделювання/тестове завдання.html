@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>тестове завдання - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/будинок/">будинок</a></li><li><a href="/second-brain/1-projects/будинок/моделювання/">моделювання</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">🎯 ЦІЛЬ ТРЕНУВАННЯ</a></li>
+<li><a href="#0-">0. ЩО МИ НЕ РОБИМО ❌</a></li>
+<li><a href="#1-1-">1. ПІДГОТОВКА СЦЕНИ (1 раз)</a></li>
+<ul>
+<li><a href="#11-">1.1 Одиниці</a></li>
+<li><a href="#12-bim-">1.2 Створення BIM-ієрархії</a></li>
+</ul>
+<li><a href="#2-varset-spreadsheet">2. ПАРАМЕТРИ (VarSet / Spreadsheet)</a></li>
+<ul>
+<li><a href="#-">Мінімальний набір</a></li>
+</ul>
+<li><a href="#3-bim-way">3. РІВНІ / ПОВЕРХИ (BIM way)</a></li>
+<li><a href="#4-master-geometry">4. ОСІ (Master geometry)</a></li>
+<ul>
+<li><a href="#41-">4.1 Створення осей</a></li>
+</ul>
+<li><a href="#5-1-">5. ЗОВНІШНІ СТІНИ — 1-Й ПОВЕРХ</a></li>
+<ul>
+<li><a href="#51-">5.1 Створення</a></li>
+</ul>
+<li><a href="#6-2-">6. КЛОНУВАННЯ ЗОВНІШНІХ СТІН НА 2-Й ПОВЕРХ</a></li>
+<ul>
+<li><a href="#-">✅ Правильний спосіб</a></li>
+<li><a href="#-link-">У Link задай:</a></li>
+</ul>
+<li><a href="#7-">7. ВНУТРІШНІ ПЕРЕГОРОДКИ</a></li>
+<li><a href="#8-">8. ПЕРЕКРИТТЯ / ПЛИТИ</a></li>
+<ul>
+<li><a href="#81-">8.1 Контур плити</a></li>
+<li><a href="#82-">8.2 Створення</a></li>
+<li><a href="#83-">8.3 Отвір під сходи</a></li>
+</ul>
+<li><a href="#9-">9. СХОДИ</a></li>
+<li><a href="#10-">10. ВІКНА ТА ДВЕРІ</a></li>
+<li><a href="#11-">11. ПЕРЕВІРКА РОЗМІРІВ (обов’язково)</a></li>
+<li><a href="#12-partdesign-">12. КОЛИ МОЖНА PartDesign 🟡</a></li>
+<li><a href="#13-">13. КРИТЕРІЇ “ЗРОБЛЕНО ПРАВИЛЬНО”</a></li>
+<li><a href="#-">🔁 ПРОПОЗИЦІЯ ДЛЯ ТРЕНУВАННЯ</a></li>
+<ul>
+<ul>
+<li><a href="#-1-">Ітерація 1 (наступний крок)</a></li>
+</ul>
+</ul>
+</ul>
+</div><p>Домовились. Нижче — <strong>тренувальний, “канонічний” процес BIM-моделювання в FreeCAD</strong> для твого будинку, з <strong>акцентом на BIM/Arch</strong>, мінімальним <strong>PartDesign</strong>, і з гарантією <strong>попадання в розміри креслень</strong>. Це саме той підхід, який варто “набити в м’язову пам’ять” перед складнішими проєктами.</p>
+<p>Я опишу <strong>ПОСЛІДОВНІ КРОКИ</strong>, а не просто інструменти.</p>
+<hr>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          🎯 ЦІЛЬ ТРЕНУВАННЯ
+        </a>
+      </h1><ol>
+<li><p>Навчитись працювати <strong>BIM-first</strong>, а не PartDesign-first</p>
+</li>
+<li><p>Освоїти:</p>
+<ul>
+<li>Levels / BuildingParts</li>
+<li>Arch Wall / Slab / Opening</li>
+<li>Clone / Link між поверхами</li>
+</ul>
+</li>
+<li><p>Отримати модель, яка:</p>
+<ul>
+<li>точно відповідає габаритам з креслень Z500</li>
+<li>структурована як BIM (IFC-ready)</li>
+<li>не має DAG / scope проблем</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="0-">
+        <a href="#0-" class="header-anchor">
+          0. ЩО МИ НЕ РОБИМО ❌
+        </a>
+      </h1><ul>
+<li>❌ Не моделюємо “як механіку”</li>
+<li>❌ Не малюємо контури з товщинами</li>
+<li>❌ Не робимо Copy</li>
+<li>❌ Не змішуємо Arch і PartDesign в одному тілі</li>
+</ul>
+<hr>
+<h1 id="1-1-">
+        <a href="#1-1-" class="header-anchor">
+          1. ПІДГОТОВКА СЦЕНИ (1 раз)
+        </a>
+      </h1><h2 id="11-">
+        <a href="#11-" class="header-anchor">
+          1.1 Одиниці
+        </a>
+      </h2><p><code>Edit → Preferences → Units → mm</code></p>
+<h2 id="12-bim-">
+        <a href="#12-bim-" class="header-anchor">
+          1.2 Створення BIM-ієрархії
+        </a>
+      </h2><p>BIM WB → <strong>Create Project</strong></p>
+<p>Отримаєш:</p>
+<pre><code class="hljs">IfcProject
+└─ Site
+   └─ <span class="hljs-keyword">Building </span>(Будинок)</code></pre><hr>
+<h1 id="2-varset-spreadsheet">
+        <a href="#2-varset-spreadsheet" class="header-anchor">
+          2. ПАРАМЕТРИ (VarSet / Spreadsheet)
+        </a>
+      </h1><h2 id="-">
+        <a href="#-" class="header-anchor">
+          Мінімальний набір
+        </a>
+      </h2><pre><code class="hljs"><span class="hljs-attr">Wall_Ext</span> = <span class="hljs-number">380</span> mm
+<span class="hljs-attr">Wall_Int</span> = <span class="hljs-number">120</span> mm
+
+<span class="hljs-attr">Floor1_H</span> = <span class="hljs-number">2800</span> mm
+<span class="hljs-attr">Floor2_H</span> = <span class="hljs-number">2600</span> mm
+
+<span class="hljs-attr">Slab</span> = <span class="hljs-number">220</span> mm
+
+<span class="hljs-attr">Level1_Z</span> = <span class="hljs-number">0</span> mm
+<span class="hljs-attr">Level2_Z</span> = Floor1_H + Slab</code></pre><p>👉 <strong>Усі Width / Height / Z — тільки з VarSet</strong></p>
+<hr>
+<h1 id="3-bim-way">
+        <a href="#3-bim-way" class="header-anchor">
+          3. РІВНІ / ПОВЕРХИ (BIM way)
+        </a>
+      </h1><p>BIM → <strong>Level</strong></p>
+<p>Створи:</p>
+<pre><code class="hljs"><span class="hljs-attribute">Level</span> <span class="hljs-number">1</span>:
+  <span class="hljs-attribute">Elevation</span> = Level1_Z
+  <span class="hljs-attribute">Height</span>    = Floor1_H
+
+<span class="hljs-attribute">Level</span> <span class="hljs-number">2</span>:
+  <span class="hljs-attribute">Elevation</span> = Level2_Z
+  <span class="hljs-attribute">Height</span>    = Floor2_H</code></pre><p>У дереві:</p>
+<pre><code class="hljs"><span class="hljs-variable">Building</span>
+├─ <span class="hljs-built_in">Level</span> <span class="hljs-number">1</span>
+├─ <span class="hljs-built_in">Level</span> <span class="hljs-number">2</span></code></pre><p>⚠️ <strong>Це ключова відмінність BIM від “просто груп”</strong></p>
+<hr>
+<h1 id="4-master-geometry">
+        <a href="#4-master-geometry" class="header-anchor">
+          4. ОСІ (Master geometry)
+        </a>
+      </h1><h2 id="41-">
+        <a href="#41-" class="header-anchor">
+          4.1 Створення осей
+        </a>
+      </h2><ul>
+<li>Draft → Line</li>
+<li>Малюй <strong>осьові лінії</strong>, строго по кресленням Z500</li>
+<li>Без товщин</li>
+<li>Всі відстані — <strong>з креслення</strong></li>
+</ul>
+<p>👉 Назви контейнер: <code>_Axes</code></p>
+<hr>
+<h1 id="5-1-">
+        <a href="#5-1-" class="header-anchor">
+          5. ЗОВНІШНІ СТІНИ — 1-Й ПОВЕРХ
+        </a>
+      </h1><h2 id="51-">
+        <a href="#51-" class="header-anchor">
+          5.1 Створення
+        </a>
+      </h2><ol>
+<li><p>Виділи всі осі зовнішніх стін</p>
+</li>
+<li><p><strong>BIM → Wall</strong></p>
+</li>
+<li><p>Властивості:</p>
+<ul>
+<li><code>Width = Vars.Wall_Ext</code></li>
+<li><code>Height = Vars.Floor1_H</code></li>
+<li><code>Align = Center</code></li>
+<li><code>IFC Type = IfcWall</code></li>
+</ul>
+</li>
+<li><p>Перемісти стіни у <strong>Level 1</strong></p>
+</li>
+</ol>
+<hr>
+<h1 id="6-2-">
+        <a href="#6-2-" class="header-anchor">
+          6. КЛОНУВАННЯ ЗОВНІШНІХ СТІН НА 2-Й ПОВЕРХ
+        </a>
+      </h1><h2 id="-">
+        <a href="#-" class="header-anchor">
+          ✅ Правильний спосіб
+        </a>
+      </h2><ol>
+<li>Виділи всі зовнішні стіни Level 1</li>
+<li><strong>Std → Create Link</strong> (або Draft Clone)</li>
+<li>Перемісти Link у <strong>Level 2</strong></li>
+</ol>
+<h2 id="-link-">
+        <a href="#-link-" class="header-anchor">
+          У Link задай:
+        </a>
+      </h2><pre><code class="hljs"><span class="hljs-attr">Placement.Z</span> = Vars.Level2_Z
+<span class="hljs-attr">Height</span>      = Vars.Floor2_H</code></pre><p>👉 Width НЕ чіпаєш — він наслідується</p>
+<hr>
+<h1 id="7-">
+        <a href="#7-" class="header-anchor">
+          7. ВНУТРІШНІ ПЕРЕГОРОДКИ
+        </a>
+      </h1><ul>
+<li><p>Аналогічно зовнішнім:</p>
+<ul>
+<li>Осі → BIM Wall</li>
+<li><code>Width = Vars.Wall_Int</code></li>
+<li><code>Height = Vars.Floor1_H</code></li>
+</ul>
+</li>
+<li><p>Потім <strong>Link → Level 2</strong></p>
+</li>
+<li><p>Якщо план відрізняється — <strong>окремі стіни</strong>, не правка базових</p>
+</li>
+</ul>
+<hr>
+<h1 id="8-">
+        <a href="#8-" class="header-anchor">
+          8. ПЕРЕКРИТТЯ / ПЛИТИ
+        </a>
+      </h1><h2 id="81-">
+        <a href="#81-" class="header-anchor">
+          8.1 Контур плити
+        </a>
+      </h2><ul>
+<li>Draft → Wire</li>
+<li>Контур по внутрішньому габариту зовнішніх стін</li>
+</ul>
+<h2 id="82-">
+        <a href="#82-" class="header-anchor">
+          8.2 Створення
+        </a>
+      </h2><ul>
+<li>BIM → <strong>Slab</strong></li>
+<li><code>Thickness = Vars.Slab</code></li>
+<li><code>Placement.Z = Vars.Level2_Z - Vars.Slab</code></li>
+<li>Перемісти у <strong>Level 1</strong></li>
+</ul>
+<h2 id="83-">
+        <a href="#83-" class="header-anchor">
+          8.3 Отвір під сходи
+        </a>
+      </h2><ul>
+<li>Draft → Wire (контур отвору)</li>
+<li>Виділи <strong>Slab → Wire</strong></li>
+<li><strong>BIM → Opening</strong></li>
+</ul>
+<p>⚠️ Без PartDesign</p>
+<hr>
+<h1 id="9-">
+        <a href="#9-" class="header-anchor">
+          9. СХОДИ
+        </a>
+      </h1><p>(поки тренувально)</p>
+<ul>
+<li>BIM → Stair</li>
+<li>Або простий placeholder (Box)</li>
+<li>Важливо лише <strong>позиція і отвір</strong></li>
+</ul>
+<hr>
+<h1 id="10-">
+        <a href="#10-" class="header-anchor">
+          10. ВІКНА ТА ДВЕРІ
+        </a>
+      </h1><ol>
+<li>BIM → Window / Door</li>
+<li>Прив’язуй <strong>до стіни</strong></li>
+<li>Розміри — з VarSet</li>
+<li>Повторювані — через <strong>Std Link</strong></li>
+</ol>
+<hr>
+<h1 id="11-">
+        <a href="#11-" class="header-anchor">
+          11. ПЕРЕВІРКА РОЗМІРІВ (обов’язково)
+        </a>
+      </h1><ul>
+<li><p>Draft → Dimension</p>
+</li>
+<li><p>Перевір:</p>
+<ul>
+<li>Загальний габарит</li>
+<li>Внутрішні кімнати</li>
+<li>Товщини</li>
+</ul>
+</li>
+<li><p>Якщо не сходиться → <strong>правиш VarSet</strong>, не геометрію</p>
+</li>
+</ul>
+<hr>
+<h1 id="12-partdesign-">
+        <a href="#12-partdesign-" class="header-anchor">
+          12. КОЛИ МОЖНА PartDesign 🟡
+        </a>
+      </h1><p>ДОЗВОЛЕНО:</p>
+<ul>
+<li>нестандартний виріз</li>
+<li>складний отвір</li>
+<li>локальний елемент</li>
+</ul>
+<p>АЛЕ:</p>
+<ul>
+<li>окремий Body</li>
+<li><code>Create simple copy</code> → BIM</li>
+<li>ніколи не змішувати напряму</li>
+</ul>
+<hr>
+<h1 id="13-">
+        <a href="#13-" class="header-anchor">
+          13. КРИТЕРІЇ “ЗРОБЛЕНО ПРАВИЛЬНО”
+        </a>
+      </h1><p>✅ Можеш вимкнути весь Level 2
+✅ Можеш змінити <code>Wall_Ext</code> — все перебудується
+✅ Немає DAG / scope warnings
+✅ IFC експорт без помилок
+✅ Клонування працює</p>
+<hr>
+<h1 id="-">
+        <a href="#-" class="header-anchor">
+          🔁 ПРОПОЗИЦІЯ ДЛЯ ТРЕНУВАННЯ
+        </a>
+      </h1><p>Пропоную йти <strong>ітераціями</strong>:</p>
+<h3 id="-1-">
+        <a href="#-1-" class="header-anchor">
+          Ітерація 1 (наступний крок)
+        </a>
+      </h3><p>👉 <strong>Тільки</strong>:</p>
+<ul>
+<li>Осі</li>
+<li>Зовнішні стіни (1-й поверх)</li>
+<li>Link на 2-й поверх</li>
+</ul>
+<p>Якщо хочеш — надішли скрін дерева після цього, і я:</p>
+<ul>
+<li>перевірю структуру</li>
+<li>скажу, що виправити</li>
+<li>дам наступне завдання (перекриття + отвір під сходи)</li>
+</ul>
+<p>Це буде дуже правильна практика.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

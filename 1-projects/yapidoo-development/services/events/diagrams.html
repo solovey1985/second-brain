@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>diagrams - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/yapidoo-development/">yapidoo-development</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/">services</a></li><li><a href="/second-brain/1-projects/yapidoo-development/services/events/">events</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#yapidoo-events-service-diagrams">Yapidoo Events Service — Diagrams</a></li>
+<ul>
+<li><a href="#class-diagram">Class Diagram</a></li>
+<li><a href="#use-case-diagram">Use Case Diagram</a></li>
+<li><a href="#component-diagram">Component Diagram</a></li>
+</ul>
+</ul>
+</div><h1 id="yapidoo-events-service-diagrams">
+        <a href="#yapidoo-events-service-diagrams" class="header-anchor">
+          Yapidoo Events Service — Diagrams
+        </a>
+      </h1><p>This file contains Mermaid diagrams for the Events service as described in <code>migration-guide.md</code>.</p>
+<hr>
+<h2 id="class-diagram">
+        <a href="#class-diagram" class="header-anchor">
+          Class Diagram
+        </a>
+      </h2><div class="mermaid">classDiagram
+
+class Event {
+  +long Id
+  +long CreatorUserId
+  +string Title
+  +string Description
+  +bool IsVirtual
+  +DateTime StartDate
+  +DateTime EndDate
+  +EventStatusEnum Status
+  +PrivacyTypeEnum Privacy
+  +string CoverMediaId
+  +long LocationId
+  +long CategoryId
+}
+
+class Venue {
+  +string Street
+  +string HouseNumber
+}
+
+class Location {
+  +string Address
+  +string City
+  +string Region
+  +string CountryName
+  +string CountryCode
+  +string District
+  +double Latitude
+  +double Longitude
+  +string MapUrl
+  +LocationTypeEnum Type
+}
+
+class Participation {
+  +long EventId
+  +long UserId
+}
+
+class Following {
+  +long EventId
+  +long UserId
+}
+
+class EventTimeline {
+  +long EventId
+  +DateTime StartedDate
+  +DateTime FinishedDate
+  +DateTime CanceledDate
+  +DateTime InterruptedDate
+}
+
+class Condition {
+  +long EventId
+  +string Name
+  +string Value
+  +ConditionValueEnum ValueType
+  +LogicEnum Logic
+}
+
+class EventHashtag {
+  +long EventId
+  +long HashtagId
+}
+
+class Hashtag {
+  +long Id
+  +string Title
+}
+
+class Category {
+  +long Id
+  +string Title
+  +bool IsEnabled
+}
+
+class PrivacyTypeEnum {
+  Public
+  Friends
+  Hidden
+}
+
+class EventStatusEnum {
+  Planned
+  Active
+  Cancelled
+  Interrupted
+  Completed
+}
+
+class LocationTypeEnum {
+  Text
+  Coordinates
+  MapUrl
+}
+
+class ConditionValueEnum {
+  Boolean
+  Digit
+  String
+}
+
+class LogicEnum {
+  And
+  Or
+  InList
+  Contains
+}
+
+Venue --|> Location
+Event "1" *-- "1" Venue : Location
+Event "1" o-- "0..*" Participation : participants
+Event "1" o-- "0..*" Following : followers
+Event "1" o-- "0..*" Condition
+Event "1" o-- "0..*" EventHashtag
+EventHashtag "*" --> "1" Hashtag
+Event "0..1" --> "1" Category
+Event "0..1" --> "1" EventTimeline</div><hr>
+<h2 id="use-case-diagram">
+        <a href="#use-case-diagram" class="header-anchor">
+          Use Case Diagram
+        </a>
+      </h2><div class="mermaid">flowchart LR
+  actorUser([User])
+  actorCreator([Event Creator])
+  actorAdmin([Admin/Backoffice])
+
+  ucBrowse((Browse/Search Events))
+  ucGet((View Event Details))
+  ucCreate((Create Event))
+  ucUpdate((Update Event))
+  ucCancel((Cancel Event))
+  ucJoin((Join Event))
+  ucLeave((Leave Event))
+
+  actorUser --> ucBrowse
+  actorUser --> ucGet
+  actorUser --> ucJoin
+  actorUser --> ucLeave
+
+  actorCreator --> ucCreate
+  actorCreator --> ucUpdate
+  actorCreator --> ucCancel
+
+  actorAdmin --> ucBrowse
+  actorAdmin --> ucGet
+
+  %% Authorization notes
+  note1["AuthZ: events.read"]:::note
+  note2["AuthZ: events.write"]:::note
+
+  ucBrowse -.-> note1
+  ucGet -.-> note1
+  ucCreate -.-> note2
+  ucUpdate -.-> note2
+  ucCancel -.-> note2
+  ucJoin -.-> note2
+  ucLeave -.-> note2
+
+  classDef note fill:#fff,stroke:#999,color:#333,stroke-dasharray: 3 3;</div><hr>
+<h2 id="component-diagram">
+        <a href="#component-diagram" class="header-anchor">
+          Component Diagram
+        </a>
+      </h2><div class="mermaid">flowchart TB
+  %% External actors/clients
+  subgraph Clients
+    SPA[Web SPA]
+    Mobile[Mobile App]
+  end
+
+  %% Edge
+  Gateway[API Gateway]
+
+  %% Core services
+  Auth["Auth Service (OpenIddict + JWKS)"]
+
+  subgraph EventsService[Yapidoo.Service.Events]
+    Api[Events.Api: Controllers + AuthZ + Health]
+    UseCases[Events.UseCases: CQRS Handlers]
+    Domain[Events.Domain: Aggregates + Domain Events]
+    Data[Events.Data: EF Core DbContext + Migrations]
+    Infra[Events.Infrastructure: Repositories + Outbox Publisher]
+  end
+
+  Db[(Events DB)]
+  Bus[(Event Bus)]
+
+  %% Other services
+  Notifications[Notifications Service]
+  Media[Media Service]
+
+  %% Request flow
+  SPA --> Gateway
+  Mobile --> Gateway
+  Gateway --> Api
+
+  %% Auth
+  Api --> Auth
+  Gateway --> Auth
+
+  %% Internal layering
+  Api --> UseCases
+  UseCases --> Domain
+  UseCases --> Data
+  Data --> Db
+  UseCases --> Infra
+  Infra --> Bus
+
+  %% Integrations
+  Bus --> Notifications
+  Api -. "CoverMediaId" .-> Media
+
+  %% Notes
+  noteCORS["CORS at Gateway"]:::note
+  Gateway -.-> noteCORS
+
+  noteOutbox["Outbox: Persist integration events then publish asynchronously"]:::note
+  Infra -.-> noteOutbox
+
+  classDef note fill:#fff,stroke:#999,color:#333,stroke-dasharray: 3 3;</div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

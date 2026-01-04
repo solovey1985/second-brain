@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>горище - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/будинок/">будинок</a></li><li><a href="/second-brain/1-projects/будинок/утеплення/">утеплення</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-">Утеплення горища</a></li>
+<ul>
+<li><a href="#-">Види утеплювачів</a></li>
+<li><a href="#-">Етапи утеплення горища</a></li>
+<li><a href="#-">Розрахунок товщини утеплювача</a></li>
+<li><a href="#-">Розрахунок вартості</a></li>
+<li><a href="#">Гідроізоляція</a></li>
+<li><a href="#-">Стрічка для герметизації стиків</a></li>
+</ul>
+</ul>
+</div><h1 id="-">
+        <a href="#-" class="header-anchor">
+          Утеплення горища
+        </a>
+      </h1><p>Утеплення горища — це важливий етап у забезпеченні енергоефективності будинку. Правильне утеплення допомагає зберегти тепло в холодну пору року та прохолоду влітку, що сприяє зниженню витрат на опалення та кондиціонування.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Види утеплювачів
+        </a>
+      </h2><p>Існує кілька видів утеплювачів, які можна використовувати для утеплення горища:</p>
+<ul>
+<li><strong>Мінеральна вата</strong>: Добре зберігає тепло, має хороші звукоізоляційні властивості та є вогнестійкою.</li>
+<li><strong>Пінополістирол</strong>: Легкий матеріал з високими теплоізоляційними властивостями, але менш паропроникний.</li>
+<li><strong>Ековата</strong>: Екологічний матеріал, виготовлений з переробленої целюлози, добре зберігає тепло та має хорошу паропроникність.</li>
+<li><strong>Піноплекс</strong>: Жорсткий утеплювач з високою міцністю, підходить для утеплення похилих дахів.</li>
+</ul>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Етапи утеплення горища
+        </a>
+      </h2><ol>
+<li><strong>Підготовка поверхні</strong>: Перед утепленням необхідно очистити поверхню від пилу, бруду та старих матеріалів.  </li>
+<li><strong>Вибір утеплювача</strong>: Виберіть відповідний тип утеплювача залежно від кліматичних умов та бюджету.  </li>
+<li><strong>Монтаж пароізоляції</strong>: Встановіть пароізоляційний шар, щоб запобігти проникненню вологи в утеплювач.  </li>
+<li><strong>Укладання утеплювача</strong>: Розмістіть утеплювач між кроквами або на поверхні горища, забезпечуючи щільне прилягання.  </li>
+<li><strong>Монтаж гідроізоляції</strong>: Встановіть гідроізоляційний шар для захисту утеплювача від вологи.  </li>
+<li><strong>Завершальний шар</strong>: Закрийте утеплювач фінішним матеріалом, таким як гіпсокартон або вагонка.</li>
+</ol>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Розрахунок товщини утеплювача
+        </a>
+      </h2><p>Товщина утеплювача залежить від кліматичних умов регіону та типу будівлі. Загалом, для помірного клімату рекомендується товщина утеплювача від 15 до 25 см. Для холодніших регіонів може знадобитися товщина до 30 см і більше.</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Розрахунок вартості
+        </a>
+      </h2><ul>
+<li>Ширина: 8900 мм</li>
+<li>Довжина: 9500 мм</li>
+<li>Площа: 84.55 м²</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Вид утеплювача</th>
+<th>Товщина (мм)</th>
+<th>Ціна за м² (грн)</th>
+<th>Вартість (грн)</th>
+<th>Посилання</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Мінеральна вата</td>
+<td>100</td>
+<td>197</td>
+<td>16659</td>
+<td><a href="https://starti.com.ua/ua/lutsk/product/bazaltova-vata-rockwool-rockmin-100-mm/">https://starti.com.ua/ua/lutsk/product/bazaltova-vata-rockwool-rockmin-100-mm/</a></td>
+</tr>
+</tbody></table>
+<h2 id="">
+        <a href="#" class="header-anchor">
+          Гідроізоляція
+        </a>
+      </h2><p><a href="https://epicentrk.ua/ua/shop/gidroizolyatsionnaya-plyenka-roofok-110-pp-rulon-75-kv-m.html">https://epicentrk.ua/ua/shop/gidroizolyatsionnaya-plyenka-roofok-110-pp-rulon-75-kv-m.html</a> 1740
+<a href="https://epicentrk.ua/ua/shop/gidroizolyatsionnaya-plyenka-roofok-110-pp-30-kv-m-.html">https://epicentrk.ua/ua/shop/gidroizolyatsionnaya-plyenka-roofok-110-pp-30-kv-m-.html</a> 720</p>
+<h2 id="-">
+        <a href="#-" class="header-anchor">
+          Стрічка для герметизації стиків
+        </a>
+      </h2><p><a href="https://epicentrk.ua/ua/shop/remontnaya-lenta-fix-1a-50mm.html">https://epicentrk.ua/ua/shop/remontnaya-lenta-fix-1a-50mm.html</a> 274 грн * 5 = 1370 грн</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

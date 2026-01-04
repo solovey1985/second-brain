@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tables - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/3-resources/">3-resources</a></li><li><a href="/second-brain/3-resources/diy-woodworking/">diy-woodworking</a></li><li><a href="/second-brain/3-resources/diy-woodworking/tables/">tables</a></li></ol></nav>
+        <h1>tables</h1>
+        <div class="directory-listing">
+        <div class="entry entry-file">
+          <a href="/second-brain/3-resources/diy-woodworking/tables/вішалка.html">
+            <span class="icon">📄</span>
+            <span class="name">вішалка.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/0abe05357c3876ba82b20177a234d74c.jpg" data-image-name="0abe05357c3876ba82b20177a234d74c.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/0abe05357c3876ba82b20177a234d74c.jpg" alt="0abe05357c3876ba82b20177a234d74c.jpg" loading="lazy" />
+              <span class="name entry-image-name">0abe05357c3876ba82b20177a234d74c.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/16dfac4253549562168a20858a006b17.jpg" data-image-name="16dfac4253549562168a20858a006b17.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/16dfac4253549562168a20858a006b17.jpg" alt="16dfac4253549562168a20858a006b17.jpg" loading="lazy" />
+              <span class="name entry-image-name">16dfac4253549562168a20858a006b17.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/194043-3_makita.jpg" data-image-name="194043-3_makita.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/194043-3_makita.jpg" alt="194043-3_makita.jpg" loading="lazy" />
+              <span class="name entry-image-name">194043-3_makita.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/194043-3_makita2.jpg" data-image-name="194043-3_makita2.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/194043-3_makita2.jpg" alt="194043-3_makita2.jpg" loading="lazy" />
+              <span class="name entry-image-name">194043-3_makita2.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/3e4d06a1442d6dc53f7354329c64ad38.jpg" data-image-name="3e4d06a1442d6dc53f7354329c64ad38.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/3e4d06a1442d6dc53f7354329c64ad38.jpg" alt="3e4d06a1442d6dc53f7354329c64ad38.jpg" loading="lazy" />
+              <span class="name entry-image-name">3e4d06a1442d6dc53f7354329c64ad38.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/4ce6bb1e153e448d174cceb75fd584ed.jpg" data-image-name="4ce6bb1e153e448d174cceb75fd584ed.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/4ce6bb1e153e448d174cceb75fd584ed.jpg" alt="4ce6bb1e153e448d174cceb75fd584ed.jpg" loading="lazy" />
+              <span class="name entry-image-name">4ce6bb1e153e448d174cceb75fd584ed.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/556c4dcbfea9ecd35d3439037c00cc2e.jpg" data-image-name="556c4dcbfea9ecd35d3439037c00cc2e.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/556c4dcbfea9ecd35d3439037c00cc2e.jpg" alt="556c4dcbfea9ecd35d3439037c00cc2e.jpg" loading="lazy" />
+              <span class="name entry-image-name">556c4dcbfea9ecd35d3439037c00cc2e.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/6e252836fd1bfab16ed6a9911384044d.jpg" data-image-name="6e252836fd1bfab16ed6a9911384044d.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/6e252836fd1bfab16ed6a9911384044d.jpg" alt="6e252836fd1bfab16ed6a9911384044d.jpg" loading="lazy" />
+              <span class="name entry-image-name">6e252836fd1bfab16ed6a9911384044d.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/LT326 Suffolk Square Table 100-990x450.webp" data-image-name="LT326 Suffolk Square Table 100-990x450.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/LT326 Suffolk Square Table 100-990x450.webp" alt="LT326 Suffolk Square Table 100-990x450.webp" loading="lazy" />
+              <span class="name entry-image-name">LT326 Suffolk Square Table 100-990x450.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/Screenshot 2025-06-11 113506.png" data-image-name="Screenshot 2025-06-11 113506.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/Screenshot 2025-06-11 113506.png" alt="Screenshot 2025-06-11 113506.png" loading="lazy" />
+              <span class="name entry-image-name">Screenshot 2025-06-11 113506.png</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/a7c8a264bf26b7e04fe12eade2b893ae.jpg" data-image-name="a7c8a264bf26b7e04fe12eade2b893ae.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/a7c8a264bf26b7e04fe12eade2b893ae.jpg" alt="a7c8a264bf26b7e04fe12eade2b893ae.jpg" loading="lazy" />
+              <span class="name entry-image-name">a7c8a264bf26b7e04fe12eade2b893ae.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/c391672b7a6e2e0f912705c02e2721f8.jpg" data-image-name="c391672b7a6e2e0f912705c02e2721f8.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/c391672b7a6e2e0f912705c02e2721f8.jpg" alt="c391672b7a6e2e0f912705c02e2721f8.jpg" loading="lazy" />
+              <span class="name entry-image-name">c391672b7a6e2e0f912705c02e2721f8.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/c3e0b9e297f0d0ca84824c37d9822510.jpg" data-image-name="c3e0b9e297f0d0ca84824c37d9822510.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/c3e0b9e297f0d0ca84824c37d9822510.jpg" alt="c3e0b9e297f0d0ca84824c37d9822510.jpg" loading="lazy" />
+              <span class="name entry-image-name">c3e0b9e297f0d0ca84824c37d9822510.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/d576755fd98adee97ec12934245d92ad.jpg" data-image-name="d576755fd98adee97ec12934245d92ad.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/d576755fd98adee97ec12934245d92ad.jpg" alt="d576755fd98adee97ec12934245d92ad.jpg" loading="lazy" />
+              <span class="name entry-image-name">d576755fd98adee97ec12934245d92ad.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/e850a53cc6e88edf373a331a9a010f29.jpg" data-image-name="e850a53cc6e88edf373a331a9a010f29.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/e850a53cc6e88edf373a331a9a010f29.jpg" alt="e850a53cc6e88edf373a331a9a010f29.jpg" loading="lazy" />
+              <span class="name entry-image-name">e850a53cc6e88edf373a331a9a010f29.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/front_folded.png" data-image-name="front_folded.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/front_folded.png" alt="front_folded.png" loading="lazy" />
+              <span class="name entry-image-name">front_folded.png</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/front_open.png" data-image-name="front_open.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/front_open.png" alt="front_open.png" loading="lazy" />
+              <span class="name entry-image-name">front_open.png</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/il_1140xN.6217859215_2a4n.webp" data-image-name="il_1140xN.6217859215_2a4n.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/il_1140xN.6217859215_2a4n.webp" alt="il_1140xN.6217859215_2a4n.webp" loading="lazy" />
+              <span class="name entry-image-name">il_1140xN.6217859215_2a4n.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/il_600x600.6419686622_qw3n.webp" data-image-name="il_600x600.6419686622_qw3n.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/il_600x600.6419686622_qw3n.webp" alt="il_600x600.6419686622_qw3n.webp" loading="lazy" />
+              <span class="name entry-image-name">il_600x600.6419686622_qw3n.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.4253530765_pu0e.webp" data-image-name="il_794xN.4253530765_pu0e.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.4253530765_pu0e.webp" alt="il_794xN.4253530765_pu0e.webp" loading="lazy" />
+              <span class="name entry-image-name">il_794xN.4253530765_pu0e.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.6230740990_l71x.webp" data-image-name="il_794xN.6230740990_l71x.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.6230740990_l71x.webp" alt="il_794xN.6230740990_l71x.webp" loading="lazy" />
+              <span class="name entry-image-name">il_794xN.6230740990_l71x.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.6278805331_fewy.webp" data-image-name="il_794xN.6278805331_fewy.webp">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/il_794xN.6278805331_fewy.webp" alt="il_794xN.6278805331_fewy.webp" loading="lazy" />
+              <span class="name entry-image-name">il_794xN.6278805331_fewy.webp</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-parma3-565x388.jpg" data-image-name="image-catalog-fotobank-parma3-565x388.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-parma3-565x388.jpg" alt="image-catalog-fotobank-parma3-565x388.jpg" loading="lazy" />
+              <span class="name entry-image-name">image-catalog-fotobank-parma3-565x388.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-regina2_stil_krug-880x600.jpg" data-image-name="image-catalog-fotobank-regina2_stil_krug-880x600.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-regina2_stil_krug-880x600.jpg" alt="image-catalog-fotobank-regina2_stil_krug-880x600.jpg" loading="lazy" />
+              <span class="name entry-image-name">image-catalog-fotobank-regina2_stil_krug-880x600.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-regina_stil_krug-565x388.jpg" data-image-name="image-catalog-fotobank-regina_stil_krug-565x388.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/image-catalog-fotobank-regina_stil_krug-565x388.jpg" alt="image-catalog-fotobank-regina_stil_krug-565x388.jpg" loading="lazy" />
+              <span class="name entry-image-name">image-catalog-fotobank-regina_stil_krug-565x388.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21175.jpg" data-image-name="retve_21175.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21175.jpg" alt="retve_21175.jpg" loading="lazy" />
+              <span class="name entry-image-name">retve_21175.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21413.jpg" data-image-name="retve_21413.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21413.jpg" alt="retve_21413.jpg" loading="lazy" />
+              <span class="name entry-image-name">retve_21413.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21452.jpg" data-image-name="retve_21452.jpg">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/retve_21452.jpg" alt="retve_21452.jpg" loading="lazy" />
+              <span class="name entry-image-name">retve_21452.jpg</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/side_view_folded.png" data-image-name="side_view_folded.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/side_view_folded.png" alt="side_view_folded.png" loading="lazy" />
+              <span class="name entry-image-name">side_view_folded.png</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/top_view.png" data-image-name="top_view.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/top_view.png" alt="top_view.png" loading="lazy" />
+              <span class="name entry-image-name">top_view.png</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-image">
+          <a href="#" class="lightbox-trigger" data-image-src="/second-brain/content/3-resources/diy-woodworking/tables/top_with_legs.png" data-image-name="top_with_legs.png">
+              <img class="entry-image-thumb" src="/second-brain/content/3-resources/diy-woodworking/tables/top_with_legs.png" alt="top_with_legs.png" loading="lazy" />
+              <span class="name entry-image-name">top_with_legs.png</span>
+          </a>
+        </div>
+      </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation Portal - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-second-brain-portal">📚 Second-Brain Portal</a></li>
+<ul>
+<li><a href="#-projects">🎯 Projects</a></li>
+<li><a href="#-areas">🔄 Areas</a></li>
+<li><a href="#-resources">📚 Resources</a></li>
+<li><a href="#-archives">📦 Archives</a></li>
+<li><a href="#quick-links">Quick Links</a></li>
+</ul>
+</ul>
+</div><h1 id="-second-brain-portal">
+        <a href="#-second-brain-portal" class="header-anchor">
+          📚 Second-Brain Portal
+        </a>
+      </h1><p>Welcome! This is your PARA-organized knowledge base. Use the sections below to quickly navigate to active projects, ongoing areas, reference resources, and archives.</p>
+<hr>
+<h2 id="-projects">
+        <a href="#-projects" class="header-anchor">
+          🎯 Projects
+        </a>
+      </h2><ul>
+<li><a href="1-projects/yapidoo-development/index.html">Yapidoo Development</a></li>
+<li><a href="1-projects/english-learning-bot/index.html">English Learning Bot</a></li>
+<li><a href="1-projects/kaizen-app/index.html">Kaizen App</a></li>
+<li><a href="1-projects/tile-installation/index.html">Tile Installation</a></li>
+</ul>
+<h2 id="-areas">
+        <a href="#-areas" class="header-anchor">
+          🔄 Areas
+        </a>
+      </h2><ul>
+<li><a href="2-areas/domestic-operations/index.html">Domestic Operations</a></li>
+<li><a href="2-areas/beekeeping/index.html">Beekeeping</a></li>
+<li><a href="2-areas/soland-inventory/index.html">Soland Inventory</a></li>
+<li><a href="2-areas/home-maintenance/index.html">Home Maintenance</a></li>
+</ul>
+<h2 id="-resources">
+        <a href="#-resources" class="header-anchor">
+          📚 Resources
+        </a>
+      </h2><ul>
+<li><a href="3-resources/diy-woodworking/index.html">DIY Woodworking</a></li>
+<li><a href="3-resources/drones/index.html">Drones</a></li>
+<li><a href="3-resources/software-development/index.html">Software Development</a></li>
+</ul>
+<h2 id="-archives">
+        <a href="#-archives" class="header-anchor">
+          📦 Archives
+        </a>
+      </h2><ul>
+<li><a href="4-archives/2024-projects/">2024 Projects</a></li>
+<li><a href="4-archives/old-documentation/">Old Documentation</a></li>
+<li><a href="4-archives/deprecated/">Deprecated</a></li>
+</ul>
+<hr>
+<h2 id="quick-links">
+        <a href="#quick-links" class="header-anchor">
+          Quick Links
+        </a>
+      </h2><ul>
+<li><a href="inbox.html">Inbox (Capture new items)</a></li>
+<li><a href="PARA-MIGRATION-PLAN.html">PARA Migration Plan</a></li>
+</ul>
+<hr>
+<p><em>Tip: Use the sidebar or this page to jump to any PARA section. Process your inbox weekly and keep your projects and areas up to date!</em></p>
+
+
+<h2>📁 Directory Contents</h2>
+<div class="directory-listing">
+        <div class="entry entry-file">
+          <a href="/second-brain/PARA-MIGRATION-PLAN.html">
+            <span class="icon">📄</span>
+            <span class="name">PARA-MIGRATION-PLAN.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/deploy.html">
+            <span class="icon">📄</span>
+            <span class="name">deploy.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/inbox.html">
+            <span class="icon">📄</span>
+            <span class="name">inbox.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-file">
+          <a href="/second-brain/index.html">
+            <span class="icon">📄</span>
+            <span class="name">index.md</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-directory">
+          <a href="/second-brain/1-projects/">
+            <span class="icon">📁</span>
+            <span class="name">1-projects</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-directory">
+          <a href="/second-brain/2-areas/">
+            <span class="icon">📁</span>
+            <span class="name">2-areas</span>
+          </a>
+        </div>
+      
+        <div class="entry entry-directory">
+          <a href="/second-brain/3-resources/">
+            <span class="icon">📁</span>
+            <span class="name">3-resources</span>
+          </a>
+        </div>
+      </div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

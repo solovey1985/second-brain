@@ -1,0 +1,1814 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PARA-MIGRATION-PLAN - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#para-method-migration-plan-for-second-brain">PARA Method Migration Plan for Second-Brain</a></li>
+<ul>
+<li><a href="#analysis-date">Analysis Date</a></li>
+<li><a href="#current-issues">Current Issues</a></li>
+<li><a href="#para-framework-application">PARA Framework Application</a></li>
+<ul>
+<li><a href="#decision-flowchart-for-content-placement">Decision Flowchart for Content Placement</a></li>
+</ul>
+<li><a href="#proposed-new-structure">Proposed New Structure</a></li>
+<li><a href="#migration-strategy">Migration Strategy</a></li>
+<ul>
+<li><a href="#phase-1-preparation-week-1">Phase 1: Preparation (Week 1)</a></li>
+<li><a href="#phase-2-categorization-week-2">Phase 2: Categorization (Week 2)</a></li>
+<ul>
+<li><a href="#classification-decisions">Classification Decisions</a></li>
+</ul>
+<li><a href="#phase-3-implementation-week-3-4">Phase 3: Implementation (Week 3-4)</a></li>
+<ul>
+<li><a href="#step-1-create-structure">Step 1: Create Structure</a></li>
+<li><a href="#step-2-move-content">Step 2: Move Content</a></li>
+<li><a href="#step-3-update-internal-links">Step 3: Update Internal Links</a></li>
+<li><a href="#step-4-add-project-briefs">Step 4: Add Project Briefs</a></li>
+</ul>
+<li><a href="#phase-4-update-build-system-week-4">Phase 4: Update Build System (Week 4)</a></li>
+</ul>
+<li><a href="#benefits-after-migration">Benefits After Migration</a></li>
+<ul>
+<li><a href="#1-clarity-of-action">1. **Clarity of Action**</a></li>
+<li><a href="#2-reduced-mental-load">2. **Reduced Mental Load**</a></li>
+<li><a href="#3-better-workflow-code">3. **Better Workflow (CODE)**</a></li>
+<li><a href="#4-improved-navigation">4. **Improved Navigation**</a></li>
+<li><a href="#5-project-lifecycle-management">5. **Project Lifecycle Management**</a></li>
+</ul>
+<li><a href="#navigation-ui-enhancement">Navigation UI Enhancement</a></li>
+<ul>
+<li><a href="#current-navigation">Current Navigation</a></li>
+<li><a href="#new-para-navigation">New PARA Navigation</a></li>
+</ul>
+<li><a href="#technical-implementation-changes">Technical Implementation Changes</a></li>
+<ul>
+<li><a href="#1-update-navigationservicejs">1. Update NavigationService.js</a></li>
+<li><a href="#2-update-navigationjson-structure">2. Update navigation.json Structure</a></li>
+<li><a href="#3-add-filtering-ui">3. Add Filtering UI</a></li>
+<li><a href="#4-add-project-status-badges">4. Add Project Status Badges</a></li>
+</ul>
+<li><a href="#code-workflow-integration">CODE Workflow Integration</a></li>
+<ul>
+<li><a href="#capture-inboxmd">Capture (inbox.md)</a></li>
+<li><a href="#organize-weekly-review">Organize (Weekly Review)</a></li>
+<li><a href="#distill-active-work">Distill (Active Work)</a></li>
+<li><a href="#express-outputs">Express (Outputs)</a></li>
+</ul>
+<li><a href="#rollout-timeline">Rollout Timeline</a></li>
+<li><a href="#success-metrics">Success Metrics</a></li>
+<li><a href="#risk-mitigation">Risk Mitigation</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#code-workflow-detailed-implementation">CODE Workflow: Detailed Implementation</a></li>
+<ul>
+<li><a href="#code-overview">CODE Overview</a></li>
+<li><a href="#1-capture-collect-what-resonates">1. CAPTURE: Collect What Resonates</a></li>
+<ul>
+<li><a href="#what-to-capture">What to Capture</a></li>
+<li><a href="#capture-principles">Capture Principles</a></li>
+<li><a href="#capture-tools-for-second-brain">Capture Tools for Second-Brain</a></li>
+<li><a href="#capture-habits">Capture Habits</a></li>
+<li><a href="#capture-metrics">Capture Metrics</a></li>
+</ul>
+<li><a href="#2-organize-place-by-actionability-para">2. ORGANIZE: Place by Actionability (PARA)</a></li>
+<ul>
+<li><a href="#the-para-decision-tree">The PARA Decision Tree</a></li>
+<li><a href="#organizing-examples">Organizing Examples</a></li>
+<li><a href="#organizing-workflow">Organizing Workflow</a></li>
+<li><a href="#organizing-tools">Organizing Tools</a></li>
+</ul>
+<li><a href="#3-distill-extract-the-essence">3. DISTILL: Extract the Essence</a></li>
+<ul>
+<li><a href="#the-progressive-summarization-method">The Progressive Summarization Method</a></li>
+<li><a href="#distillation-in-practice">Distillation in Practice</a></li>
+<li><a href="#distillation-templates">Distillation Templates</a></li>
+<li><a href="#distillation-schedule">Distillation Schedule</a></li>
+<li><a href="#distillation-principles">Distillation Principles</a></li>
+</ul>
+<li><a href="#4-express-create-and-share">4. EXPRESS: Create and Share</a></li>
+<ul>
+<li><a href="#expression-principles">Expression Principles</a></li>
+<li><a href="#expression-formats">Expression Formats</a></li>
+<li><a href="#expression-workflow">Expression Workflow</a></li>
+<li><a href="#expression-habits">Expression Habits</a></li>
+<li><a href="#expression-metrics">Expression Metrics</a></li>
+</ul>
+</ul>
+<li><a href="#code-para-integration">CODE + PARA Integration</a></li>
+<ul>
+<li><a href="#the-complete-workflow">The Complete Workflow</a></li>
+<li><a href="#example-end-to-end-flow">Example: End-to-End Flow</a></li>
+</ul>
+<li><a href="#code-implementation-checklist">CODE Implementation Checklist</a></li>
+<ul>
+<li><a href="#setup-phase">Setup Phase</a></li>
+<li><a href="#daily-habits">Daily Habits</a></li>
+<li><a href="#weekly-habits">Weekly Habits</a></li>
+<li><a href="#monthly-review">Monthly Review</a></li>
+<li><a href="#quarterly-review">Quarterly Review</a></li>
+</ul>
+<li><a href="#code-success-metrics">CODE Success Metrics</a></li>
+<ul>
+<li><a href="#capture-metrics">Capture Metrics</a></li>
+<li><a href="#organize-metrics">Organize Metrics</a></li>
+<li><a href="#distill-metrics">Distill Metrics</a></li>
+<li><a href="#express-metrics">Express Metrics</a></li>
+</ul>
+<li><a href="#code-tools-techniques">CODE Tools & Techniques</a></li>
+<ul>
+<li><a href="#digital-tools">Digital Tools</a></li>
+<li><a href="#analog-tools">Analog Tools</a></li>
+</ul>
+<li><a href="#code-anti-patterns-what-to-avoid">CODE Anti-Patterns (What to Avoid)</a></li>
+<ul>
+<li><a href="#capture-anti-patterns">Capture Anti-Patterns</a></li>
+<li><a href="#organize-anti-patterns">Organize Anti-Patterns</a></li>
+<li><a href="#distill-anti-patterns">Distill Anti-Patterns</a></li>
+<li><a href="#express-anti-patterns">Express Anti-Patterns</a></li>
+</ul>
+<li><a href="#next-actions">Next Actions</a></li>
+</ul>
+</ul>
+</div><h1 id="para-method-migration-plan-for-second-brain">
+        <a href="#para-method-migration-plan-for-second-brain" class="header-anchor">
+          PARA Method Migration Plan for Second-Brain
+        </a>
+      </h1><h2 id="analysis-date">
+        <a href="#analysis-date" class="header-anchor">
+          Analysis Date
+        </a>
+      </h2><p>October 15, 2025</p>
+<h2 id="current-issues">
+        <a href="#current-issues" class="header-anchor">
+          Current Issues
+        </a>
+      </h2><ol>
+<li><strong>Unclear categorization</strong>: Mix of projects, areas, and resources without distinction</li>
+<li><strong>Numbered prefixes</strong>: <code>1-yapidoo</code>, <code>2-english-learning</code> - artificial ordering</li>
+<li><strong>No clear actionability hierarchy</strong>: Hard to focus on what&#39;s active</li>
+<li><strong>No archive system</strong>: Completed projects clutter active workspace</li>
+<li><strong>Missing CODE workflow</strong>: No clear capture → organize → distill → express flow</li>
+</ol>
+<h2 id="para-framework-application">
+        <a href="#para-framework-application" class="header-anchor">
+          PARA Framework Application
+        </a>
+      </h2><h3 id="decision-flowchart-for-content-placement">
+        <a href="#decision-flowchart-for-content-placement" class="header-anchor">
+          Decision Flowchart for Content Placement
+        </a>
+      </h3><pre><code class="hljs">New content arrives → Ask:
+├─ <span class="hljs-keyword">Is</span> this for an active project with deadline/goal? → <span class="hljs-comment">[1-Projects]</span>
+├─ <span class="hljs-keyword">Is</span> this an ongoing responsibility/theme? → <span class="hljs-comment">[2-Areas]</span>
+├─ <span class="hljs-keyword">Is</span> this reference material for future use? → <span class="hljs-comment">[3-Resources]</span>
+└─ <span class="hljs-keyword">Is</span> this completed or inactive? → <span class="hljs-comment">[4-Archives]</span></code></pre><h2 id="proposed-new-structure">
+        <a href="#proposed-new-structure" class="header-anchor">
+          Proposed New Structure
+        </a>
+      </h2><pre><code class="hljs">content<span class="hljs-symbol">/</span>
+├── inbox.md                    <span class="hljs-comment"># ✅ Keep - Capture point (CODE step 1)</span>
+├── <span class="hljs-number">1</span><span class="hljs-operator">-</span>projects<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># Active, time-bound outcomes</span>
+│   ├── yapidoo-development<span class="hljs-symbol">/</span>    <span class="hljs-comment"># Currently: 1-yapidoo</span>
+│   │   ├── _project-brief.md   <span class="hljs-comment"># Goal, deadline, outcome</span>
+│   │   ├── services<span class="hljs-symbol">/</span>
+│   │   └── web<span class="hljs-symbol">/</span>
+│   ├── english-learning-bot<span class="hljs-symbol">/</span>   <span class="hljs-comment"># Currently: 2-english-learning</span>
+│   │   ├── _project-brief.md
+│   │   └── telegram-bot<span class="hljs-symbol">/</span>
+│   ├── kaizen-app<span class="hljs-symbol">/</span>             <span class="hljs-comment"># Currently: 3-Kaizen</span>
+│   │   ├── _project-brief.md
+│   │   └── firebase<span class="hljs-symbol">/</span>
+│   ├── house-renovation<span class="hljs-symbol">/</span>       <span class="hljs-comment"># Part of current house/</span>
+│   │   ├── _project-brief.md
+│   │   ├── fence<span class="hljs-symbol">/</span>
+│   │   ├── windows<span class="hljs-symbol">/</span>
+│   │   └── heating<span class="hljs-symbol">/</span>
+│   ├── beehive-setup-<span class="hljs-number">2025</span><span class="hljs-symbol">/</span>     <span class="hljs-comment"># Active beekeeping project</span>
+│   │   └── _project-brief.md
+│   └── tile-installation<span class="hljs-symbol">/</span>      <span class="hljs-comment"># Currently: плитка/</span>
+│       └── _project-brief.md
+│
+├── <span class="hljs-number">2</span><span class="hljs-operator">-</span>areas<span class="hljs-symbol">/</span>                    <span class="hljs-comment"># Ongoing responsibilities</span>
+│   ├── home-maintenance<span class="hljs-symbol">/</span>       <span class="hljs-comment"># Long-term home care</span>
+│   │   ├── index.md
+│   │   ├── heating-system.md
+│   │   └── utilities.md
+│   ├── health-fitness<span class="hljs-symbol">/</span>         <span class="hljs-comment"># Personal health</span>
+│   │   └── index.md
+│   ├── finances<span class="hljs-symbol">/</span>               <span class="hljs-comment"># Money management</span>
+│   │   └── budget.md
+│   ├── domestic-operations<span class="hljs-symbol">/</span>    <span class="hljs-comment"># Currently: domestic-tasks/</span>
+│   │   ├── index.md
+│   │   ├── shelves<span class="hljs-symbol">/</span>
+│   │   └── todo.md
+│   ├── beekeeping<span class="hljs-symbol">/</span>             <span class="hljs-comment"># Currently: пасіка/ (ongoing area)</span>
+│   │   ├── index.md
+│   │   ├── seasonal-care<span class="hljs-symbol">/</span>
+│   │   └── equipment<span class="hljs-symbol">/</span>
+│   └── soland-inventory<span class="hljs-symbol">/</span>       <span class="hljs-comment"># Ongoing inventory management</span>
+│       ├── index.md
+│       └── todo.md
+│
+├── <span class="hljs-number">3</span><span class="hljs-operator">-</span>resources<span class="hljs-symbol">/</span>                <span class="hljs-comment"># Reference &amp; learning materials</span>
+│   ├── software-development<span class="hljs-symbol">/</span>
+│   │   ├── authentication<span class="hljs-symbol">/</span>
+│   │   ├── frontend<span class="hljs-symbol">/</span>
+│   │   └── api-design<span class="hljs-symbol">/</span>
+│   ├── productivity<span class="hljs-symbol">/</span>
+│   │   ├── para-method.md
+│   │   ├── second-brain.md
+│   │   └── note-taking.md
+│   ├── diy-woodworking<span class="hljs-symbol">/</span>        <span class="hljs-comment"># Currently: furniture/</span>
+│   │   ├── tables<span class="hljs-symbol">/</span>
+│   │   ├── easels<span class="hljs-symbol">/</span>
+│   │   └── shelves<span class="hljs-symbol">/</span>
+│   ├── drones<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># Reference material</span>
+│   │   └── auto-drone.md
+│   └── beekeeping-knowledge<span class="hljs-symbol">/</span>   <span class="hljs-comment"># Reference (vs. ongoing area)</span>
+│       ├── queen-rearing.md
+│       ├── disease-management.md
+│       └── equipment-guides<span class="hljs-symbol">/</span>
+│
+└── <span class="hljs-number">4</span><span class="hljs-operator">-</span>archives<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># Completed/inactive</span>
+    ├── <span class="hljs-number">202</span>4-projects<span class="hljs-symbol">/</span>
+    ├── old-documentation<span class="hljs-symbol">/</span>
+    └── deprecated<span class="hljs-operator">/</span></code></pre><h2 id="migration-strategy">
+        <a href="#migration-strategy" class="header-anchor">
+          Migration Strategy
+        </a>
+      </h2><h3 id="phase-1-preparation-week-1">
+        <a href="#phase-1-preparation-week-1" class="header-anchor">
+          Phase 1: Preparation (Week 1)
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Create PARA folder structure</li>
+<li><input disabled="" type="checkbox"> Add <code>_project-brief.md</code> template</li>
+<li><input disabled="" type="checkbox"> Document current file locations</li>
+<li><input disabled="" type="checkbox"> Backup current structure</li>
+</ul>
+<h3 id="phase-2-categorization-week-2">
+        <a href="#phase-2-categorization-week-2" class="header-anchor">
+          Phase 2: Categorization (Week 2)
+        </a>
+      </h3><p>For each current folder, ask:</p>
+<ol>
+<li><strong>Has a deadline/goal?</strong> → Projects</li>
+<li><strong>Ongoing responsibility?</strong> → Areas  </li>
+<li><strong>Reference material?</strong> → Resources</li>
+<li><strong>Completed/inactive?</strong> → Archives</li>
+</ol>
+<h4 id="classification-decisions">
+        <a href="#classification-decisions" class="header-anchor">
+          Classification Decisions
+        </a>
+      </h4><p><strong>TO PROJECTS:</strong></p>
+<ul>
+<li><p><code>1-yapidoo/</code> → <code>1-projects/yapidoo-development/</code></p>
+<ul>
+<li>Goal: Launch MVP</li>
+<li>Deadline: Q4 2025</li>
+</ul>
+</li>
+<li><p><code>2-english-learning/</code> → <code>1-projects/english-learning-bot/</code></p>
+<ul>
+<li>Goal: Working Telegram bot</li>
+<li>Deadline: Q1 2026</li>
+</ul>
+</li>
+<li><p><code>3-Kaizen/</code> → <code>1-projects/kaizen-app/</code></p>
+<ul>
+<li>Goal: Firebase integration</li>
+<li>Deadline: TBD</li>
+</ul>
+</li>
+<li><p><code>плитка/</code> → <code>1-projects/tile-installation/</code></p>
+<ul>
+<li>Goal: Complete bathroom tiling</li>
+<li>Deadline: Winter 2025</li>
+</ul>
+</li>
+</ul>
+<p><strong>TO AREAS:</strong></p>
+<ul>
+<li><p><code>domestic-tasks/</code> → <code>2-areas/domestic-operations/</code></p>
+<ul>
+<li>Ongoing: Home organization</li>
+</ul>
+</li>
+<li><p><code>пасіка/</code> (most content) → <code>2-areas/beekeeping/</code></p>
+<ul>
+<li>Ongoing: Seasonal beekeeping care</li>
+</ul>
+</li>
+<li><p><code>soland-inventory/</code> → <code>2-areas/soland-inventory/</code></p>
+<ul>
+<li>Ongoing: Inventory management</li>
+</ul>
+</li>
+<li><p><code>house/</code> (maintenance docs) → <code>2-areas/home-maintenance/</code></p>
+<ul>
+<li>Ongoing: Home upkeep</li>
+</ul>
+</li>
+</ul>
+<p><strong>TO RESOURCES:</strong></p>
+<ul>
+<li><p><code>furniture/</code> → <code>3-resources/diy-woodworking/</code></p>
+<ul>
+<li>Reference: Furniture designs and ideas</li>
+</ul>
+</li>
+<li><p><code>drones/</code> → <code>3-resources/drones/</code></p>
+<ul>
+<li>Reference: Drone information</li>
+</ul>
+</li>
+<li><p>Technical docs from yapidoo → <code>3-resources/software-development/</code></p>
+</li>
+</ul>
+<p><strong>TO ARCHIVES:</strong></p>
+<ul>
+<li>Completed project folders</li>
+<li>Old documentation</li>
+<li>Deprecated code examples</li>
+</ul>
+<h3 id="phase-3-implementation-week-3-4">
+        <a href="#phase-3-implementation-week-3-4" class="header-anchor">
+          Phase 3: Implementation (Week 3-4)
+        </a>
+      </h3><h4 id="step-1-create-structure">
+        <a href="#step-1-create-structure" class="header-anchor">
+          Step 1: Create Structure
+        </a>
+      </h4><pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> content/1-projects
+<span class="hljs-built_in">mkdir</span> content/2-areas
+<span class="hljs-built_in">mkdir</span> content/3-resources
+<span class="hljs-built_in">mkdir</span> content/4-archives</code></pre><h4 id="step-2-move-content">
+        <a href="#step-2-move-content" class="header-anchor">
+          Step 2: Move Content
+        </a>
+      </h4><p>Use git mv to preserve history:</p>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">mv</span> content/1-yapidoo content/1-projects/yapidoo-development
+git <span class="hljs-built_in">mv</span> content/2-english-learning content/1-projects/english-learning-bot
+<span class="hljs-comment"># etc.</span></code></pre><h4 id="step-3-update-internal-links">
+        <a href="#step-3-update-internal-links" class="header-anchor">
+          Step 3: Update Internal Links
+        </a>
+      </h4><ul>
+<li>Update all markdown links</li>
+<li>Update navigation.json generation</li>
+<li>Update build scripts</li>
+</ul>
+<h4 id="step-4-add-project-briefs">
+        <a href="#step-4-add-project-briefs" class="header-anchor">
+          Step 4: Add Project Briefs
+        </a>
+      </h4><p>Create <code>_project-brief.md</code> for each project with:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Project: [Name]</span>
+
+<span class="hljs-section">## Goal</span>
+What outcome are we trying to achieve?
+
+<span class="hljs-section">## Deadline</span>
+When does this need to be completed?
+
+<span class="hljs-section">## Status</span>
+<span class="hljs-bullet">-</span> [ ] Not Started
+<span class="hljs-bullet">-</span> [ ] In Progress
+<span class="hljs-bullet">-</span> [ ] Blocked
+<span class="hljs-bullet">-</span> [ ] Completed
+
+<span class="hljs-section">## Next Actions</span>
+<span class="hljs-bullet">1.</span> 
+<span class="hljs-bullet">2.</span> 
+<span class="hljs-bullet">3.</span> 
+
+<span class="hljs-section">## Resources</span>
+Links to relevant resources, areas, or archives</code></pre><h3 id="phase-4-update-build-system-week-4">
+        <a href="#phase-4-update-build-system-week-4" class="header-anchor">
+          Phase 4: Update Build System (Week 4)
+        </a>
+      </h3><p><strong>Changes needed:</strong></p>
+<ol>
+<li><strong>Navigation generation</strong> - Update to show PARA categories</li>
+<li><strong>Icons</strong> - Different icons for each PARA category:<ul>
+<li>Projects: 🎯 or 📋</li>
+<li>Areas: 🔄 or 📊</li>
+<li>Resources: 📚 or 💡</li>
+<li>Archives: 📦 or 🗄️</li>
+</ul>
+</li>
+<li><strong>Filtering</strong> - Add ability to filter by PARA category</li>
+<li><strong>Active view</strong> - Default view shows only Projects + Areas</li>
+</ol>
+<h2 id="benefits-after-migration">
+        <a href="#benefits-after-migration" class="header-anchor">
+          Benefits After Migration
+        </a>
+      </h2><h3 id="1-clarity-of-action">
+        <a href="#1-clarity-of-action" class="header-anchor">
+          1. **Clarity of Action**
+        </a>
+      </h3><ul>
+<li>Immediate focus on active projects</li>
+<li>Clear separation of &quot;do now&quot; vs &quot;reference later&quot;</li>
+</ul>
+<h3 id="2-reduced-mental-load">
+        <a href="#2-reduced-mental-load" class="header-anchor">
+          2. **Reduced Mental Load**
+        </a>
+      </h3><ul>
+<li>No more &quot;where should this go?&quot; decisions</li>
+<li>Clear decision tree for every piece of content</li>
+</ul>
+<h3 id="3-better-workflow-code">
+        <a href="#3-better-workflow-code" class="header-anchor">
+          3. **Better Workflow (CODE)**
+        </a>
+      </h3><ul>
+<li><strong>Capture</strong> → inbox.md</li>
+<li><strong>Organize</strong> → PARA folders</li>
+<li><strong>Distill</strong> → Project briefs &amp; summaries</li>
+<li><strong>Express</strong> → Output/deliverables</li>
+</ul>
+<h3 id="4-improved-navigation">
+        <a href="#4-improved-navigation" class="header-anchor">
+          4. **Improved Navigation**
+        </a>
+      </h3><ul>
+<li>Collapsible PARA categories</li>
+<li>Active projects always visible</li>
+<li>Archives hidden by default</li>
+</ul>
+<h3 id="5-project-lifecycle-management">
+        <a href="#5-project-lifecycle-management" class="header-anchor">
+          5. **Project Lifecycle Management**
+        </a>
+      </h3><ul>
+<li>Easy to archive completed projects</li>
+<li>Projects have clear goals and deadlines</li>
+<li>Track progress with project briefs</li>
+</ul>
+<h2 id="navigation-ui-enhancement">
+        <a href="#navigation-ui-enhancement" class="header-anchor">
+          Navigation UI Enhancement
+        </a>
+      </h2><h3 id="current-navigation">
+        <a href="#current-navigation" class="header-anchor">
+          Current Navigation
+        </a>
+      </h3><pre><code class="hljs">📚 Docs <span class="hljs-built_in">Portal</span>
+├─ 📁 <span class="hljs-number">1</span>-yapidoo
+├─ 📁 <span class="hljs-number">2</span>-english-learning
+├─ 📁 <span class="hljs-number">3</span>-Kaizen
+└─ 📁 domestic-tasks</code></pre><h3 id="new-para-navigation">
+        <a href="#new-para-navigation" class="header-anchor">
+          New PARA Navigation
+        </a>
+      </h3><pre><code class="hljs">📚 Docs Portal
+├─ 🎯 Projects (<span class="hljs-number">3</span> active)
+│   ├─ yapidoo-development
+│   ├─ english-learning-<span class="hljs-keyword">bot
+</span>│   └─ kaizen-app
+├─ 🔄 Areas (<span class="hljs-number">4</span> ongoing)
+│   ├─ home-maintenance
+│   ├─ <span class="hljs-keyword">beekeeping
+</span>│   ├─ domestic-operations
+│   └─ soland-inventory
+├─ 📚 Resources
+│   ├─ software-development
+│   ├─ productivity
+│   └─ <span class="hljs-keyword">diy-woodworking
+</span>└─ 📦 Archives (collapsed <span class="hljs-keyword">by </span>default)</code></pre><h2 id="technical-implementation-changes">
+        <a href="#technical-implementation-changes" class="header-anchor">
+          Technical Implementation Changes
+        </a>
+      </h2><h3 id="1-update-navigationservicejs">
+        <a href="#1-update-navigationservicejs" class="header-anchor">
+          1. Update NavigationService.js
+        </a>
+      </h3><pre><code class="hljs language-javascript"><span class="hljs-comment">// Add PARA category detection</span>
+<span class="hljs-title function_">getParaCategory</span>(<span class="hljs-params">path</span>) {
+  <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;1-projects/&#x27;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;projects&#x27;</span>;
+  <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;2-areas/&#x27;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;areas&#x27;</span>;
+  <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;3-resources/&#x27;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;resources&#x27;</span>;
+  <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;4-archives/&#x27;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;archives&#x27;</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;uncategorized&#x27;</span>;
+}
+
+<span class="hljs-comment">// Add category icons</span>
+<span class="hljs-title function_">getParaIcon</span>(<span class="hljs-params">category</span>) {
+  <span class="hljs-keyword">const</span> icons = {
+    <span class="hljs-attr">projects</span>: <span class="hljs-string">&#x27;🎯&#x27;</span>,
+    <span class="hljs-attr">areas</span>: <span class="hljs-string">&#x27;🔄&#x27;</span>,
+    <span class="hljs-attr">resources</span>: <span class="hljs-string">&#x27;📚&#x27;</span>,
+    <span class="hljs-attr">archives</span>: <span class="hljs-string">&#x27;📦&#x27;</span>,
+    <span class="hljs-attr">uncategorized</span>: <span class="hljs-string">&#x27;📄&#x27;</span>
+  };
+  <span class="hljs-keyword">return</span> icons[category] || icons.<span class="hljs-property">uncategorized</span>;
+}</code></pre><h3 id="2-update-navigationjson-structure">
+        <a href="#2-update-navigationjson-structure" class="header-anchor">
+          2. Update navigation.json Structure
+        </a>
+      </h3><pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;tree&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Projects&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;category&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;projects&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;icon&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;🎯&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;activeCount&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;children&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>...<span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Areas&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;category&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;areas&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;icon&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;🔄&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;children&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>...<span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span></code></pre><h3 id="3-add-filtering-ui">
+        <a href="#3-add-filtering-ui" class="header-anchor">
+          3. Add Filtering UI
+        </a>
+      </h3><pre><code class="hljs language-javascript"><span class="hljs-comment">// Filter navigation by PARA category</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">filterByCategory</span>(<span class="hljs-params">category</span>) {
+  <span class="hljs-keyword">const</span> categories = [<span class="hljs-string">&#x27;projects&#x27;</span>, <span class="hljs-string">&#x27;areas&#x27;</span>, <span class="hljs-string">&#x27;resources&#x27;</span>, <span class="hljs-string">&#x27;archives&#x27;</span>];
+  categories.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">cat</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> section = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">`[data-category=&quot;<span class="hljs-subst">${cat}</span>&quot;]`</span>);
+    section.<span class="hljs-property">style</span>.<span class="hljs-property">display</span> = (category === <span class="hljs-string">&#x27;all&#x27;</span> || category === cat) 
+      ? <span class="hljs-string">&#x27;block&#x27;</span> : <span class="hljs-string">&#x27;none&#x27;</span>;
+  });
+}</code></pre><h3 id="4-add-project-status-badges">
+        <a href="#4-add-project-status-badges" class="header-anchor">
+          4. Add Project Status Badges
+        </a>
+      </h3><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;project-status&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;badge in-progress&quot;</span>&gt;</span>In Progress<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;deadline&quot;</span>&gt;</span>Due: Dec 31, 2025<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><h2 id="code-workflow-integration">
+        <a href="#code-workflow-integration" class="header-anchor">
+          CODE Workflow Integration
+        </a>
+      </h2><h3 id="capture-inboxmd">
+        <a href="#capture-inboxmd" class="header-anchor">
+          Capture (inbox.md)
+        </a>
+      </h3><pre><code class="hljs language-markdown"><span class="hljs-section"># Inbox</span>
+
+Quick capture for new ideas, links, notes.
+
+<span class="hljs-section">## 2025-10-15</span>
+<span class="hljs-bullet">-</span> [ ] Article: PARA method implementation
+<span class="hljs-bullet">-</span> [ ] Idea: Add project status dashboard
+<span class="hljs-bullet">-</span> [ ] Link: https://...
+
+<span class="hljs-emphasis">_Process weekly: Move to appropriate PARA category_</span></code></pre><h3 id="organize-weekly-review">
+        <a href="#organize-weekly-review" class="header-anchor">
+          Organize (Weekly Review)
+        </a>
+      </h3><p>Process inbox → categorize into PARA:</p>
+<ol>
+<li>What project needs this? → Projects</li>
+<li>What area? → Areas</li>
+<li>Future reference? → Resources</li>
+<li>Old/done? → Archives</li>
+</ol>
+<h3 id="distill-active-work">
+        <a href="#distill-active-work" class="header-anchor">
+          Distill (Active Work)
+        </a>
+      </h3><ul>
+<li>Summarize project briefs</li>
+<li>Extract key insights</li>
+<li>Create action items</li>
+</ul>
+<h3 id="express-outputs">
+        <a href="#express-outputs" class="header-anchor">
+          Express (Outputs)
+        </a>
+      </h3><ul>
+<li>Deploy working applications</li>
+<li>Write documentation</li>
+<li>Share knowledge</li>
+</ul>
+<h2 id="rollout-timeline">
+        <a href="#rollout-timeline" class="header-anchor">
+          Rollout Timeline
+        </a>
+      </h2><table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Tasks</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Structure + Templates</td>
+<td>PARA folders created</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Content categorization</td>
+<td>Classification complete</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Content migration</td>
+<td>Files moved</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Build system updates</td>
+<td>Navigation working</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Testing</td>
+<td>All links work</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Polish + documentation</td>
+<td>Ready for use</td>
+</tr>
+</tbody></table>
+<h2 id="success-metrics">
+        <a href="#success-metrics" class="header-anchor">
+          Success Metrics
+        </a>
+      </h2><ul>
+<li><input disabled="" type="checkbox"> All content categorized into PARA</li>
+<li><input disabled="" type="checkbox"> Every project has a project brief</li>
+<li><input disabled="" type="checkbox"> Navigation shows PARA categories</li>
+<li><input disabled="" type="checkbox"> Archives hidden by default</li>
+<li><input disabled="" type="checkbox"> Inbox processed weekly</li>
+<li><input disabled="" type="checkbox"> 0 uncategorized files</li>
+</ul>
+<h2 id="risk-mitigation">
+        <a href="#risk-mitigation" class="header-anchor">
+          Risk Mitigation
+        </a>
+      </h2><p><strong>Risk</strong>: Breaking existing links</p>
+<ul>
+<li><strong>Mitigation</strong>: Use git mv, create redirects</li>
+</ul>
+<p><strong>Risk</strong>: Confusion during transition</p>
+<ul>
+<li><strong>Mitigation</strong>: Keep old structure accessible for 1 month</li>
+</ul>
+<p><strong>Risk</strong>: Over-categorization</p>
+<ul>
+<li><strong>Mitigation</strong>: When in doubt, start with Resources</li>
+</ul>
+<h2 id="references">
+        <a href="#references" class="header-anchor">
+          References
+        </a>
+      </h2><ul>
+<li><a href="https://fortelabs.com/blog/para/">PARA Method by Tiago Forte</a></li>
+<li><a href="https://www.buildingasecondbrain.com/">Building a Second Brain book</a></li>
+<li>Current project: e:\brain\second-brain\</li>
+</ul>
+<hr>
+<h2 id="code-workflow-detailed-implementation">
+        <a href="#code-workflow-detailed-implementation" class="header-anchor">
+          CODE Workflow: Detailed Implementation
+        </a>
+      </h2><p>The CODE method is Tiago Forte&#39;s four-step workflow that works in harmony with PARA. While PARA tells you <strong>WHERE</strong> to organize content, CODE tells you <strong>HOW</strong> to process it.</p>
+<h3 id="code-overview">
+        <a href="#code-overview" class="header-anchor">
+          CODE Overview
+        </a>
+      </h3><pre><code class="hljs">Capture → <span class="hljs-keyword">Organize </span>→ <span class="hljs-keyword">Distill </span>→ Express
+   ↓          ↓          ↓         ↓
+ Store     Categorize  Summarize  Create</code></pre><p><strong>Philosophy</strong>: &quot;Your notes should be optimized for RETRIEVAL, not storage.&quot;</p>
+<hr>
+<h3 id="1-capture-collect-what-resonates">
+        <a href="#1-capture-collect-what-resonates" class="header-anchor">
+          1. CAPTURE: Collect What Resonates
+        </a>
+      </h3><p><strong>Goal</strong>: Capture information externally so your brain is free for creative thinking.</p>
+<h4 id="what-to-capture">
+        <a href="#what-to-capture" class="header-anchor">
+          What to Capture
+        </a>
+      </h4><p>✅ <strong>DO Capture:</strong></p>
+<ul>
+<li>Ideas that excite you</li>
+<li>Useful quotes or insights</li>
+<li>Links to helpful articles</li>
+<li>Code snippets that solve problems</li>
+<li>Meeting notes with action items</li>
+<li>Personal reflections</li>
+<li>Inspiration for projects</li>
+</ul>
+<p>❌ <strong>DON&#39;T Capture:</strong></p>
+<ul>
+<li>Everything you read (too much noise)</li>
+<li>Information easily Googleable</li>
+<li>Content &quot;just in case&quot; (without purpose)</li>
+<li>Duplicates of what&#39;s already saved</li>
+</ul>
+<h4 id="capture-principles">
+        <a href="#capture-principles" class="header-anchor">
+          Capture Principles
+        </a>
+      </h4><p><strong>The 12-Second Rule</strong>: If it takes more than 12 seconds to capture, you won&#39;t do it consistently.</p>
+<p><strong>The Resonance Test</strong>: Only capture what &quot;resonates&quot; with you:</p>
+<ul>
+<li>Does this surprise me?</li>
+<li>Is this useful for my current projects?</li>
+<li>Does this change my perspective?</li>
+<li>Will I want to reference this later?</li>
+</ul>
+<h4 id="capture-tools-for-second-brain">
+        <a href="#capture-tools-for-second-brain" class="header-anchor">
+          Capture Tools for Second-Brain
+        </a>
+      </h4><p><strong>1. Quick Inbox Entry (inbox.md)</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Inbox</span>
+
+<span class="hljs-section">## 2025-10-15 Tuesday</span>
+
+<span class="hljs-section">### Quick Captures</span>
+<span class="hljs-bullet">-</span> [ ] 14:30 - Idea: Add PARA filtering to navigation
+<span class="hljs-bullet">-</span> [ ] 15:45 - Article: https://... (about async/await patterns)
+<span class="hljs-bullet">-</span> [ ] 16:20 - Quote: &quot;Organize by actionability, not category&quot; - Tiago Forte
+<span class="hljs-bullet">-</span> [ ] 17:00 - TODO: Review PR for authentication service
+
+<span class="hljs-section">### Voice Notes</span>
+<span class="hljs-bullet">-</span> [ ] Voice memo: Ideas for English learning bot UI
+
+<span class="hljs-section">### Meeting Notes</span>
+<span class="hljs-bullet">-</span> [ ] Weekly standup - Action: Update Kaizen firebase config
+
+---
+<span class="hljs-emphasis">_Process on Friday evening: Move items to appropriate PARA folders_</span></code></pre><p><strong>2. Capture Templates</strong></p>
+<p><strong>Quick Note Template</strong> (<code>templates/quick-note.md</code>):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># [Title]</span>
+
+<span class="hljs-strong">**Captured**</span>: 2025-10-15 14:30
+<span class="hljs-strong">**Source**</span>: [URL or person]
+<span class="hljs-strong">**Related to**</span>: [Project/Area/Resource]
+
+<span class="hljs-section">## Key Points</span>
+<span class="hljs-bullet">-</span> 
+<span class="hljs-bullet">-</span> 
+<span class="hljs-bullet">-</span> 
+
+<span class="hljs-section">## My Thoughts</span>
+[Why does this matter? What will I do with it?]
+
+<span class="hljs-section">## Next Action</span>
+<span class="hljs-bullet">-</span> [ ] 
+
+<span class="hljs-section">## Tags</span>
+<span class="hljs-section">#tag1 #tag2</span></code></pre><p><strong>Meeting Note Template</strong> (<code>templates/meeting-note.md</code>):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Meeting: [Title]</span>
+
+<span class="hljs-strong">**Date**</span>: 2025-10-15
+<span class="hljs-strong">**Attendees**</span>: 
+<span class="hljs-strong">**Project/Area**</span>: 
+
+<span class="hljs-section">## Agenda</span>
+<span class="hljs-bullet">1.</span> 
+<span class="hljs-bullet">2.</span> 
+<span class="hljs-bullet">3.</span> 
+
+<span class="hljs-section">## Discussion Notes</span>
+<span class="hljs-bullet">-</span> 
+<span class="hljs-bullet">-</span> 
+
+<span class="hljs-section">## Decisions Made</span>
+<span class="hljs-bullet">-</span> 
+<span class="hljs-bullet">-</span> 
+
+<span class="hljs-section">## Action Items</span>
+<span class="hljs-bullet">-</span> [ ] [@person] - Task description (due: date)
+<span class="hljs-bullet">-</span> [ ] [@person] - Task description (due: date)
+
+<span class="hljs-section">## Follow-up</span>
+Next meeting: [date]</code></pre><p><strong>3. Browser/Reading Captures</strong></p>
+<p>For web articles:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Article: [Title]</span>
+
+<span class="hljs-strong">**URL**</span>: https://...
+<span class="hljs-strong">**Date captured**</span>: 2025-10-15
+<span class="hljs-strong">**Status**</span>: 🟡 To Read / 🔵 Reading / 🟢 Processed
+
+<span class="hljs-section">### Key Highlights</span>
+<span class="hljs-quote">&gt; &quot;Quote from article&quot;</span>
+— [Author name]
+
+<span class="hljs-quote">&gt; &quot;Another important quote&quot;</span>
+
+<span class="hljs-section">### My Notes</span>
+[What stood out? Why is this relevant?]
+
+<span class="hljs-section">### Application</span>
+<span class="hljs-strong">**Could be used for**</span>: [Specific project or area]
+<span class="hljs-strong">**Next action**</span>: [ ] Create proof of concept</code></pre><p><strong>4. Code Snippet Captures</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Code: [What it does]</span>
+
+<span class="hljs-strong">**Language**</span>: JavaScript/Python/etc.
+<span class="hljs-strong">**Source**</span>: [GitHub URL or docs]
+<span class="hljs-strong">**Captured**</span>: 2025-10-15
+<span class="hljs-strong">**Use case**</span>: [Specific problem this solves]
+
+<span class="hljs-section">### Code</span>
+\<span class="hljs-code">`\`</span>\`javascript
+// Actual code here
+\<span class="hljs-code">`\`</span>\`
+
+<span class="hljs-section">### Explanation</span>
+[How it works]
+
+<span class="hljs-section">### When to use</span>
+[Scenarios where this is applicable]
+
+<span class="hljs-section">### Related</span>
+<span class="hljs-bullet">-</span> Link to project: [Project name]
+<span class="hljs-bullet">-</span> Similar pattern: [Link]</code></pre><h4 id="capture-habits">
+        <a href="#capture-habits" class="header-anchor">
+          Capture Habits
+        </a>
+      </h4><p><strong>Daily Capture Routine:</strong></p>
+<ul>
+<li><strong>Morning</strong> (9:00 AM): Review inbox, quick capture of overnight ideas</li>
+<li><strong>Throughout day</strong>: Add items as they come up (12-second rule)</li>
+<li><strong>End of day</strong> (5:30 PM): Quick brain dump of any remaining thoughts</li>
+</ul>
+<p><strong>Weekly Processing:</strong></p>
+<ul>
+<li><strong>Friday 4:00 PM</strong>: Process inbox → Move to PARA</li>
+<li><strong>Sunday evening</strong>: Review week&#39;s captures, distill key insights</li>
+</ul>
+<h4 id="capture-metrics">
+        <a href="#capture-metrics" class="header-anchor">
+          Capture Metrics
+        </a>
+      </h4><p>Track your capture effectiveness:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Weekly Capture Review - Week of Oct 15</span>
+
+<span class="hljs-strong">**Captured this week**</span>: 47 items
+<span class="hljs-strong">**Processed**</span>: 42 items (89%)
+<span class="hljs-strong">**Still in inbox**</span>: 5 items
+<span class="hljs-strong">**Average processing time**</span>: 3 minutes per item
+
+<span class="hljs-strong">**Top capture sources**</span>:
+<span class="hljs-bullet">1.</span> Web articles (18)
+<span class="hljs-bullet">2.</span> Meeting notes (12)
+<span class="hljs-bullet">3.</span> Random ideas (9)
+<span class="hljs-bullet">4.</span> Code snippets (8)
+
+<span class="hljs-strong">**Action**</span>: Reduce article captures, focus on key insights only</code></pre><hr>
+<h3 id="2-organize-place-by-actionability-para">
+        <a href="#2-organize-place-by-actionability-para" class="header-anchor">
+          2. ORGANIZE: Place by Actionability (PARA)
+        </a>
+      </h3><p><strong>Goal</strong>: Organize content based on how actionable it is, not by topic.</p>
+<h4 id="the-para-decision-tree">
+        <a href="#the-para-decision-tree" class="header-anchor">
+          The PARA Decision Tree
+        </a>
+      </h4><p>Every captured item goes through this process:</p>
+<pre><code class="hljs"><span class="hljs-number">1.</span> Ask: &quot;In which PROJECT will this be most useful?&quot;
+   ├─ Yes → <span class="hljs-keyword">Move</span> <span class="hljs-keyword">to</span> <span class="hljs-number">1</span>-projects/[project-<span class="hljs-type">name</span>]/
+   └─ <span class="hljs-keyword">No</span> → <span class="hljs-keyword">Continue</span> <span class="hljs-keyword">to</span> step <span class="hljs-number">2</span>
+
+<span class="hljs-number">2.</span> Ask: &quot;In which AREA will this be most useful?&quot;
+   ├─ Yes → <span class="hljs-keyword">Move</span> <span class="hljs-keyword">to</span> <span class="hljs-number">2</span>-areas/[area-<span class="hljs-type">name</span>]/
+   └─ <span class="hljs-keyword">No</span> → <span class="hljs-keyword">Continue</span> <span class="hljs-keyword">to</span> step <span class="hljs-number">3</span>
+
+<span class="hljs-number">3.</span> Ask: &quot;Which RESOURCE category does this belong to?&quot;
+   ├─ Yes → <span class="hljs-keyword">Move</span> <span class="hljs-keyword">to</span> <span class="hljs-number">3</span>-resources/[topic]/
+   └─ <span class="hljs-keyword">No</span> → <span class="hljs-keyword">Continue</span> <span class="hljs-keyword">to</span> step <span class="hljs-number">4</span>
+
+<span class="hljs-number">4.</span> <span class="hljs-keyword">Is</span> this completed <span class="hljs-keyword">or</span> <span class="hljs-keyword">no</span> longer relevant?
+   ├─ Yes → <span class="hljs-keyword">Move</span> <span class="hljs-keyword">to</span> <span class="hljs-number">4</span>-archives/
+   └─ <span class="hljs-keyword">No</span> → Leave <span class="hljs-keyword">in</span> inbox <span class="hljs-keyword">for</span> later review</code></pre><h4 id="organizing-examples">
+        <a href="#organizing-examples" class="header-anchor">
+          Organizing Examples
+        </a>
+      </h4><p><strong>Example 1: Web Article on Authentication</strong></p>
+<p>Capture:</p>
+<pre><code class="hljs language-markdown">📥 Article: &quot;Best Practices for JWT Authentication&quot;
+URL: https://...</code></pre><p>Organize Decision Process:</p>
+<ol>
+<li><strong>Project?</strong> → YES - I&#39;m building auth for Yapidoo</li>
+<li><strong>Move to</strong>: <code>1-projects/yapidoo-development/research/jwt-best-practices.md</code></li>
+</ol>
+<p><strong>Example 2: Meeting Notes on Home Maintenance</strong></p>
+<p>Capture:</p>
+<pre><code class="hljs language-markdown">📥 Meeting with HVAC technician - Heating system inspection</code></pre><p>Organize Decision Process:</p>
+<ol>
+<li><strong>Project?</strong> → NO - Not a one-time thing</li>
+<li><strong>Area?</strong> → YES - Ongoing home maintenance</li>
+<li><strong>Move to</strong>: <code>2-areas/home-maintenance/heating-system-inspection-2025-10.md</code></li>
+</ol>
+<p><strong>Example 3: Interesting Article on Productivity</strong></p>
+<p>Capture:</p>
+<pre><code class="hljs language-markdown">📥 Article: &quot;The Psychology of Deep Work&quot;</code></pre><p>Organize Decision Process:</p>
+<ol>
+<li><strong>Project?</strong> → NO</li>
+<li><strong>Area?</strong> → NO</li>
+<li><strong>Resource?</strong> → YES - General productivity knowledge</li>
+<li><strong>Move to</strong>: <code>3-resources/productivity/deep-work-psychology.md</code></li>
+</ol>
+<h4 id="organizing-workflow">
+        <a href="#organizing-workflow" class="header-anchor">
+          Organizing Workflow
+        </a>
+      </h4><p><strong>Friday Processing Session (60 minutes):</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Inbox Processing - 2025-10-15</span>
+
+<span class="hljs-section">### Step 1: Quick Sort (15 min)</span>
+Scan inbox and tag each item:
+<span class="hljs-bullet">-</span> 🎯 Project-related
+<span class="hljs-bullet">-</span> 🔄 Area-related
+<span class="hljs-bullet">-</span> 📚 Resource material
+<span class="hljs-bullet">-</span> 🗑️ Delete/Archive
+
+<span class="hljs-section">### Step 2: Move to PARA (30 min)</span>
+Process each tagged item:
+<span class="hljs-bullet">-</span> Read/skim the content
+<span class="hljs-bullet">-</span> Apply decision tree
+<span class="hljs-bullet">-</span> Move to appropriate folder
+<span class="hljs-bullet">-</span> Add to project brief if relevant
+
+<span class="hljs-section">### Step 3: Update Project Briefs (15 min)</span>
+For project-related items:
+<span class="hljs-bullet">-</span> Add to &quot;Resources&quot; section of <span class="hljs-emphasis">_project-brief.md
+- Update &quot;Next Actions&quot; if needed
+- Mark as processed: ✅
+
+### Results:
+- Processed: 42 items
+- Projects updated: 3
+- New resources added: 7
+- Archived: 2
+- Remaining in inbox: 5 (needs more context)</span></code></pre><h4 id="organizing-tools">
+        <a href="#organizing-tools" class="header-anchor">
+          Organizing Tools
+        </a>
+      </h4><p><strong>1. Tagging System</strong></p>
+<p>Use consistent tags for filtering:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">#project/yapidoo</span>
+<span class="hljs-section">#area/home-maintenance</span>
+<span class="hljs-section">#resource/productivity</span>
+<span class="hljs-section">#status/todo</span>
+<span class="hljs-section">#status/in-progress</span>
+<span class="hljs-section">#status/done</span>
+<span class="hljs-section">#type/article</span>
+<span class="hljs-section">#type/code</span>
+<span class="hljs-section">#type/meeting</span></code></pre><p><strong>2. Linked Notes</strong></p>
+<p>Create connections between related content:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Related</span>
+<span class="hljs-bullet">-</span> Project: [[1-projects/yapidoo-development/<span class="hljs-emphasis">_project-brief]]
+- Area: [[2-areas/beekeeping/seasonal-care]]
+- Resource: [[3-resources/software-development/authentication]]</span></code></pre><p><strong>3. Quick Move Script</strong></p>
+<p>Create keyboard shortcuts or scripts:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Quick move to project</span>
+<span class="hljs-built_in">mv</span> inbox/captured-item.md 1-projects/yapidoo-development/
+
+<span class="hljs-comment"># Quick move to area</span>
+<span class="hljs-built_in">mv</span> inbox/captured-item.md 2-areas/home-maintenance/
+
+<span class="hljs-comment"># Quick move to resources</span>
+<span class="hljs-built_in">mv</span> inbox/captured-item.md 3-resources/productivity/</code></pre><hr>
+<h3 id="3-distill-extract-the-essence">
+        <a href="#3-distill-extract-the-essence" class="header-anchor">
+          3. DISTILL: Extract the Essence
+        </a>
+      </h3><p><strong>Goal</strong>: Progressively summarize content to make it immediately useful.</p>
+<h4 id="the-progressive-summarization-method">
+        <a href="#the-progressive-summarization-method" class="header-anchor">
+          The Progressive Summarization Method
+        </a>
+      </h4><p><strong>Layer 1</strong>: Original captured content (full text)
+<strong>Layer 2</strong>: <strong>Bold</strong> the important passages (first pass)
+<strong>Layer 3</strong>: ==Highlight== the most important sentences (second pass)
+<strong>Layer 4</strong>: Executive summary at the top (third pass)
+<strong>Layer 5</strong>: Remix into your own original work</p>
+<h4 id="distillation-in-practice">
+        <a href="#distillation-in-practice" class="header-anchor">
+          Distillation in Practice
+        </a>
+      </h4><p><strong>Original Capture</strong> (Layer 1):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Article: PARA Method Explained</span>
+
+The PARA method is a system created by Tiago Forte for organizing 
+digital information. It stands for Projects, Areas, Resources, and 
+Archives. The key innovation is organizing by actionability rather 
+than by category or topic. Projects are short-term efforts with 
+specific goals and deadlines. Areas are ongoing responsibilities 
+without end dates. Resources are reference materials for future use. 
+Archives hold inactive items. This system works across all tools 
+and platforms.</code></pre><p><strong>After Layer 2</strong> (Bold important parts):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Article: PARA Method Explained</span>
+
+The PARA method is a system created by Tiago Forte for organizing 
+digital information. It stands for <span class="hljs-strong">**Projects, Areas, Resources, and 
+Archives**</span>. The key innovation is <span class="hljs-strong">**organizing by actionability rather 
+than by category or topic**</span>. <span class="hljs-strong">**Projects are short-term efforts with 
+specific goals and deadlines**</span>. <span class="hljs-strong">**Areas are ongoing responsibilities 
+without end dates**</span>. Resources are reference materials for future use. 
+Archives hold inactive items. <span class="hljs-strong">**This system works across all tools 
+and platforms**</span>.</code></pre><p><strong>After Layer 3</strong> (Highlight most critical):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Article: PARA Method Explained</span>
+
+The PARA method is a system created by Tiago Forte for organizing 
+digital information. It stands for <span class="hljs-strong">**Projects, Areas, Resources, and 
+Archives**</span>. The key innovation is ==<span class="hljs-strong">**organizing by actionability rather 
+than by category or topic**</span>==. <span class="hljs-strong">**Projects are short-term efforts with 
+specific goals and deadlines**</span>. <span class="hljs-strong">**Areas are ongoing responsibilities 
+without end dates**</span>. Resources are reference materials for future use. 
+Archives hold inactive items. <span class="hljs-strong">**This system works across all tools 
+and platforms**</span>.</code></pre><p><strong>After Layer 4</strong> (Add executive summary):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Article: PARA Method Explained</span>
+
+<span class="hljs-section">## 🎯 Key Takeaway</span>
+Organize digital content by HOW ACTIONABLE it is (Projects → Areas → 
+Resources → Archives), not by topic or category.
+
+<span class="hljs-section">## Core Concept</span>
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Projects**</span>: Active work with deadlines
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Areas**</span>: Ongoing responsibilities
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Resources**</span>: Reference material
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Archives**</span>: Completed/inactive
+
+<span class="hljs-section">## Original Article</span>
+[Rest of the content...]</code></pre><p><strong>Layer 5</strong> (Express - Your own creation):
+→ This becomes your PARA Migration Plan document!</p>
+<h4 id="distillation-templates">
+        <a href="#distillation-templates" class="header-anchor">
+          Distillation Templates
+        </a>
+      </h4><p><strong>Project Research Distillation</strong>:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Research Summary: [Topic]</span>
+
+<span class="hljs-strong">**Project**</span>: [[<span class="hljs-emphasis">_project-brief]]
+<span class="hljs-strong">**Date distilled**</span>: 2025-10-15
+<span class="hljs-strong">**Sources**</span>: 3 articles, 2 videos, 1 book chapter
+
+## 🎯 Bottom Line (30 seconds)
+[One paragraph - what&#x27;s the most important thing to know?]
+
+## 💡 Key Insights (2 minutes)
+1. [First major insight]
+2. [Second major insight]
+3. [Third major insight]
+
+## 🔧 Actionable Steps (5 minutes)
+- [ ] [Specific action 1]
+- [ ] [Specific action 2]
+- [ ] [Specific action 3]
+
+## 📚 Deep Dive (15+ minutes)
+[Detailed notes with all the context]
+
+### Source 1: [Name]
+- Key points...
+
+### Source 2: [Name]
+- Key points...
+
+## 🔗 Related
+- [[Link to related project]]
+- [[Link to related resource]]</span></code></pre><p><strong>Meeting Distillation</strong>:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Meeting Summary: [Title]</span>
+
+<span class="hljs-section">## ⚡ TL;DR</span>
+[2-3 sentences: What happened and what needs to happen next?]
+
+<span class="hljs-section">## ✅ Decisions Made</span>
+<span class="hljs-bullet">1.</span> Decision 1 - [Impact]
+<span class="hljs-bullet">2.</span> Decision 2 - [Impact]
+
+<span class="hljs-section">## 🎯 Action Items (Ordered by priority)</span>
+<span class="hljs-bullet">1.</span> 🔴 [Critical] [@owner] Task (Due: date)
+<span class="hljs-bullet">2.</span> 🟡 [Important] [@owner] Task (Due: date)
+<span class="hljs-bullet">3.</span> 🟢 [Nice to have] [@owner] Task (Due: date)
+
+<span class="hljs-section">## 💬 Full Discussion</span>
+[Optional: Detailed notes only if needed for reference]</code></pre><p><strong>Code Learning Distillation</strong>:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Pattern: [Name]</span>
+
+<span class="hljs-section">## 🎯 When to Use</span>
+[One sentence describing the use case]
+
+<span class="hljs-section">## ✅ Pros &amp; Cons</span>
+<span class="hljs-strong">**Pros**</span>: 
+<span class="hljs-bullet">-</span> Benefit 1
+<span class="hljs-bullet">-</span> Benefit 2
+
+<span class="hljs-strong">**Cons**</span>:
+<span class="hljs-bullet">-</span> Limitation 1
+<span class="hljs-bullet">-</span> Limitation 2
+
+<span class="hljs-section">## 💻 Quick Example</span>
+\<span class="hljs-code">`\`</span>\`javascript
+// Minimal working example
+\<span class="hljs-code">`\`</span>\`
+
+<span class="hljs-section">## 📚 Full Explanation</span>
+[Detailed explanation only if needed]</code></pre><h4 id="distillation-schedule">
+        <a href="#distillation-schedule" class="header-anchor">
+          Distillation Schedule
+        </a>
+      </h4><p><strong>Immediate</strong> (When organizing):</p>
+<ul>
+<li>Add bold to key passages</li>
+<li>Add one-sentence summary at top</li>
+</ul>
+<p><strong>Weekly</strong> (Friday review):</p>
+<ul>
+<li>Highlight most critical info</li>
+<li>Add executive summaries to important notes</li>
+</ul>
+<p><strong>Monthly</strong> (Last Sunday):</p>
+<ul>
+<li>Review project notes</li>
+<li>Create synthesis documents</li>
+<li>Archive what&#39;s no longer needed</li>
+</ul>
+<h4 id="distillation-principles">
+        <a href="#distillation-principles" class="header-anchor">
+          Distillation Principles
+        </a>
+      </h4><p><strong>The 80/20 Rule</strong>: </p>
+<ul>
+<li>80% of value comes from 20% of content</li>
+<li>Focus on distilling that 20%</li>
+</ul>
+<p><strong>The Future Self Test</strong>:</p>
+<ul>
+<li>Will my future self understand this in 6 months?</li>
+<li>Is the key insight immediately visible?</li>
+</ul>
+<p><strong>The 10-Second Rule</strong>:</p>
+<ul>
+<li>Can someone grasp the main point in 10 seconds?</li>
+<li>If not, needs more distillation</li>
+</ul>
+<hr>
+<h3 id="4-express-create-and-share">
+        <a href="#4-express-create-and-share" class="header-anchor">
+          4. EXPRESS: Create and Share
+        </a>
+      </h3><p><strong>Goal</strong>: Turn your captured, organized, and distilled notes into tangible outputs.</p>
+<h4 id="expression-principles">
+        <a href="#expression-principles" class="header-anchor">
+          Expression Principles
+        </a>
+      </h4><p><strong>&quot;Create on the Exhale&quot;</strong>:</p>
+<ul>
+<li>Capturing is breathing in (input)</li>
+<li>Expressing is breathing out (output)</li>
+<li>Balance is essential - can&#39;t just consume</li>
+</ul>
+<p><strong>&quot;Show Your Work&quot;</strong>:</p>
+<ul>
+<li>Share intermediate work, not just final products</li>
+<li>Document your process</li>
+<li>Make thinking visible</li>
+</ul>
+<p><strong>&quot;Build with Blocks&quot;</strong>:</p>
+<ul>
+<li>Your notes are building blocks</li>
+<li>Reuse and remix existing content</li>
+<li>Don&#39;t start from scratch</li>
+</ul>
+<h4 id="expression-formats">
+        <a href="#expression-formats" class="header-anchor">
+          Expression Formats
+        </a>
+      </h4><p><strong>1. Project Deliverables</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Deliverable: [Name]</span>
+
+<span class="hljs-strong">**Project**</span>: [[<span class="hljs-emphasis">_project-brief]]
+<span class="hljs-strong">**Type**</span>: Code / Document / Presentation / etc.
+<span class="hljs-strong">**Status**</span>: Draft / Review / Final
+<span class="hljs-strong">**Deadline**</span>: 2025-10-31
+
+## Purpose
+[What is this meant to accomplish?]
+
+## Audience
+[Who is this for?]
+
+## Content Sources
+Built from these distilled notes:
+- [[note-1]]
+- [[note-2]]
+- [[research-summary]]
+
+## Output
+[Link to the actual deliverable]
+- GitHub repo: https://...
+- Document: https://...
+- Presentation: https://...
+
+## Impact
+[What happened after sharing this?]</span></code></pre><p><strong>2. Documentation</strong></p>
+<p>Turn project notes into reusable documentation:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># How-To: [Process Name]</span>
+
+<span class="hljs-strong">**Last updated**</span>: 2025-10-15
+<span class="hljs-strong">**Status**</span>: ✅ Tested and working
+<span class="hljs-strong">**Time required**</span>: 30 minutes
+
+<span class="hljs-section">## Context</span>
+[When would you use this?]
+
+<span class="hljs-section">## Prerequisites</span>
+<span class="hljs-bullet">-</span> Requirement 1
+<span class="hljs-bullet">-</span> Requirement 2
+
+<span class="hljs-section">## Steps</span>
+<span class="hljs-bullet">1.</span> [Step with screenshot if helpful]
+<span class="hljs-bullet">2.</span> [Step with code example]
+<span class="hljs-bullet">3.</span> [Step with expected outcome]
+
+<span class="hljs-section">## Troubleshooting</span>
+<span class="hljs-strong">**Problem**</span>: [Common issue]
+<span class="hljs-strong">**Solution**</span>: [How to fix]
+
+<span class="hljs-section">## Related</span>
+<span class="hljs-bullet">-</span> Based on: [[captured-article]]
+<span class="hljs-bullet">-</span> See also: [[related-process]]</code></pre><p><strong>3. Blog Posts / Articles</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Article: [Title]</span>
+
+<span class="hljs-strong">**Status**</span>: Draft → Review → Published
+<span class="hljs-strong">**Published**</span>: [Date and URL]
+<span class="hljs-strong">**Audience**</span>: [Who is this for?]
+
+<span class="hljs-section">## Origin Story</span>
+Built from these captured notes:
+<span class="hljs-bullet">-</span> [[note-1]] - Main concept
+<span class="hljs-bullet">-</span> [[note-2]] - Supporting example
+<span class="hljs-bullet">-</span> [[note-3]] - Technical details
+
+<span class="hljs-section">## Key Message</span>
+[One sentence - what should readers remember?]
+
+<span class="hljs-section">## Outline</span>
+<span class="hljs-bullet">1.</span> Hook
+<span class="hljs-bullet">2.</span> Problem
+<span class="hljs-bullet">3.</span> Solution
+<span class="hljs-bullet">4.</span> Examples
+<span class="hljs-bullet">5.</span> Call to action
+
+<span class="hljs-section">## Draft</span>
+[Article content]
+
+<span class="hljs-section">## Feedback Received</span>
+<span class="hljs-bullet">-</span> [Person]: [Suggestion]
+<span class="hljs-bullet">-</span> [Person]: [Suggestion]
+
+<span class="hljs-section">## Final Version</span>
+[Link to published article]
+
+<span class="hljs-section">## Performance</span>
+<span class="hljs-bullet">-</span> Views: 
+<span class="hljs-bullet">-</span> Engagement:
+<span class="hljs-bullet">-</span> Feedback:</code></pre><p><strong>4. Presentations</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Presentation: [Title]</span>
+
+<span class="hljs-strong">**Event**</span>: [Where/when]
+<span class="hljs-strong">**Duration**</span>: 30 minutes
+<span class="hljs-strong">**Audience**</span>: [Who]
+
+<span class="hljs-section">## Goal</span>
+[What should the audience learn/do after?]
+
+<span class="hljs-section">## Source Material</span>
+<span class="hljs-bullet">-</span> [[project-research]]
+<span class="hljs-bullet">-</span> [[case-study-1]]
+<span class="hljs-bullet">-</span> [[code-examples]]
+
+<span class="hljs-section">## Outline</span>
+<span class="hljs-bullet">1.</span> <span class="hljs-strong">**Intro**</span> (3 min)
+<span class="hljs-bullet">   -</span> Hook: [Attention grabber]
+<span class="hljs-bullet">   -</span> Promise: [What they&#x27;ll learn]
+
+<span class="hljs-bullet">2.</span> <span class="hljs-strong">**Body**</span> (20 min)
+<span class="hljs-bullet">   -</span> Point 1: [Key concept]
+<span class="hljs-bullet">   -</span> Point 2: [Supporting example]
+<span class="hljs-bullet">   -</span> Point 3: [Practical application]
+
+<span class="hljs-bullet">3.</span> <span class="hljs-strong">**Conclusion**</span> (5 min)
+<span class="hljs-bullet">   -</span> Summary
+<span class="hljs-bullet">   -</span> Call to action
+<span class="hljs-bullet">   -</span> Q&amp;A
+
+<span class="hljs-section">## Slide Deck</span>
+[Link to slides]
+
+<span class="hljs-section">## Feedback</span>
+[Notes from presentation]</code></pre><p><strong>5. Code Projects</strong></p>
+<pre><code class="hljs language-markdown"><span class="hljs-section"># Project Output: [Application Name]</span>
+
+<span class="hljs-strong">**Repository**</span>: https://github.com/...
+<span class="hljs-strong">**Demo**</span>: https://...
+<span class="hljs-strong">**Status**</span>: MVP / Beta / Production
+
+<span class="hljs-section">## Built From</span>
+Knowledge accumulated from:
+<span class="hljs-bullet">-</span> [[authentication-research]]
+<span class="hljs-bullet">-</span> [[ui-design-patterns]]
+<span class="hljs-bullet">-</span> [[deployment-guide]]
+
+<span class="hljs-section">## Features Implemented</span>
+<span class="hljs-bullet">-</span> [x] Feature 1 (based on [[note-1]])
+<span class="hljs-bullet">-</span> [x] Feature 2 (based on [[note-2]])
+<span class="hljs-bullet">-</span> [ ] Feature 3 (planned)
+
+<span class="hljs-section">## Key Decisions</span>
+<span class="hljs-bullet">1.</span> <span class="hljs-strong">**Decision**</span>: Use JWT for auth
+<span class="hljs-bullet">   -</span> <span class="hljs-strong">**Based on**</span>: [[jwt-research-summary]]
+<span class="hljs-bullet">   -</span> <span class="hljs-strong">**Rationale**</span>: [Why we chose this]
+
+<span class="hljs-section">## Lessons Learned</span>
+[What worked, what didn&#x27;t]
+
+<span class="hljs-section">## Next Steps</span>
+[What&#x27;s next for this project]</code></pre><h4 id="expression-workflow">
+        <a href="#expression-workflow" class="header-anchor">
+          Expression Workflow
+        </a>
+      </h4><p><strong>Weekly Expression Session</strong> (Sunday 2-4 PM):</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Expression Session - 2025-10-15</span>
+
+<span class="hljs-section">### 1. Review Projects (20 min)</span>
+Which projects need outputs this week?
+<span class="hljs-bullet">-</span> Yapidoo: Authentication documentation
+<span class="hljs-bullet">-</span> Kaizen: Firebase setup guide
+<span class="hljs-bullet">-</span> House: Heating system maintenance log
+
+<span class="hljs-section">### 2. Gather Materials (20 min)</span>
+Pull together distilled notes for each output:
+<span class="hljs-bullet">-</span> Yapidoo: 3 research notes + 2 code examples
+<span class="hljs-bullet">-</span> Kaizen: 1 tutorial + 1 config file
+<span class="hljs-bullet">-</span> House: 1 meeting note + 1 inspection report
+
+<span class="hljs-section">### 3. Create Outputs (60 min)</span>
+<span class="hljs-bullet">-</span> [ ] Write auth documentation (30 min)
+<span class="hljs-bullet">-</span> [ ] Create Firebase guide (20 min)
+<span class="hljs-bullet">-</span> [ ] Update maintenance log (10 min)
+
+<span class="hljs-section">### 4. Share &amp; Publish (20 min)</span>
+<span class="hljs-bullet">-</span> [ ] Push documentation to GitHub
+<span class="hljs-bullet">-</span> [ ] Share guide with team
+<span class="hljs-bullet">-</span> [ ] Update home maintenance area</code></pre><h4 id="expression-habits">
+        <a href="#expression-habits" class="header-anchor">
+          Expression Habits
+        </a>
+      </h4><p><strong>Daily Micro-Expressions</strong>:</p>
+<ul>
+<li>Reply to team member with solution from notes (5 min)</li>
+<li>Share code snippet on Slack (2 min)</li>
+<li>Update project README (10 min)</li>
+</ul>
+<p><strong>Weekly Expressions</strong>:</p>
+<ul>
+<li>Write technical documentation (30-60 min)</li>
+<li>Create how-to guide (30 min)</li>
+<li>Update project status report (15 min)</li>
+</ul>
+<p><strong>Monthly Expressions</strong>:</p>
+<ul>
+<li>Blog post or article (2-4 hours)</li>
+<li>Presentation or talk (4-6 hours)</li>
+<li>Complete project deliverable (varies)</li>
+</ul>
+<h4 id="expression-metrics">
+        <a href="#expression-metrics" class="header-anchor">
+          Expression Metrics
+        </a>
+      </h4><p>Track your creative output:</p>
+<pre><code class="hljs language-markdown"><span class="hljs-section">## Expression Tracker - October 2025</span>
+
+<span class="hljs-section">### Outputs Created</span>
+<span class="hljs-bullet">-</span> Documentation: 4 guides
+<span class="hljs-bullet">-</span> Blog posts: 1 article
+<span class="hljs-bullet">-</span> Code: 2 features shipped
+<span class="hljs-bullet">-</span> Presentations: 0
+<span class="hljs-bullet">-</span> Internal shares: 12 notes/snippets
+
+<span class="hljs-section">### Impact</span>
+<span class="hljs-bullet">-</span> Documentation views: 45
+<span class="hljs-bullet">-</span> Article reads: 234
+<span class="hljs-bullet">-</span> Code stars: 12
+<span class="hljs-bullet">-</span> Team feedback: &quot;Really helpful auth guide!&quot;
+
+<span class="hljs-section">### Input/Output Ratio</span>
+<span class="hljs-bullet">-</span> Captured: 47 notes
+<span class="hljs-bullet">-</span> Expressed: 19 outputs
+<span class="hljs-bullet">-</span> Ratio: 40% (healthy!)
+
+<span class="hljs-section">### Goal for November</span>
+Create more presentations, maintain documentation cadence</code></pre><hr>
+<h2 id="code-para-integration">
+        <a href="#code-para-integration" class="header-anchor">
+          CODE + PARA Integration
+        </a>
+      </h2><h3 id="the-complete-workflow">
+        <a href="#the-complete-workflow" class="header-anchor">
+          The Complete Workflow
+        </a>
+      </h3><pre><code class="hljs">┌─────────────────────────────────────────────────┐
+│                  CAPTURE                         │
+│  Inbox.md - Quick captures throughout day       │
+└──────────────────┬──────────────────────────────┘
+                   │
+                   ↓
+┌─────────────────────────────────────────────────┐
+│                 ORGANIZE                         │
+│  Apply PARA: Projects → Areas → Resources       │
+│  - Friday processing <span class="hljs-keyword">session</span>                    │
+│  - Use decision tree                            │
+│  - <span class="hljs-keyword">Update</span> project briefs                        │
+└──────────────────┬──────────────────────────────┘
+                   │
+                   ↓
+┌─────────────────────────────────────────────────┐
+│                 DISTILL                          │
+│  Progressive Summarization                      │
+│  - Bold key passages (<span class="hljs-keyword">immediate</span>)                │
+│  - Highlight critical <span class="hljs-keyword">info</span> (weekly)             │
+│  - <span class="hljs-keyword">Add</span> executive summaries (monthly)            │
+└──────────────────┬──────────────────────────────┘
+                   │
+                   ↓
+┌─────────────────────────────────────────────────┐
+│                 EXPRESS                          │
+│  <span class="hljs-keyword">Create</span> Outputs                                 │
+│  - Documentation                                │
+│  - Code                                         │
+│  - Articles/Presentations                       │
+│  - <span class="hljs-keyword">Share</span> <span class="hljs-keyword">with</span> others                            │
+└─────────────────────────────────────────────────┘</code></pre><h3 id="example-end-to-end-flow">
+        <a href="#example-end-to-end-flow" class="header-anchor">
+          Example: End-to-End Flow
+        </a>
+      </h3><p><strong>Monday 10:00 AM - CAPTURE</strong></p>
+<pre><code class="hljs language-markdown">📥 Inbox: Read article about React Server Components
+💭 Could be useful for Yapidoo frontend refactor</code></pre><p><strong>Friday 4:30 PM - ORGANIZE</strong></p>
+<pre><code class="hljs language-markdown">🤔 Decision tree:
+<span class="hljs-bullet">   -</span> Active project? YES - Yapidoo development
+<span class="hljs-bullet">   -</span> Move to: 1-projects/yapidoo-development/research/
+
+📁 Organized: react-server-components.md</code></pre><p><strong>Friday 5:00 PM - DISTILL</strong> (First pass)</p>
+<pre><code class="hljs language-markdown"><span class="hljs-strong">**Bold**</span> key concepts:
+<span class="hljs-bullet">-</span> Server components run on server only
+<span class="hljs-bullet">-</span> Reduces JavaScript bundle size
+<span class="hljs-bullet">-</span> Better for data fetching
+
+Added 🎯 TL;DR at top</code></pre><p><strong>Sunday 2:00 PM - EXPRESS</strong></p>
+<pre><code class="hljs language-markdown">✍️ Created: 
+<span class="hljs-bullet">   -</span> Technical spike document
+<span class="hljs-bullet">   -</span> Proof of concept code
+<span class="hljs-bullet">   -</span> Recommendation for team review
+
+📤 Shared: 
+<span class="hljs-bullet">   -</span> Posted in Slack #frontend
+<span class="hljs-bullet">   -</span> Added to project brief
+<span class="hljs-bullet">   -</span> Scheduled team discussion</code></pre><p><strong>Result</strong>: Article → Actionable project output in 4 days</p>
+<hr>
+<h2 id="code-implementation-checklist">
+        <a href="#code-implementation-checklist" class="header-anchor">
+          CODE Implementation Checklist
+        </a>
+      </h2><h3 id="setup-phase">
+        <a href="#setup-phase" class="header-anchor">
+          Setup Phase
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Create inbox.md</li>
+<li><input disabled="" type="checkbox"> Create capture templates folder</li>
+<li><input disabled="" type="checkbox"> Set up Friday processing calendar event</li>
+<li><input disabled="" type="checkbox"> Set up Sunday expression calendar event</li>
+<li><input disabled="" type="checkbox"> Create CODE tracking template</li>
+</ul>
+<h3 id="daily-habits">
+        <a href="#daily-habits" class="header-anchor">
+          Daily Habits
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Morning: Review inbox (5 min)</li>
+<li><input disabled="" type="checkbox"> Throughout day: Quick captures (12-second rule)</li>
+<li><input disabled="" type="checkbox"> Evening: Brain dump any remaining thoughts (5 min)</li>
+</ul>
+<h3 id="weekly-habits">
+        <a href="#weekly-habits" class="header-anchor">
+          Weekly Habits
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Friday 4:00 PM: Process inbox → PARA (60 min)</li>
+<li><input disabled="" type="checkbox"> Friday 5:00 PM: First-pass distillation (30 min)</li>
+<li><input disabled="" type="checkbox"> Sunday 2:00 PM: Create weekly outputs (2 hours)</li>
+</ul>
+<h3 id="monthly-review">
+        <a href="#monthly-review" class="header-anchor">
+          Monthly Review
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Last Sunday: Review all captures</li>
+<li><input disabled="" type="checkbox"> Deep distillation of key notes</li>
+<li><input disabled="" type="checkbox"> Archive completed projects</li>
+<li><input disabled="" type="checkbox"> Plan next month&#39;s expressions</li>
+</ul>
+<h3 id="quarterly-review">
+        <a href="#quarterly-review" class="header-anchor">
+          Quarterly Review
+        </a>
+      </h3><ul>
+<li><input disabled="" type="checkbox"> Review CODE effectiveness</li>
+<li><input disabled="" type="checkbox"> Adjust capture sources</li>
+<li><input disabled="" type="checkbox"> Evaluate output quality</li>
+<li><input disabled="" type="checkbox"> Set new expression goals</li>
+</ul>
+<hr>
+<h2 id="code-success-metrics">
+        <a href="#code-success-metrics" class="header-anchor">
+          CODE Success Metrics
+        </a>
+      </h2><h3 id="capture-metrics">
+        <a href="#capture-metrics" class="header-anchor">
+          Capture Metrics
+        </a>
+      </h3><ul>
+<li><strong>Volume</strong>: 30-50 captures per week (sweet spot)</li>
+<li><strong>Quality</strong>: 70%+ actually get organized (not junk)</li>
+<li><strong>Speed</strong>: Average 30 seconds per capture</li>
+<li><strong>Sources</strong>: Diverse (articles, meetings, ideas, code)</li>
+</ul>
+<h3 id="organize-metrics">
+        <a href="#organize-metrics" class="header-anchor">
+          Organize Metrics
+        </a>
+      </h3><ul>
+<li><strong>Processing rate</strong>: 90%+ of inbox cleared weekly</li>
+<li><strong>Decision time</strong>: &lt;3 minutes per item</li>
+<li><strong>PARA distribution</strong>: 40% projects, 30% areas, 25% resources, 5% archives</li>
+<li><strong>Orphans</strong>: &lt;5 items without clear PARA home</li>
+</ul>
+<h3 id="distill-metrics">
+        <a href="#distill-metrics" class="header-anchor">
+          Distill Metrics
+        </a>
+      </h3><ul>
+<li><strong>First pass</strong>: 100% get bold highlights when organized</li>
+<li><strong>Second pass</strong>: 30% get executive summaries (most important)</li>
+<li><strong>Third pass</strong>: 10% get deep synthesis (key insights)</li>
+<li><strong>Findability</strong>: Can locate needed info in &lt;2 minutes</li>
+</ul>
+<h3 id="express-metrics">
+        <a href="#express-metrics" class="header-anchor">
+          Express Metrics
+        </a>
+      </h3><ul>
+<li><strong>Output frequency</strong>: 2-3 significant outputs per week</li>
+<li><strong>Input/output ratio</strong>: 30-50% (healthy creative output)</li>
+<li><strong>Reuse rate</strong>: 70%+ of outputs built from existing notes</li>
+<li><strong>Impact</strong>: Measurable value (views, feedback, results)</li>
+</ul>
+<hr>
+<h2 id="code-tools-techniques">
+        <a href="#code-tools-techniques" class="header-anchor">
+          CODE Tools & Techniques
+        </a>
+      </h2><h3 id="digital-tools">
+        <a href="#digital-tools" class="header-anchor">
+          Digital Tools
+        </a>
+      </h3><p><strong>For Capture:</strong></p>
+<ul>
+<li>Mobile notes app (quick voice/text)</li>
+<li>Browser web clipper extension</li>
+<li>Screenshot with annotation tool</li>
+<li>Email to inbox (for email captures)</li>
+</ul>
+<p><strong>For Organize:</strong></p>
+<ul>
+<li>File system with PARA structure</li>
+<li>Quick move shortcuts/scripts</li>
+<li>Tag-based search</li>
+<li>Link-based connections</li>
+</ul>
+<p><strong>For Distill:</strong></p>
+<ul>
+<li>Highlighting in markdown</li>
+<li>Summary templates</li>
+<li>Text expander for common phrases</li>
+<li>PDF annotator for documents</li>
+</ul>
+<p><strong>For Express:</strong></p>
+<ul>
+<li>Writing app with templates</li>
+<li>Code editor with snippets</li>
+<li>Presentation software</li>
+<li>Publishing platform</li>
+</ul>
+<h3 id="analog-tools">
+        <a href="#analog-tools" class="header-anchor">
+          Analog Tools
+        </a>
+      </h3><p><strong>For Capture:</strong></p>
+<ul>
+<li>Pocket notebook (Moleskine, Field Notes)</li>
+<li>Voice recorder for audio notes</li>
+<li>Sticky notes for quick thoughts</li>
+<li>Bullet journal for daily log</li>
+</ul>
+<p><strong>For Distill:</strong></p>
+<ul>
+<li>Physical highlighting of printed notes</li>
+<li>Index cards for key insights</li>
+<li>Mind maps on whiteboard</li>
+<li>Sketching/visual notes</li>
+</ul>
+<p><strong>For Express:</strong></p>
+<ul>
+<li>Whiteboard for brainstorming</li>
+<li>Paper for drafting</li>
+<li>Physical prototype/mockup</li>
+<li>In-person presentation</li>
+</ul>
+<hr>
+<h2 id="code-anti-patterns-what-to-avoid">
+        <a href="#code-anti-patterns-what-to-avoid" class="header-anchor">
+          CODE Anti-Patterns (What to Avoid)
+        </a>
+      </h2><h3 id="capture-anti-patterns">
+        <a href="#capture-anti-patterns" class="header-anchor">
+          Capture Anti-Patterns
+        </a>
+      </h3><p>❌ <strong>Hoarding</strong>: Saving everything &quot;just in case&quot;
+✅ <strong>Solution</strong>: Apply resonance test - only capture what truly matters</p>
+<p>❌ <strong>Perfectionism</strong>: Spending 10 minutes formatting a capture
+✅ <strong>Solution</strong>: 12-second rule - quick and messy is better than never</p>
+<p>❌ <strong>Multiple inboxes</strong>: Scattered across apps and tools
+✅ <strong>Solution</strong>: One primary inbox (inbox.md), process regularly</p>
+<h3 id="organize-anti-patterns">
+        <a href="#organize-anti-patterns" class="header-anchor">
+          Organize Anti-Patterns
+        </a>
+      </h3><p>❌ <strong>Analysis paralysis</strong>: Spending 30 minutes deciding where something goes
+✅ <strong>Solution</strong>: Use PARA decision tree, make quick decisions</p>
+<p>❌ <strong>Over-categorization</strong>: Creating too many subcategories
+✅ <strong>Solution</strong>: Keep PARA structure simple, use search not nesting</p>
+<p>❌ <strong>Never processing</strong>: Inbox grows to 500+ items
+✅ <strong>Solution</strong>: Weekly processing ritual, inbox zero mindset</p>
+<h3 id="distill-anti-patterns">
+        <a href="#distill-anti-patterns" class="header-anchor">
+          Distill Anti-Patterns
+        </a>
+      </h3><p>❌ <strong>Distilling everything</strong>: Trying to summarize every captured note
+✅ <strong>Solution</strong>: Only distill what you&#39;re actively using</p>
+<p>❌ <strong>Too much highlighting</strong>: Everything is bold/highlighted
+✅ <strong>Solution</strong>: Be selective - if everything is important, nothing is</p>
+<p>❌ <strong>Distilling too early</strong>: Summarizing before you understand
+✅ <strong>Solution</strong>: Wait until you&#39;re using the note in a project</p>
+<h3 id="express-anti-patterns">
+        <a href="#express-anti-patterns" class="header-anchor">
+          Express Anti-Patterns
+        </a>
+      </h3><p>❌ <strong>Perfectionism</strong>: Never shipping because it&#39;s not &quot;ready&quot;
+✅ <strong>Solution</strong>: Share intermediate work, iterate publicly</p>
+<p>❌ <strong>Output without input</strong>: Trying to create from scratch
+✅ <strong>Solution</strong>: Build from existing notes, remix existing content</p>
+<p>❌ <strong>All input, no output</strong>: Capturing endlessly without creating
+✅ <strong>Solution</strong>: 30-50% input/output ratio, schedule expression time</p>
+<hr>
+<h2 id="next-actions">
+        <a href="#next-actions" class="header-anchor">
+          Next Actions
+        </a>
+      </h2><ol>
+<li><input disabled="" type="checkbox"> Review and approve this migration plan</li>
+<li><input disabled="" type="checkbox"> Create PARA folder structure</li>
+<li><input disabled="" type="checkbox"> Start categorization spreadsheet</li>
+<li><input disabled="" type="checkbox"> Test migration with one project</li>
+<li><input disabled="" type="checkbox"> Update build scripts for PARA support</li>
+</ol>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

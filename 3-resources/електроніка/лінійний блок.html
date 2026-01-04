@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>лінійний блок - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/3-resources/">3-resources</a></li><li><a href="/second-brain/3-resources/електроніка/">електроніка</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#-acdc-">Розрахунок лінійного AC→DC блока живлення на трансформаторі</a></li>
+<ul>
+<li><a href="#1-">1. Вхідні дані (що задаєш ти)</a></li>
+<li><a href="#2-">2. Напруга вторинної обмотки трансформатора</a></li>
+<li><a href="#3-ac-dc">3. Зв’язок струмів: AC ↔ DC</a></li>
+<li><a href="#4-">4. Потужність трансформатора (ВА)</a></li>
+<li><a href="#5-">5. Вибір діодного моста</a></li>
+<ul>
+<li><a href="#">Струм</a></li>
+<li><a href="#">Напруга</a></li>
+</ul>
+<li><a href="#6-">6. Розрахунок фільтрувального конденсатора</a></li>
+<ul>
+<li><a href="#-">Практичні зауваження по конденсатору</a></li>
+</ul>
+<li><a href="#7-">7. Потужність на основних вузлах</a></li>
+<ul>
+<li><a href="#71-">7.1. Навантаження</a></li>
+<li><a href="#72-">7.2. Втрати на мості</a></li>
+<li><a href="#73-">7.3. Трансформатор</a></li>
+</ul>
+<li><a href="#8-">8. Захист і додаткові елементи</a></li>
+<li><a href="#9-">9. Короткий алгоритм розрахунку</a></li>
+<li><a href="#10-48-1-">10. Приклад (швидка шпаргалка для 48 В / 1 А)</a></li>
+</ul>
+</ul>
+</div><h1 id="-acdc-">
+        <a href="#-acdc-" class="header-anchor">
+          Розрахунок лінійного AC→DC блока живлення на трансформаторі
+        </a>
+      </h1><p>Документ-«шпаргалка» для проєктування простого блока живлення:
+мережа 230 В AC → трансформатор → діодний міст → фільтрувальний конденсатор → навантаження (DC).</p>
+<hr>
+<h2 id="1-">
+        <a href="#1-" class="header-anchor">
+          1. Вхідні дані (що задаєш ти)
+        </a>
+      </h2><p>Для розрахунку задаємо:</p>
+<ul>
+<li>Бажана вихідна напруга (після фільтра):<br>$$
+U_{\text{DC,nom}} ;[\text{В}]
+$$</li>
+<li>Максимальний вихідний струм:<br>$$
+I_{\text{DC,max}} ;[\text{А}]
+$$</li>
+<li>Допустима амплітуда пульсацій (різниця між мінімумом і максимумом на конденсаторі):<br>$$
+\Delta U ;[\text{В}]
+$$</li>
+<li>Частота мережі:<br>$$
+f_{\text{мережі}} = 50 \text{ Гц} \quad \Rightarrow \quad f_{\text{пульсацій}} = 2 f_{\text{мережі}} = 100 \text{ Гц}
+$$</li>
+</ul>
+<hr>
+<h2 id="2-">
+        <a href="#2-" class="header-anchor">
+          2. Напруга вторинної обмотки трансформатора
+        </a>
+      </h2><p>Після випрямлення й конденсатора напруга приблизно:</p>
+<p>$$
+U_{\text{DC,без навантаження}} \approx \sqrt{2} \cdot U_{\text{AC}} - 2 \cdot U_D
+$$</p>
+<p>де:</p>
+<ul>
+<li>$U_{\text{AC}}$ — напруга вторинної обмотки в RMS (номінал трансформатора),</li>
+<li>$U_D$ — падіння напруги на <strong>одному</strong> діоді (≈0.7…1.0 В для силових діодів),</li>
+<li>у мостовому випрямлячі <strong>послідовно два діоди</strong> → мінус $2 \cdot U_D$.</li>
+</ul>
+<p>Зворотна задача (знайти $U_{\text{AC}}$ для заданого $U_{\text{DC,nom}}$):</p>
+<p>$$
+U_{\text{AC}} \approx \frac{U_{\text{DC,nom}} + 2 U_D}{\sqrt{2}}
+$$</p>
+<p>Практично:</p>
+<ul>
+<li>розрахуй $U_{\text{AC}}$ за формулою;</li>
+<li>вибери <strong>найближчий стандартний більший номінал</strong> трансформатора (наприклад, 35 В → 36 В).</li>
+</ul>
+<blockquote>
+<p>Приклад (для 48 В DC):<br>$U_D \approx 0.7 \text{ В} \Rightarrow 2 U_D \approx 1.4 \text{ В}$<br>$$
+U_{\text{AC}} \approx \frac{48 + 1.4}{\sqrt{2}} \approx 34.9 \text{ В} \Rightarrow \text{трансформатор } 36 \text{ В}
+$$</p>
+</blockquote>
+<hr>
+<h2 id="3-ac-dc">
+        <a href="#3-ac-dc" class="header-anchor">
+          3. Зв’язок струмів: AC ↔ DC
+        </a>
+      </h2><p>Для мостового випрямляча з ємнісним фільтром діє наближене правило:</p>
+<p>$$
+I_{\text{AC,sec}} \approx 1.8 \cdot I_{\text{DC}}
+$$</p>
+<p>де:</p>
+<ul>
+<li>$I_{\text{AC,sec}}$ — струм вторинної обмотки трансформатора,</li>
+<li>$I_{\text{DC}}$ — середній струм навантаження.</li>
+</ul>
+<p>Звідси максимальний DC-струм, який можна зняти з трансформатора:</p>
+<p>$$
+I_{\text{DC,max}} \approx \frac{I_{\text{AC,sec,ном}}}{1.8}
+$$</p>
+<hr>
+<h2 id="4-">
+        <a href="#4-" class="header-anchor">
+          4. Потужність трансформатора (ВА)
+        </a>
+      </h2><p>Номінальна потужність трансформатора:</p>
+<p>$$
+S_{\text{транс}} \approx U_{\text{AC}} \cdot I_{\text{AC,sec,ном}} ;[\text{ВА}]
+$$</p>
+<p>Якщо ти хочеш мати на виході:</p>
+<p>$$
+P_{\text{out}} = U_{\text{DC,nom}} \cdot I_{\text{DC,max}}
+$$</p>
+<p>і знаєш, що ККД всього вузла (трансформатор + міст + втрати) приблизно:</p>
+<p>$$
+\eta \approx 0.8
+$$</p>
+<p>то:</p>
+<p>$$
+S_{\text{транс}} \approx \frac{P_{\text{out}}}{\eta}
+$$</p>
+<blockquote>
+<p>Приклад (48 В, 1 А → 48 Вт):<br>$$
+S_{\text{транс}} \approx \frac{48}{0.8} = 60 \text{ ВА}
+$$<br>Практично вибрати: 60–80 ВА (із запасом).</p>
+</blockquote>
+<hr>
+<h2 id="5-">
+        <a href="#5-" class="header-anchor">
+          5. Вибір діодного моста
+        </a>
+      </h2><h3 id="">
+        <a href="#" class="header-anchor">
+          Струм
+        </a>
+      </h3><p>Струм моста:</p>
+<ul>
+<li>середній DC-струм: $I_{\text{DC,max}}$,</li>
+<li>але короткочасні <strong>пікові</strong> струми зарядки конденсатора значно більші.</li>
+</ul>
+<p>Практична рекомендація:</p>
+<ul>
+<li>номінальний струм моста $I_{\text{моста,ном}}$ ≥ $(1.5…2) \cdot I_{\text{DC,max}}$.</li>
+</ul>
+<h3 id="">
+        <a href="#" class="header-anchor">
+          Напруга
+        </a>
+      </h3><p>Пікова напруга після трансформатора:</p>
+<p>$$
+U_{\text{peak}} \approx \sqrt{2} \cdot U_{\text{AC}}
+$$</p>
+<p>Рекомендована зворотна напруга моста:</p>
+<p>$$
+U_{\text{RRM,моста}} \ge 3 \cdot U_{\text{peak}} \quad \text{(як мінімум ≥ 200 В)}
+$$</p>
+<p>Для трансформаторів до 36 В RMS зазвичай достатньо:</p>
+<ul>
+<li>мости на <strong>200–400 В</strong>, <strong>2–4 А</strong>.</li>
+</ul>
+<hr>
+<h2 id="6-">
+        <a href="#6-" class="header-anchor">
+          6. Розрахунок фільтрувального конденсатора
+        </a>
+      </h2><p>Наближена формула для амплітуди пульсацій:</p>
+<p>$$
+\Delta U \approx \frac{I_{\text{DC}}}{2 f_{\text{мережі}} C}
+$$</p>
+<p>Звідси:</p>
+<p>$$
+C \approx \frac{I_{\text{DC}}}{2 f_{\text{мережі}} \Delta U}
+$$</p>
+<p>де:</p>
+<ul>
+<li>$I_{\text{DC}}$ — струм навантаження,</li>
+<li>$f_{\text{мережі}} = 50 \text{ Гц}$,</li>
+<li>$2 f_{\text{мережі}} = 100 \text{ Гц}$ — частота пульсацій після мосту,</li>
+<li>$\Delta U$ — бажана амплітуда пульсацій.</li>
+</ul>
+<blockquote>
+<p>Приклад: 48 В, 1 А, допустима пульсація 5 В<br>$$
+C \approx \frac{1}{2 \cdot 50 \cdot 5} = \frac{1}{500} = 0.002 \text{ Ф}
+$$
+$$
+C = 0.002 \text{ Ф} = 2000 \mu\text{F}
+$$</p>
+</blockquote>
+<h3 id="-">
+        <a href="#-" class="header-anchor">
+          Практичні зауваження по конденсатору
+        </a>
+      </h3><ul>
+<li>Робоча напруга конденсатора:
+$$
+U_{\text{роб}} \ge U_{\text{DC,макс}} \cdot 1.2
+$$
+Наприклад: 48–50 В → конденсатор на <strong>63 В</strong>.</li>
+<li>Важливий параметр: <strong>ripple current</strong> (допустимий струм пульсацій) — має бути ≥ реального струму.</li>
+</ul>
+<hr>
+<h2 id="7-">
+        <a href="#7-" class="header-anchor">
+          7. Потужність на основних вузлах
+        </a>
+      </h2><h3 id="71-">
+        <a href="#71-" class="header-anchor">
+          7.1. Навантаження
+        </a>
+      </h3><p>$$
+P_{\text{out}} = U_{\text{DC}} \cdot I_{\text{DC}}
+$$</p>
+<h3 id="72-">
+        <a href="#72-" class="header-anchor">
+          7.2. Втрати на мості
+        </a>
+      </h3><p>Приблизно:</p>
+<ul>
+<li>падіння на <strong>двох діодах</strong>:<br>$$
+U_{\text{drop,bridge}} \approx 2 \cdot U_D \approx 1.4 \text{ В} \text{ (або до 1.8 В для потужних)}
+$$</li>
+<li>втрати:
+$$
+P_{\text{bridge}} \approx U_{\text{drop,bridge}} \cdot I_{\text{DC}}
+$$</li>
+</ul>
+<blockquote>
+<p>Приклад: $U_{\text{drop}} = 1.8 \text{ В}, I_{\text{DC}} = 1 \text{ А} \Rightarrow P_{\text{bridge}} \approx 1.8 \text{ Вт}$</p>
+</blockquote>
+<h3 id="73-">
+        <a href="#73-" class="header-anchor">
+          7.3. Трансформатор
+        </a>
+      </h3><p>Втрати трансформатора (мідь + залізо) можна грубо оцінити з ККД:</p>
+<p>$$
+P_{\text{loss,trans}} \approx P_{\text{in}} - P_{\text{out}}
+$$</p>
+<p>де:
+$$
+P_{\text{in}} \approx \frac{P_{\text{out}}}{\eta}
+$$</p>
+<hr>
+<h2 id="8-">
+        <a href="#8-" class="header-anchor">
+          8. Захист і додаткові елементи
+        </a>
+      </h2><p>Мінімальний набір:</p>
+<ol>
+<li><p><strong>Запобіжник по первинній обмотці трансформатора</strong></p>
+<ul>
+<li>номінал підбирається під споживаний струм + запас;</li>
+<li>ставиться якомога ближче до входу.</li>
+</ul>
+</li>
+<li><p><strong>Варистор по входу (230 В AC)</strong></p>
+<ul>
+<li>для захисту від імпульсних перенапруг;</li>
+<li>типово варистор на 275 VAC.</li>
+</ul>
+</li>
+<li><p><strong>NTC-термістор (inrush current limiter)</strong> по первинній стороні</p>
+<ul>
+<li>обмежує пускові струми зарядки великого конденсатора.</li>
+</ul>
+</li>
+<li><p><strong>Запобіжник / захист по виходу</strong></p>
+<ul>
+<li>плавкий запобіжник або самовідновлюваний PTC;</li>
+<li>обмеження струму в разі КЗ на виході.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="9-">
+        <a href="#9-" class="header-anchor">
+          9. Короткий алгоритм розрахунку
+        </a>
+      </h2><ol>
+<li><p>Задай:</p>
+<ul>
+<li>$U_{\text{DC,nom}}$,  </li>
+<li>$I_{\text{DC,max}}$,  </li>
+<li>$\Delta U$.</li>
+</ul>
+</li>
+<li><p>Обчисли $U_{\text{AC}}$:
+$$
+U_{\text{AC}} \approx \frac{U_{\text{DC,nom}} + 2 U_D}{\sqrt{2}}
+$$
+→ вибери <strong>стандартний більший номінал</strong> (наприклад, 36 В замість 35 В).</p>
+</li>
+<li><p>Оціни $P_{\text{out}}$:
+$$
+P_{\text{out}} = U_{\text{DC,nom}} \cdot I_{\text{DC,max}}
+$$</p>
+</li>
+<li><p>Оціни мінімальну потужність трансформатора:
+$$
+S_{\text{транс,min}} \approx \frac{P_{\text{out}}}{\eta} \quad (\eta \approx 0.8)
+$$
+→ додай запас, вибери <strong>ближчий більший тип</strong> (60, 80, 100 ВА…).</p>
+</li>
+<li><p>Перевір по струму:</p>
+<ul>
+<li>знайди $I_{\text{AC,sec,ном}} = \dfrac{S_{\text{транс}}}{U_{\text{AC}}}$,</li>
+<li>оціни максимально можливий $I_{\text{DC,max,реальний}} \approx \dfrac{I_{\text{AC,sec,ном}}}{1.8}$;</li>
+<li>переконайся, що він ≥ твого запланованого $I_{\text{DC,max}}$.</li>
+</ul>
+</li>
+<li><p>Розрахуй конденсатор:
+$$
+C \approx \frac{I_{\text{DC,max}}}{2 f_{\text{мережі}} \Delta U}
+$$
+→ вибери стандартний номінал <strong>не менший</strong>, перевір напругу (63 В, 100 В…).</p>
+</li>
+<li><p>Підбери діодний міст:</p>
+<ul>
+<li>струм: $I_{\text{моста,ном}} \ge (1.5…2)\cdot I_{\text{DC,max}}$;</li>
+<li>напруга: $U_{\text{RRM}} \ge 3 \cdot \sqrt{2} \cdot U_{\text{AC}}$ (мінімум 200 В, краще 400 В).</li>
+</ul>
+</li>
+<li><p>Додай елементи захисту:</p>
+<ul>
+<li>запобіжник по входу,</li>
+<li>варистор 275 VAC,</li>
+<li>NTC по входу,</li>
+<li>запобіжник / PTC по виходу.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="10-48-1-">
+        <a href="#10-48-1-" class="header-anchor">
+          10. Приклад (швидка шпаргалка для 48 В / 1 А)
+        </a>
+      </h2><ul>
+<li>$U_{\text{DC,nom}} = 48 \text{ В}$</li>
+<li>$I_{\text{DC,max}} = 1 \text{ А}$</li>
+<li>$\Delta U = 5 \text{ В}$</li>
+</ul>
+<ol>
+<li>$U_{\text{AC}} \approx 35 \text{ В} \Rightarrow \text{трансформатор } 36 \text{ В}$</li>
+<li>$P_{\text{out}} = 48 \cdot 1 = 48 \text{ Вт}$</li>
+<li>$S_{\text{транс,min}} \approx 48 / 0.8 = 60 \text{ ВА} \Rightarrow \text{вибрати } 60–80 \text{ ВА}$</li>
+<li>$C \approx 1 / (2 \cdot 50 \cdot 5) = 0.002 \text{ Ф} = 2000 \mu\text{F}$ → практично 2200–4700 µF / 63 В.</li>
+<li>Діодний міст:  <ul>
+<li>струм: ≥2 А  </li>
+<li>напруга: ≥200–400 В (типово 4 А / 400 В).</li>
+</ul>
+</li>
+</ol>
+<p>Цей шаблон можна застосувати до <strong>будь-якого</strong> лінійного AC→DC блока живлення з мостом і конденсатором, просто підставляючи свої $U_{\text{DC,nom}}$, $I_{\text{DC,max}}$ та $\Delta U$.</p>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>

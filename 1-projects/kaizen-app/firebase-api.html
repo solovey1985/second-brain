@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta version="1.0.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>firebase-api - Documentation Portal</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/second-brain/app.css">
+  
+  <!-- Highlight.js CSS for syntax highlighting -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <!-- KaTeX for LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- Mermaid for diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+  
+  <!-- Initialize KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  
+</head>
+<body data-base-url="/second-brain">
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+  </button>
+  
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="lightbox" style="display: none;">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-caption"></div>
+      <div class="lightbox-counter"></div>
+    </div>
+  </div>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2><a href="/second-brain/">📚 Docs Portal</a></h2>
+      </div>
+      
+      
+      <!-- Commit Info Banner -->
+      <div class="commit-info-banner">
+        <div class="commit-icon">🔄</div>
+        <div class="commit-details">
+          <div class="commit-message" title="events service migration guide">
+            events service migration guide
+          </div>
+          <div class="commit-meta">
+            <span class="commit-hash">e70d352</span>
+            <span class="commit-date">16 seconds ago</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Sidebar controls for collapse/expand all -->
+      <div class="sidebar-controls">
+        <button onclick="collapseAll()" title="Collapse all folders">
+          ⬆️ Collapse All
+        </button>
+        <button onclick="expandAll()" title="Expand all folders">
+          ⬇️ Expand All
+        </button>
+      </div>
+      
+      <nav class="navigation" id="nav-container">
+        
+        <!-- Navigation will be loaded from navigation.json -->
+        <div class="nav-loading">
+          <div class="nav-loading-spinner"></div>
+          <p>Loading navigation...</p>
+        </div>
+        
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content">
+        
+        <nav class="breadcrumb"><ol><li><a href="/second-brain/">🏠 Home</a></li><li><a href="/second-brain/1-projects/">1-projects</a></li><li><a href="/second-brain/1-projects/kaizen-app/">kaizen-app</a></li></ol></nav>
+        <div class="markdown-content">
+          <div class="table-of-contents">
+<ul>
+<li><a href="#building-rest-api-backend-with-firebase">Building REST API Backend with Firebase</a></li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#-core-components">🔹 Core Components</a></li>
+<li><a href="#-steps-to-build-rest-api-backend">🔹 Steps to Build REST API Backend</a></li>
+<ul>
+<li><a href="#1-initialize-firebase-project">1. Initialize Firebase project</a></li>
+<li><a href="#2-install-dependencies">2. Install dependencies</a></li>
+<li><a href="#3-setup-express-app-in-functions">3. Setup Express App in Functions</a></li>
+<li><a href="#4-deploy-rest-api">4. Deploy REST API</a></li>
+<li><a href="#5-secure-the-api">5. Secure the API</a></li>
+</ul>
+<li><a href="#-angular-integration">🔹 Angular Integration</a></li>
+<li><a href="#-benefits-of-this-setup">🔹 Benefits of this Setup</a></li>
+<li><a href="#next-steps-for-mvp">Next Steps for MVP</a></li>
+</ul>
+</ul>
+</div><h1 id="building-rest-api-backend-with-firebase">
+        <a href="#building-rest-api-backend-with-firebase" class="header-anchor">
+          Building REST API Backend with Firebase
+        </a>
+      </h1><h2 id="overview">
+        <a href="#overview" class="header-anchor">
+          Overview
+        </a>
+      </h2><p>Firebase does not provide a traditional REST API backend out of the box, but it allows you to create one using <strong>Firebase Cloud Functions</strong> (serverless functions) together with <strong>Firestore</strong> or <strong>Realtime Database</strong>. These functions can expose RESTful endpoints that your Angular app can consume.</p>
+<hr>
+<h2 id="-core-components">
+        <a href="#-core-components" class="header-anchor">
+          🔹 Core Components
+        </a>
+      </h2><ol>
+<li><strong>Firebase Authentication</strong> → to identify users.</li>
+<li><strong>Firestore Database</strong> → to store users, actions, balances.</li>
+<li><strong>Firebase Cloud Functions</strong> → to implement REST endpoints.</li>
+<li><strong>Firebase Hosting</strong> → optional, to serve Angular frontend.</li>
+</ol>
+<hr>
+<h2 id="-steps-to-build-rest-api-backend">
+        <a href="#-steps-to-build-rest-api-backend" class="header-anchor">
+          🔹 Steps to Build REST API Backend
+        </a>
+      </h2><h3 id="1-initialize-firebase-project">
+        <a href="#1-initialize-firebase-project" class="header-anchor">
+          1. Initialize Firebase project
+        </a>
+      </h3><pre><code class="hljs language-bash">firebase login
+firebase init <span class="hljs-built_in">functions</span> firestore hosting</code></pre><ul>
+<li>Choose TypeScript for functions.</li>
+<li>Enable ESLint if needed.</li>
+</ul>
+<h3 id="2-install-dependencies">
+        <a href="#2-install-dependencies" class="header-anchor">
+          2. Install dependencies
+        </a>
+      </h3><pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> <span class="hljs-built_in">functions</span>
+npm install express cors firebase-admin firebase-functions</code></pre><ul>
+<li><strong>express</strong> → for building REST API.</li>
+<li><strong>cors</strong> → allow Angular frontend requests.</li>
+</ul>
+<h3 id="3-setup-express-app-in-functions">
+        <a href="#3-setup-express-app-in-functions" class="header-anchor">
+          3. Setup Express App in Functions
+        </a>
+      </h3><p><code>functions/src/index.ts</code></p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> functions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;firebase-functions&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> admin <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;firebase-admin&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;express&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cors <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;cors&quot;</span>;
+
+admin.<span class="hljs-title function_">initializeApp</span>();
+<span class="hljs-keyword">const</span> db = admin.<span class="hljs-title function_">firestore</span>();
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">cors</span>({ <span class="hljs-attr">origin</span>: <span class="hljs-literal">true</span> }));
+
+<span class="hljs-comment">// Example: get balance</span>
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/balance/:userId&quot;</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> { userId } = req.<span class="hljs-property">params</span>;
+  <span class="hljs-keyword">const</span> userDoc = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;users&quot;</span>).<span class="hljs-title function_">doc</span>(userId).<span class="hljs-title function_">get</span>();
+  <span class="hljs-keyword">if</span> (!userDoc.<span class="hljs-property">exists</span>) <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;User not found&quot;</span>);
+  res.<span class="hljs-title function_">json</span>(userDoc.<span class="hljs-title function_">data</span>());
+});
+
+<span class="hljs-comment">// Example: add action</span>
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/actions/add&quot;</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> { userId, actionTypeId, amount } = req.<span class="hljs-property">body</span>;
+  <span class="hljs-keyword">const</span> actionTypeDoc = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;actionTypes&quot;</span>).<span class="hljs-title function_">doc</span>(actionTypeId).<span class="hljs-title function_">get</span>();
+  <span class="hljs-keyword">if</span> (!actionTypeDoc.<span class="hljs-property">exists</span>) <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;ActionType not found&quot;</span>);
+
+  <span class="hljs-keyword">const</span> actionType = actionTypeDoc.<span class="hljs-title function_">data</span>()!;
+  <span class="hljs-keyword">const</span> credits = amount * actionType.<span class="hljs-property">creditValue</span>;
+
+  <span class="hljs-comment">// Create userAction log</span>
+  <span class="hljs-keyword">const</span> userAction = {
+    userId,
+    actionTypeId,
+    amount,
+    <span class="hljs-attr">calculatedCredits</span>: credits,
+    <span class="hljs-attr">date</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toISOString</span>(),
+  };
+  <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;userActions&quot;</span>).<span class="hljs-title function_">add</span>(userAction);
+
+  <span class="hljs-comment">// Update balance transaction</span>
+  <span class="hljs-keyword">const</span> userRef = db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;users&quot;</span>).<span class="hljs-title function_">doc</span>(userId);
+  <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">runTransaction</span>(<span class="hljs-title function_">async</span> (t) =&gt; {
+    <span class="hljs-keyword">const</span> userDoc = <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">get</span>(userRef);
+    <span class="hljs-keyword">if</span> (!userDoc.<span class="hljs-property">exists</span>) <span class="hljs-keyword">throw</span> <span class="hljs-string">&quot;User not found&quot;</span>;
+
+    <span class="hljs-keyword">const</span> balance = userDoc.<span class="hljs-title function_">data</span>() || { <span class="hljs-attr">balanceKP</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">balanceKZ</span>: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">if</span> (actionType.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;KP&quot;</span>) {
+      balance.<span class="hljs-property">balanceKP</span> += credits;
+    } <span class="hljs-keyword">else</span> {
+      balance.<span class="hljs-property">balanceKZ</span> += credits;
+    }
+
+    t.<span class="hljs-title function_">update</span>(userRef, balance);
+  });
+
+  res.<span class="hljs-title function_">json</span>({ <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>, credits });
+});
+
+<span class="hljs-comment">// Export API</span>
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">api</span> = functions.<span class="hljs-property">https</span>.<span class="hljs-title function_">onRequest</span>(app);</code></pre><h3 id="4-deploy-rest-api">
+        <a href="#4-deploy-rest-api" class="header-anchor">
+          4. Deploy REST API
+        </a>
+      </h3><pre><code class="hljs language-bash">firebase deploy --only <span class="hljs-built_in">functions</span></code></pre><p>Firebase will give you a URL like:</p>
+<pre><code class="hljs">https://us-central1-YOUR_PROJECT.cloudfunctions.net/api</code></pre><p>Endpoints:</p>
+<ul>
+<li><code>GET /balance/:userId</code></li>
+<li><code>POST /actions/add</code></li>
+</ul>
+<h3 id="5-secure-the-api">
+        <a href="#5-secure-the-api" class="header-anchor">
+          5. Secure the API
+        </a>
+      </h3><ul>
+<li>Use <strong>Firebase Auth</strong> ID tokens.</li>
+<li>Middleware to verify token before executing endpoints.</li>
+</ul>
+<p>Example middleware:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Request</span>, <span class="hljs-title class_">Response</span>, <span class="hljs-title class_">NextFunction</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;express&quot;</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">authenticate</span>(<span class="hljs-params"><span class="hljs-attr">req</span>: <span class="hljs-title class_">Request</span>, <span class="hljs-attr">res</span>: <span class="hljs-title class_">Response</span>, <span class="hljs-attr">next</span>: <span class="hljs-title class_">NextFunction</span></span>) {
+  <span class="hljs-keyword">const</span> authHeader = req.<span class="hljs-property">headers</span>.<span class="hljs-property">authorization</span>;
+  <span class="hljs-keyword">if</span> (!authHeader || !authHeader.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&quot;Bearer &quot;</span>)) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;Unauthorized&quot;</span>);
+  }
+  <span class="hljs-keyword">const</span> token = authHeader.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot; &quot;</span>)[<span class="hljs-number">1</span>];
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> decodedToken = <span class="hljs-keyword">await</span> admin.<span class="hljs-title function_">auth</span>().<span class="hljs-title function_">verifyIdToken</span>(token);
+    (req <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span>).<span class="hljs-property">user</span> = decodedToken;
+    <span class="hljs-title function_">next</span>();
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;Invalid token&quot;</span>);
+  }
+}
+
+app.<span class="hljs-title function_">use</span>(authenticate);</code></pre><hr>
+<h2 id="-angular-integration">
+        <a href="#-angular-integration" class="header-anchor">
+          🔹 Angular Integration
+        </a>
+      </h2><ul>
+<li>Use Angular <strong>HttpClient</strong> to call the REST API.</li>
+<li>Attach <strong>Firebase Auth ID token</strong> in request headers.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> token = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">afAuth</span>.<span class="hljs-property">currentUser</span>?.<span class="hljs-title function_">getIdToken</span>();
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">http</span>.<span class="hljs-title function_">post</span>(<span class="hljs-string">`<span class="hljs-subst">${apiUrl}</span>/actions/add`</span>, body, {
+  <span class="hljs-attr">headers</span>: { <span class="hljs-title class_">Authorization</span>: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span> }
+});</code></pre><hr>
+<h2 id="-benefits-of-this-setup">
+        <a href="#-benefits-of-this-setup" class="header-anchor">
+          🔹 Benefits of this Setup
+        </a>
+      </h2><ul>
+<li>Fully serverless → no need to manage backend servers.</li>
+<li>REST API structure is clear and can evolve.</li>
+<li>Scalable and secure via Firebase Auth.</li>
+</ul>
+<hr>
+<h2 id="next-steps-for-mvp">
+        <a href="#next-steps-for-mvp" class="header-anchor">
+          Next Steps for MVP
+        </a>
+      </h2><ul>
+<li>Add <code>DELETE /actions/:id</code> endpoint.</li>
+<li>Add <code>GET /logs/:userId</code> endpoint.</li>
+<li>Add CRUD for <code>actionTypes</code>.</li>
+<li>Extend with goals and penalties in future versions.</li>
+</ul>
+
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="/second-brain/app.js"></script>
+</body>
+</html>
